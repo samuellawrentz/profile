@@ -1,15 +1,18 @@
-import React from "react"
+import React, { ReactNode } from "react"
 import "./index.scss"
+import { pickTextColorBasedOnBgColorSimple } from "./sheet.util"
 
-function Sheet() {
+interface Props {
+  children?: ReactNode,
+  background: string,
+  type ?: string,
+}
+
+function Sheet({children, background, type} : Props) {
+	const color = pickTextColorBasedOnBgColorSimple(background, "#fff", "#444")
 	return (
-		<div>
-			<div className="sheet">
-      Sheet
-			</div>
-			<div className="sheet">
-        Sheet
-			</div>
+		<div className={`sheet ${type}`} style={{background, color}}>
+			{children}
 		</div>
 	)
 }

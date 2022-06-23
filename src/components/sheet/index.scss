@@ -1,13 +1,12 @@
 .sheet {
-    --sheet-height: 300px;
+    --sheet-height: 500px;
     --sheet-width: 850px;
     --sheet-block-width: calc(var(--sheet-width) / 15);
     --sheet-holder-height: 50px;
     --sheet-hole-size: 20px;
     --sheet-holder-shadow: #76767677;
     height: var(--sheet-height);
-    background-color: #5386e4;
-    margin-top: 20px;
+    margin-top: 30px;
     border-radius: 15px;
     padding: 60px;
     position: relative;
