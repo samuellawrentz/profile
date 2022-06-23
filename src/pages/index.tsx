@@ -1,9 +1,13 @@
-import React from 'react'
+import React from "react"
+import Sheet from "../components/sheet"
+import "../style.scss"
 
 function IndexPage() {
-  return (
-    <div>Hello there, this is going to be my portfolio</div>
-  )
+	return (
+		<main>
+			<Sheet />
+		</main>
+	)
 }
 
 export default IndexPage
