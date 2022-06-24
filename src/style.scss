@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100;300;400;500;600;700&display=swap');
 @import url(./variables.scss);
 html {
     box-sizing: border-box;
@@ -19,7 +19,7 @@ html {
   body {
     background-color: var(--bg);
   }
-  
+
   ol, ul {
     list-style: none;
   }
@@ -34,4 +34,17 @@ html {
     margin: 0 auto;
     height: min(500px, 100vh);
     margin-top: 100px;
+  }
+
+  .blockquote {
+    position: relative;
+    display: flex;
+    align-items: center;
+    &:before {
+        content: '';
+        width: 8px;
+        height: 110px;
+        background-color: #D9D9D9;
+        margin-right: 12px;
+    }
   }

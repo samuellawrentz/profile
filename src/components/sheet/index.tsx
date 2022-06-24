@@ -11,7 +11,7 @@ interface Props {
 function Sheet({children, background, type} : Props) {
 	const color = pickTextColorBasedOnBgColorSimple(background, "#fff", "#444")
 	return (
-		<div className={`sheet ${type}`} style={{background, color}}>
+		<div className={`sheet ${type}`} style={{color}}>
 			{children}
 		</div>
 	)
