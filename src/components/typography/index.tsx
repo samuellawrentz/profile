@@ -3,7 +3,7 @@ import { Block, Blockprops } from "../block"
 
 interface Prop {
     children: ReactNode,
-    type?: "title0" | "title1" | "heading0" | "regular" | "regularBold",
+    type?: "title0" | "title1" | "heading0" | "regular" | "regularBold" | "regularLight" | "regular1" | "regular2" | "title2" | "regular3",
 	inline?: boolean,
 }
 
@@ -20,6 +20,11 @@ const textStyles : { [key: string]: {[key: string] : number | string} } = {
 		fontWeight: 600,
 		lineHeight: "44px",
 	},
+	title2: {
+		fontSize: 20,
+		fontWeight: 600,
+		lineHeight: "38px",
+	},
 	heading0: {
 		fontSize: 24,
 		fontWeight: 300,
@@ -29,11 +34,24 @@ const textStyles : { [key: string]: {[key: string] : number | string} } = {
 		fontSize: 20,
 		lineHeight: "38px",
 	},
+	regular1: {
+		fontSize: 20,
+		lineHeight: "30px",
+	},
+	regular2: {
+		fontSize: 16,
+		lineHeight: "25px",
+	},
+	regularLight: {
+		fontSize: 20,
+		lineHeight: "38px",
+		fontWeight: 300,
+	},
 	regularBold: {
 		fontSize: 20,
 		lineHeight: "38px",
 		fontWeight: 600,
-	}
+	},
 }
 
 function Text({children, inline = false, type = "regular"}: Prop) {

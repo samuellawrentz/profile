@@ -2,41 +2,47 @@
 module.exports = {
 	"env": {
 		"browser": true,
-		"es2021": true
+		"es2021": true,
 	},
 	"extends": [
+		"react-app",
 		"eslint:recommended",
 		"plugin:react/recommended",
-		"plugin:@typescript-eslint/recommended"
+		"plugin:@typescript-eslint/recommended",
+		"plugin:prettier/recommended",
 	],
 	"parser": "@typescript-eslint/parser",
 	"parserOptions": {
 		"ecmaFeatures": {
-			"jsx": true
+			"jsx": true,
 		},
 		"ecmaVersion": "latest",
-		"sourceType": "module"
+		"sourceType": "module",
 	},
 	"plugins": [
 		"react",
-		"@typescript-eslint"
+		"@typescript-eslint",
+		"prettier"
+	],
+	"prettier/prettier": [
+		"error",
+		{
+			"semi": false,
+			"endOfLine": "auto",
+			"arrowParens": 'always',
+		},
 	],
 	"rules": {
 		"indent": [
 			"error",
-			"tab"
+			"tab",
 		],
 		"linebreak-style": [
 			"error",
-			"unix"
+			"unix",
 		],
-		"quotes": [
-			"error",
-			"double"
-		],
-		"semi": [
-			"error",
-			"never"
-		]
-	}
+		"max-len": ["warn", { "code": 108 }],
+		"semi": 0,
+		"comma-dangle": ["error", "always-multiline"],
+	},
 }

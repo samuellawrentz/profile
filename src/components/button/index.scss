@@ -1,0 +1,13 @@
+.button {
+    padding: 3px 20px;
+    border-radius: 46px;
+    height: fit-content;
+    background-color: var(--primary-text-color);
+    color: white;
+    cursor: pointer;
+    &-secondary {
+        border: 1px solid var(--primary-text-color);
+        color: var(--primary-text-color);
+        background-color: transparent;
+    }
+}
