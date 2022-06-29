@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { graphql, Link, useStaticQuery } from "gatsby"
-import React from "react"
+import React, { useEffect } from "react"
 import Avatar from "../components/avatar"
 import { Block } from "../components/block"
 import Button from "../components/button"
@@ -9,8 +9,10 @@ import { TextBlock } from "../components/typography"
 import "../style.scss"
 
 function IndexPage({data}: any) {
-	console.log(data);
-	
+	useEffect(() => {
+		const timelineElement = document.querySelector('.timeline-holder')!
+		timelineElement.scrollTop = timelineElement?.scrollHeight || 0
+	}, [])	
 	return (
 		<main>
 			<Sheet background="#5386e4" >
