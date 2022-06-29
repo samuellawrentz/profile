@@ -10,7 +10,7 @@ html {
     box-sizing: inherit;
   }
   
-  body, h1, h2, h3, h4, h5, h6, p, ol, ul {
+  body {
     margin: 0;
     padding: 0;
     font-weight: normal;
@@ -96,6 +96,7 @@ html {
     left: calc(calc(97vw - var(--sheet-width)) / -2);
     padding: 0 calc((97vw - calc(var(--sheet-width) - 120px)) / 2);
     padding-top: 60px;
+    padding-bottom: 0px;
     &::-webkit-scrollbar {
       display: none;
       /* for Chrome, Safari, and Opera */
@@ -106,4 +107,7 @@ html {
     display: flex;
     flex-direction: column;
     position: relative;
+  }
+  a {
+    color: inherit
   }

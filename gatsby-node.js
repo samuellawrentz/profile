@@ -12,20 +12,23 @@ exports.createPages = async ({ graphql, actions }) => {
     const result = await graphql(`
       query {
         allMdx {
-          edges {
-            node {
-              slug
+          nodes {
+            id
+            frontmatter {
+              path
+              title
             }
           }
         }
       }
     `)
-    result.data.allMdx.edges.forEach(edge => {
+    result.data.allMdx.nodes.forEach(node => {
       createPage({
-        path: `${edge.node.slug}`,
+        path: `${node.frontmatter.path}`,
         component: blogPostTemplate,
         context: {
-          title: edge.node.title,
+          title: node.frontmatter.title,
+          id: node.id
         },
       })
     })

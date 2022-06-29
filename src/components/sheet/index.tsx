@@ -1,4 +1,4 @@
-import React, { ReactNode } from "react"
+import React, { forwardRef, MutableRefObject, ReactNode, Ref } from "react"
 import "./index.scss"
 import { pickTextColorBasedOnBgColorSimple } from "./sheet.util"
 
@@ -8,13 +8,14 @@ interface Props {
   type ?: string,
 }
 
-function Sheet({children, background, type} : Props) {
+const Sheet = forwardRef<HTMLDivElement, Props>(({children, background, type}, ref) => {
 	const color = pickTextColorBasedOnBgColorSimple(background, "#fff", "#444")
+	
 	return (
-		<div className={`sheet ${type}`} style={{color}}>
+		<div className={`sheet ${type}`} style={{color}} ref={ref}>
 			{children}
 		</div>
 	)
-}
+})
 
 export default Sheet
