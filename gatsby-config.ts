@@ -2,7 +2,7 @@ import type { GatsbyConfig } from "gatsby"
 
 const config: GatsbyConfig = {
 	siteMetadata: {
-		title: "Samuellawrentz's Portfolio",
+		title: "Samuel Lawrentz - The frontend Developer",
 		siteUrl: "https://www.yourdomain.tld",
 	},
 	// More easily incorporate content into your pages through automatic 
@@ -16,7 +16,7 @@ const config: GatsbyConfig = {
 			"trackingId": "UA-122999794-1",
 		},
 	}, "gatsby-plugin-image", "gatsby-plugin-react-helmet",
-	"gatsby-plugin-sitemap", "gatsby-plugin-mdx", 
+	"gatsby-plugin-sitemap", "gatsby-plugin-mdx",
 	"gatsby-plugin-sharp", "gatsby-transformer-sharp", {
 		resolve: "gatsby-source-filesystem",
 		options: {
@@ -31,6 +31,13 @@ const config: GatsbyConfig = {
 			"path": "./src/pages/",
 		},
 		__key: "pages",
+	},{
+		resolve: "gatsby-source-filesystem",
+		options: {
+			"name": "blog",
+			"path": "./src/blog/",
+		},
+		__key: "blog",
 	}],
 }
 

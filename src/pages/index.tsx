@@ -1,4 +1,5 @@
 /* eslint-disable react/no-unescaped-entities */
+import { graphql, useStaticQuery } from "gatsby"
 import React from "react"
 import Avatar from "../components/avatar"
 import { Block } from "../components/block"
@@ -7,7 +8,9 @@ import Sheet from "../components/sheet"
 import { TextBlock } from "../components/typography"
 import "../style.scss"
 
-function IndexPage() {
+function IndexPage({data}: any) {
+	console.log(data);
+	
 	return (
 		<main>
 			<Sheet background="#5386e4" >
@@ -41,12 +44,12 @@ function IndexPage() {
 						<Button type="secondary">Tweets</Button>
 					</Block>
 				</Block>
-				{[1,2,3].map(i => <Block spacing={[0, 10]}>
+				{data.allMdx.nodes.map(({excerpt, frontmatter: {date, title}}: any) => <Block spacing={[0, 10]}>
 					<Block display="flex" gap={40}>
-						<TextBlock type="regularLight">10.08.2022</TextBlock>
+						<TextBlock type="regularLight">{date}</TextBlock>
 						<Block flex="0 1 480px">
-							<TextBlock type="title2">Working with the Instagram API</TextBlock>
-							<TextBlock type="regular2">lorem ipsum is the godfather of the things that are beingh askededskjla</TextBlock>
+							<TextBlock type="title2">{title}</TextBlock>
+							<TextBlock type="regular2">{excerpt}</TextBlock>
 						</Block>
 					</Block>
 				</Block>)}
@@ -113,3 +116,21 @@ You could try google searching me for more info - Samuel Lawrentz
 }
 
 export default IndexPage
+
+
+export const query = graphql`
+  {
+    allMdx(
+      sort: {fields: [frontmatter___date], order: DESC}
+      filter: {frontmatter: {published: {eq: true}}}
+    ) {
+      nodes {
+        id
+        excerpt(pruneLength: 90)
+        frontmatter {
+          title
+          date(formatString: "DD MMM, YYYY")
+        }
+      }
+    }
+  }`
