@@ -9,6 +9,7 @@ interface Props {
   autoHeight?: boolean
 }
 
+
 const Sheet = (({children, background, type, autoHeight} : Props) => {
 	const color = pickTextColorBasedOnBgColorSimple(background, "#fff", "#444")
 	const sheetRef = useRef<HTMLDivElement>(null)
