@@ -95,7 +95,7 @@ html {
     top: 0;
     left: calc(calc(97vw - var(--sheet-width)) / -2);
     padding: 0 calc((97vw - calc(var(--sheet-width) - 120px)) / 2);
-    padding-top: 60px;
+    padding-top: 120px;
     padding-bottom: 0px;
     &::-webkit-scrollbar {
       display: none;
@@ -107,6 +107,41 @@ html {
     display: flex;
     flex-direction: column;
     position: relative;
+
+    .sheet-content:before {
+      content: 'The Journey';
+      text-align: right;
+      position: absolute;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 44px;
+      right: 120px;
+      width: 500px;
+      top: 40px;
+      background: linear-gradient(160deg, #5386e4 0%, #1a9c8e 100%);
+      box-shadow: 0px 5px 25px 12px #00000024;
+      padding: 4px 12px;
+      z-index: 10;
+      border-radius: 8px;
+      
+  }
+  
+  .sheet-content:after {
+      content: 'The Journey';
+      color: transparent;
+      text-align: right;
+      position: absolute;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 44px;
+      right: 120px;
+      width: 500px;
+      top: 0px;
+      background: linear-gradient(160deg, #5386e4 100%, #5b80c5 100%);
+      padding: 4px 12px;
+      z-index: 9;
+      
+  }
   }
   a {
     color: inherit

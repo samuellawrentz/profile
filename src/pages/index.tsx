@@ -5,14 +5,11 @@ import Avatar from "../components/avatar"
 import { Block } from "../components/block"
 import Button from "../components/button"
 import Sheet from "../components/sheet"
-import { TextBlock } from "../components/typography"
+import Text, { TextBlock } from "../components/typography"
 import "../style.scss"
 
 function IndexPage({data}: any) {
-	useEffect(() => {
-		const timelineElement = document.querySelector('.timeline-holder')!
-		timelineElement.scrollTop = timelineElement?.scrollHeight || 0
-	}, [])	
+
 	return (
 		<main>
 			<Sheet background="#5386e4" >
@@ -61,7 +58,6 @@ function IndexPage({data}: any) {
 				<Avatar eyeType="Happy" />
 			</Sheet>
 			<Sheet background="#FF674D" type="timeline-sheet">
-			<TextBlock type="title1">Timeline</TextBlock>
 			<div className="timeline-holder">
 			<Block className="timeline" spacing={[30]}>
 					<Block spacing={[5]} className="year">
@@ -122,12 +118,11 @@ function IndexPage({data}: any) {
 			<Avatar align="left"/>
 			</Sheet>
 			<Sheet background="#49306B">
-			<TextBlock type="title1">I would want us to work together</TextBlock>
+			<TextBlock type="title1">We can be friends..</TextBlock>
 				<TextBlock spacing={[0, 25]}>
 				I’m a kind of person who likes to connect with new people.<br/>
-Get along with everyone easily.<br/>
-Feel free to contact me. I’m available on almost all the platforms.<br/>
-You could try google searching me for more info - Samuel Lawrentz
+Who also likes to learn new technologies.<br/>
+<TextBlock type="regular2" spacing={[0, 20]}>If you've reached till here, try google search! </TextBlock>
 				</TextBlock>
 				<Avatar />
 			</Sheet>
