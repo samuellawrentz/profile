@@ -3,7 +3,7 @@ import type { GatsbyConfig } from "gatsby"
 const config: GatsbyConfig = {
 	siteMetadata: {
 		title: "Samuel Lawrentz - The frontend Developer",
-		siteUrl: "https://www.yourdomain.tld",
+		siteUrl: "https://samuellawrentz.com",
 	},
 	// More easily incorporate content into your pages through automatic 
 	// TypeScript type generation and better GraphQL IntelliSense.
@@ -18,6 +18,13 @@ const config: GatsbyConfig = {
 	}, "gatsby-plugin-image", "gatsby-plugin-react-helmet",
 	"gatsby-plugin-sitemap", "gatsby-plugin-mdx",
 	"gatsby-plugin-sharp", "gatsby-transformer-sharp", {
+		resolve: "gatsby-plugin-react-svg",
+		options: {
+		  rule: {
+			include: /assets/ // See below to configure properly
+		  }
+		}
+	  },{
 		resolve: "gatsby-source-filesystem",
 		options: {
 			"name": "images",
