@@ -4,12 +4,13 @@ import Avataar, { Props} from "avataaars"
 interface aProps extends Omit<Props, "avatarStyle"> {
     avatarStyle?: string
 	align?: string
+	style?: React.CSSProperties
 }
 
-function Avatar({mouthType, eyeType, eyebrowType, align}: aProps) {
+function Avatar({mouthType, eyeType, eyebrowType, align, style}: aProps) {
 	return (
 		<Avataar
-			style={{position: 'absolute', right: align !== 'left' ? 60: undefined, left: align === 'left' ? 60: undefined, bottom: 60, width: 100, height: 100 }}
+			style={style ? style: {position: 'absolute', right: align !== 'left' ? 60: undefined, left: align === 'left' ? 60: undefined, bottom: 60, width: 100, height: 100 }}
 			avatarStyle='Circle'
 			topType='ShortHairShortCurly'
 			accessoriesType='Blank'

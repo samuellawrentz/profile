@@ -3,13 +3,13 @@ import { Block, Blockprops } from "../block"
 
 interface Prop {
     children: ReactNode,
-    type?: "title0" | "title1" | "heading0" | "regular" | "regularBold" | "regularLight" | "regular1" | "regular2" | "title2" | "regular3",
+    type?: "title0" | "title1" | "heading0" | "regular" | "regularBold" | "regularLight" | "regular1" | "regular2" | "title2" | "regular3" | "small",
 	inline?: boolean,
 }
 
 interface TextblockProp extends Blockprops, Prop {}
 
-const textStyles : { [key: string]: {[key: string] : number | string} } = {
+const textStyles : { [key: string]: React.CSSProperties } = {
 	title0: {
 		fontSize: 46,
 		fontWeight: 300,
@@ -41,6 +41,7 @@ const textStyles : { [key: string]: {[key: string] : number | string} } = {
 	regular2: {
 		fontSize: 16,
 		lineHeight: "25px",
+		fontWeight: 300,
 	},
 	regularLight: {
 		fontSize: 20,
@@ -51,6 +52,11 @@ const textStyles : { [key: string]: {[key: string] : number | string} } = {
 		fontSize: 20,
 		lineHeight: "38px",
 		fontWeight: 600,
+	},
+	small: {
+		fontSize: 14,
+		lineHeight: "20px",
+		fontWeight: 300,
 	},
 }
 

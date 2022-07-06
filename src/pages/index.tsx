@@ -4,6 +4,7 @@ import React, { useEffect } from "react"
 import Avatar from "../components/avatar"
 import { Block } from "../components/block"
 import Button from "../components/button"
+import { Icon } from "../components/icon"
 import Sheet from "../components/sheet"
 import Text, { TextBlock } from "../components/typography"
 import "../style.scss"
@@ -21,14 +22,12 @@ function IndexPage({data}: any) {
 						<TextBlock type="title1" spacing={[36]}>
 				I design and code beautifully <br/>simple things
 						</TextBlock>
-						<TextBlock type="heading0" spacing={[30]} className="blockquote">
+						<TextBlock type="heading0" spacing={[25]} className="blockquote">
 				Software is a great combination between <br/>artistry and engineering
 						</TextBlock>
-						{/* <TextBlock>
-				So, I’m an <Text type="regularBold" inline>Artist</Text
-				> & an <Text type="regularBold" inline>Engineer</Text> - Th
-				e <Text type="regularBold" inline>Frontend developer</Text>
-						</TextBlock> */}
+						<TextBlock>
+						Which makes me a <Text type="regularBold" inline> Frontend Engineer</Text>
+						</TextBlock>
 					</Block>
 					<Block>
 						<Avatar/>
@@ -115,16 +114,27 @@ function IndexPage({data}: any) {
 			</Block>
 			</div>
 			<div className="rectangle"></div>
-			<Avatar align="left"/>
+			<Avatar align="left" eyeType="Side" mouthType="Twinkle"/>
 			</Sheet>
 			<Sheet background="#49306B">
 			<TextBlock type="title1">We can be friends..</TextBlock>
 				<TextBlock spacing={[0, 25]}>
-				I’m a kind of person who likes to connect with new people.<br/>
+				I’m the kind of person who likes to connect with new people.<br/>
 Who also likes to learn new technologies.<br/>
-<TextBlock type="regular2" spacing={[0, 20]}>If you've reached till here, try google search! </TextBlock>
+<TextBlock type="regular2" spacing={[40, 20]}>There is lot more, try searching me on <a href="https://www.google.com/search?q=samuel lawrentz" target="_blank">Google!</a> </TextBlock>
 				</TextBlock>
-				<Avatar />
+				<Block display="flex" alignItems="center" gap={16}><Avatar style={{width: 150, height: 150}} eyeType='Hearts' mouthType="Smile"/>
+				<Block>
+					<Text type="heading0">Samuel Lawrentz</Text>
+					<TextBlock type="regular2" spacing={[16]}>Software Development Engineer UI - Plivo</TextBlock>
+					<Block display="flex" gap={12}>
+						<Text type="small"><a href="https://github.com/samuellawrentz" target="_blank">Github</a></Text>
+						<Text type="small"><a href="https://in.linkedin.com/in/samuel-lawrentz">Linkedin</a></Text>
+						<Text type="small"><a href="https://twitter.com/samuellawrentz">Twitter</a></Text>
+						<Text type="small"><a href="https://codepen.io/samuellawrentz">Codepen</a></Text>
+					</Block>
+				</Block>
+				</Block>
 			</Sheet>
 		</main>
 	)
