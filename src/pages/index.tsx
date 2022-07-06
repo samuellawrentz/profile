@@ -8,11 +8,22 @@ import { Icon } from "../components/icon"
 import Sheet from "../components/sheet"
 import Text, { TextBlock } from "../components/typography"
 import "../style.scss"
+// @ts-ignore
+import {DrawCanvas, initCanvas} from "../components/bg-canvas/index.js"
 
 function IndexPage({data}: any) {
+	useEffect(() => {
+		
+		setTimeout(() => {
+			initCanvas()
+			DrawCanvas()
+		}, 3000);
+	}, [])
 
 	return (
-		<main>
+		<>
+		<canvas id="canvas" className="background-canvas"></canvas>
+				<main>
 			<Sheet background="#5386e4" >
 				<Block display="flex" alignItems="flex-end">
 					<Block flex="1 0 82%">
@@ -137,6 +148,7 @@ Who also likes to learn new technologies.<br/>
 				</Block>
 			</Sheet>
 		</main>
+		</>
 	)
 }
 
