@@ -3,6 +3,7 @@ import React, { useEffect } from 'react'
 import {DrawCanvas, initCanvas} from "../components/bg-canvas/index.js"
 import  Img from "../assets/logo.svg"
 import { Link } from 'gatsby'
+import Helmet from "react-helmet"
 
 interface LayoutProps {
     children?: React.ReactNode
@@ -18,6 +19,9 @@ function Layout({children} : LayoutProps) {
 	}, [])
   return (
     <div>
+        <Helmet>
+            <title>Samuel Lawrentz - The Frontend Dev - Blog, portfolio, web development</title>
+        </Helmet>
         <div className="logo"><Link to="/"><Img /></Link></div>
         <canvas id="canvas" className="background-canvas"></canvas>
         <div>{children}</div>
