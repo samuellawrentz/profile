@@ -43,17 +43,21 @@ function IndexPage({ data }: any) {
       <div className="section">
         <div className="section__title">Projects</div>
         <div className="cards">
+          <a href="https://samuellawrentz.github.io/PastTenser/" target="_blank">
           <div className="card"> 
             <div className="card__title"><h3>PastTenser</h3></div>
             <div className="card__description">An API that can give you the pastense of any verb that is provided.</div>
             <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
           </div>
+          </a>
+          <Link to="/projects/quotes-generator">
           <div className="card">
             <div className="card__title"><h3>Quotes Generator</h3></div>
             <div className="card__description">A tool that helps you to create motivational quotes with backgrounds.</div>
             <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
             
           </div>
+          </Link>
           <div className="card">
             <div className="card__title"><h3>Network chart</h3></div>
             <div className="card__description">This is a network chart built using Highchart APIs - helps you visualise connections.</div>

@@ -52,7 +52,7 @@ html {
 
 h1 {
   font-size: var(--h1);
-  letter-spacing: 2px;
+  text-shadow: 2px 4px #a90222;
 }
 
 .description {
@@ -81,6 +81,9 @@ h1 {
   display: flex;
   .intro {
     flex: 1 1 70%;
+    h1 {
+      letter-spacing: 2px;
+    }
   }
   .image {
     flex: 1 0 30%;
