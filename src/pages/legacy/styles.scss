@@ -1,0 +1,131 @@
+.old-index {
+        width: min(850px, 90%);
+        margin: 0 auto;
+        margin-top: 20px;
+        padding-bottom: 50px;
+      
+    .blockquote {
+        position: relative;
+        display: flex;
+        align-items: center;
+
+        &:before {
+            content: '';
+            width: 8px;
+            height: 110px;
+            background-color: #D9D9D9;
+            margin-right: 12px;
+        }
+    }
+
+    .rectangle {
+        width: 20px;
+        height: 100%;
+        position: absolute;
+        right: 80px;
+        top: 0;
+        background-color: white;
+    }
+
+    .timeline {
+        text-align: right;
+        margin-right: 70px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+
+        .year {
+            position: relative;
+            z-index: 2;
+
+            &:after {
+                content: '';
+                position: absolute;
+                width: 23px;
+                height: 23px;
+                border-radius: 50%;
+                background: #D9D9D9;
+                top: 50%;
+                transform: translateY(-50%);
+                right: -52px;
+                box-shadow: 0 0px 0 12px white;
+            }
+        }
+    }
+
+    .timeline-holder {
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        position: absolute;
+        width: 97vw;
+        height: 500px;
+        height: 500px;
+        top: 0;
+        left: calc(calc(97vw - var(--sheet-width)) / -2);
+        padding: 0 calc((97vw - calc(var(--sheet-width) - 120px)) / 2);
+        padding-top: 120px;
+        padding-bottom: 0px;
+
+        &::-webkit-scrollbar {
+            display: none;
+            /* for Chrome, Safari, and Opera */
+        }
+    }
+
+    .timeline-sheet {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .sheet-content:before {
+            content: 'The Journey';
+            text-align: right;
+            position: absolute;
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 44px;
+            right: 120px;
+            width: 500px;
+            top: 40px;
+            background: linear-gradient(160deg, #5386e4 0%, #1a9c8e 100%);
+            box-shadow: 0px 5px 25px 12px #00000024;
+            padding: 4px 12px;
+            z-index: 10;
+            border-radius: 8px;
+
+        }
+
+        .sheet-content:after {
+            content: 'The Journey';
+            color: transparent;
+            text-align: right;
+            position: absolute;
+            font-size: 32px;
+            font-weight: 600;
+            line-height: 44px;
+            right: 120px;
+            width: 500px;
+            top: 0px;
+            background: linear-gradient(160deg, #5386e4 100%, #5b80c5 100%);
+            padding: 4px 12px;
+            z-index: 9;
+
+        }
+    }
+
+    a {
+        color: inherit
+    }
+
+    /* For canvas backgrounds */
+    .background-canvas {
+        z-index: -100;
+        background-color: transparent;
+        position: fixed;
+        left: 0;
+        top: 0;
+    }
+}

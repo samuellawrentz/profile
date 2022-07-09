@@ -4,23 +4,21 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import Sheet from '../components/sheet'
 import './blog.scss'
 import Text, { TextBlock } from '../components/typography'
+import Img from 'gatsby-image'
 
 function Blog(props: any) {
+console.log(props);
 
   return (
     <div className="blog-content">
-      <Sheet background='#fff' autoHeight>
-        <div className="title-content">
-        <Text type='title1'>{props.data.mdx.frontmatter.title}</Text>
-        <TextBlock type='regularLight' spacing={[16, 16]}>{props.data.mdx.frontmatter.description}</TextBlock>
-        <Text type='heading0'>{props.data.mdx.frontmatter.date}</Text>
-        </div>
-      </Sheet>
-      <Sheet background='#F6F930' autoHeight>
-      <div className="content">
+      <Img fluid={props.data.mdx.frontmatter.heroImage.childImageSharp.fluid} className="hero-image" />
+      <h1>{props.data.mdx.frontmatter.title}</h1>
+      <p className="regularLight">
+        <div>{props.data.mdx.frontmatter.date}</div>
+      </p>
+      <div className="text-regular content">
       <MDXRenderer>{props.data.mdx.body}</MDXRenderer>
       </div>
-    </Sheet>
     </div>
   )
 }
@@ -36,6 +34,13 @@ export const pageQuery = graphql`
         title
         description
         date(formatString: "DD MMM, YYYY")
+        heroImage {
+          childImageSharp {
+            fluid(maxWidth: 900) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
       }
     }
   }`

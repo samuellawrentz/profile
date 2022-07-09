@@ -13,18 +13,21 @@ function Layout({children} : LayoutProps) {
     useEffect(() => {
 		
 		setTimeout(() => {
-			initCanvas()
-			DrawCanvas()
+			// initCanvas()
+			// DrawCanvas()
 		}, 3000);
 	}, [])
   return (
     <div>
-        <Helmet>
+        <Helmet   htmlAttributes={{
+    lang: 'en',
+    "color-mode": "dark"
+  }}>
             <title>Samuel Lawrentz - The Frontend Dev - Blog, portfolio, web development</title>
         </Helmet>
         <div className="logo"><Link to="/"><Img /></Link></div>
-        <canvas id="canvas" className="background-canvas"></canvas>
-        <div>{children}</div>
+        {/* <canvas id="canvas" className="background-canvas"></canvas> */}
+        <main>{children}</main>
     </div>
   )
 }

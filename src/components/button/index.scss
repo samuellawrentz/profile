@@ -2,12 +2,12 @@
     padding: 3px 20px;
     border-radius: 46px;
     height: fit-content;
-    background-color: var(--primary-text-color);
-    color: white;
+    background-color: var(--element1);
+    color: var(--surface1);
     cursor: pointer;
     &-secondary {
-        border: 1px solid var(--primary-text-color);
-        color: var(--primary-text-color);
+        border: 1px solid var(--element1);
+        color: var(--element1);
         background-color: transparent;
     }
 }
