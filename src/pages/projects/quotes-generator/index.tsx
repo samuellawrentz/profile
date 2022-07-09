@@ -21,7 +21,7 @@ function QuotesGenerator() {
     </div>
     <div className="contents">
       <div className="quote-container">
-        <div className="image" style={{filter: 'brightness(1)'}}></div>
+        <div className="quote-image" style={{filter: 'brightness(1)'}}></div>
         <div className='quote'>
           <div className="text" contentEditable>Type your quote here and then press download</div>
           <div className="author" contentEditable>Samuel Lawrentz</div>
