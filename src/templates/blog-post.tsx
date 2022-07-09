@@ -14,7 +14,7 @@ console.log(props);
       <Img fluid={props.data.mdx.frontmatter.heroImage.childImageSharp.fluid} className="hero-image" />
       <h1>{props.data.mdx.frontmatter.title}</h1>
       <p className="regularLight">
-        <div>{props.data.mdx.frontmatter.date}</div>
+        <div className='text-regularLight'>{props.data.mdx.frontmatter.date}</div>
       </p>
       <div className="text-regular content">
       <MDXRenderer>{props.data.mdx.body}</MDXRenderer>
