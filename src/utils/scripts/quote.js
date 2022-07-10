@@ -155,7 +155,7 @@ export function downloadImage() {
     scrollY: -window.scrollY,
   }).then(function (canvas) {
     var link = document.createElement("a");
-    link.download = "motivation.png";
+    link.download = "image_from_samuellawrentz.png";
     link.href = canvas.toDataURL();
     link.click();
     clone.remove();

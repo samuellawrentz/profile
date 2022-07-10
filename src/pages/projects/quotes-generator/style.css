@@ -81,6 +81,8 @@
         border-radius: 0 0 10px 10px;
         z-index: 100;
         margin: 0 auto;
+        position: relative;
+        top: 12px;
         }
 
         .sub-heading {

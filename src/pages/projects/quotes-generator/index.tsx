@@ -3,6 +3,12 @@ import './style.css'
 //@ts-ignore
 import {initImage, refreshImage, downloadImage} from "../../../utils/scripts/quote.js"
 import { Icon } from '../../../components/icon'
+//@ts-ignore
+import img from '../../../images/quotes/image_from_samuellawrentz (1).png'
+//@ts-ignore
+import img1 from '../../../images/quotes/image_from_samuellawrentz.png'
+//@ts-ignore
+import img2 from '../../../images/quotes/motivation (2).png'
 
 
 
@@ -12,7 +18,8 @@ function QuotesGenerator() {
         
     })
   return (
-    <div className="container quotes-page">
+<div>
+<div className="container quotes-page">
 <div className='intro quotes-intro'>
 <h1>Image Quote Generator</h1>
 <div className="sub-heading text-regularLight">Built with ❤️ by Samuellawrentz</div>
@@ -51,6 +58,21 @@ function QuotesGenerator() {
     </div>
   </div>
     </div>
+    <div className="section">
+      <div className="section__title">Few Samples</div>
+      <div className='cards quotes-cards'>
+        <div className="card">
+          <img src={img} alt="" />
+        </div>
+        <div className="card">
+          <div ><img src={img1} alt="" /></div>
+        </div>
+        <div className="card">
+          <div><img src={img2} alt="" /></div>
+        </div>
+      </div>
+    </div>
+</div>
   )
 }
 
