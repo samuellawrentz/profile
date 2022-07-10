@@ -10,7 +10,7 @@
         height: 600px;
     }
 
-    .quote-image{
+    .image-container{
         background-repeat: no-repeat;
         background-size: cover;
         background-position: center;
@@ -44,6 +44,7 @@
         border-radius: 10px;
         padding-bottom: 1rem;
         background-color: var(--surface-1);
+        flex: 1 0 45%;
     }
 
 
@@ -80,8 +81,17 @@
         border-radius: 0 0 10px 10px;
         z-index: 100;
         margin: 0 auto;
+        position: relative;
+        top: 12px;
         }
 
         .sub-heading {
             margin-bottom: 20px;
+        }
+
+        .quotes-intro {
+            flex: 1 1 60%;
+        }
+        .container.quotes-page {
+            gap: 24px;
         }

@@ -3,7 +3,7 @@ import { Block, Blockprops } from "../block"
 
 interface Prop {
     children: ReactNode,
-    type?: "title0" | "title1" | "heading0" | "regular" | "regularBold" | "regularLight" | "regular1" | "regular2" | "title2" | "regular3" | "small",
+    type?: "title0" | "title1" | "heading0" | "regular" | "regularBold" | "regularLight" | "regular1" | "regular2" | "title2" | "regular3" | "small" | "caption",
 	inline?: boolean,
 }
 
