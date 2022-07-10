@@ -16,17 +16,15 @@ function IndexPage({ data }: any) {
 <div className="main-content">
 <div className="container">
         <div className="intro"><h1>HI, I'M SAM</h1>
-          <h2>I design and code beautifully simple things</h2>
-          <p className="blockquote">
-            <em>Software is a great combination between
-            artistry and engineering. <br />
-            <span> - Bill Gates</span>
+          <h2>I design and code beautifully simple things.</h2>
+          <p>One of my favorite quotes from Bill Gates - 
+            <em>"Software is a great combination between
+            artistry and engineering."
             </em>
-
-          </p>
-          <p>
-            Which makes me a <b>Frontend Engineer.</b>
-          </p></div>
+            </p>
+            <p>In my words, Web development is a mix of creativity, artistry and engineering. And that is why I call myself a <b>Frontend Engineer.</b></p>
+            <p>❤ ❤ ❤</p>
+            </div>
         <div className="image"><div className="heart"></div></div>
       </div>
       <div className="section">
@@ -43,6 +41,14 @@ function IndexPage({ data }: any) {
       <div className="section">
         <div className="section__title">Projects</div>
         <div className="cards">
+        <Link to="/projects/quotes-generator">
+          <div className="card">
+            <div className="card__title"><h3>Quotes Generator</h3></div>
+            <div className="card__description">A tool that helps you to create motivational quotes with backgrounds.</div>
+            <div className="text-caption technologies">HTML Canvas, CSS, jQuery, UnsplashAPI, React</div>
+            
+          </div>
+          </Link>
           <a href="https://samuellawrentz.github.io/PastTenser/" target="_blank">
           <div className="card"> 
             <div className="card__title"><h3>PastTenser</h3></div>
@@ -50,19 +56,13 @@ function IndexPage({ data }: any) {
             <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
           </div>
           </a>
-          <Link to="/projects/quotes-generator">
-          <div className="card">
-            <div className="card__title"><h3>Quotes Generator</h3></div>
-            <div className="card__description">A tool that helps you to create motivational quotes with backgrounds.</div>
-            <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
-            
-          </div>
-          </Link>
+          <a href="https://samuellawrentz.github.io/highcharts-networkChart/" target="_blank">
           <div className="card">
             <div className="card__title"><h3>Network chart</h3></div>
             <div className="card__description">This is a network chart built using Highchart APIs - helps you visualise connections.</div>
-            <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
+            <div className="text-caption technologies">Vannila Javascript, Highcharts Custom module, SVG, HTML, CSS</div>
           </div>
+          </a>
         </div>
       </div>
       <div className="section">

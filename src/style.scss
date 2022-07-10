@@ -123,6 +123,7 @@ h1 {
   display: grid;
   .card{
     background-color: var(--surface2);
+    box-shadow: 2px 7px 14px rgb(0 0 0 / 20%);
     height: 100%;
     display: flex;
     flex-direction: column;
