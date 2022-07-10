@@ -126,7 +126,7 @@ function IndexPage({ data }: any) {
 			</div>
       </div>
       <div className="section">
-        <div className="section__title">We can be <Img fixed={data.friendsLogo.childImageSharp.fixed} alt=""  className="friendsLogo" /></div>
+        <div className="section__title friends-title">We can be <Img fixed={data.friendsLogo.childImageSharp.fixed} alt=""  className="friendsLogo" /></div>
         <div>
         <TextBlock spacing={[0, 25]}>
 				I’m the kind of person who likes to connect with new people.<br/>

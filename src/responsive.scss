@@ -1,0 +1,36 @@
+.show-mobile {
+    display: none !important;
+}
+
+@media screen and (max-width: 700px) {
+    .container:not(.increase-specificity) {
+        flex-wrap: wrap-reverse;
+        .intro {
+            flex: 1 1 100%;
+        }
+        .image {
+            height: 200px;
+            justify-content: start;
+            left: calc(100vw - 80vw);
+            flex: 0 0 100px;
+        }
+    }
+    main {
+        overflow-x: hidden;
+    }
+    .friends-title {
+        text-align: center;
+        &:after {
+            content: none !important;
+        }
+    }
+    .blog-content .content {
+        width: auto !important;
+    }
+    .show-mobile {
+        display: block !important;
+    }
+    .container.quotes-page:not(.increase-specificity) {
+        flex-wrap: wrap;
+    }
+}
