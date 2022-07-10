@@ -44,6 +44,7 @@
         border-radius: 10px;
         padding-bottom: 1rem;
         background-color: var(--surface-1);
+        flex: 1 0 45%;
     }
 
 
@@ -84,4 +85,11 @@
 
         .sub-heading {
             margin-bottom: 20px;
+        }
+
+        .quotes-intro {
+            flex: 1 1 60%;
+        }
+        .container.quotes-page {
+            gap: 24px;
         }
