@@ -203,6 +203,7 @@ h1 {
 
     a {
       color: inherit;
+      text-underline-offset: 2px;
     }
 
     .technologies {
@@ -211,4 +212,10 @@ h1 {
 
     li {
       margin-bottom: 12px;
+    }
+    .friendsLogo {
+      position: relative;
+      top: 15px;
+      left: -15px;
+      height: 50px;
     }
