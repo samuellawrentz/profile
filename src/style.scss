@@ -138,10 +138,15 @@ h2 {
     border-radius: 8px;
     cursor: pointer;
     padding: 16px;
-    &__image img {
+    &__image  {
+      height: 100px;
+      overflow: hidden;
+      img {
       width: 100%;
       border-radius: 8px 8px 0 0;
+
     }
+  }
     &__description {
       margin-top: auto;
     }
