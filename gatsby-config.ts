@@ -16,7 +16,17 @@ const config: GatsbyConfig = {
 			"trackingId": "UA-122999794-1",
 		},
 	}, "gatsby-plugin-image", "gatsby-plugin-react-helmet",
-	"gatsby-plugin-sitemap", "gatsby-plugin-mdx",
+	"gatsby-plugin-sitemap",{
+		resolve: `gatsby-plugin-mdx`,
+		options: {
+		  extensions: [".mdx", ".md"],
+		  gatsbyRemarkPlugins: [
+			{
+			  resolve: `gatsby-remark-highlight-code`,
+			},
+		  ],
+		},
+	  },
 	"gatsby-plugin-sharp", "gatsby-transformer-sharp", {
 		resolve: "gatsby-plugin-react-svg",
 		options: {
