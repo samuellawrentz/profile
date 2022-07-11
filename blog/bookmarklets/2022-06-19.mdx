@@ -18,13 +18,19 @@ Bookmarklets’ are nothing but a useful piece of code that can run on any loade
 
 Go to the bookmark bar and add a new bookmark. Name it whatever you want, Tatkal booker, Instant phone buyer, the Web Robo. Then in the URL enter the following code given here along with your own JavaScript code.
 
+```js
 javascript:(function(){ //your JavaScript code here })()
+```
+
+
 You can add any code to this function and this will be executed on any loaded page the moment you click this bookmark. This is nothing but an anonymous JS function, nothing special in it. Most of the computer guys might know it. The power of the Bookmarklet is immeasurable. You can import any JS library from the CDNs’ and use them in the script. With the gift of JQuery you could almost implement any automation tasks on the web with swag, just like Selenium but without using it actually. No more late bookings and boring stuff, just Bookmarklets. Go now and start creating your own Bookmarklet. May the force be with you.
 
-A simple Bookmarklet to log in to an application (might be useful if you debug a web-application 100 times/day like me)
+**A simple Bookmarklet to log in to an application** (might be useful if you debug a web-application 100 times/day like me)
 
+
+```js
 javascript:(function(){document.getElementById("loginEmail”).value=”Your username”; document.getElementById(“password”).value=”Your password”; document.getElementById(“submit”).click();})()
+```
 Hope this helps people in web development field who feel bored to type their long username and password (known to the whole organization) again and again to login to their application with a quick click. If you are lazy even to do that click, you will surely find a way to automate even that as well. I felt logging in again and again to my application boring, that’s when I found this precious jewel “Bookmarklets”.
 
-I’m new to web development, do correct me if I have missed something.
-Thank you for your patience.
+Have a great day!

@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from 'react'
 import { Link, graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
-import Sheet from '../components/sheet'
 import './blog.scss'
-import Text, { TextBlock } from '../components/typography'
 import Img from 'gatsby-image'
+import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
+deckDeckGoHighlightElement();
 
 function Blog(props: any) {
 console.log(props);
