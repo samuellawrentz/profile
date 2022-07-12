@@ -4,6 +4,9 @@ const config: GatsbyConfig = {
 	siteMetadata: {
 		title: "Samuel Lawrentz - The frontend Developer",
 		siteUrl: "https://samuellawrentz.com",
+		description: "I'm a frontend engineer, creative, smart and fuelled by the passion to develop new things. This is my portfolio built using React, GatsbyJS. I write on CSS3, HTML, Javascript and Typescript",
+		image: '/ogimage.png',
+		twitterUsername: "@samuellawrentz",
 	},
 	// More easily incorporate content into your pages through automatic 
 	// TypeScript type generation and better GraphQL IntelliSense.
