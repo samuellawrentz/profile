@@ -1,0 +1,19 @@
+.topbar {
+    background-color: var(--text-shadow-color);
+    text-align: center;
+    font-size: var(--h6);
+    padding: 4px;
+    &-text {
+        margin-right: 10px;
+        a {
+            text-decoration: none;
+            pointer-events: none;
+        }
+    }
+    .button {
+        vertical-align: text-bottom;
+    }
+    .button-cont {
+        text-decoration: none;
+    }
+}

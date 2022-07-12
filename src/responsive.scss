@@ -33,4 +33,15 @@
     .container.quotes-page:not(.increase-specificity) {
         flex-wrap: wrap;
     }
+    .topbar {
+        &-text {
+            a {
+                text-decoration: underline;
+                pointer-events: all;
+            }
+        }
+        .button-cont {
+            display: none;
+        }
+    }
 }

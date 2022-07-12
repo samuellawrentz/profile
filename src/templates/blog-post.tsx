@@ -7,7 +7,6 @@ import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/
 deckDeckGoHighlightElement();
 
 function Blog(props: any) {
-console.log(props);
 
   return (
     <div className="blog-content">
@@ -17,7 +16,7 @@ console.log(props);
         <div className='text-regularLight'>{props.data.mdx.frontmatter.date}</div>
       </p>
       <div className="text-regular content">
-      <MDXRenderer>{props.data.mdx.body}</MDXRenderer>
+        <MDXRenderer>{props.data.mdx.body}</MDXRenderer>
       </div>
     </div>
   )

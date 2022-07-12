@@ -11,7 +11,6 @@ import Button from "../components/button"
 import Avatar from "../components/avatar"
 
 function IndexPage({ data }: any) {
-  console.log(data);
   
   return (
 <div className="main-content">

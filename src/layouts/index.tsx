@@ -4,6 +4,7 @@ import {DrawCanvas, initCanvas} from "../components/bg-canvas/index.js"
 import  Img from "../assets/logo.svg"
 import { Link } from 'gatsby'
 import Helmet from "react-helmet"
+import TopBar from '../components/topbar'
 
 interface LayoutProps {
     children?: React.ReactNode
@@ -25,6 +26,7 @@ function Layout({children} : LayoutProps) {
   }}>
             <title>Samuel Lawrentz - The Frontend Dev - Blog, portfolio, web development</title>
         </Helmet>
+        <TopBar />
         <div className="logo"><Link to="/"><Img /></Link></div>
         {/* <canvas id="canvas" className="background-canvas"></canvas> */}
         <main>{children}</main>

@@ -51,7 +51,7 @@ html {
 
 h1 {
   font-size: var(--h1);
-  text-shadow: 2px 4px #a90222;
+  text-shadow: 2px 4px var(--text-shadow-color);
   line-height: 1.3;
 }
 h2 {

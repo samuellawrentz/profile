@@ -133,7 +133,6 @@ var getDataUri = function (targetUrl, callback) {
 };
 
 export function refreshImage() {
-  console.log('adfadf')
   const selected = getRandomFromArray(topics);
   getDataUri("https://source.unsplash.com/random/", function (dataURL) {
     screenshot(dataURL).then(function (url) {

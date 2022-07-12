@@ -15,6 +15,7 @@ import img2 from '../../../images/quotes/motivation (2).png'
 function QuotesGenerator() {
     useEffect(() => {
         initImage()
+        localStorage.setItem("visitedQuotes", true)
         
     })
   return (

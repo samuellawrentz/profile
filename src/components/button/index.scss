@@ -10,4 +10,8 @@
         color: var(--element1);
         background-color: transparent;
     }
+    &-small {
+        font-size: 14px;
+        padding: 1px 10px;
+    }
 }

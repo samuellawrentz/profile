@@ -3,12 +3,13 @@ import './index.scss'
 
 interface Prop {
     children: ReactNode,
-    type: string,
+    type?: string,
+    size?: string,
 }
 
-function Button({type, children} : Prop) {
+function Button({type = "primary", size="regular", children} : Prop) {
   return (
-    <span className={['button', `button-${type}`].join(' ')}>{children}</span>
+    <span className={['button', `button-${type}`, `button-${size}`].join(' ')}>{children}</span>
   )
 }
 
