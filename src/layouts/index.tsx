@@ -6,6 +6,7 @@ import { Link } from 'gatsby'
 import Helmet from "react-helmet"
 import TopBar from '../components/topbar'
 import SEO from '../components/seo'
+import Footer from '../components/footer'
 
 interface LayoutProps {
     children?: React.ReactNode
@@ -32,6 +33,7 @@ function Layout({children} : LayoutProps) {
         <div className="logo"><Link to="/"><Img /></Link></div>
         {/* <canvas id="canvas" className="background-canvas"></canvas> */}
         <main>{children}</main>
+        <Footer />
     </div>
   )
 }
