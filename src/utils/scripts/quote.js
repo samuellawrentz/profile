@@ -136,7 +136,7 @@ export function refreshImage() {
   const selected = getRandomFromArray(topics);
   getDataUri("https://source.unsplash.com/random/", function (dataURL) {
     screenshot(dataURL).then(function (url) {
-      imageContainer.style.filter = "brightness(1)";
+      // imageContainer.style.filter = "brightness(1)";
       imageContainer.style.backgroundImage = "url(" + url + ")";
     });
   });

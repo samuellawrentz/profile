@@ -57,7 +57,26 @@ const config: GatsbyConfig = {
 			"name": "blog",
 			"path": "./blog/",
 		},
-	}],
+	},
+    {
+		resolve: `gatsby-source-twitter`,
+		options: {
+		  credentials: {
+			consumer_key: "zksXR5cHChvfucJUOgyhvhZ1m",
+			consumer_secret: "UtSqvBs1W3IrQYAnHzKANVDbmdiDeQDD7x63ybM8bB1ZxhHIkv",
+			bearer_token: "AAAAAAAAAAAAAAAAAAAAAKgSewEAAAAAL%2Fo70W8H3aBGuxZA0i3olXXMYKw%3Dv6kQVIAS5dA1botigNQHsp8X6JE04HSrzNnaAZdKZb2Ce9nuHd",
+		  },
+		  queries: {
+			latestTweets: {
+			  endpoint: "search/tweets",
+			  params: {
+				q: "#(#webdev, OR #css) (from:samuellawrentz)",
+				tweet_mode: "extended",
+			  },
+			},
+		  },
+		},
+	  }],
 }
 
 export default config

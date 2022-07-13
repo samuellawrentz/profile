@@ -236,3 +236,17 @@ h2 {
       left: -15px;
       height: 50px;
     }
+
+    .card.featured:before {
+      content: 'New';
+      position: absolute;
+      background-color: var(--text-shadow-color);
+      font-size: var(--caption);
+      padding: 0 16px;
+      right: 12px;
+      top: -6px;
+  }
+  
+  .card {
+      position: relative
+  }

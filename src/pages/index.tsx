@@ -42,7 +42,7 @@ function IndexPage({ data }: any) {
         <div className="section__title">Projects</div>
         <div className="cards">
         <Link to="/projects/quotes-generator">
-          <div className="card">
+          <div className="card featured">
             <div className="card__title text-title2"><h3>Quotes Generator</h3></div>
             <div className="card__description">A tool that helps you to create motivational quotes with backgrounds.</div>
             <div className="text-caption technologies">HTML Canvas, CSS, jQuery, UnsplashAPI, React</div>
