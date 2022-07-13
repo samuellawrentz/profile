@@ -27,6 +27,7 @@ function Layout({children} : LayoutProps) {
     lang: 'en',
     "color-mode": "dark"
   }}>
+    <meta name="ahrefs-site-verification" content="6c3839f0b764fa4c45002167b36cb3f3236bcedbbe54ab9c262661b28995374a"></meta>
             <title>Samuel Lawrentz - The Frontend Dev - Blog, portfolio, web development</title>
         </Helmet>
         <TopBar />
