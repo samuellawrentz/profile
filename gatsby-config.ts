@@ -9,14 +9,16 @@ const config: GatsbyConfig = {
 		siteUrl: "https://samuellawrentz.com",
 		description: "I'm a frontend engineer, creative, smart and fuelled by the passion to develop new things. This is my portfolio built using React, GatsbyJS. I write on CSS3, HTML, Javascript and Typescript",
 		image: '/ogimage.png',
+		author: "Samuel Lawrentz",
 		twitterUsername: "@samuellawrentz",
+		keywords: ['frontend', 'web development', 'samuellawrentz', 'tech blog']
 	},
 	// More easily incorporate content into your pages through automatic 
 	// TypeScript type generation and better GraphQL IntelliSense.
 	// If you use VSCode you can also use the GraphQL plugin
 	// Learn more at: https://gatsby.dev/graphql-typegen
 	graphqlTypegen: true,
-	plugins: ["gatsby-plugin-sass", "gatsby-plugin-layout", {
+	plugins: ["gatsby-plugin-sass", "gatsby-plugin-layout", 'gatsby-plugin-robots-txt', {
 		resolve: "gatsby-plugin-google-analytics",
 		options: {
 			"trackingId": "UA-122999794-1",

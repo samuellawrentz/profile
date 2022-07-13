@@ -13,13 +13,6 @@ interface LayoutProps {
 }
 
 function Layout({children} : LayoutProps) {
-    useEffect(() => {
-		
-		setTimeout(() => {
-			// initCanvas()
-			// DrawCanvas()
-		}, 3000);
-	}, [])
   return (
     <div>
       <SEO />

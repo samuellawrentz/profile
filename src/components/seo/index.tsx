@@ -22,7 +22,7 @@ const SEO = ({ title, description, image, article }: any) => {
     image: `${siteUrl}${image || defaultImage}`,
     url: `${siteUrl}${pathname}`,
   }
-  console.log('adsfasdfdfs', seo)
+
   return (
     <Helmet title={seo.title}>
       <meta name="description" content={seo.description} />
