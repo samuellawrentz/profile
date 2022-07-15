@@ -10,3 +10,9 @@
 deckgo-highlight-code {
     margin-bottom: 40px;
 }
+
+.blog-content div:last-child {
+    font-size: inherit;
+    font-weight: inherit;
+    max-width: 650px;
+}
