@@ -5,6 +5,7 @@ import './blog.scss'
 import Img from 'gatsby-image'
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
 import SEO from '../components/seo'
+import { Block } from '../components/block'
 deckDeckGoHighlightElement();
 
 function Blog(props: any) {
@@ -17,9 +18,9 @@ function Blog(props: any) {
       <p className="regularLight">
         <div className='text-regularLight'>{props.data.mdx.frontmatter.date}</div>
       </p>
-      <div className="text-regular content">
+      <Block className='content text-regular'>
         <MDXRenderer>{props.data.mdx.body}</MDXRenderer>
-      </div>
+      </Block>
     </div>
   )
 }
