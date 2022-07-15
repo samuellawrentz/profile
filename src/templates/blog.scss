@@ -12,7 +12,8 @@ deckgo-highlight-code {
 }
 
 .blog-content div:last-child {
-    font-size: inherit;
+    font-size: var(--h5);
     font-weight: inherit;
     max-width: 650px;
+    line-height: 1.85;
 }
