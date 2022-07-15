@@ -18,8 +18,8 @@ function Blog(props: any) {
       <p className="regularLight">
         <div className='text-regularLight'>{props.data.mdx.frontmatter.date}</div>
       </p>
-      <Block className='content text-regular'>
-        <MDXRenderer>{props.data.mdx.body}</MDXRenderer>
+      <Block className='blog-cont text-regular'>
+        <div><MDXRenderer>{props.data.mdx.body}</MDXRenderer></div>
       </Block>
     </div>
   )
