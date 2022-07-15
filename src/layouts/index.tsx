@@ -5,7 +5,6 @@ import  Img from "../assets/logo.svg"
 import { Link } from 'gatsby'
 import Helmet from "react-helmet"
 import TopBar from '../components/topbar'
-import SEO from '../components/seo'
 import Footer from '../components/footer'
 
 interface LayoutProps {
@@ -15,7 +14,6 @@ interface LayoutProps {
 function Layout({children} : LayoutProps) {
   return (
     <div>
-      <SEO />
         <Helmet   htmlAttributes={{
     lang: 'en',
     "color-mode": "dark"

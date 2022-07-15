@@ -9,6 +9,8 @@ import img from '../../../images/quotes/image_from_samuellawrentz (1).png'
 import img1 from '../../../images/quotes/image_from_samuellawrentz.png'
 //@ts-ignore
 import img2 from '../../../images/quotes/motivation (2).png'
+import { Helmet } from 'react-helmet'
+import SEO from '../../../components/seo'
 
 
 
@@ -20,6 +22,9 @@ function QuotesGenerator() {
     })
   return (
 <div>
+    <SEO title="Free Quotes Image Generator Online - Generate quotes images online"
+    description="Create or generate beautiful quotes pictures with unsplash images quickly and free. Our quote maker and generator require NO login or signup"
+    />
 <div className="container quotes-page">
 <div className='intro quotes-intro'>
 <h1>Image Quote Generator</h1>

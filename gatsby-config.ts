@@ -18,7 +18,7 @@ const config: GatsbyConfig = {
 	// If you use VSCode you can also use the GraphQL plugin
 	// Learn more at: https://gatsby.dev/graphql-typegen
 	graphqlTypegen: true,
-	plugins: ["gatsby-plugin-sass", "gatsby-plugin-layout", 'gatsby-plugin-robots-txt', {
+	plugins: ["gatsby-plugin-sass", "gatsby-plugin-layout", 'gatsby-plugin-robots-txt',"og-image-plugin", {
 		resolve: "gatsby-plugin-google-analytics",
 		options: {
 			"trackingId": "UA-122999794-1",

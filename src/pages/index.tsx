@@ -9,11 +9,14 @@ import Img from 'gatsby-image'
 import "../style.scss"
 import Button from "../components/button"
 import Avatar from "../components/avatar"
+import { Helmet } from "react-helmet"
+import SEO from "../components/seo"
 
 function IndexPage({ data }: any) {
   
   return (
 <div className="main-content">
+  <SEO />
 <div className="container">
         <div className="intro"><h1>HI, I'M SAM</h1>
           <h2>I design and code beautifully simple things.</h2>

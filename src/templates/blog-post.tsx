@@ -4,12 +4,14 @@ import { MDXRenderer } from "gatsby-plugin-mdx"
 import './blog.scss'
 import Img from 'gatsby-image'
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
+import SEO from '../components/seo'
 deckDeckGoHighlightElement();
 
 function Blog(props: any) {
 
   return (
     <div className="blog-content">
+      <SEO title={props.data.mdx.frontmatter.title} description={props.data.mdx.frontmatter.description} image={`/og-images/${props.data.mdx.id}.png`}/>
       <Img fluid={props.data.mdx.frontmatter.heroImage.childImageSharp.fluid} className="hero-image"/>
       <h1>{props.data.mdx.frontmatter.title}</h1>
       <p className="regularLight">
