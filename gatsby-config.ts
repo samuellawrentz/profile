@@ -130,7 +130,7 @@ const config: GatsbyConfig = {
 			}
 			  `,
 			  output: "/rss.xml",
-			  title: "Samuel's Blogs RSS Feed",
+			  title: "Samuel Lawrentz - The frontend Dev - Tech Blog",
 			  // optional configuration to insert feed reference in pages:
 			  // if `string` is used, it will be used to create RegExp and then test if pathname of
 			  // current page satisfied this regular expression;
