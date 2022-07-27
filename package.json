@@ -36,6 +36,7 @@
     "gatsby-plugin-sharp": "^4.18.0",
     "gatsby-plugin-sitemap": "^5.17.0",
     "gatsby-remark-highlight-code": "^3.2.0",
+    "gatsby-remark-images": "^6.19.0",
     "gatsby-source-filesystem": "^4.17.0",
     "gatsby-source-twitter": "^4.0.1",
     "gatsby-transformer-sharp": "^4.18.0",

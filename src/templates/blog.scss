@@ -1,9 +1,12 @@
 .hero-image {
     border-radius: 15px;
+    height: 350px;
 }
 
 deckgo-highlight-code {
     margin-bottom: 40px;
+    font-size: var(--h6);
+    line-height: 1.8;
 }
 
 .blog-content > div:last-child {

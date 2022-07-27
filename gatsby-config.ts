@@ -32,6 +32,12 @@ const config: GatsbyConfig = {
 			{
 			  resolve: `gatsby-remark-highlight-code`,
 			},
+			{
+				resolve: `gatsby-remark-images`,
+				options: {
+				  maxWidth: 1200,
+				},
+			  },
 		  ],
 		},
 	  },
