@@ -6,7 +6,11 @@ import Img from 'gatsby-image'
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
 import SEO from '../components/seo'
 import { Block } from '../components/block'
+import Banner from '../components/banner'
+import { MDXProvider } from '@mdx-js/react'
 deckDeckGoHighlightElement();
+
+const components = { Banner }
 
 function Blog(props: any) {
 
@@ -19,7 +23,9 @@ function Blog(props: any) {
         <div className='text-regularLight'>{props.data.mdx.frontmatter.date}</div>
       </p>
       <Block className='blog-cont text-regular'>
+        <MDXProvider components={components}> 
         <div><MDXRenderer>{props.data.mdx.body}</MDXRenderer></div>
+        </MDXProvider>
       </Block>
     </div>
   )

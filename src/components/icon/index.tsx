@@ -13,9 +13,10 @@ interface IconProp {
     color?: string,
     style?: React.CSSProperties,
     hoverColor?: string,
+    title?: string,
     svg?: React.ComponentType,
 }
- export const Icon = ({ className = '', name, size, color, style, hoverColor, svg, ...props }: IconProp) => {
+ export const Icon = ({ className = '', name, size, color, style, hoverColor, svg, title, ...props }: IconProp) => {
     const [iconColor, setIconColor] = useState(color ? `var(--${color})` : undefined)
     let iconEventProps = {}
     const SvgIcon = svg
@@ -49,6 +50,7 @@ interface IconProp {
           width: size,
           height: size,
         }}
+        title={title}
         {...props}
         {...iconEventProps}
       >
