@@ -19,7 +19,7 @@ function IndexPage({ data }: any) {
   <SEO />
 <div className="container">
         <div className="intro"><h1>HI, I'M SAM</h1>
-          <h2>I design and code beautifully simple things.</h2>
+          <h2 className="subtext">I design and code beautifully simple things.</h2>
           <p>One of my favorite quotes from Bill Gates - 
             <em>"Software is a great combination between
             artistry and engineering."
@@ -171,7 +171,7 @@ export const query = graphql`
     ) {
       nodes {
         id
-        excerpt(pruneLength: 100)
+        excerpt(pruneLength: 70)
         frontmatter {
           title
           date(formatString: "DD MMM, YYYY")

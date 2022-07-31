@@ -28,7 +28,7 @@ html {
 
   body {
     background-color: var(--surface1);
-    font-size: clamp(1rem,.825242718446602rem + .48543689320388345vw,1.25rem);
+    font-size: clamp(1rem, .825242718446602rem + .48543689320388345vw, 1.25rem);
     line-height: 1.6;
   }
   
@@ -44,6 +44,10 @@ html {
     // box-shadow: 10px 10px 10px 10px grey;
   }
 
+  .logo svg{
+    width: clamp(230px, 20vw, 320px);
+  }
+
   .logo {
     padding: 20px 0;
     cursor: pointer;
@@ -52,16 +56,27 @@ html {
 h1 {
   font-size: var(--h1);
   text-shadow: 2px 4px var(--text-shadow-color);
-  line-height: 1.3;
+  line-height: 1.2;
+  letter-spacing: -2%;
 }
 h2 {
-  line-height: 1.4;
-  margin-top: 50px;
+  font-size: var(--h2);
+  line-height: 1.3;
+  margin-top: -10px;
   margin-bottom: 20px;
+}
+h3 {
+  font-size: var(--h3);
+  line-height: 1.3;
+}
+h4{
+  font-size: var(--h4);
+  line-height: 1.5;
 }
 
 .description {
   font-size: var(--h6);
+  line-height: 1.5;
 }
 
 .blockquote {
@@ -82,12 +97,17 @@ h2 {
   }
 }
 
+.subtext {
+  color: var(--element1100);
+}
+
 .container {
   display: flex;
   .intro {
     flex: 1 1 70%;
     h1 {
       letter-spacing: 2px;
+      margin-top: 24px;
     }
   }
   .image {
@@ -128,7 +148,7 @@ h2 {
   grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
   grid-auto-rows: 1fr;
   column-gap: 16px;
-  row-gap: 24px;
+  row-gap: 16px;
   display: grid;
   .card{
     background-color: var(--surface2);
