@@ -76,7 +76,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="regularLight" style={{height: 24}}>2017</TextBlock>
 						<TextBlock type="title2">First Job - Burning Glass</TextBlock>
 					</Block>
-				<TextBlock type="regular" style={{maxWidth: 480}}>
+				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
 				I was hired as intern during campus placements, where I worked with C, C++ after which I became a full-time SDE 
 				</TextBlock>
 			</Block>
@@ -85,7 +85,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="regularLight" style={{height: 24}}>2018</TextBlock>
 						<TextBlock type="title2">Got into the Web development team</TextBlock>
 					</Block>
-				<TextBlock type="regular" style={{maxWidth: 480}}>
+				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
 				Not sure if it was my luck or destiny, I was moved to the web development that was incharge of building SPAs and dynamic web apps.
 				</TextBlock>
 			</Block>
@@ -94,7 +94,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="regularLight" style={{height: 24}}>2019</TextBlock>
 						<TextBlock type="title2">Frontend Developer - Plivo</TextBlock>
 					</Block>
-				<TextBlock type="regular" style={{maxWidth: 480}}>
+				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
 				As a Frontend Developer, I was given total freedom to implement my learnings. My job was to build performant web pages.
 				</TextBlock>
 			</Block>
@@ -103,7 +103,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="regularLight" style={{height: 24}}>2020</TextBlock>
 						<TextBlock type="title2">Covid - WFH - WTH</TextBlock>
 					</Block>
-				<TextBlock type="regular" style={{maxWidth: 480}}>
+				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
 				TBH, This year and the next year went by within a wink. All I did was sanitize my hands 3 times a day.
 				</TextBlock>
 			</Block>
@@ -112,7 +112,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="regularLight" style={{height: 24}}>2021</TextBlock>
 						<TextBlock type="title2">Became SDE - UI, Contacto</TextBlock>
 					</Block>
-				<TextBlock type="regular" style={{maxWidth: 480}}>
+				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
 				I moved into a product engineering team at Plivo called "Contacto", where I worked with awesome tech stack - Electron, React, Vue, Redux, SCSS, etc
 				</TextBlock>
 			</Block>
@@ -121,7 +121,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="regularLight" style={{height: 24}}>2022</TextBlock>
 						<TextBlock type="title2">Engineering teams are great</TextBlock>
 					</Block>
-				<TextBlock type="regular" style={{maxWidth: 480}}>
+				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
 				It's been a good year till now. Let's hope I learn more and more new things and implement and experiment those teachings in my work.
 				</TextBlock>
 			</Block>
