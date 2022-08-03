@@ -1,30 +1,29 @@
 /* Light Mode */
 :root[color-mode="light"] {
-    --surface1: #e6e6e6;
-    --surface2: #f2f2f2;
-    --surface3: #ffffff;
-    --element1: #111111;
-    --element2: #222222;
-    --element3: #333333;
-    --elementInverse: #eee;
-    --primary: #01408e;
-    --secondary: #3c5d5c;
-    --tertiary: #fff7d6;
+    --surface1: hsl(0, 0%, 90%);
+    --surface2: hsl(0, 0%, 95%);
+    --surface3: hsl(0, 0%, 100%);
+    --element1: hsl(0, 0%, 7%);
+    --element2: hsl(0, 0%, 13%);
+    --element3: hsl(0, 0%, 20%);
+    --elementInverse: hsl(0, 0%, 93%);
+    --primary: hsl(213, 99%, 28%);
+    --secondary: hsl(178, 22%, 30%);
+    --tertiary: hsl(48, 100%, 92%);
   }
   
   /* Dark Mode */
   :root[color-mode="dark"] {
-    --surface1: #262626;
-    --surface2: #333333;
-    --surface3: #404040;
+    --surface1: hsl(0, 0%, 15%);
+    --surface2: hsl(0, 0%, 20%);
+    --surface3: hsl(0, 0%, 25%);
     --element1: hsl(0, 0%, 93%);
-    --element1100: 	hsl(0, 0%, 87%);
-    --element2: #dddddd;
-    --element3: #cccccc;
-    --elementInverse: #111;
-    --primary: #8fceff;
-    --secondary: #72faca;
-    --tertiary: #eee8a9;
+    --element2: hsl(0, 0%, 87%);
+    --element3: hsl(0, 0%, 80%);
+    --elementInverse: hsl(0, 0%, 7%);
+    --primary: hsl(206, 100%, 78%);
+    --secondary: hsl(159, 93%, 71%);
+    --tertiary: hsl(55, 67%, 80%);
   }
 
   :root {
@@ -35,7 +34,7 @@
     --h4: clamp(18px, 4vw, 1.5rem);
     --h5: 1.125rem;
     --h6: 1rem;
-    --body: 1rem;
-    --caption: 0.875rem;
-    --text-shadow-color: #a90222;
+    --body: clamp(16px, 3vw, 1.25rem);
+    --caption: clamp(14px, 2vw, 0.75rem);
+    --text-shadow-color: hsl(349, 98%, 34%);
   }

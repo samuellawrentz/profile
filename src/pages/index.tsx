@@ -11,6 +11,7 @@ import Button from "../components/button"
 import Avatar from "../components/avatar"
 import { Helmet } from "react-helmet"
 import SEO from "../components/seo"
+import { Icon } from "../components/icon"
 
 function IndexPage({ data }: any) {
   
@@ -32,13 +33,23 @@ function IndexPage({ data }: any) {
       </div>
       <div className="section">
         <div className="section__title">Blog</div>
-        <div className="cards">
+        <div className="blogs">
         {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage}}: any) => <Link to={path}><div className="card">
             <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt=""/></div>
-            <div className="card__title text-title2"><h3>{title}</h3></div>
+            <div className="card__details">
+            <div className="card__title"><h3>{title}</h3></div>
             <div className="card__description">{excerpt}</div>
             <div className="card__date text-regularLight">{date}</div>
+            </div>
           </div></Link>)}
+          <Link to={'/blog'}><div className="card read-more">
+            <div className="card__image"><Icon name="menu_book" size={180} color="element3"/></div>
+            <div className="card__details">
+            <div className="card__title"><h3>Read more blogs like this</h3></div>
+            <div className="card__description">Click this card to go to the blog homepage where you can find many other tech related posts</div>
+            <div className="card__date text-regularLight">Read more</div>
+            </div>
+          </div></Link>
         </div>
       </div>
       <div className="section">
@@ -168,17 +179,18 @@ export const query = graphql`
     allMdx(
       sort: {fields: [frontmatter___date], order: DESC}
       filter: {frontmatter: {published: {eq: true}}}
+      limit: 3
     ) {
       nodes {
         id
-        excerpt(pruneLength: 70)
+        excerpt(pruneLength: 140)
         frontmatter {
           title
           date(formatString: "DD MMM, YYYY")
 		      path
           heroImage {
             childImageSharp {
-              fluid(maxWidth: 450) {
+              fluid(maxWidth: 240) {
                 ...GatsbyImageSharpFluid
               }
             }

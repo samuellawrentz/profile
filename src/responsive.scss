@@ -44,4 +44,20 @@
             display: none;
         }
     }
+    .section .blogs .card {
+        display: block;
+        box-shadow: 2px 7px 14px rgb(0 0 0 / 20%);
+        // border: 1px solid var(--element1);
+        background-color: var(--surface2);
+    }
+    .parent {
+        display: flex;
+        flex-direction: column;
+    }
+    .div0 .card__image {
+        height: auto;
+        .gatsby-image-wrapper {
+            transform: none;
+        }
+    }
 }

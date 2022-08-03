@@ -1,0 +1,65 @@
+.parent {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: masonry;
+    gap: 16px;
+    a {
+        text-decoration: none;
+        box-shadow: 2px 7px 14px rgb(0 0 0 / 20%);
+        // border: 1px solid var(--element1);
+        background-color: var(--surface2);
+        border-radius: 8px;
+        padding: 16px;
+        transition: box-shadow, background-color ease 0.5s;
+        .date {
+            margin-top: 8px;
+        }
+        &:hover {
+            box-shadow: 2px 7px 24px 5px rgb(0 0 0 / 30%);
+            background-color: var(--surface1);
+        }
+    }
+    }
+    
+    .div0 { 
+        grid-area: 1 / 1 / 2 / 4;
+        box-shadow: none !important;
+        position: relative;
+        // border: 1px solid var(--element1);
+        background-color: transparent !important;
+        .gatsby-image-wrapper {
+            transform: translateY(-25%);
+        }
+        &:after {
+            margin-top: 98px;
+            content: 'LATEST BLOGS';
+            pointer-events: none;
+            display: block;
+            font-size: var(--h1);
+            font-weight: 100;
+        }
+        &:before {
+            content: "";
+            width: 80vw;
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(to right, transparent, blue, teal);
+            bottom: 65px;
+            left: 430px;
+            transform: translateX(20px);
+        }
+        .card__image {
+            height: 250px;
+            overflow: hidden;
+            border-radius: 8px;
+        }
+     }
+    // .div2 { grid-area: 2 / 1 / 3 / 2; }
+    // .div3 { grid-area: 2 / 2 / 3 / 3; }
+    // .div4 { grid-area: 2 / 3 / 3 / 4; }
+    // .div5 { grid-area: 3 / 1 / 4 / 2; }
+    // .div6 { grid-area: 3 / 2 / 4 / 3; }
+    // .div7 { grid-area: 3 / 3 / 4 / 4; }
+    // .div8 { grid-area: 4 / 1 / 5 / 2; }
+    // .div9 { grid-area: 4 / 2 / 5 / 3; }
+    // .div10 { grid-area: 4 / 3 / 5 / 4; }
