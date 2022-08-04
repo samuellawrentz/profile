@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;400;600;700&display=swap');
-;
 @import url('https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block');
 @import "./variables.scss";
 @import "./heart.scss";
@@ -202,7 +201,7 @@ h4 {
       box-shadow: 2px 7px 14px rgb(0 0 0 / 20%);
       // border: 1px solid var(--element1);
       background-color: var(--surface2);
-      margin-top: 48px;
+      margin-top: 32px;
       .card__image {
         display: flex;
         justify-content: center;
@@ -314,11 +313,11 @@ h4 {
       width: 16px;
       height: 16px;
       border-radius: 50%;
-      background: #D9D9D9;
+      background: var(--surface3);
       top: 50%;
       transform: translateY(-50%);
       right: -54px;
-      box-shadow: 0 0px 0 12px white;
+      box-shadow: 0 0px 0 12px var(--element3);
     }
   }
 }
@@ -333,7 +332,7 @@ h4 {
     height: 100%;
     width: 8px;
     top: 0;
-    background-color: #fff;
+    background-color: var(--element3);
     border-radius: 8px;
   }
 }
