@@ -23,7 +23,7 @@ function QuotesGenerator() {
   return (
 <div>
     <SEO title="Free Quotes Image Generator Online - Generate quotes images online"
-    description="Create or generate beautiful quotes pictures with unsplash images quickly and free. Our quote maker and generator require NO login or signup"
+    description="Create or generate beautiful quotes pictures with unsplash images quickly and free. Our quote maker and generator require NO login or signup. Try now!"
     />
 <div className="container quotes-page">
 <div className='intro quotes-intro'>
