@@ -119,3 +119,4 @@ exports.gen = function gen(text, id) {
       console.info('Generating for', id)
       fs.writeFileSync(path.resolve(`./public/og-images/${id}.png`), buffer)
       }
+      
