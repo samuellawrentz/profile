@@ -12,11 +12,10 @@ exports.createPages = async ({ actions, graphql }) => {
           ) {
             nodes {
               id
-              excerpt(pruneLength: 100)
               frontmatter {
                 title
                 date(formatString: "DD MMM, YYYY")
-                    path
+                path
               }
             }
           }
@@ -31,6 +30,8 @@ exports.createPages = async ({ actions, graphql }) => {
     const posts = result.data.allMdx.nodes
   
     for (const node of posts) {
-        canvas.gen(node.frontmatter.title, node.id)
+      const fileName = node.frontmatter.path.replace(/[/-]/gi, '')
+      if(!fs.existsSync(`./public/og-images/${fileName}.png`))
+        canvas.gen(node.frontmatter.title, fileName)
      }
   }
