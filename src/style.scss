@@ -244,20 +244,18 @@ h4 {
 
   a {
     text-decoration: none;
+  }
+}
 
-    &:hover {
-      .card__details {
-        background: linear-gradient(90deg, hsl(333, 100%, 40%), hsl(60, 100%, 50%), hsl(120, 100%, 45%), crimson);
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        animation: animation 2s ease-in infinite;
-        background-size: 200% 200%;
+a {
+  &:hover {
+    .card__details {
+      background: linear-gradient(70deg, var(--element1),hsl(333, 50%, 50%), hsl(187, 100%, 50%), hsl(242, 40%, 45%), hsl(348, 43%, 47%));
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: animation 3s ease-in infinite;
+      background-size: 200% 200%;
 
-      }
-
-      img {
-        filter: hue-rotate(333deg);
-      }
     }
   }
 }
@@ -369,4 +367,8 @@ li {
 
 .card {
   position: relative
+}
+
+::selection {
+  background: var(--text-shadow-color);
 }

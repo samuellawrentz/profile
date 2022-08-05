@@ -56,7 +56,7 @@ function IndexPage({ data }: any) {
         <div className="section__title">Projects</div>
         <div className="cards">
         <Link to="/projects/quotes-generator">
-          <div className="card featured">
+          <div className="card featured card__details">
             <div className="card__title text-title2"><h3>Quotes Generator</h3></div>
             <div className="card__description">A tool that helps you to create motivational quotes with backgrounds.</div>
             <div className="text-caption technologies">HTML Canvas, CSS, jQuery, UnsplashAPI, React</div>
@@ -64,14 +64,14 @@ function IndexPage({ data }: any) {
           </div>
           </Link>
           <a href="https://samuellawrentz.github.io/PastTenser/" target="_blank">
-          <div className="card"> 
+          <div className="card card__details"> 
             <div className="card__title text-title2"><h3>PastTenser</h3></div>
             <div className="card__description">An API that can give you the pastense of any verb that is provided.</div>
             <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
           </div>
           </a>
           <a href="https://samuellawrentz.github.io/highcharts-networkChart/" target="_blank">
-          <div className="card">
+          <div className="card card__details">
             <div className="card__title text-title2"><h3>Network chart</h3></div>
             <div className="card__description">This is a network chart built using Highchart APIs - helps you visualise connections.</div>
             <div className="text-caption technologies">Vannila Javascript, Highcharts Custom module, SVG, HTML, CSS</div>
@@ -124,7 +124,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="title2">Became SDE - UI, Contacto</TextBlock>
 					</Block>
 				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
-				I moved into a product engineering team at Plivo called "Contacto", where I worked with awesome tech stack - Electron, React, Vue, Redux, SCSS, etc
+				I moved into a product engineering team at <a href="https://plivo.com">Plivo</a> called <a href="https://www.contacto.com/" target="_blank">Contacto</a>, where I worked with awesome tech stack - Electron, React, Vue, Redux, SCSS, etc
 				</TextBlock>
 			</Block>
 			<Block className="timeline" spacing={[40]}>
@@ -149,7 +149,7 @@ Who also likes to learn new technologies.<br/>
         <Block display="flex" alignItems="center" gap={16}><Avatar style={{width: 150, height: 150}} eyeType='Hearts' mouthType="Smile"/>
 				<Block>
 					<Text type="title2">Samuel Lawrentz</Text>
-					<TextBlock type="regular" spacing={[16]}>Software Development Engineer UI - Plivo</TextBlock>
+					<TextBlock type="regular" spacing={[16]}>Software Development Engineer UI - <a href="https://plivo.com" target="_blank">Plivo</a></TextBlock>
 					<Block display="flex" gap={12}>
 						<Text type="caption"><a href="https://github.com/samuellawrentz" target="_blank">Github</a></Text>
 						<Text type="caption"><a href="https://in.linkedin.com/in/samuel-lawrentz">Linkedin</a></Text>
@@ -159,6 +159,13 @@ Who also likes to learn new technologies.<br/>
 				</Block>
 				</Block>
         </div>
+        {/* <div className="gh">
+          <h3>My Github Contibutions</h3>
+          <h5>Work Profile</h5>
+          <img src="https://ghchart.rshah.org/samuellawerentz" alt="SamuelLawerentz Work Profile" />
+          <h5>Personal Profile</h5>
+          <img src="https://ghchart.rshah.org/samuellawrentz" alt="SamuelLawrentz Personal Profile" />
+        </div> */}
       </div>
 </div>
   )

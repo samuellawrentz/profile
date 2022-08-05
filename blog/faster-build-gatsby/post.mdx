@@ -1,5 +1,5 @@
 ---
-title: How to cache your Gatsby Blog for faster builds in Github Actions?
+title: How to cache your Gatsby site for faster builds in Github Actions?
 date: 2022-08-05
 heroImage: ./cheetah.webp
 path: /blog/gatsby-incremental-faster-builds-github-actions/
@@ -9,6 +9,7 @@ description: We all start small, but once our content grows, soon we'll be findi
 
 We all start small, but once our content grows, soon we'll be finding ourselves with 300 pages at hand. This severly impacts the build time of the blog, unless you host it in Gatsby Cloud, which I hear has 100x faster build times than normal conventional builds.
 
+## My workflow
 I use Github actions for my CI/CD pipeline. It's pretty cool and awesome but I'm planning to use Netlify as well. So, my workflow is like this,
 1. I write a post or update content
 2. I push to github
@@ -18,7 +19,8 @@ I use Github actions for my CI/CD pipeline. It's pretty cool and awesome but I'm
 
 We can optimize this build time by caching our assets and other folders that do not change often. For now, we will be caching our `public` and the `.cache` folder.
 
-This is the code that can be used to cache and do an incremental build using Github Actions
+## Finally, some code
+This is the code that can be used to cache and do an incremental build using Github Actions. This goes into my `action.yml` file.
 ```yml
 name: Gatsby Publish
 

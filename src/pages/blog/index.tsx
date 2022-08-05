@@ -10,13 +10,14 @@ function Blog({ data }: any) {
         <SEO title="Samuel Lawrentz - Tech Blog, Web development, CSS, JS"
     description="How I work with frontend stack and automate stuff to solve the problem of maintaining, modifying, and upgrading frontend technologies."
     />
+    <h1 className="blog-page-title">THE BLOG </h1>
     <div className="parent">
         {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, description}}: any, i: number) => { 
             const isFirst = i === 0
-            const TitleTag = isFirst ? "h1" : "h3"
+            const TitleTag = isFirst ? "h2" : "h3"
             return <Link to={path} className={`div${i}`}>
                 <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt={title}/></div>
-                <TitleTag className="title">{title}</TitleTag>
+                <TitleTag className="blog-title">{title}</TitleTag>
                 <div>{isFirst ? description : excerpt}</div>
                 <div className='text-regularLight date'>{date}</div>
             </Link>
