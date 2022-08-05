@@ -42,6 +42,7 @@ export const pageQuery = graphql`
         title
         description
         date(formatString: "DD MMM, YYYY")
+        path
         heroImage {
           childImageSharp {
             fluid(maxWidth: 900) {
