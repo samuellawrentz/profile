@@ -136,6 +136,9 @@ h4 {
 .section {
   margin: 90px 0;
   position: relative;
+  &:last-child {
+    margin-bottom: 0;
+  }
 
   &__title {
     content: attr(title);
@@ -371,4 +374,36 @@ li {
 
 ::selection {
   background: var(--text-shadow-color);
+}
+
+.time {
+  position: sticky;
+  bottom: 10px;
+  padding: 16px;
+  font-size: var(--h3);
+  font-weight: 100;
+}
+
+.timer {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity ease 0.5s;
+  &.visible {
+    opacity: 1;
+  }
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  margin-top: 4px;
+  .tag {
+    padding: 0 12px;
+    border: 1px solid var(--element4);
+    border-radius: 35px;
+    font-size: var(--h6);
+  }
+}
+.date-tag {
+  margin-top: 8px;
 }

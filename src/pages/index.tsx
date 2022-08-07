@@ -14,6 +14,7 @@ import SEO from "../components/seo"
 import { Icon } from "../components/icon"
 
 function IndexPage({ data }: any) {
+  console.log(data);
   
   return (
 <div className="main-content">
@@ -34,12 +35,15 @@ function IndexPage({ data }: any) {
       <div className="section">
         <div className="section__title">Blog</div>
         <div className="blogs">
-        {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage}}: any) => <Link to={path}><div className="card">
+        {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, tags}}: any) => <Link to={path}><div className="card">
             <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt=""/></div>
             <div className="card__details">
             <div className="card__title"><h3>{title}</h3></div>
             <div className="card__description">{excerpt}</div>
+            <Block display="flex" gap={48} alignItems="center" className="date-tag">            
             <div className="card__date text-regularLight">{date}</div>
+            <div className="tags">{tags.map((tag:any) => <div className="tag">{tag}</div>)}</div>
+            </Block>
             </div>
           </div></Link>)}
           <Link to={'/blog'}><div className="card read-more">
@@ -195,6 +199,7 @@ export const query = graphql`
           title
           date(formatString: "DD MMM, YYYY")
 		      path
+          tags
           heroImage {
             childImageSharp {
               fluid(maxWidth: 240) {
