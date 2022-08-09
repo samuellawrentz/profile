@@ -3,6 +3,22 @@
 }
 
 @media screen and (max-width: 700px) {
+    .card:not(.read-more) {
+        .card__image {
+            max-height: 120px !important;
+            border-radius: 0 !important;
+             .gatsby-image-wrapper {
+                top: -40px;
+             }
+        }
+    }
+    .card {
+        &.read-more {
+            background-color: transparent !important;
+            margin-top: 20px !important;
+            box-shadow: none !important;
+        }
+    }
     .time {
         position: static !important;
       }

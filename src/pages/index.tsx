@@ -8,6 +8,7 @@ import "../style.scss"
 import Avatar from "../components/avatar"
 import SEO from "../components/seo"
 import { Icon } from "../components/icon"
+import Button from "../components/button"
 
 function IndexPage({ data }: any) {
   useEffect(()=> {
@@ -37,7 +38,7 @@ function IndexPage({ data }: any) {
         </div>
         <div className="blogs">
         {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, tags}}: any) => <Link to={path}><div className="card">
-            <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt=""/></div>
+            <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt={title}/></div>
             <div className="card__details">
             <div className="card__title"><h3>{title}</h3></div>
             <div className="card__description">{excerpt}</div>
@@ -47,14 +48,14 @@ function IndexPage({ data }: any) {
             </Block>
             </div>
           </div></Link>)}
-          <Link to={'/blog'}><div className="card read-more">
-            <div className="card__image"><Icon name="menu_book" size={180} color="element3"/></div>
+         <div className="card read-more">
+            <div className="card__image"><Img fixed={data.book.childImageSharp.fixed}></Img></div>
             <div className="card__details">
-            <div className="card__title"><h3>Read more blogs like this</h3></div>
-            <div className="card__description">Click this card to go to the blog homepage where you can find many other tech related posts</div>
-            <div className="card__date text-regularLight">Read more</div>
+            <div className="card__title"><h2>I write about Javascript, CSS, and all things web.</h2></div>
+            <div className="card__description">If you love to read tech blogs? I got you covered. I post new content <b>every week.</b> I write about web, <b>ReactJS, Typescript, NodeJS, CSS, Developer productivity tips, </b> etc.</div>
+            <Block spacing={[24, 24]}> <Link to={'/blog'}><Button type="secondary">Read more</Button></Link></Block>
             </div>
-          </div></Link>
+          </div>
         </div>
       </div>
       <div className="section">
@@ -144,7 +145,7 @@ function IndexPage({ data }: any) {
 			</div>
       </div>
       <div className="section">
-        <div className="section__title friends-title">We can be <Img fixed={data.friendsLogo.childImageSharp.fixed} alt=""  className="friendsLogo" /></div>
+        <div className="section__title friends-title">We can be <Img fixed={data.friendsLogo.childImageSharp.fixed} alt="We can be friends"  className="friendsLogo" /></div>
         <div>
         <TextBlock spacing={[0, 25]}>
 				I’m the kind of person who likes to connect with new people.<br/>
@@ -184,6 +185,13 @@ export const query = graphql`
     friendsLogo: file(relativePath: { eq: "home/friends_logo.png" }) {
       childImageSharp {
         fixed {
+          ...GatsbyImageSharpFixed
+        }
+      }
+    },
+    book: file(relativePath: { eq: "home/book.webp" }) {
+      childImageSharp {
+        fixed(height: 400) {
           ...GatsbyImageSharpFixed
         }
       }

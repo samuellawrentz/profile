@@ -201,14 +201,22 @@ h4 {
 
   .card {
     &.read-more {
-      box-shadow: 2px 7px 14px rgba(38, 10, 10, 0.513);
+      cursor: default;
+      flex-direction: row-reverse;
+      align-items: center;
       // border: 1px solid var(--surface1);
       // background-color: var(--surface2);
-      margin-top: 32px;
+      margin-top: 72px;
+      .card__details{
+        padding: 0;
+      }
       .card__image {
         display: flex;
         justify-content: center;
         align-items: center;
+        filter: invert(1);
+        mix-blend-mode: lighten;
+        min-width: 300px;
       }
     }
 
@@ -252,7 +260,7 @@ h4 {
 
 a {
   &:hover {
-    .card__details {
+    > * {
       background: linear-gradient(70deg, var(--element1),hsl(213, 70%, 70%), hsl(87, 40%, 50%), hsl(242, 40%, 45%), hsl(348, 43%, 47%));
       background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -423,7 +431,7 @@ li {
     width: 100%;
     top: 97%;
     z-index: -1;
-    height: 920px;
+    height: calc(1000px + 10vh);
     background-color: var(--text-shadow-color1);
   }
 }
