@@ -11,7 +11,7 @@ import { Icon } from "../components/icon"
 
 function IndexPage({ data }: any) {
   useEffect(()=> {
-    setTimeout(() => document.querySelector('.heart-image')?.classList.add('tilt'), 500)
+    setTimeout(() => document.querySelector('.heart-image')?.classList.add('tilt'), 100)
   }, [])
   return (
 <div className="main-content">
