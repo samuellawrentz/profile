@@ -37,13 +37,12 @@ function IndexPage({ data }: any) {
         <div className="end"></div>
         </div>
         <div className="blogs">
-        {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, tags}}: any) => <Link to={path}><div className="card">
+        {data.allMdx.nodes.map(({frontmatter: {date, title, path, heroImage, tags}}: any) => <Link to={path}><div className="card">
             <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt={title}/></div>
+            <div className="card__date text-regularLight">{date}</div>
             <div className="card__details">
             <div className="card__title"><h3>{title}</h3></div>
-            <div className="card__description">{excerpt}</div>
             <Block display="flex" gap={48} alignItems="center" className="date-tag">            
-            <div className="card__date text-regularLight">{date}</div>
             <div className="tags">{tags.map((tag:any) => <div className="tag">{tag}</div>)}</div>
             </Block>
             </div>
@@ -53,7 +52,7 @@ function IndexPage({ data }: any) {
             <div className="card__details">
             <div className="card__title"><h2>I write about Javascript, CSS, and all things web.</h2></div>
             <div className="card__description">If you love to read tech blogs? I got you covered. I post new content <b>every week.</b> I write about web, <b>ReactJS, Typescript, NodeJS, CSS, Developer productivity tips, </b> etc.</div>
-            <Block spacing={[24, 24]}> <Link to={'/blog'}><Button type="secondary">Read more</Button></Link></Block>
+            <Block spacing={[24, 34]}> <Link to={'/blog'}><Button type="secondary">Read more</Button></Link></Block>
             </div>
           </div>
         </div>
@@ -191,7 +190,7 @@ export const query = graphql`
     },
     book: file(relativePath: { eq: "home/book.webp" }) {
       childImageSharp {
-        fixed(height: 400) {
+        fixed(height: 350) {
           ...GatsbyImageSharpFixed
         }
       }
@@ -199,7 +198,7 @@ export const query = graphql`
     allMdx(
       sort: {fields: [frontmatter___date], order: DESC}
       filter: {frontmatter: {published: {eq: true}}}
-      limit: 3
+      limit: 4
     ) {
       nodes {
         id
