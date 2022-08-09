@@ -6,6 +6,9 @@
     .time {
         position: static !important;
       }
+      .wave{
+        display: none;
+      }
     .container:not(.increase-specificity) {
         flex-wrap: wrap-reverse;
         .intro {
@@ -63,4 +66,13 @@
             transform: none;
         }
     }
+    body {
+        .hcard {
+            position:absolute;
+            width: 140px;
+            height: 140px;
+            right: -35px;
+            top: 85px;
+    }
+}
 }

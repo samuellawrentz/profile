@@ -127,7 +127,7 @@ h4 {
     align-items: center;
     position: relative;
     top: -60px;
-    left: -20px;
+    left: -0px;
     zoom: 1.3;
   }
 
@@ -201,9 +201,9 @@ h4 {
 
   .card {
     &.read-more {
-      box-shadow: 2px 7px 14px rgb(0 0 0 / 20%);
-      // border: 1px solid var(--element1);
-      background-color: var(--surface2);
+      box-shadow: 2px 7px 14px rgba(38, 10, 10, 0.513);
+      // border: 1px solid var(--surface1);
+      // background-color: var(--surface2);
       margin-top: 32px;
       .card__image {
         display: flex;
@@ -253,7 +253,7 @@ h4 {
 a {
   &:hover {
     .card__details {
-      background: linear-gradient(70deg, var(--element1),hsl(333, 50%, 50%), hsl(187, 100%, 50%), hsl(242, 40%, 45%), hsl(348, 43%, 47%));
+      background: linear-gradient(70deg, var(--element1),hsl(213, 70%, 70%), hsl(87, 40%, 50%), hsl(242, 40%, 45%), hsl(348, 43%, 47%));
       background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: animation 3s ease-in infinite;
@@ -406,4 +406,30 @@ li {
 }
 .date-tag {
   margin-top: 8px;
+}
+
+.wave {
+  width: 100vw;
+  position: absolute;
+  top: -27%;
+  left: calc(-1 * (100vw - min(900px, 95vw)) / 2);
+  z-index: -1;
+  transform: scaleY(1.3);
+  path {
+    fill: var(--text-shadow-color1);
+  }
+  .end{
+    position: absolute;
+    width: 100%;
+    top: 97%;
+    z-index: -1;
+    height: 920px;
+    background-color: var(--text-shadow-color1);
+  }
+}
+
+.section.blog {
+  .section__title::after{
+    content: none;
+  }
 }

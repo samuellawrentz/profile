@@ -1,21 +1,18 @@
 /* eslint-disable react/no-unescaped-entities */
 import { graphql, Link } from "gatsby"
-import React from "react"
+import React, { useEffect } from "react"
 import { Block } from "../components/block"
-// import Button from "../components/button"
-// import { Icon } from "../components/icon"
 import Text, { TextBlock } from "../components/typography"
 import Img from 'gatsby-image'
 import "../style.scss"
-import Button from "../components/button"
 import Avatar from "../components/avatar"
-import { Helmet } from "react-helmet"
 import SEO from "../components/seo"
 import { Icon } from "../components/icon"
 
 function IndexPage({ data }: any) {
-  console.log(data);
-  
+  useEffect(()=> {
+    setTimeout(() => document.querySelector('.heart-image')?.classList.add('tilt'), 500)
+  }, [])
   return (
 <div className="main-content">
   <SEO />
@@ -30,10 +27,14 @@ function IndexPage({ data }: any) {
             <p>In my words, Web development is a mix of creativity, artistry and engineering. And that is why I call myself a <b>Frontend Engineer.</b></p>
             <p>❤ ❤ ❤</p>
             </div>
-        <div className="image"><div className="heart"></div></div>
+        <div className="image heart-image"><div className="heart"></div><div className="hcard"></div></div>
       </div>
-      <div className="section">
+      <div className="section blog">
         <div className="section__title">Blog</div>
+        <div className="wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"><path fill-opacity="1" d="M0,320L34.3,298.7C68.6,277,137,235,206,234.7C274.3,235,343,277,411,293.3C480,309,549,299,617,266.7C685.7,235,754,181,823,133.3C891.4,85,960,43,1029,37.3C1097.1,32,1166,64,1234,106.7C1302.9,149,1371,203,1406,229.3L1440,256L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"></path></svg>
+        <div className="end"></div>
+        </div>
         <div className="blogs">
         {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, tags}}: any) => <Link to={path}><div className="card">
             <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt=""/></div>

@@ -3,6 +3,8 @@
     animation: pulsate 1.2s ease-out;
     animation-iteration-count: infinite;
     opacity: 0.0;
+    position: relative;
+    z-index: 2;
   }
   
   @keyframes pulsate {
@@ -17,4 +19,56 @@
      -webkit-transform: scale(1);
      transform: scale(1);
    }
+  }
+
+  .hcard {
+    position:absolute;
+    width: 230px;
+    height: 330px;
+    border: 1px solid;
+    display: block;
+    right: -70px;
+    top: 80px;
+    background-color: var(--element3);
+    z-index: 1;
+    border-radius: 8px;
+    box-shadow: 0px 0px 0px 0px black;
+    transition: box-shadow ease 0.3s;
+    &:after {
+      content: '';
+      opacity: 0;
+      position: absolute;
+      height: 13px;
+      width: 3px;
+      bottom: -13px;
+      right: -3px;
+      background-color: hsl(0, 0%, 50%);
+      transform: rotateY(125deg) rotateX(40deg);
+      transition: opacity ease 0.1s -0.2s;
+    }
+  }
+
+  .heart-image {
+    transition: transform ease 0.4s;
+    perspective: 1000px;
+    &.tilt {
+      transform: rotateY(25deg) translateZ(30px) rotateX(-20deg);
+      .hcard {
+         box-shadow: 1px 1px 0px 1px hsl(0, 0%, 30%),
+         2px 2px 0px 1px hsl(0, 0%, 30%),
+         3px 3px 0px 1px hsl(0, 0%, 30%),
+         4px 4px 0px 1px hsl(0, 0%, 30%),
+         5px 5px 0px 1px hsl(0, 0%, 30%),
+         6px 6px 0px 1px hsl(0, 0%, 30%),
+         7px 7px 0px 1px hsl(0, 0%, 30%),
+         8px 8px 0px 1px hsl(0, 0%, 30%),
+         9px 9px 0px 1px hsl(0, 0%, 30%),
+         10px 10px 0px 1px hsl(0, 0%, 30%),
+         11px 11px 0px 1px hsl(0, 0%, 30%);
+         &:after{
+          opacity: 1;
+          transition: opacity ease 0.2s;
+         }
+      }
+  }
   }
