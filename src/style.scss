@@ -47,13 +47,13 @@ main,
 }
 
 .logo {
-  padding: 20px 0;
+  padding: 20px 0 40px;
   cursor: pointer;
 }
 
 h1 {
   font-size: var(--h1);
-  text-shadow: 2px 4px var(--text-shadow-color);
+  text-shadow: 2px 4px var(--primary-color);
   line-height: 1.2;
   letter-spacing: -2%;
 }
@@ -264,7 +264,7 @@ h4 {
 a {
   &:hover {
     > * {
-      background: linear-gradient(70deg, var(--element1),hsl(213, 70%, 70%), hsl(87, 40%, 50%), hsl(242, 40%, 45%), hsl(348, 43%, 47%));
+      background: linear-gradient(70deg, var(--element1),hsl(213, 70%, 70%), hsl(87, 40%, 50%), hsl(242, 60%, 85%), hsl(348, 43%, 47%));
       background-clip: text;
       -webkit-text-fill-color: transparent;
       animation: animation 3s ease-in infinite;
@@ -372,7 +372,7 @@ li {
 .card.featured:before {
   content: 'New';
   position: absolute;
-  background-color: var(--text-shadow-color);
+  background-color: var(--primary-color);
   font-size: var(--caption);
   padding: 0 16px;
   right: 12px;
@@ -384,7 +384,7 @@ li {
 }
 
 ::selection {
-  background: var(--text-shadow-color);
+  background: var(--primary-color);
 }
 
 .time {
@@ -397,7 +397,7 @@ li {
 
 .timer {
   opacity: 0;
-  pointer-events: none;
+  cursor: default;
   transition: opacity ease 0.5s;
   &.visible {
     opacity: 1;

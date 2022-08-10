@@ -1,14 +1,14 @@
 import React, { useEffect, useState } from 'react'
 // @ts-ignore
 import { DrawCanvas, initCanvas } from "../components/bg-canvas/index.js"
-import Img from "../assets/logo.svg"
+import img from "../assets/logo.svg"
 import { Link } from 'gatsby'
 import Helmet from "react-helmet"
-import TopBar from '../components/topbar'
 import Footer from '../components/footer'
 import { Icon } from '../components/icon'
 import { Block } from '../components/block'
 import CircularProgress from '../components/circular-progress'
+import { StaticImage } from 'gatsby-plugin-image'
 
 interface LayoutProps {
   children?: React.ReactNode
@@ -43,10 +43,13 @@ function Layout({ children }: LayoutProps) {
         <title>Samuel Lawrentz - The Frontend Dev - Blog, portfolio, web development</title>
       </Helmet>
       <Block className="logo" display='flex' justifyContent='space-between' alignItems='center'>
-        <Link to="/"><Img /></Link>
+        <Link to="/" style={{textDecoration: 'none'}}><Block display='inline-flex' gap={16}><StaticImage src="../assets/logo.jpg" alt="Samuel Lawrentz Logo" width={60}/><div>
+          <div>Samuel Lawrentz</div>
+          <div className='text-caption'>The Frontend dev</div>
+          </div></Block></Link>
         <Link className="rss" to="/rss.xml"><Icon name='rss_feed' size={32} title="RSS feed" /></Link>
       </Block>
-      {/* <canvas id="canvas" className="background-canvas"></canvas> */}
+      {/* <canvas id="canvas" className="background-canvas"></canvas>./ */}
       <main>{children}</main>
       <div className='time'>
         <TimerBlock />

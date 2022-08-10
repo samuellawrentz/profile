@@ -16,7 +16,7 @@ deckgo-highlight-code {
     h4 {
         margin-bottom: 20px;
     }
-    & > div:last-child {
+    p + div.text-regularLight, p + div.blog-cont {
         font-size: inherit;
         font-weight: inherit;
         max-width: 700px;

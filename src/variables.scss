@@ -22,9 +22,6 @@
     --element3: hsl(0, 0%, 80%);
     --element4: hsl(0, 0%, 30%);
     --elementInverse: hsl(0, 0%, 7%);
-    --primary: hsl(206, 100%, 78%);
-    --secondary: hsl(159, 93%, 71%);
-    --tertiary: hsl(55, 67%, 80%);
   }
 
   :root {
@@ -37,6 +34,8 @@
     --h6: 1rem;
     --body: clamp(16px, 3vw, 1.25rem);
     --caption: clamp(14px, 2vw, 0.75rem);
-    --text-shadow-color: hsl(349, 98%, 34%);
+    --primary-color: hsl(349, 98%, 34%);
     --text-shadow-color1: hsl(349, 38%, 14%);
+    --secondary-color: hsl(169deg 52% 43%);
+    --tertiary: hsl(55, 67%, 80%);
   }
