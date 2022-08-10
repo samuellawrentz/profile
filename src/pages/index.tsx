@@ -20,12 +20,7 @@ function IndexPage({ data }: any) {
 <div className="container">
         <div className="intro"><h1>HI, I'M SAM</h1>
           <h2 className="subtext">I design and code beautifully simple things.</h2>
-          <p>One of my favorite quotes from Bill Gates - 
-            <em>"Software is a great combination between
-            artistry and engineering."
-            </em>
-            </p>
-            <p>In my words, Web development is a mix of creativity, artistry and engineering. And that is why I call myself a <b>Frontend Engineer.</b></p>
+            <p>I'm that <b>Frontend Engineer</b> who can come up with creative CSS ideas at 2.00 am. I always try to reduce the no. of lines in any given file. <br /><br /> A <b>Javascript developer</b> who thinks that - <em>"There is always a simpler way to solve a problem."</em></p>
             <p>❤ ❤ ❤</p>
             </div>
         <div className="image heart-image"><div className="heart"></div><div className="hcard"></div></div>
@@ -138,7 +133,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="title2">Engineering teams are great</TextBlock>
 					</Block>
 				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
-				It's been a good year till now. Let's hope I learn more and more new things and implement and experiment those teachings in my work.
+				It's been a good year till now. I want to learn more new things, implement and experiment those learnings in my work.
 				</TextBlock>
 			</Block>
 			</div>
