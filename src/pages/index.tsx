@@ -20,7 +20,7 @@ function IndexPage({ data }: any) {
 <div className="container">
         <div className="intro"><h1>HI, I'M SAM</h1>
           <h2 className="subtext">I design and code beautifully simple things.</h2>
-            <p>I'm that <b>Frontend Engineer</b> who can come up with creative CSS ideas at 2.00 am. I always try to reduce the no. of lines in any given file. <br /><br /> A <b>Javascript developer</b> who thinks that - <em>"There is always a simpler way to solve a problem."</em></p>
+            <p>I'm that <b>Frontend Engineer</b> who comes up with creative CSS ideas at 2.00 am. Who always tries to reduce the no. of lines in any given file. <br /><br /> A <b>Javascript developer</b> who thinks that - <em>"There is always a simpler way to solve a problem."</em></p>
             <p>❤ ❤ ❤</p>
             </div>
         <div className="image heart-image"><div className="heart"></div><div className="hcard"></div></div>

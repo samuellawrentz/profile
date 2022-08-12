@@ -1,9 +1,8 @@
 .button {
     padding: 8px 20px;
     border-radius: 8px;
-    height: fit-content;
-    background-color: var(--element1);
-    color: var(--surface1);
+    background-color: var(--primary-color);
+    color: var(--element1);
     cursor: pointer;
     &-secondary {
         border: 1px solid var(--element1);
@@ -14,4 +13,8 @@
         font-size: 14px;
         padding: 1px 10px;
     }
+}
+
+.input-wrapper + .button {
+border-radius: 0 4px 4px 0;
 }
