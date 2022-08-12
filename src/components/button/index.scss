@@ -3,7 +3,13 @@
     border-radius: 8px;
     background-color: var(--primary-color);
     color: var(--element1);
+    display: inline-flex;
+    align-items: center;
     cursor: pointer;
+    &-disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
     &-secondary {
         border: 1px solid var(--element1);
         color: var(--element1);

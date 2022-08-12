@@ -63,13 +63,13 @@ function IndexPage({ data }: any) {
             
           </div>
           </Link>
-          <a href="https://samuellawrentz.github.io/PastTenser/" target="_blank">
+          <Link to="/projects/pasttenser">
           <div className="card card__details"> 
             <div className="card__title text-title2"><h3>PastTenser</h3></div>
             <div className="card__description">An API that can give you the pastense of any verb that is provided.</div>
             <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
           </div>
-          </a>
+          </Link>
           <a href="https://samuellawrentz.github.io/highcharts-networkChart/" target="_blank">
           <div className="card card__details">
             <div className="card__title text-title2"><h3>Network chart</h3></div>
