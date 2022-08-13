@@ -11,7 +11,8 @@ import CircularProgress from '../components/circular-progress'
 import { StaticImage } from 'gatsby-plugin-image'
 
 interface LayoutProps {
-  children?: React.ReactNode
+  children?: React.ReactNode,
+  path?: string,
 }
 const texts = ['Can you stay a bit longer?', 'Little more please?', 'Yay, thank you for your time!']
 const TimerBlock = () => {
@@ -32,7 +33,9 @@ const TimerBlock = () => {
   <div className="text-caption">{texts[Math.floor(percent/39)]}</div></div>
 }
 
-function Layout({ children }: LayoutProps) {
+function Layout({ children, ...data }: LayoutProps) {
+  const is404 = data.path === '/404/'
+  
   return (
     <div>
       <Helmet htmlAttributes={{
@@ -43,7 +46,7 @@ function Layout({ children }: LayoutProps) {
         <title>Samuel Lawrentz - The Frontend Dev - Blog, portfolio, web development</title>
       </Helmet>
       <Block className="logo" display='flex' justifyContent='space-between' alignItems='center'>
-        <Link to="/" style={{textDecoration: 'none'}}><Block display='inline-flex' gap={16}><StaticImage src="../assets/logo.jpg" alt="Samuel Lawrentz Logo" width={60}/><div>
+        <Link className="gradient" to="/" style={{textDecoration: 'none'}}><Block display='inline-flex' gap={16}><StaticImage src="../assets/logo.jpg" alt="Samuel Lawrentz Logo" width={60}/><div>
           <div>Samuel Lawrentz</div>
           <div className='text-caption'>The Frontend dev</div>
           </div></Block></Link>
@@ -54,7 +57,7 @@ function Layout({ children }: LayoutProps) {
       <div className='time'>
         <TimerBlock />
       </div>
-      <Footer />
+      {!is404 && <Footer />}
     </div>
   )
 }

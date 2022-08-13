@@ -1,3 +1,4 @@
+import { Link } from 'gatsby'
 import React, { ReactNode } from 'react'
 import './index.scss'
 
@@ -6,7 +7,7 @@ interface Prop {
     type?: string,
     size?: string,
     disabled?: boolean,
-    onClick: any,
+    onClick?: any,
 }
 
 function Button({type = "primary", size="regular", children, disabled, ...props} : Prop) {
@@ -15,4 +16,5 @@ function Button({type = "primary", size="regular", children, disabled, ...props}
   )
 }
 
+export const LinkButton = ({to, ...props}: any) => <Link to={to} className="link-button"><Button {...props}></Button></Link>
 export default Button

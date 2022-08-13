@@ -47,7 +47,7 @@ function IndexPage({ data }: any) {
             <div className="card__details">
             <div className="card__title"><h2>I write about Javascript, CSS, and all things web.</h2></div>
             <div className="card__description">If you love to read tech blogs? I got you covered. I post new content <b>every week.</b> I write about web, <b>ReactJS, Typescript, NodeJS, CSS, Developer productivity tips, </b> etc.</div>
-            <Block spacing={[24, 34]}> <Link to={'/blog'}><Button type="secondary">Read more</Button></Link></Block>
+            <Block spacing={[24, 34]}> <Link to={'/blog'} className="gradient"><Button type="secondary">Read more</Button></Link></Block>
             </div>
           </div>
         </div>
@@ -55,7 +55,7 @@ function IndexPage({ data }: any) {
       <div className="section">
         <div className="section__title">Projects</div>
         <div className="cards">
-        <Link to="/projects/quotes-generator">
+        <Link to="/projects/quotes-generator" className="gradient">
           <div className="card featured card__details">
             <div className="card__title text-title2"><h3>Quotes Generator</h3></div>
             <div className="card__description">A tool that helps you to create motivational quotes with backgrounds.</div>
@@ -63,14 +63,14 @@ function IndexPage({ data }: any) {
             
           </div>
           </Link>
-          <Link to="/projects/pasttenser">
+          <Link to="/projects/pasttenser" className="gradient">
           <div className="card card__details"> 
             <div className="card__title text-title2"><h3>PastTenser</h3></div>
             <div className="card__description">An API that can give you the pastense of any verb that is provided.</div>
             <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
           </div>
           </Link>
-          <a href="https://samuellawrentz.github.io/highcharts-networkChart/" target="_blank">
+          <a href="https://samuellawrentz.github.io/highcharts-networkChart/" target="_blank" className="gradient">
           <div className="card card__details">
             <div className="card__title text-title2"><h3>Network chart</h3></div>
             <div className="card__description">This is a network chart built using Highchart APIs - helps you visualise connections.</div>

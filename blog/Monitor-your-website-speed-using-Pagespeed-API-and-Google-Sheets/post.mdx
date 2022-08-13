@@ -43,6 +43,7 @@ var lastRow = 0;
 function initialize(){
   lastRow = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getLastRow() + 1;
   var dateCell = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet().getRange(lastRow, 1);
+  
   // Set the date on the first column
   dateCell.setValue(new Date()).setNumberFormat("dd/MM/yyyy");
   urls.forEach(function(item, index){

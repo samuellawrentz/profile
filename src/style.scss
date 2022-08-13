@@ -261,7 +261,7 @@ h4 {
   }
 }
 
-a {
+a.gradient {
   &:hover {
     > * {
       background: linear-gradient(70deg, var(--element1),hsl(213, 70%, 70%), hsl(87, 40%, 50%), hsl(242, 60%, 85%), hsl(348, 43%, 47%));
