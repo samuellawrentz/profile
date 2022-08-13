@@ -11,8 +11,8 @@ function capitalizeFirstLetter(string: string) {
 
 const errorMap = {
   spaces: 'Do verbs have spaces? 🤨 You are sus.',
-  long: 'Is there a verb that really goes like - "{{verb}}"? 🙅',
-  other: 'Buddy, could you please try entering a verb? 🙏'
+  long: 'Is there a verb that really goes like - "{{verb}}"? 🤯',
+  other: 'We dont do that here! #wakandaForever 🙅'
 }
 
 function PastTenser() {
@@ -31,7 +31,7 @@ function PastTenser() {
         <Block flex='1 1 70%' style={{position: 'relative'}}>
         <h1>PastTenser</h1>
         <h2>A quick API that gives you the past tense of the requested verb.</h2>
-        <Block display='flex' spacing={[0, 24]} className='input-block'><Input maxlength="30" placeholder="Enter a verb" value={verb} onKeyPress={(e: any) => e.charCode === 13 && fetchData()} onChange={({target}: any) => {
+        <Block display='flex' spacing={[0, 32]} className='input-block'><Input maxlength="30" placeholder="Enter a verb" value={verb} onKeyPress={(e: any) => e.charCode === 13 && fetchData()} onChange={({target}: any) => {
           setVerb(target.value)
           setResult(null)
         }}/><Button onClick={fetchData} disabled={!!error}>Find</Button></Block>
@@ -49,6 +49,13 @@ function PastTenser() {
         It's an API that I developed just for fun so you can use it for fun.<br /><span className='text-caption'>Additional fact: This API also returns the past-participle form of the verb.</span></p>
       <p>As you know, the image I used here is <b>Khaby Lame.</b> He is just awesome for his quirky parody videos. 
         I find his facial expressions funny and useful in a page like this.</p>
+    </div>
+    <div className="khaby-section">
+      <h3>Lets Get Technical</h3>
+      <p><b>CSS properties:</b> clip-path, keyframes, transform - skew, rotate<br />
+      <b>Javascript Stack:</b> NodeJS, React, ExpressJS, Fetch API<br />
+      <b>Deployed to:</b> Heroku
+      </p>
     </div>
     </div>
   )
