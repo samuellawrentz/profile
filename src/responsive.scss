@@ -3,6 +3,12 @@
 }
 
 @media screen and (max-width: 700px) {
+    .subscribe-container {
+        flex-wrap: wrap;
+        .input-block, .input-wrapper, input {
+            width: 100%;
+        }
+      }
     .blogs {
         a {
             flex-grow: 1 !important;

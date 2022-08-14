@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { graphql, Link } from "gatsby"
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { Block } from "../components/block"
 import Text, { TextBlock } from "../components/typography"
 import Img from 'gatsby-image'
@@ -9,6 +9,32 @@ import Avatar from "../components/avatar"
 import SEO from "../components/seo"
 import { Icon } from "../components/icon"
 import Button from "../components/button"
+import Input from "../components/input"
+
+const validateEmail = (email: string) => {
+  return String(email)
+    .toLowerCase()
+    .match(
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+    );
+};
+
+const EmailBlock = () => {
+  const [email, setEmail] = useState('')
+  const isValid = !!validateEmail(email)
+  return <Block display='flex' className='input-block'><Input maxlength="50" placeholder="Your email address" value={email} onChange={(({target}:any) => setEmail(target.value))} type="email" /><Button disabled={email.length === 0 ? false: !isValid} onClick={() => {
+    if(email.length)
+    window.fetch('https://samuels-personal-bot.herokuapp.com/api/subscribe', {
+      method: 'post',
+      headers: {
+        'content-type': 'application/json;charset=UTF-8',
+      },
+      body: JSON.stringify({email}),
+    }).catch(e => {
+      console.log(e);
+    })
+  }}>Subscribe</Button></Block>
+}
 
 function IndexPage({ data }: any) {
   useEffect(()=> {
@@ -47,7 +73,9 @@ function IndexPage({ data }: any) {
             <div className="card__details">
             <div className="card__title"><h2>I write about Javascript, CSS, and all things web.</h2></div>
             <div className="card__description">If you love to read tech blogs? I got you covered. I post new content <b>every week.</b> I write about web, <b>ReactJS, Typescript, NodeJS, CSS, Developer productivity tips, </b> etc.</div>
-            <Block spacing={[24, 34]}> <Link to={'/blog'} className="gradient"><Button type="secondary">Read more</Button></Link></Block>
+            <Block spacing={[24, 34]} display="flex" gap={16} className="subscribe-container">
+            <EmailBlock />
+            <Link to={'/blog'} className="gradient"><Button type="secondary">Read more</Button></Link></Block>
             </div>
           </div>
         </div>
