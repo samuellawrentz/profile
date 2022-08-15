@@ -1,6 +1,7 @@
 import React, { useEffect, useRef } from 'react'
 import { Link, graphql } from "gatsby"
 import { MDXRenderer } from "gatsby-plugin-mdx"
+import Giscus from "@giscus/react";
 import './blog.scss'
 import Img from 'gatsby-image'
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
@@ -55,6 +56,16 @@ function Blog(props: any) {
             url: `https://samuellawrentz.com${props.data.mdx.frontmatter.path}` // (defaults to current url)
           }}
         />
+        <Giscus
+      repo="melvnl/melvinliu.com"
+      repoId="R_kgDOGjYtbQ"
+      category="General"
+      categoryId="DIC_kwDOHjBVes4CQ0zj"
+      mapping="pathname"
+      reactionsEnabled="0"
+      emitMetadata="0"
+      theme="dark"
+    />
       <StickyShareButtons
           config={{
             alignment: 'left',    // alignment of buttons (left, right)
