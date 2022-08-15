@@ -12,16 +12,21 @@ function Blog({ data }: any) {
     description="How I work with frontend stack and automate stuff to solve the problem of maintaining, modifying, and upgrading frontend technologies."
     />
     <h1 className="blog-page-title">THE BLOG </h1>
-    <div className="parent">
+    <div className="blogs home-blog">
         {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, description, tags}}: any, i: number) => { 
             const isFirst = i === 0
             const TitleTag = isFirst ? "h2" : "h3"
-            return <Link to={path} className={`div${i}`}>
+            return <Link to={path} className={``}>
+                <div className="card">
                 <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt={title}/></div>
-                <TitleTag className="blog-title">{title}</TitleTag>
-                <div>{isFirst ? description : excerpt}</div>
-                <Block className="tags" spacing={[0, 12]}>{tags.map((tag: any) => <div className='tag'>{tag}</div>)}</Block>
-                <div className='text-regularLight date'>{date}</div>
+                <div className="card__date text-regularLight">{date}</div>
+            <div className="card__details">
+            <div className="card__title"><h3>{title}</h3></div>
+            <Block display="flex" gap={48} alignItems="center" className="date-tag">            
+            <div className="tags">{tags.map((tag:any) => <div className="tag">{tag}</div>)}</div>
+            </Block>
+            </div>
+                </div>
             </Link>
             
             })}
