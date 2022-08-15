@@ -57,10 +57,10 @@ function Blog(props: any) {
           }}
         />
         <Giscus
-      repo="melvnl/melvinliu.com"
-      repoId="R_kgDOGjYtbQ"
+      repo="samuellawrentz/blog-comments"
+      repoId="R_kgDOH0vDow"
       category="General"
-      categoryId="DIC_kwDOHjBVes4CQ0zj"
+      categoryId="DIC_kwDOH0vDo84CQ111"
       mapping="pathname"
       reactionsEnabled="0"
       emitMetadata="0"
