@@ -8,7 +8,7 @@ import "../style.scss"
 import Avatar from "../components/avatar"
 import SEO from "../components/seo"
 import { Icon } from "../components/icon"
-import Button from "../components/button"
+import Button, { LinkButton } from "../components/button"
 import Input from "../components/input"
 
 const validateEmail = (email: string) => {
@@ -186,6 +186,14 @@ Who also likes to learn new technologies.<br/>
 						<Text type="caption"><a href="https://twitter.com/samuellawrentz">Twitter</a></Text>
 						<Text type="caption"><a href="https://codepen.io/samuellawrentz">Codepen</a></Text>
 					</Block>
+          <Block>
+            {/* <LinkButton className="gradient" type="secondary" size="small" target="_blank" to="https://resume.io/r/71xcDAIDW">
+              <Block display="flex" gap={8} alignItems="center">
+              <Icon name="launch" size={16}></Icon>
+              <span>View Resume</span>
+              </Block>
+            </LinkButton> */}
+          </Block>
 				</Block>
 				</Block>
         </div>

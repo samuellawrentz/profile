@@ -16,5 +16,5 @@ function Button({type = "primary", size="regular", children, disabled, ...props}
   )
 }
 
-export const LinkButton = ({to, ...props}: any) => <Link to={to} className="link-button"><Button {...props}></Button></Link>
+export const LinkButton = ({to, target, className, ...props}: any) => <Link to={to} className={"link-button " + className} target={target}><Button {...props}></Button></Link>
 export default Button

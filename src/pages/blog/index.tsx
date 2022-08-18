@@ -13,15 +13,15 @@ function Blog({ data }: any) {
     />
     <h1 className="blog-page-title">THE BLOG </h1>
     <div className="blogs home-blog">
-        {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, description, tags}}: any, i: number) => { 
-            const isFirst = i === 0
-            const TitleTag = isFirst ? "h2" : "h3"
+        {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, description, tags}}: any, i: number) => {
+          i = i + 1
             return <Link to={path} className={``}>
                 <div className="card">
                 <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt={title}/></div>
                 <div className="card__date text-regularLight">{date}</div>
             <div className="card__details">
             <div className="card__title"><h3>{title}</h3></div>
+            {!(i % 2 && i % 5) && <div className='subtext'>{description.length > 150 ? excerpt : description}</div>}
             <Block display="flex" gap={48} alignItems="center" className="date-tag">            
             <div className="tags">{tags.map((tag:any) => <div className="tag">{tag}</div>)}</div>
             </Block>
@@ -45,7 +45,7 @@ export const query = graphql`
     ) {
       nodes {
         id
-        excerpt(pruneLength: 90)
+        excerpt(pruneLength: 150)
         frontmatter {
           title
           tags
