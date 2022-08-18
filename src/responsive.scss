@@ -96,4 +96,10 @@
             top: 85px;
     }
 }
+
+.home-blog {
+    a:nth-child(5n) {
+        grid-column: auto;
+    }
+}
 }
