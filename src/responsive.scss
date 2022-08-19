@@ -10,6 +10,7 @@
         }
       }
     .blogs {
+        margin: 0 !important;
         a {
             flex-grow: 1 !important;
             .card:not(.read-more) {
