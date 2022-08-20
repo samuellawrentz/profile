@@ -77,7 +77,7 @@ function IndexPage({ data }: any) {
             <div className="card__description">If you love to read tech blogs? I got you covered. I post new content <b>every week.</b> I write about web, <b>ReactJS, Typescript, NodeJS, CSS, Developer productivity tips, </b> etc.</div>
             <Block spacing={[24, 34]} display="flex" gap={16} className="subscribe-container">
             <EmailBlock />
-            <Link to={'/blog'} className="gradient"><Button type="secondary">Read more</Button></Link></Block>
+            <Link to={'/blog/'} className="gradient"><Button type="secondary">Read more</Button></Link></Block>
             </div>
           </div>
         </div>
