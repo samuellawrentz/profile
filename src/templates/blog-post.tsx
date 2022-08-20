@@ -20,7 +20,7 @@ function Blog(props: any) {
 
   return (
     <div className="blog-content">
-      <SEO title={props.data.mdx.frontmatter.title} description={props.data.mdx.frontmatter.description} image={`/og-images/${props.data.mdx.frontmatter.path.replace(/[/-]/gi, '')}.png`} article/>
+      <SEO title={`Samuel Lawrentz | ${props.data.mdx.frontmatter.title}`} description={props.data.mdx.frontmatter.description} image={`/og-images/${props.data.mdx.frontmatter.path.replace(/[/-]/gi, '')}.png`} article/>
       <Img fluid={props.data.mdx.frontmatter.heroImage.childImageSharp.fluid} className="hero-image"/>
       <h1>{props.data.mdx.frontmatter.title}</h1>
       <Block className="tags" spacing={[0]}>{props.data.mdx.frontmatter.tags.map((tag: any) => <div className='tag'>{tag}</div>)}</Block>
