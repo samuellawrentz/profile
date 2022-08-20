@@ -6,7 +6,7 @@
     margin: 0 -15%;
     position: relative;
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
     grid-auto-flow: dense;
     justify-content: center;
     grid-auto-rows: 1fr;
