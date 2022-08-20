@@ -12,11 +12,13 @@ import { MDXProvider } from '@mdx-js/react'
 import {InlineReactionButtons} from 'sharethis-reactjs';
 import {StickyShareButtons} from 'sharethis-reactjs';
 
-deckDeckGoHighlightElement();
 
 const components = { Banner }
 
 function Blog(props: any) {
+  useEffect(() => {
+    deckDeckGoHighlightElement();
+  }, [])
 
   return (
     <div className="blog-content">
