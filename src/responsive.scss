@@ -9,8 +9,9 @@
             width: 100%;
         }
       }
-    .blogs {
+    .blogs, .blog-page-title {
         margin: 0 !important;
+        margin-bottom: 32px !important;
         a {
             flex-grow: 1 !important;
             .card:not(.read-more) {

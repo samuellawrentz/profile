@@ -6,7 +6,7 @@
     margin: 0 -15%;
     position: relative;
     display: grid !important;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
     grid-auto-flow: dense;
     justify-content: center;
     grid-auto-rows: 1fr;
@@ -35,4 +35,20 @@
             height: 100%;
         }
     }
+}
+.input-block-search {
+    width: 80%;
+    margin: auto;
+    .input-wrapper, input {
+        width: 100%;
+    }
+}
+
+.not-found {
+    .man-emoji {
+        font-size: var(--h1);
+        margin-bottom: 32px;
+        color: var(--secondary-color)
+    }
+    text-align: center;     
 }

@@ -1,19 +1,28 @@
 import { graphql, Link } from 'gatsby'
-import React from 'react'
+import React, { useState } from 'react'
 import SEO from '../../components/seo'
 import './index.scss'
 import Img from 'gatsby-image'
 import { Block } from '../../components/block'
+import Input from '../../components/input'
+import Button from '../../components/button'
 
 function Blog({ data }: any) {
+  const [searchTerm, setSearchTerm] = useState('')
+  const blogs = data.allMdx.nodes.filter(({excerpt, frontmatter: {title, description, tags}}: any) => `${excerpt}|${title}|${description}|${tags.join('|')}`.toLowerCase().indexOf(searchTerm.toLowerCase()) !== -1)
   return (
     <div>
         <SEO title="Samuel Lawrentz - Tech Blog, Web development, CSS, JS"
     description="How I work with frontend stack and automate stuff to solve the problem of maintaining, modifying, and upgrading frontend technologies."
     />
-    <h1 className="blog-page-title">THE BLOG </h1>
+    <div className="blog-page-title">
+      <h1>THE BLOG </h1>
+      <div className="search-bar">
+      <Block display='flex' spacing={[0, 32]} className='input-block-search'><Input maxlength="30" placeholder="Search for a blog or topic..." onChange={({target}: any) => setSearchTerm(target.value)} icon="search"/></Block>
+      </div>
+    </div>
     <div className="blogs home-blog">
-        {data.allMdx.nodes.map(({excerpt, frontmatter: {date, title, path, heroImage, description, tags}}: any, i: number) => {
+        {blogs.map(({excerpt, frontmatter: {date, title, path, heroImage, description, tags}}: any, i: number) => {
           i = i + 1
             return <Link to={path} className={``}>
                 <div className="card">
@@ -30,6 +39,12 @@ function Blog({ data }: any) {
             </Link>
             
             })}
+            {!blogs.length && <div className='not-found'>
+              <div className='man-emoji'>
+            ¯\_(ツ)_/¯
+            </div>
+            <div>Say that again? I'm pretty sure, we don't do that here.</div>
+            </div>}
     </div>
     </div>
   )
