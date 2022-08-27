@@ -127,7 +127,7 @@ function IndexPage({ data }: any) {
 						<TextBlock type="title2">Got into the Web development team</TextBlock>
 					</Block>
 				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
-				Not sure if it was my luck or destiny, I was moved to the web development that was incharge of building SPAs and dynamic web apps.
+				Not sure if it was my luck or destiny, I was moved to the web development team that was incharge of building SPAs and dynamic web apps.
 				</TextBlock>
 			</Block>
 			<Block className="timeline" spacing={[40]}>
