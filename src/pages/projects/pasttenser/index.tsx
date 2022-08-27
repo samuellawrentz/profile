@@ -46,7 +46,10 @@ function PastTenser() {
     <div className="khaby-section">
       <h3>How does it work?</h3>
       <p>It's very simple. In fact, it is a normal Javascript map lookup. The backend for this is written in NodeJS with ExpressJS and hosted on Heroku.
-        It's an API that I developed just for fun so you can use it for fun.<br /><span className='text-caption'>Additional fact: This API also returns the past-participle form of the verb.</span></p>
+        It's an API that I developed just for fun so you can use it for fun.<br /><span className='text-caption'>Additional fact #1: This API also returns the past-participle form of the verb.</span>
+        <br /><span className='text-caption'>Additional fact #2: This API is not accurate. Don't rely on the results.</span>
+        <br /><span className='text-caption'>Additional fact #3: Now that Heroku is going to stop free plans, I need to think about deploying the API elsewhere.</span>
+        </p>
       <p>As you know, the image I used here is <b>Khaby Lame.</b> He is just awesome for his quirky parody videos. 
         I find his facial expressions funny and useful in a page like this.</p>
     </div>
