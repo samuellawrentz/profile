@@ -35,7 +35,7 @@ function Blog(props: any) {
         </MDXProvider>
       </Block>
       <Block spacing={[32]}>
-      Consider subscribing to this newsletter for more tips and hacks like this.
+      Consider subscribing to the newsletter for more tips and hacks like this.
       <div style={{marginTop: 8}}></div>
       <EmailBlock />
       </Block>
