@@ -11,6 +11,7 @@ import Banner from '../components/banner'
 import { MDXProvider } from '@mdx-js/react'
 import {InlineReactionButtons} from 'sharethis-reactjs';
 import {StickyShareButtons} from 'sharethis-reactjs';
+import { EmailBlock } from '../components/email-bar';
 
 
 const components = { Banner }
@@ -34,30 +35,11 @@ function Blog(props: any) {
         <div><MDXRenderer>{props.data.mdx.body}</MDXRenderer></div>
         </MDXProvider>
       </Block>
-      <h4>Your opinion matters</h4>
-      <p>This is a rating plugin that I've used from <a href="https://sharethis.com" target={"_blank"}>Share This</a>. Please do leave a rating, helps me improve the quality of my blog.
-      Do share this with a friend or a collegue.
-      </p>
-      <InlineReactionButtons
-          config={{
-            alignment: 'left',  // alignment of buttons (left, center, right)
-            enabled: true,        // show/hide buttons (true, false)
-            language: 'en',       // which language to use (see LANGUAGES)
-            min_count: 0,         // hide react counts less than min_count (INTEGER)
-            padding: 12,          // padding within buttons (INTEGER)
-            reactions: [          // which reactions to include (see REACTIONS)
-              'slight_smile',
-              'heart_eyes',
-              'astonished',
-              'rage'
-            ],
-            size: 48,             // the size of each button (INTEGER)
-            spacing: 8,           // the spacing between buttons (INTEGER)
-
-            // OPTIONAL PARAMETERS
-            url: `https://samuellawrentz.com${props.data.mdx.frontmatter.path}` // (defaults to current url)
-          }}
-        />
+      <Block spacing={[32]}>
+      Subscribe to this newsletter for more tips and hacks like this.
+      <div style={{marginTop: 8}}></div>
+      <EmailBlock />
+      </Block>
         <Giscus
       repo="samuellawrentz/blog-comments"
       repoId="R_kgDOH0vDow"
