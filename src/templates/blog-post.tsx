@@ -9,7 +9,6 @@ import SEO from '../components/seo'
 import { Block } from '../components/block'
 import Banner from '../components/banner'
 import { MDXProvider } from '@mdx-js/react'
-import {InlineReactionButtons} from 'sharethis-reactjs';
 import {StickyShareButtons} from 'sharethis-reactjs';
 import { EmailBlock } from '../components/email-bar';
 
@@ -36,7 +35,7 @@ function Blog(props: any) {
         </MDXProvider>
       </Block>
       <Block spacing={[32]}>
-      Subscribe to this newsletter for more tips and hacks like this.
+      Consider subscribing to this newsletter for more tips and hacks like this.
       <div style={{marginTop: 8}}></div>
       <EmailBlock />
       </Block>
