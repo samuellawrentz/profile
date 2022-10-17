@@ -7,8 +7,9 @@ import Img from 'gatsby-image'
 import "../style.scss"
 import Avatar from "../components/avatar"
 import SEO from "../components/seo"
-import Button from "../components/button"
+import Button, { LinkButton } from "../components/button"
 import { EmailBlock } from "../components/email-bar"
+import { Icon } from "../components/icon"
 
 function IndexPage({ data }: any) {
   useEffect(()=> {
@@ -141,6 +142,15 @@ function IndexPage({ data }: any) {
 			</div>
       </div>
       <div className="section">
+      <div className="gh">
+          <h3>My Github Contibutions</h3>
+          <h5>Work Profile <a href="https://github.com/samuellawerentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
+          <img src="https://ghchart.rshah.org/samuellawerentz" alt="SamuelLawerentz Work Profile" />
+          <h5>Personal Profile <a href="https://github.com/samuellawrentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
+          <img src="https://ghchart.rshah.org/samuellawrentz" alt="SamuelLawrentz Personal Profile" />
+        </div>
+      </div>
+      <div className="section">
         <div className="section__title friends-title">We can be <Img fixed={data.friendsLogo.childImageSharp.fixed} alt="We can be friends"  className="friendsLogo" /></div>
         <div>
         <TextBlock spacing={[0, 25]}>
@@ -148,34 +158,27 @@ function IndexPage({ data }: any) {
 Who also likes to learn new technologies.<br/>
 <TextBlock type="regular" spacing={[40, 20]}>There is lot more, try searching me on <a href="https://www.google.com/search?q=samuel lawrentz" target="_blank">Google!</a> </TextBlock>
 				</TextBlock>
-        <Block display="flex" alignItems="center" gap={16}><Avatar style={{width: 150, height: 150}} eyeType='Hearts' mouthType="Smile"/>
+        <Block display="flex" alignItems="center" gap={16}><Avatar style={{width: 150, height: 150, marginTop: -18}} eyeType='Hearts' mouthType="Smile"/>
 				<Block>
 					<Text type="title2">Samuel Lawrentz</Text>
 					<TextBlock type="regular" spacing={[16]}>Software Development Engineer UI - <a href="https://plivo.com" target="_blank">Plivo</a></TextBlock>
-					<Block display="flex" gap={12}>
+					<Block display="flex" gap={12} spacing={[12]}>
 						<Text type="caption"><a href="https://github.com/samuellawrentz" target="_blank">Github</a></Text>
 						<Text type="caption"><a href="https://in.linkedin.com/in/samuel-lawrentz">Linkedin</a></Text>
 						<Text type="caption"><a href="https://twitter.com/samuellawrentz">Twitter</a></Text>
 						<Text type="caption"><a href="https://codepen.io/samuellawrentz">Codepen</a></Text>
 					</Block>
           <Block>
-            {/* <LinkButton className="gradient" type="secondary" size="small" target="_blank" to="https://resume.io/r/71xcDAIDW">
+            <LinkButton className="gradient" type="secondary" size="small" target="_blank" to="https://resume.io/r/71xcDAIDW">
               <Block display="flex" gap={8} alignItems="center">
               <Icon name="launch" size={16}></Icon>
               <span>View Resume</span>
               </Block>
-            </LinkButton> */}
+            </LinkButton>
           </Block>
 				</Block>
 				</Block>
         </div>
-        {/* <div className="gh">
-          <h3>My Github Contibutions</h3>
-          <h5>Work Profile</h5>
-          <img src="https://ghchart.rshah.org/samuellawerentz" alt="SamuelLawerentz Work Profile" />
-          <h5>Personal Profile</h5>
-          <img src="https://ghchart.rshah.org/samuellawrentz" alt="SamuelLawrentz Personal Profile" />
-        </div> */}
       </div>
 </div>
   )
