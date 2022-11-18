@@ -11,10 +11,9 @@ import Banner from '../components/banner'
 import { MDXProvider } from '@mdx-js/react'
 import {StickyShareButtons} from 'sharethis-reactjs';
 import { EmailBlock } from '../components/email-bar';
-import { LinkPreview } from '@dhaiwat10/react-link-preview';
 
 
-const components = { Banner, LinkPreview }
+const components = { Banner }
 
 function Blog(props: any) {
   useEffect(() => {
