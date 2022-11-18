@@ -34,7 +34,7 @@ function IndexPage({ data }: any) {
         </div>
         <div className="blogs">
         {data.allMdx.nodes.map(({frontmatter: {date, title, path, heroImage, tags}}: any) => <Link to={path}><div className="card">
-            <div className="card__image"><Img fluid={heroImage.childImageSharp.fluid} alt={title}/></div>
+            <div className="card__image"><Img fluid={heroImage?.childImageSharp?.fluid} alt={title}/></div>
             <div className="card__date text-regularLight">{date}</div>
             <div className="card__details">
             <div className="card__title"><h3>{title}</h3></div>

@@ -10,6 +10,9 @@ deckgo-highlight-code {
 }
 
 .blog-content {
+    a {
+        color: var(--tertiary);
+    }
     h2 {
         margin-top: 60px;
     }
