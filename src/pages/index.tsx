@@ -133,10 +133,10 @@ function IndexPage({ data }: any) {
 			<Block className="timeline" spacing={[40]}>
 					<Block spacing={[5]} className="year">
 						<TextBlock type="regularLight" style={{height: 24}}>2022</TextBlock>
-						<TextBlock type="title2">Engineering teams are great</TextBlock>
+						<TextBlock type="title2">Deep Dive into React</TextBlock>
 					</Block>
 				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
-				It's been a good year till now. I want to learn more new things, implement and experiment those learnings in my work.
+				I can say, that I've mastered React at this point*. It's all about understanding how values are passed, event loops, and other core concepts. This year helped me learn a lot of things and manage people. 
 				</TextBlock>
 			</Block>
 			</div>
@@ -145,9 +145,9 @@ function IndexPage({ data }: any) {
       <div className="gh">
           <h3>My Github Contibutions</h3>
           <h5>Work Profile <a href="https://github.com/samuellawerentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
-          <img src="https://ghchart.rshah.org/samuellawerentz" alt="SamuelLawerentz Work Profile" />
+          <Img fluid={data.work.childImageSharp.fluid} alt="Work Profile" />   
           <h5>Personal Profile <a href="https://github.com/samuellawrentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
-          <img src="https://ghchart.rshah.org/samuellawrentz" alt="SamuelLawrentz Personal Profile" />
+          <Img fluid={data.personal.childImageSharp.fluid} alt="Personal Profile" />
         </div>
       </div>
       <div className="section">
@@ -193,6 +193,20 @@ export const query = graphql`
       childImageSharp {
         fixed {
           ...GatsbyImageSharpFixed
+        }
+      }
+    },
+    work: file(relativePath: { eq: "home/work.png" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid
+        }
+      }
+    },
+    personal: file(relativePath: { eq: "home/personal.png" }) {
+      childImageSharp {
+        fluid {
+          ...GatsbyImageSharpFluid
         }
       }
     },
