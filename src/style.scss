@@ -157,11 +157,11 @@ h4 {
   a {
     text-decoration: none;
 
-    &:hover {
-      .card {
-        transform: scale(1.015);
-      }
-    }
+    // &:hover {
+    //   .card {
+        // transform: scale(1.015);
+    //   }
+    // }
   }
 }
 
@@ -262,6 +262,8 @@ h4 {
 }
 
 a.gradient {
+  background-size: 0% 0%;
+  transition: background-image 0.5s ease 0.5s;
   &:hover {
     > * {
       background: linear-gradient(70deg, var(--element1),hsl(213, 70%, 70%), hsl(87, 40%, 50%), hsl(242, 60%, 85%), hsl(348, 43%, 47%));
@@ -269,7 +271,6 @@ a.gradient {
       -webkit-text-fill-color: transparent;
       animation: animation 3s ease-in infinite;
       background-size: 200% 200%;
-
     }
   }
 }
@@ -443,4 +444,9 @@ li {
   .section__title::after{
     content: none;
   }
+}
+
+.card-container {
+  background-color: var(--surface2) !important;
+  border-radius: 4px;
 }

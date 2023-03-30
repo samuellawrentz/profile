@@ -58,7 +58,7 @@ function IndexPage({ data }: any) {
       <div className="section">
         <div className="section__title">Projects</div>
         <div className="cards">
-        <Link to="/projects/quotes-generator" className="gradient">
+        <Link to="/projects/quotes-generator" className="gradient card-container">
           <div className="card featured card__details">
             <div className="card__title text-title2"><h3>Quotes Generator</h3></div>
             <div className="card__description">A tool that helps you to create motivational quotes with backgrounds.</div>
@@ -66,14 +66,14 @@ function IndexPage({ data }: any) {
             
           </div>
           </Link>
-          <Link to="/projects/pasttenser" className="gradient">
+          <Link to="/projects/pasttenser" className="gradient card-container">
           <div className="card card__details"> 
             <div className="card__title text-title2"><h3>PastTenser</h3></div>
             <div className="card__description">An API that can give you the pastense of any verb that is provided.</div>
             <div className="text-caption technologies">ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5</div>
           </div>
           </Link>
-          <a href="https://samuellawrentz.github.io/highcharts-networkChart/" target="_blank" className="gradient">
+          <a href="https://samuellawrentz.github.io/highcharts-networkChart/" target="_blank" className="gradient card-container">
           <div className="card card__details">
             <div className="card__title text-title2"><h3>Network chart</h3></div>
             <div className="card__description">This is a network chart built using Highchart APIs - helps you visualise connections.</div>
@@ -139,9 +139,18 @@ function IndexPage({ data }: any) {
 				I can say, that I've mastered React at this point*. It's all about understanding how values are passed, event loops, and other core concepts. This year helped me learn a lot of things and manage people. 
 				</TextBlock>
 			</Block>
+      <Block className="timeline" spacing={[40]}>
+					<Block spacing={[5]} className="year">
+						<TextBlock type="regularLight" style={{height: 24}}>2023</TextBlock>
+						<TextBlock type="title2">Promoted! SDE-2 Driving Performance</TextBlock>
+					</Block>
+				<TextBlock type="regular" style={{maxWidth: 480}} className="subtext">
+				In 2023, as a Senior UI engineer at Plivo, I am focused on exciting new feature development and optimizing performance for large user data handling. I am eager to expand my skillset and explore the applications of machine learning and artificial intelligence to enhance Plivo's products and services.
+				</TextBlock>
+			</Block>
 			</div>
       </div>
-      <div className="section">
+      {/* <div className="section">
       <div className="gh">
           <h3>My Github Contibutions</h3>
           <h5>Work Profile <a href="https://github.com/samuellawerentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
@@ -149,7 +158,7 @@ function IndexPage({ data }: any) {
           <h5>Personal Profile <a href="https://github.com/samuellawrentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
           <Img fluid={data.personal.childImageSharp.fluid} alt="Personal Profile" />
         </div>
-      </div>
+      </div> */}
       <div className="section">
         <div className="section__title friends-title">We can be <Img fixed={data.friendsLogo.childImageSharp.fixed} alt="We can be friends"  className="friendsLogo" /></div>
         <div>
