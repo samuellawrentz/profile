@@ -158,7 +158,8 @@ function IndexPage({ data }: any) {
           I started with Notepad++, then moved to Visual Studio, and now I am using VSCode and NeoVim. Tracking time helps me to understand how much time I spend on each project and helps me to improve my productivity.
         </TextBlock>
         <div className="coding-activity">
-        <figure><embed src="https://wakatime.com/share/@c2883fa9-c937-4e8e-8956-e5b47d6dbf96/ff4a5ca7-7dee-4ef7-b7e2-af05dcea72f0.svg"></embed></figure>
+            <figure><embed src="https://wakatime.com/share/@c2883fa9-c937-4e8e-8956-e5b47d6dbf96/ff4a5ca7-7dee-4ef7-b7e2-af05dcea72f0.svg"></embed></figure>
+            <figure><embed src="https://wakatime.com/share/@samuellawrentz/adc4c8e6-679b-435c-becf-3d5a6f5b3f11.svg"></embed></figure>
         </div>
       </div>
       {/* <div className="section">

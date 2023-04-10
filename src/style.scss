@@ -450,3 +450,15 @@ li {
   background-color: var(--surface2) !important;
   border-radius: 4px;
 }
+
+.coding-activity {
+    display: flex;
+    gap: 24px;
+    margin: 0 -13vw;
+    figure {
+        flex: 0 0 50%;
+        border-radius: 8px;
+        margin: 0;
+        overflow: hidden;
+    }
+} 
