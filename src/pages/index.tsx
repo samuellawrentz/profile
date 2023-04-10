@@ -150,6 +150,17 @@ function IndexPage({ data }: any) {
 			</Block>
 			</div>
       </div>
+      <div className="section">
+        <div className="section__title">MY CODING ACTIVITY</div>
+        <TextBlock spacing={[40, 25]}>
+          I use WakaTime to track my coding activity. It's a great tool to track your coding activity and helps you improve your productivity. It's facinating how IDE's have evolved over the years. 
+          <p></p>
+          I started with Notepad++, then moved to Visual Studio, and now I am using VSCode and NeoVim. Tracking time helps me to understand how much time I spend on each project and helps me to improve my productivity.
+        </TextBlock>
+        <div className="coding-activity">
+        <figure><embed src="https://wakatime.com/share/@c2883fa9-c937-4e8e-8956-e5b47d6dbf96/ff4a5ca7-7dee-4ef7-b7e2-af05dcea72f0.svg"></embed></figure>
+        </div>
+      </div>
       {/* <div className="section">
       <div className="gh">
           <h3>My Github Contibutions</h3>
