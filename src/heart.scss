@@ -48,6 +48,10 @@
     }
   }
 
+  [color-mode="light"] .hcard {
+background-color: var(--surface1);
+  }
+
   .heart-image {
     transition: transform ease 0.4s;
     perspective: 1000px;

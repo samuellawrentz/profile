@@ -167,9 +167,9 @@ h4 {
 
 .blogs {
   display: flex;
-  gap: 24px;
+  gap: 40px;
   flex-wrap: wrap;
-  row-gap: 24px;
+  row-gap: 40px;
 
   .card {
     &.read-more {
@@ -196,7 +196,6 @@ h4 {
 
     display: flex;
     flex: auto;
-    border-radius: 8px;
     gap: 16px;
     cursor: pointer;
 
@@ -219,20 +218,17 @@ h4 {
   .card:not(.read-more) {
     display: flex;
     flex-direction: column;
-    box-shadow: 2px 7px 14px rgb(0 0 0 / 30%);
+    box-shadow: 12px 12px 0px var(--card-shadow-color);
+    border: 2px solid var(--element1);
     height: 100%;
     position: relative;
     overflow: hidden;
     min-height: 300px;
-    .card__details {
-      position: absolute;
-      z-index: 10;
-      bottom: 0;
-    }
     .card__image {
-      height: 100%;
-      filter: brightness(0.3) hue-rotate(120deg) saturate(0.5) blur(2px);
+      height: 250px;
+      filter: brightness(0.8) hue-rotate(120deg) saturate(0.5);
       transition: filter ease 0.4s;
+      border-bottom: 2px solid var(--element1);
     }
     .card__date {
       position: absolute;
@@ -244,14 +240,14 @@ h4 {
     }
     &:hover {
       .card__image {
-        height: 100%;
-        filter: brightness(0.5) hue-rotate(10deg) saturate(0.3) blur(2px);
+        transform: scale(1.01);
+        filter: brigurate(0.3);
       }
     }
   }
 
   a {
-    flex: 0 1 48.6%;
+    flex: 0 1 47.6%;
     text-decoration: none;
     &:hover {
       > * {
@@ -467,3 +463,10 @@ li {
         overflow: hidden;
     }
 } 
+
+[color-mode="light"] {
+  .blogs .card.read-more .card__image {
+        filter: none;
+    mix-blend-mode: darken;
+  }
+}

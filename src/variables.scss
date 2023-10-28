@@ -1,42 +1,45 @@
 /* Light Mode */
 :root[color-mode="light"] {
-    --surface1: hsl(0, 0%, 90%);
-    --surface2: hsl(0, 0%, 95%);
-    --surface3: hsl(0, 0%, 100%);
-    --element1: hsl(0, 0%, 7%);
-    --element2: hsl(0, 0%, 13%);
-    --element3: hsl(0, 0%, 20%);
-    --elementInverse: hsl(0, 0%, 93%);
-    --primary: hsl(213, 99%, 28%);
-    --secondary: hsl(178, 22%, 30%);
-    --tertiary: hsl(48, 100%, 92%);
-  }
-  
-  /* Dark Mode */
-  :root[color-mode="dark"] {
-    --surface1: hsl(0, 0%, 15%);
-    --surface2: hsl(0, 0%, 20%);
-    --surface3: hsl(0, 0%, 25%);
-    --element1: hsl(0, 0%, 93%);
-    --element2: hsl(0, 0%, 87%);
-    --element3: hsl(0, 0%, 80%);
-    --element4: hsl(0, 0%, 30%);
-    --elementInverse: hsl(0, 0%, 7%);
-  }
+  --surface1: hsl(0, 0%, 90%);
+  --surface2: hsl(0, 0%, 95%);
+  --surface3: hsl(0, 0%, 100%);
+  --element1: hsl(0, 0%, 7%);
+  --element2: hsl(0, 0%, 13%);
+  --element3: hsl(0, 0%, 20%);
+  --elementInverse: hsl(0, 0%, 93%);
+  --primary: hsl(213, 99%, 28%);
+  --secondary: hsl(178, 22%, 30%);
+  --tertiary: hsl(48, 100%, 92%);
+  --text-shadow-color1: hsl(348, 35%, 85%);
+  --card-shadow-color: rgb(0 0 0 / 30%);
+}
 
-  :root {
-    font-size: 16px;
-    --h1: clamp(40px, 5vw, 4.5rem);
-    --h2: clamp(30px, 4vw, 3rem);
-    --h3: clamp(22px, 3vw, 1.875rem);
-    --h4: clamp(18px, 2vw, 1.5rem);
-    --h5: 1.125rem;
-    --h6: 1rem;
-    --body: clamp(16px, 3vw, 1.25rem);
-    --caption: clamp(14px, 2vw, 0.75rem);
-    --primary-color: hsl(349, 98%, 34%);
-    --text-shadow-color1: hsl(349, 38%, 14%);
-    --secondary-color: hsl(169deg 52% 43%);
-    --tertiary: hsl(55, 67%, 80%);
-    --danger: hsl(10, 100%, 65%);
-  }
+/* Dark Mode */
+:root[color-mode="dark"] {
+  --surface1: hsl(0, 0%, 15%);
+  --surface2: hsl(0, 0%, 20%);
+  --surface3: hsl(0, 0%, 25%);
+  --element1: hsl(0, 0%, 93%);
+  --element2: hsl(0, 0%, 87%);
+  --element3: hsl(0, 0%, 80%);
+  --element4: hsl(0, 0%, 30%);
+  --elementInverse: hsl(0, 0%, 7%);
+  --text-shadow-color1: hsl(349, 38%, 14%);
+  --card-shadow-color: rgb(255 255 255/ 30%);
+}
+
+:root {
+  font-size: 16px;
+  --h1: clamp(40px, 5vw, 4.5rem);
+  --h2: clamp(30px, 4vw, 3rem);
+  --h3: clamp(22px, 3vw, 1.875rem);
+  --h4: clamp(18px, 2vw, 1.5rem);
+  --h5: 1.125rem;
+  --h6: 1rem;
+  --body: clamp(16px, 3vw, 1.25rem);
+  --caption: clamp(14px, 2vw, 0.75rem);
+  --primary-color: hsl(349, 98%, 34%);
+  --secondary-color: hsl(169deg 52% 43%);
+  --tertiary: hsl(55, 67%, 80%);
+  --danger: hsl(10, 100%, 65%);
+}
