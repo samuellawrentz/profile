@@ -14,7 +14,7 @@
     "serve": "gatsby serve",
     "clean": "gatsby clean",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint --ignore-path .gitignore . --ext ts --ext tsx --ext js --ext jsx",
+    "lint": "eslint --ignore-path .gitignore . --ext md,mdx",
     "deploy": "gatsby build && gh-pages -d public"
   },
   "dependencies": {
@@ -28,6 +28,7 @@
     "avataaars": "^2.0.0",
     "css.escape": "^1.5.1",
     "error-stack-parser": "^2.1.4",
+    "eslint-config-prettier": "^9.0.0",
     "gatsby": "^5.12.9",
     "gatsby-core-utils": "^4.12.1",
     "gatsby-image": "^3.11.0",
@@ -62,7 +63,8 @@
     "react-helmet": "^6.1.0",
     "sass": "^1.69.5",
     "shallow-compare": "^1.2.2",
-    "sharethis-reactjs": "^1.6.0"
+    "sharethis-reactjs": "^1.6.0",
+    "unist-util-visit": "2.0.1"
   },
   "devDependencies": {
     "@types/mdx-js__react": "^1.5.7",
@@ -74,10 +76,11 @@
     "@typescript-eslint/parser": "^6.9.0",
     "canvas": "^2.11.1",
     "eslint": "^8.52.0",
+    "eslint-plugin-mdx": "^2.2.0",
     "eslint-plugin-prettier": "^5.0.1",
     "eslint-plugin-react": "^7.33.2",
     "gh-pages": "^6.0.0",
-    "prettier": "2.7.1",
+    "prettier": "^3.0.3",
     "typescript": "^5.2.2",
     "yeoman-generator": "^7.1.0"
   }
