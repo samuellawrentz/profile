@@ -370,6 +370,11 @@ li {
   height: 50px;
 }
 
+.column-image{
+  margin: 0 -10vw;
+  columns: 2;
+}
+
 .card.featured:before {
   content: 'New';
   position: absolute;
