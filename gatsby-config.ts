@@ -92,25 +92,6 @@ const config: GatsbyConfig = {
 			},
 		},
 		{
-			resolve: `gatsby-source-twitter`,
-			options: {
-				credentials: {
-					consumer_key: process.env.T_KEY,
-					consumer_secret: process.env.T_SECRET,
-					bearer_token: process.env.T_TOKEN,
-				},
-				queries: {
-					latestTweets: {
-						endpoint: "search/tweets",
-						params: {
-							q: "#(#webdev, OR #css) (from:samuellawrentz)",
-							tweet_mode: "extended",
-						},
-					},
-				},
-			},
-		},
-		{
 			resolve: `gatsby-plugin-feed`,
 			options: {
 				query: `
@@ -139,23 +120,21 @@ const config: GatsbyConfig = {
 							})
 						},
 						query: `
-			  {
-			  allMdx(
-				sort: {fields: [frontmatter___date], order: DESC}
-				filter: {frontmatter: {published: {eq: true}}}
-			  ) {
-				nodes {
-				  id
-				  excerpt(pruneLength: 100)
-				  html
-				  frontmatter {
-					title
-					date(formatString: "DD MMM, YYYY")
-					path
-				  }
-				}
-			  }
-			}
+			 {
+  allMdx(
+    sort: {frontmatter: {date: DESC}}
+    filter: {frontmatter: {published: {eq: true}}}
+  ) {
+    nodes {
+      id
+      frontmatter {
+        title
+        date(formatString: "DD MMM, YYYY")
+        path
+      }
+    }
+  }
+}
 			  `,
 						output: "/rss.xml",
 						title: "Samuel Lawrentz - The frontend Dev - Tech Blog",

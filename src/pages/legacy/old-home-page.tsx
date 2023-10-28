@@ -146,18 +146,19 @@ export default IndexPage
 
 export const query = graphql`
   {
-    allMdx(
-      sort: {fields: [frontmatter___date], order: DESC}
-      filter: {frontmatter: {published: {eq: true}}}
-    ) {
-      nodes {
-        id
-        excerpt(pruneLength: 90)
-        frontmatter {
-          title
-          date(formatString: "DD MMM, YYYY")
-		  path
-        }
+  allMdx(
+    sort: {frontmatter: {date: DESC}}
+    filter: {frontmatter: {published: {eq: true}}}
+  ) {
+    nodes {
+      id
+      excerpt(pruneLength: 90)
+      frontmatter {
+        title
+        date(formatString: "DD MMM, YYYY")
+        path
       }
     }
-  }`
+  }
+}
+  `

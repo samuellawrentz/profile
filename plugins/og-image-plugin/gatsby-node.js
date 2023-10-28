@@ -5,21 +5,21 @@ exports.createPages = async ({ actions, graphql }) => {
     const folderpath = './public/og-images'
     if (!fs.existsSync(folderpath)) fs.mkdirSync(path.resolve(folderpath))
     const result = await graphql(`
-    {
-        allMdx(
-            sort: {fields: [frontmatter___date], order: DESC}
-            filter: {frontmatter: {published: {eq: true}}}
-          ) {
-            nodes {
-              id
-              frontmatter {
-                title
-                date(formatString: "DD MMM, YYYY")
-                path
-              }
-            }
-          }
-}
+   {
+  allMdx(
+    sort: {frontmatter: {date: DESC}}
+    filter: {frontmatter: {published: {eq: true}}}
+  ) {
+    nodes {
+      id
+      frontmatter {
+        title
+        date(formatString: "DD MMM, YYYY")
+        path
+      }
+    }
+  }
+} 
     `)
   
     if (result.errors) {

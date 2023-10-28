@@ -209,56 +209,57 @@ export default IndexPage
 
 
 export const query = graphql`
-  {
-    friendsLogo: file(relativePath: { eq: "home/friends_logo.png" }) {
-      childImageSharp {
-        fixed {
-          ...GatsbyImageSharpFixed
-        }
+{
+  friendsLogo: file(relativePath: {eq: "home/friends_logo.png"}) {
+    childImageSharp {
+      fixed {
+        ...GatsbyImageSharpFixed
       }
-    },
-    work: file(relativePath: { eq: "home/work.png" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid
-        }
+    }
+  }
+  work: file(relativePath: {eq: "home/work.png"}) {
+    childImageSharp {
+      fluid {
+        ...GatsbyImageSharpFluid
       }
-    },
-    personal: file(relativePath: { eq: "home/personal.png" }) {
-      childImageSharp {
-        fluid {
-          ...GatsbyImageSharpFluid
-        }
+    }
+  }
+  personal: file(relativePath: {eq: "home/personal.png"}) {
+    childImageSharp {
+      fluid {
+        ...GatsbyImageSharpFluid
       }
-    },
-    book: file(relativePath: { eq: "home/book.webp" }) {
-      childImageSharp {
-        fixed(height: 350) {
-          ...GatsbyImageSharpFixed
-        }
+    }
+  }
+  book: file(relativePath: {eq: "home/book.webp"}) {
+    childImageSharp {
+      fixed(height: 350) {
+        ...GatsbyImageSharpFixed
       }
-    },
-    allMdx(
-      sort: {fields: [frontmatter___date], order: DESC}
-      filter: {frontmatter: {published: {eq: true}}}
-      limit: 4
-    ) {
-      nodes {
-        id
-        excerpt(pruneLength: 140)
-        frontmatter {
-          title
-          date(formatString: "DD MMM, YYYY")
-		      path
-          tags
-          heroImage {
-            childImageSharp {
-              fluid(maxWidth: 240) {
-                ...GatsbyImageSharpFluid
-              }
+    }
+  }
+  allMdx(
+    sort: {frontmatter: {date: DESC}}
+    filter: {frontmatter: {published: {eq: true}}}
+    limit: 4
+  ) {
+    nodes {
+      id
+      excerpt(pruneLength: 140)
+      frontmatter {
+        title
+        date(formatString: "DD MMM, YYYY")
+        path
+        tags
+        heroImage {
+          childImageSharp {
+            fluid(maxWidth: 240) {
+              ...GatsbyImageSharpFluid
             }
           }
         }
       }
     }
-  }`
+  }
+}
+  `

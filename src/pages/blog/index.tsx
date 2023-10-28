@@ -53,28 +53,29 @@ function Blog({ data }: any) {
 export default Blog
 
 export const query = graphql`
-  {
-    allMdx(
-      sort: {fields: [frontmatter___date], order: DESC}
-      filter: {frontmatter: {published: {eq: true}}}
-    ) {
-      nodes {
-        id
-        excerpt(pruneLength: 150)
-        frontmatter {
-          title
-          tags
-          description
-          date(formatString: "DD MMM, YYYY")
-		      path
-          heroImage {
-            childImageSharp {
-              fluid(maxWidth: 800) {
-                ...GatsbyImageSharpFluid
-              }
+{
+  allMdx(
+    sort: {frontmatter: {date: DESC}}
+    filter: {frontmatter: {published: {eq: true}}}
+  ) {
+    nodes {
+      id
+      excerpt(pruneLength: 150)
+      frontmatter {
+        title
+        tags
+        description
+        date(formatString: "DD MMM, YYYY")
+        path
+        heroImage {
+          childImageSharp {
+            fluid(maxWidth: 800) {
+              ...GatsbyImageSharpFluid
             }
           }
         }
       }
     }
-  }`
+  }
+}
+  `
