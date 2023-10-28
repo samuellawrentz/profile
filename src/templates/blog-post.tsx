@@ -1,6 +1,5 @@
 import React, { useEffect, useRef } from 'react'
 import { Link, graphql } from "gatsby"
-import { MDXRenderer } from "gatsby-plugin-mdx"
 import Giscus from "@giscus/react";
 import './blog.scss'
 import Img from 'gatsby-image'
@@ -31,7 +30,7 @@ function Blog(props: any) {
       </p>
       <Block className='blog-cont text-regular' spacing={[72]}>
         <MDXProvider components={components}> 
-        <div><MDXRenderer>{props.data.mdx.body}</MDXRenderer></div>
+        <div>{props.children}</div>
         </MDXProvider>
       </Block>
       <Block spacing={[32]}>
@@ -97,7 +96,6 @@ export const pageQuery = graphql`
   query MDXQuery($id: String!) {
     mdx(id: { eq: $id }) {
       id
-      body
       frontmatter{
         title
         description

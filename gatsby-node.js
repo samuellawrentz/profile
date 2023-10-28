@@ -19,14 +19,20 @@ exports.createPages = async ({ graphql, actions }) => {
               path
               title
             }
+            internal {
+              contentFilePath
+            }
           }
         }
       }
     `)
+  if (result.errors) {
+    reporter.panicOnBuild('Error loading MDX result', result.errors)
+  }
     result.data.allMdx.nodes.forEach(node => {
       createPage({
         path: `${node.frontmatter.path}`,
-        component: blogPostTemplate,
+        component: `${blogPostTemplate}?__contentFilePath=${node.internal.contentFilePath}`,
         context: {
           title: node.frontmatter.title,
           id: node.id,
