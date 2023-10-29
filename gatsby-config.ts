@@ -38,7 +38,7 @@ const config: GatsbyConfig = {
         {
             resolve: "gatsby-plugin-google-tagmanager",
             options: {
-                id: "GTM-MKMH3FD",
+                id: "G-3V3RHXXBWE",
                 // Include GTM in development.
                 //
                 // Defaults to false meaning GTM will only be loaded in production.

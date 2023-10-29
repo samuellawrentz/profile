@@ -470,3 +470,8 @@ li {
     mix-blend-mode: darken;
   }
 }
+[color-mode="dark"] {
+  body {
+    font-weight: 350;
+  }
+}
