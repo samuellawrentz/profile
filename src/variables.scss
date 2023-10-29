@@ -10,7 +10,7 @@
   --primary: hsl(213, 99%, 28%);
   --secondary: hsl(178, 22%, 30%);
   --tertiary: hsl(48, 100%, 92%);
-  --text-shadow-color1: hsl(348, 35%, 85%);
+  --text-shadow-color1: hsl(0, 20%, 84%);
   --card-shadow-color: rgb(0 0 0 / 30%);
 }
 
@@ -36,6 +36,7 @@
   --h4: clamp(18px, 2vw, 1.5rem);
   --h5: 1.125rem;
   --h6: 1rem;
+  --white: hsl(0, 0%, 100%);
   --body: clamp(16px, 3vw, 1.25rem);
   --caption: clamp(14px, 2vw, 0.75rem);
   --primary-color: hsl(349, 98%, 34%);

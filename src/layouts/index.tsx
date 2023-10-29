@@ -50,13 +50,14 @@ const TimerBlock = () => {
 
 function Layout({ children, ...data }: LayoutProps) {
     const is404 = data.path === "/404/";
+    const [isDark, setIsDark] = useState(true);
 
     return (
         <div>
             <Helmet
                 htmlAttributes={{
                     lang: "en",
-                    "color-mode": "dark",
+                    "color-mode": "light",
                 }}
             >
                 <meta
@@ -73,6 +74,7 @@ function Layout({ children, ...data }: LayoutProps) {
                 display="flex"
                 justifyContent="space-between"
                 alignItems="center"
+                gap={24}
             >
                 <Link
                     className="gradient"
@@ -91,6 +93,24 @@ function Layout({ children, ...data }: LayoutProps) {
                         </div>
                     </Block>
                 </Link>
+                <span
+                    style={{ marginLeft: "auto" }}
+                    onClick={() => {
+                        // toggle the dark mode
+                        setIsDark(!isDark);
+                        // set the mode on the html element
+                        document.documentElement.setAttribute(
+                            "color-mode",
+                            isDark ? "dark" : "light",
+                        );
+                    }}
+                >
+                    <Icon
+                        name={`${isDark ? "dark" : "light"}_mode`}
+                        size={32}
+                        title={`${isDark ? "Dark" : "Light"} mode`}
+                    />
+                </span>
                 <Link className="rss" to="/rss.xml">
                     <Icon name="rss_feed" size={32} title="RSS feed" />
                 </Link>

@@ -1,11 +1,11 @@
 .input-wrapper {
     position: relative;
     input {
-        height: 48px;
+        height: 100%;
+        color: var(--white);
         font-size: var(--body);
-        padding: 8px;
+        padding: 8px 16px;
         background: var(--element1);
-        border-radius: 4px;
         border: 0;
         &::selection {
             color: white;

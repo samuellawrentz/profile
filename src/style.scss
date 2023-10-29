@@ -469,9 +469,17 @@ li {
         filter: none;
     mix-blend-mode: darken;
   }
+
+  a.gradient {
+
+  &:hover {
+    >* {
+      background: linear-gradient(70deg, var(--element1), hsl(213, 12%, 63%), hsl(89, 14%, 36%), hsl(241, 48%, 71%), hsl(348, 64%, 71%));
+      background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+  }
+}
 }
 [color-mode="dark"] {
-  body {
-    font-weight: 350;
-  }
 }
