@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unescaped-entities */
 import { graphql, Link } from "gatsby";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { Block } from "../components/block";
 import Text, { TextBlock } from "../components/typography";
 import Img from "gatsby-image";
@@ -44,7 +44,30 @@ function IndexPage({ data }: any) {
                 </div>
             </div>
             <div className="section blog">
-                <div className="section__title">Blog</div>
+                <div
+                    style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: 30,
+                    }}
+                >
+                    <div className="section__title" style={{ marginBottom: 0 }}>
+                        Blog
+                    </div>
+                    <Link to={"/blog/"} className="gradient">
+                        <Button
+                            type="secondary"
+                            style={{
+                                width: 200,
+                                alignItems: "center",
+                                justifyContent: "center",
+                            }}
+                        >
+                            Read more
+                        </Button>
+                    </Link>
+                </div>
                 <div className="wave">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -59,10 +82,19 @@ function IndexPage({ data }: any) {
                 </div>
                 <div className="blogs">
                     {data.allMdx.nodes.map(
-                        ({
-                            frontmatter: { date, title, path, heroImage, tags },
-                        }: any) => (
-                            <Link to={path}>
+                        (
+                            {
+                                frontmatter: {
+                                    date,
+                                    title,
+                                    path,
+                                    heroImage,
+                                    tags,
+                                },
+                            }: any,
+                            i: number,
+                        ) => (
+                            <Link to={path} key={i}>
                                 <div className="card">
                                     <div className="card__image">
                                         <Img
@@ -73,10 +105,10 @@ function IndexPage({ data }: any) {
                                             alt={title}
                                         />
                                     </div>
-                                    <div className="card__date text-regularLight">
-                                        {date}
-                                    </div>
                                     <div className="card__details">
+                                        <div className="card__date text-regularLight">
+                                            {date}
+                                        </div>
                                         <div className="card__title">
                                             <h3>{title}</h3>
                                         </div>
@@ -87,11 +119,16 @@ function IndexPage({ data }: any) {
                                             className="date-tag"
                                         >
                                             <div className="tags">
-                                                {tags.map((tag: any) => (
-                                                    <div className="tag">
-                                                        {tag}
-                                                    </div>
-                                                ))}
+                                                {tags.map(
+                                                    (tag: any, i: number) => (
+                                                        <div
+                                                            className="tag"
+                                                            key={i}
+                                                        >
+                                                            {tag}
+                                                        </div>
+                                                    ),
+                                                )}
                                             </div>
                                         </Block>
                                     </div>
@@ -127,9 +164,6 @@ function IndexPage({ data }: any) {
                                 className="subscribe-container"
                             >
                                 <EmailBlock />
-                                <Link to={"/blog/"} className="gradient">
-                                    <Button type="secondary">Read more</Button>
-                                </Link>
                             </Block>
                         </div>
                     </div>
