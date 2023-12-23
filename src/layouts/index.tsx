@@ -50,14 +50,15 @@ const TimerBlock = () => {
 
 function Layout({ children, ...data }: LayoutProps) {
     const is404 = data.path === "/404/";
-    const [isDark, setIsDark] = useState(true);
+    const colorMode = localStorage.getItem("color-mode");
+    const [isDark, setIsDark] = useState(colorMode === "dark");
 
     return (
         <div>
             <Helmet
                 htmlAttributes={{
                     lang: "en",
-                    "color-mode": "light",
+                    "color-mode": isDark ? "dark" : "light",
                 }}
             >
                 <meta
@@ -103,12 +104,16 @@ function Layout({ children, ...data }: LayoutProps) {
                             "color-mode",
                             isDark ? "dark" : "light",
                         );
+                        localStorage.setItem(
+                            "color-mode",
+                            isDark ? "dark" : "light",
+                        );
                     }}
                 >
                     <Icon
-                        name={`${isDark ? "dark" : "light"}_mode`}
+                        name={`${isDark ? "light" : "dark"}_mode`}
                         size={32}
-                        title={`${isDark ? "Dark" : "Light"} mode`}
+                        title={`${isDark ? "Light" : "Dark"} mode`}
                     />
                 </span>
                 <Link className="rss" to="/rss.xml">

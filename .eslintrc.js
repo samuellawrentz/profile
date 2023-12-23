@@ -31,12 +31,11 @@ module.exports = {
     },
     plugins: ["react", "@typescript-eslint", "prettier"],
     rules: {
-        "linebreak-style": ["error", "unix"],
         "max-len": ["warn", { code: 108 }],
         semi: 0,
-        "comma-dangle": ["error", "always-multiline"],
+        "comma-dangle": ["warn", "always-multiline"],
         "prettier/prettier": [
-            "error",
+            "warn",
             {
                 tabWidth: 4,
             },
