@@ -92,17 +92,20 @@ function Layout({ children, ...data }: LayoutProps) {
           style={{ marginLeft: "auto" }}
           onClick={() => {
             // toggle the dark mode
-            setIsDark(!isDark);
-            // set the mode on the html element
-            document.documentElement.setAttribute(
-              "color-mode",
-              isDark ? "dark" : "light",
-            );
-            typeof window !== "undefined" &&
+            setIsDark((isDark) => {
+              const newValue = !isDark;
+              document.documentElement.setAttribute(
+                "color-mode",
+                newValue ? "dark" : "light",
+              );
+
               window.localStorage.setItem(
                 "color-mode",
-                isDark ? "dark" : "light",
+                newValue ? "dark" : "light",
               );
+              return newValue;
+            });
+            // set the mode on the html element
           }}
         >
           <Icon
