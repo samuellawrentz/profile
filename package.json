@@ -13,6 +13,7 @@
     "build": "gatsby build",
     "serve": "gatsby serve",
     "clean": "gatsby clean",
+    "create-blog": "bunx hygen blogpost new",
     "typecheck": "tsc --noEmit",
     "lint": "eslint --ignore-path .gitignore . --ext md,mdx",
     "deploy": "gatsby build && gh-pages -d public"
