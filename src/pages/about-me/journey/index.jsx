@@ -1,7 +1,7 @@
 import { StaticImage } from "gatsby-plugin-image";
 import React from "react";
-import { Block } from "../../components/block";
-import Text, { TextBlock } from "../../components/typography";
+import { Block } from "../../../components/block";
+import { TextBlock } from "../../../components/typography";
 
 // Separate TimeBlock Component
 const TimeBlock = ({ year, title, children }) => (

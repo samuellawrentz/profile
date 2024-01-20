@@ -140,7 +140,7 @@ function IndexPage({ data }) {
                 <ul>
                   <li>
                     <b>
-                      <Link to="/journey" className="fancy-href">
+                      <Link to="/about-me/journey" className="fancy-href">
                         Journey{" "}
                       </Link>
                     </b>
