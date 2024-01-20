@@ -6,6 +6,7 @@ import { Icon } from "../components/icon";
 import { Block } from "../components/block";
 import CircularProgress from "../components/circular-progress";
 import { StaticImage } from "gatsby-plugin-image";
+import { useLocation } from "@gatsbyjs/reach-router";
 
 interface LayoutProps {
   children?: React.ReactNode;
@@ -51,7 +52,9 @@ function Layout({ children, ...data }: LayoutProps) {
   const colorMode =
     typeof window !== "undefined" && window.localStorage.getItem("color-mode");
   const [isDark, setIsDark] = useState(colorMode === "dark");
-  const isHome = data.path === "/";
+  const location = useLocation();
+  const doesAnyHistoryEntryExist = location.key !== "initial";
+  const shouldShowBack = data.path !== "/" && doesAnyHistoryEntryExist;
 
   return (
     <div>
@@ -81,7 +84,7 @@ function Layout({ children, ...data }: LayoutProps) {
       >
         <span
           className={`header-action-icon back-arrow ${
-            isHome ? "hide-icon" : ""
+            !shouldShowBack ? "hide-icon" : ""
           }`}
         >
           <Icon
@@ -94,7 +97,7 @@ function Layout({ children, ...data }: LayoutProps) {
           />
         </span>
         <Link
-          className={`gradient ${isHome ? "pull-back" : ""}`}
+          className={`gradient ${!shouldShowBack ? "pull-back" : ""}`}
           to="/"
           style={{ textDecoration: "none", fontSize: 0 }}
         >
