@@ -124,7 +124,7 @@ function IndexPage({ data }) {
               </div>
               <div className="card__description">
                 If you love to read tech blogs? I got you covered. I post new
-                content <b>every week.</b> I write about web,{" "}
+                content <b>every month.</b> I write about web,{" "}
                 <b>
                   ReactJS, Typescript, NodeJS, CSS, Developer productivity tips,{" "}
                 </b>{" "}
@@ -133,10 +133,27 @@ function IndexPage({ data }) {
 
               <Block
                 spacing={[24, 34]}
-                display="flex"
                 gap={16}
                 className="subscribe-container"
-              ></Block>
+              >
+                <h3>You should see my,</h3>
+                <ul>
+                  <li>
+                    <b>
+                      <Link to="/journey" className="fancy-href">
+                        Journey{" "}
+                      </Link>
+                    </b>
+                    an interesting depiction of my career
+                  </li>
+                  <li>
+                    <Link to="/about-me/coding-activity" className="fancy-href">
+                      Coding activity
+                    </Link>
+                    what I do with my laptop
+                  </li>
+                </ul>
+              </Block>
             </div>
           </div>
         </div>
@@ -196,171 +213,6 @@ function IndexPage({ data }) {
           </a>
         </div>
       </div>
-      <div className="section">
-        <div className="section__title">MY JOURNEY</div>
-        <div className="timeline-holder">
-          <Block className="timeline" spacing={[40]}>
-            <Block spacing={[5]} className="year">
-              <TextBlock type="regularLight" style={{ height: 24 }}>
-                2017
-              </TextBlock>
-              <TextBlock type="title2">First Job - Burning Glass</TextBlock>
-            </Block>
-            <TextBlock
-              type="regular"
-              style={{ maxWidth: 480 }}
-              className="subtext"
-            >
-              I was hired as intern during campus placements, where I worked
-              with C, C++ after which I became a full-time SDE
-            </TextBlock>
-          </Block>
-          <Block className="timeline" spacing={[40]}>
-            <Block spacing={[5]} className="year">
-              <TextBlock type="regularLight" style={{ height: 24 }}>
-                2018
-              </TextBlock>
-              <TextBlock type="title2">
-                Got into the Web development team
-              </TextBlock>
-            </Block>
-            <TextBlock
-              type="regular"
-              style={{ maxWidth: 480 }}
-              className="subtext"
-            >
-              Not sure if it was my luck or destiny, I was moved to the web
-              development team that was incharge of building SPAs and dynamic
-              web apps.
-            </TextBlock>
-          </Block>
-          <Block className="timeline" spacing={[40]}>
-            <Block spacing={[5]} className="year">
-              <TextBlock type="regularLight" style={{ height: 24 }}>
-                2019
-              </TextBlock>
-              <TextBlock type="title2">Frontend Developer - Plivo</TextBlock>
-            </Block>
-            <TextBlock
-              type="regular"
-              style={{ maxWidth: 480 }}
-              className="subtext"
-            >
-              As a Frontend Developer, I was given total freedom to implement my
-              learnings. My job was to build performant web pages.
-            </TextBlock>
-          </Block>
-          <Block className="timeline" spacing={[40]}>
-            <Block spacing={[5]} className="year">
-              <TextBlock type="regularLight" style={{ height: 24 }}>
-                2020
-              </TextBlock>
-              <TextBlock type="title2">Covid - WFH - WTH</TextBlock>
-            </Block>
-            <TextBlock
-              type="regular"
-              style={{ maxWidth: 480 }}
-              className="subtext"
-            >
-              TBH, This year and the next year went by within a wink. All I did
-              was sanitize my hands 3 times a day.
-            </TextBlock>
-          </Block>
-          <Block className="timeline" spacing={[40]}>
-            <Block spacing={[5]} className="year">
-              <TextBlock type="regularLight" style={{ height: 24 }}>
-                2021
-              </TextBlock>
-              <TextBlock type="title2">Became SDE - UI, Contacto</TextBlock>
-            </Block>
-            <TextBlock
-              type="regular"
-              style={{ maxWidth: 480 }}
-              className="subtext"
-            >
-              I moved into a product engineering team at{" "}
-              <a href="https://plivo.com">Plivo</a> called{" "}
-              <a
-                href="https://www.contacto.com/"
-                target="_blank"
-                rel="noreferrer"
-              >
-                Contacto
-              </a>
-              , where I worked with awesome tech stack - Electron, React, Vue,
-              Redux, SCSS, etc
-            </TextBlock>
-          </Block>
-          <Block className="timeline" spacing={[40]}>
-            <Block spacing={[5]} className="year">
-              <TextBlock type="regularLight" style={{ height: 24 }}>
-                2022
-              </TextBlock>
-              <TextBlock type="title2">Deep Dive into React</TextBlock>
-            </Block>
-            <TextBlock
-              type="regular"
-              style={{ maxWidth: 480 }}
-              className="subtext"
-            >
-              I can say, that I've mastered React at this point*. It's all about
-              understanding how values are passed, event loops, and other core
-              concepts. This year helped me learn a lot of things and manage
-              people.
-            </TextBlock>
-          </Block>
-          <Block className="timeline" spacing={[40]}>
-            <Block spacing={[5]} className="year">
-              <TextBlock type="regularLight" style={{ height: 24 }}>
-                2023
-              </TextBlock>
-              <TextBlock type="title2">
-                Promoted! SDE-2 Driving Performance
-              </TextBlock>
-            </Block>
-            <TextBlock
-              type="regular"
-              style={{ maxWidth: 480 }}
-              className="subtext"
-            >
-              In 2023, as a Senior UI engineer at Plivo, I am focused on
-              exciting new feature development and optimizing performance for
-              large user data handling. I am eager to expand my skillset and
-              explore the applications of machine learning and artificial
-              intelligence to enhance Plivo's products and services.
-            </TextBlock>
-          </Block>
-        </div>
-      </div>
-      <div className="section">
-        <div className="section__title">MY CODING ACTIVITY</div>
-        <TextBlock spacing={[40, 25]}>
-          I use WakaTime to track my coding activity. It's a great tool to track
-          your coding activity and helps you improve your productivity. It's
-          facinating how IDE's have evolved over the years.
-          <p></p>I started with Notepad++, then moved to Visual Studio, and now
-          I am using VSCode and NeoVim. Tracking time helps me to understand how
-          much time I spend on each project and helps me to improve my
-          productivity.
-        </TextBlock>
-        <div className="coding-activity">
-          <figure>
-            <embed src="https://wakatime.com/share/@c2883fa9-c937-4e8e-8956-e5b47d6dbf96/ff4a5ca7-7dee-4ef7-b7e2-af05dcea72f0.svg"></embed>
-          </figure>
-          <figure>
-            <embed src="https://wakatime.com/share/@samuellawrentz/adc4c8e6-679b-435c-becf-3d5a6f5b3f11.svg"></embed>
-          </figure>
-        </div>
-      </div>
-      {/* <div className="section">
-      <div className="gh">
-          <h3>My Github Contibutions</h3>
-          <h5>Work Profile <a href="https://github.com/samuellawerentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
-          <Img fluid={data.work.childImageSharp.fluid} alt="Work Profile" />   
-          <h5>Personal Profile <a href="https://github.com/samuellawrentz" target="_blank"><Icon name="launch" size={16}/></a></h5>
-          <Img fluid={data.personal.childImageSharp.fluid} alt="Personal Profile" />
-        </div>
-      </div> */}
       <div className="section">
         <div className="section__title friends-title">
           We can be{" "}

@@ -52,9 +52,8 @@ main,
 
 h1 {
   font-size: var(--h1);
-  text-shadow: 2px 4px var(--primary-color);
+  text-shadow: 2px 4px var(--text-shadow-color1);
   line-height: 1.2;
-  letter-spacing: -2%;
 }
 
 h2 {
@@ -77,6 +76,13 @@ h4 {
 .subtext {
   color: var(--element2);
 }
+.header-action-icon {
+  font-size: 0;
+  transition: all 0.2s ease;
+}
+.pull-back {
+  margin-left: -24px;
+}
 
 .container {
   display: flex;
@@ -85,7 +91,6 @@ h4 {
     flex: 1 1 70%;
 
     h1 {
-      letter-spacing: 2px;
       margin-top: 24px;
     }
   }
@@ -110,7 +115,6 @@ h4 {
   }
 
   &__title {
-    content: attr(title);
     margin-bottom: 30px;
     font-size: var(--h1);
     text-transform: uppercase;
@@ -125,6 +129,37 @@ h4 {
       top: 60px;
       transform: translateX(20px);
     }
+  }
+  &__title__new {
+    text-align: center;
+    &:after {
+      content: none;
+    }
+  }
+}
+
+.fancy-href {
+  display: inline-block;
+  padding: 5px 10px;
+  margin-right: 10px;
+  color: #fff;
+  text-decoration: none;
+  background: linear-gradient(45deg, #ff8a0091, #e52e71);
+  background-size: 200% 200%;
+  animation: gradientAnimation 2s ease infinite;
+  transition: animation 0.3s ease-out; /* Add a smooth transition effect */
+}
+
+.fancy-href:hover {
+  animation: none; /* Stop the animation on hover */
+}
+
+@keyframes gradientAnimation {
+  0% {
+    background-position: 100% 0%;
+  }
+  100% {
+    background-position: -100% 0%;
   }
 }
 
@@ -455,15 +490,20 @@ li {
   border-radius: 4px;
 }
 
+.hide-icon {
+  overflow: hidden;
+  width: 0;
+}
+
 .coding-activity {
-  display: flex;
   gap: 24px;
-  margin: 0 -13vw;
   figure {
     flex: 0 0 50%;
     border-radius: 8px;
-    margin: 0;
+    margin: 0 auto;
     overflow: hidden;
+    width: clamp(200px, 100%, 750px);
+    filter: hue-rotate(122deg) brightness(1);
   }
 }
 
@@ -471,6 +511,9 @@ li {
   .blogs .card.read-more .card__image {
     filter: none;
     mix-blend-mode: darken;
+  }
+  .dark-calendar {
+    display: none;
   }
 
   a.gradient {
@@ -490,5 +533,46 @@ li {
     }
   }
 }
+
+/* Define the keyframes for the normal state animation */
+@keyframes arrowNormal {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-2px);
+  }
+}
+
+/* Define the keyframes for the hover state animation */
+@keyframes arrowHover {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-4px);
+  }
+}
+
+/* Apply the styles to the back arrow icon */
+.back-arrow {
+  display: inline-block;
+  font-size: 24px; /* Adjust the size as needed */
+  transition: transform 0.3s ease-out; /* Add a smooth transition effect */
+
+  /* Apply the normal state animation */
+  animation: arrowNormal 1s ease infinite;
+}
+
+/* Apply the hover state animation */
+.back-arrow:hover {
+  animation: arrowHover 0.5s ease infinite;
+}
+
 [color-mode="dark"] {
+  .light-calendar {
+    display: none;
+  }
 }

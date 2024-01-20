@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "gatsby";
+import { Link, navigate } from "gatsby";
 import Helmet from "react-helmet";
 import Footer from "../components/footer";
 import { Icon } from "../components/icon";
@@ -51,6 +51,7 @@ function Layout({ children, ...data }: LayoutProps) {
   const colorMode =
     typeof window !== "undefined" && window.localStorage.getItem("color-mode");
   const [isDark, setIsDark] = useState(colorMode === "dark");
+  const isHome = data.path === "/";
 
   return (
     <div>
@@ -78,7 +79,25 @@ function Layout({ children, ...data }: LayoutProps) {
         alignItems="center"
         gap={24}
       >
-        <Link className="gradient" to="/" style={{ textDecoration: "none" }}>
+        <span
+          className={`header-action-icon back-arrow ${
+            isHome ? "hide-icon" : ""
+          }`}
+        >
+          <Icon
+            name="arrow_back"
+            size={32}
+            title="Go Back"
+            onClick={() => {
+              navigate(-1);
+            }}
+          />
+        </span>
+        <Link
+          className={`gradient ${isHome ? "pull-back" : ""}`}
+          to="/"
+          style={{ textDecoration: "none", fontSize: 0 }}
+        >
           <Block display="inline-flex" gap={16}>
             <StaticImage
               src="../assets/logo.jpg"
@@ -86,13 +105,16 @@ function Layout({ children, ...data }: LayoutProps) {
               width={60}
             />
             <div>
-              <div>Samuel Lawrentz</div>
+              <div className="text-body" style={{ fontSize: 20 }}>
+                Samuel Lawrentz
+              </div>
               <div className="text-caption">The Frontend dev</div>
             </div>
           </Block>
         </Link>
         <span
           style={{ marginLeft: "auto" }}
+          className="header-action-icon"
           onClick={() => {
             // toggle the dark mode
             setIsDark((isDark) => {
@@ -117,7 +139,7 @@ function Layout({ children, ...data }: LayoutProps) {
             title={`${isDark ? "Light" : "Dark"} mode`}
           />
         </span>
-        <Link className="rss" to="/rss.xml">
+        <Link className="rss header-action-icon" to="/rss.xml">
           <Icon name="rss_feed" size={32} title="RSS feed" />
         </Link>
       </Block>
