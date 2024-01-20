@@ -1,7 +1,7 @@
 ---
 title: Enforcing coding standards via Typescript, Husky and Lint-staged
 path: /blog/coding-standards-husky-typescript-lint-staged
-description: Good coding practises should be followed across the team and we have the right tools to enforce it. I&#39;ve added husky and typescript to my vite project and it helps in removing most of the buggy code beforehand.
+description: This blog walks through setting up Typescript, Husky, and lint-staged for enforcing coding standards in a team. The author shares the configuration process for these tools and provides a workaround for submodules. This approach ensures linting and formatting happens before each commit for better code quality.
 heroImage: ./header.png
 tags: [coding practices, linter]
 published: true
