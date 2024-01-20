@@ -72,7 +72,7 @@ bun install husky --save-dev
 }
 ```
 
-> If you are using bun, it's best to add `husky install` to `postinstall` or the `prepare` script in `package.json`. This will automatically install husky when you install the package.
+> If you are using bun, it's best to add `husky install` to `postinstall` or the `prepare` script in `package.json`. This will automatically install husky when you install the package and ensures that everyone in your team has husky installed.
 
 > Note: Bun does not print the output of the scripts
 
