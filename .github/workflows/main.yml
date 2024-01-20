@@ -13,6 +13,17 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
+      - name: Caching Gatsby
+        id: gatsby-cache-build
+        uses: actions/cache@v2
+        with:
+          path: |
+            public
+            .cache
+          key: ${{ runner.os }}-gatsby-build-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-build-
+
       - name: Setup Bun
         uses: oven-sh/setup-bun@v1
         with:

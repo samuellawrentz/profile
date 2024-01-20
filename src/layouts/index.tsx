@@ -60,6 +60,9 @@ function Layout({ children, ...data }: LayoutProps) {
           "color-mode": isDark ? "dark" : "light",
         }}
       >
+        <link rel="icon" href="favicon.ico" type="image/x-icon" />
+        <link rel="shortcut icon" href="favicon.ico" type="image/x-icon" />
+
         <meta
           name="ahrefs-site-verification"
           content="6c3839f0b764fa4c45002167b36cb3f3236bcedbbe54ab9c262661b28995374a"
