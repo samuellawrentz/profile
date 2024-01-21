@@ -200,7 +200,6 @@ h4 {
 
 .blogs {
   display: flex;
-  flex-wrap: wrap;
   flex-direction: column;
 
   .card {
@@ -531,7 +530,7 @@ li {
     display: none;
   }
   .blogs a {
-    flex: 1 0 120px;
+    flex: 1;
   }
 
   a.gradient {
