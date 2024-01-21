@@ -1,0 +1,80 @@
+.khaby-section {
+    margin-top: 60px;
+    max-width: 600px;
+}
+.khaby {
+    position: relative;
+    .gatsby-image-wrapper {
+        border-radius: 4px;
+        transition: opacity 0.1s ease;
+        clip-path: polygon(9% 0, 100% 0%, 88% 100%, 0% 100%);
+        filter: brightness(1.4) saturate(1.2);
+    }
+    .open {
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+    &.show {
+
+        animation: bounce ease-out 0.3s forwards;
+        .close {
+            opacity: 0;
+        }
+    }
+    .result {
+        font-size: var(--h2);
+        background-color: var(--element1);
+        color: var(--surface1);
+        font-weight: bold;
+        transform: rotate(-5deg) skewX(-10deg) translateX(-50%);
+        position: relative;
+        text-align: center;
+        border: 10px solid var(--primary-color);
+        max-width: 500px;
+        position: absolute;
+        bottom: -70px;
+        left: 40%;
+        min-width: 200px;
+        padding: 0px 8px;
+        &.hide {
+            display: none;
+        }
+    }
+}
+
+.error-text {
+    position: absolute;
+    padding-top: 12px;
+    color: var(--danger);
+    font-size: var(--h6);
+}
+
+@keyframes bounce {
+    0% { transform: scale(1); }
+    30% { transform: scale(1.03); }
+    60% { transform: scale(0.99); }
+    80% { transform: scale(0.99) }
+    100% { transform: scale(1); }
+  }
+
+@media screen and (max-width: 768px) {
+    .khabyl-project {
+        flex-wrap: wrap-reverse;
+        .khaby {
+            position: relative;
+            flex: 0 0 70% !important;
+            margin: auto;
+            margin-bottom: 50px;
+            .result {
+                max-width: 400px;
+                bottom: -30px;
+                left: 40%;
+                min-width: 200px;
+            }
+        }
+    }
+    .error-text {
+        position: static;
+    }
+}

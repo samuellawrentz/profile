@@ -1,0 +1,56 @@
+---
+title: How to cache your Gatsby site for faster builds in Github Actions?
+date: 2022-08-05
+heroImage: ./cheetah.webp
+path: /blog/gatsby-incremental-faster-builds-github-actions/
+published: true
+tags: [gatsby]
+description: We all start small, but once our content grows, soon we'll be finding ourselves with 300 pages at hand. This severly impacts the build time of the blog, unless you host it in Gatsby Cloud, which I hear has 100x faster build times than normal conventional builds. Click to read more...
+---
+
+We all start small, but once our content grows, soon we'll be finding ourselves with 300 pages at hand. This severly impacts the build time of the blog, unless you host it in Gatsby Cloud, which I hear has 100x faster build times than normal conventional builds.
+
+## My workflow
+I use Github actions for my CI/CD pipeline. It's pretty cool and awesome but I'm planning to use Netlify as well. So, my workflow is like this,
+1. I write a post or update content
+2. I push to github
+3. An action runs that takes care of the build
+4. It does this from the scratch everytime
+5. Takes 3 to 4 mins to complete
+
+We can optimize this build time by caching our assets and other folders that do not change often. For now, we will be caching our `public` and the `.cache` folder.
+
+## Finally, some code
+This is the code that can be used to cache and do an incremental build using Github Actions. This goes into my `action.yml` file.
+```yml
+name: Gatsby Publish
+
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Caching Gatsby
+        id: gatsby-cache-build
+        uses: actions/cache@v2
+        with:
+          path: |
+            public
+            .cache
+          key: ${{ runner.os }}-gatsby-build-${{ github.run_id }}
+          restore-keys: |
+            ${{ runner.os }}-gatsby-build-
+      - name: Build
+        run: npm install --legacy-peer-deps && npm run build --log-pages
+        env:
+          GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true
+          CI: true
+```
+
+As you can see, `GATSBY_EXPERIMENTAL_PAGE_BUILD_ON_DATA_CHANGES: true` this needs to be set to true for this to work properly. Hope this helps, do follow my blog for more updates and contents like this.

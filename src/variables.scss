@@ -1,37 +1,47 @@
 /* Light Mode */
 :root[color-mode="light"] {
-    --surface1: #e6e6e6;
-    --surface2: #f2f2f2;
-    --surface3: #ffffff;
-    --element1: #111111;
-    --element2: #222222;
-    --element3: #333333;
-    --elementInverse: #eee;
-    --primary: #01408e;
-    --secondary: #3c5d5c;
-    --tertiary: #fff7d6;
-  }
-  
-  /* Dark Mode */
-  :root[color-mode="dark"] {
-    --surface1: #262626;
-    --surface2: #333333;
-    --surface3: #404040;
-    --element1: #eeeeee;
-    --element2: #dddddd;
-    --element3: #cccccc;
-    --elementInverse: #111;
-    --primary: #8fceff;
-    --secondary: #72faca;
-    --tertiary: #eee8a9;
-  }
+  --surface1: hsl(0, 0%, 90%);
+  --surface2: hsl(0, 0%, 95%);
+  --surface3: hsl(0, 0%, 100%);
+  --element1: hsl(0, 0%, 7%);
+  --element2: hsl(0, 0%, 13%);
+  --element3: hsl(0, 0%, 20%);
+  --elementInverse: hsl(0, 0%, 93%);
+  --primary: hsl(213, 99%, 28%);
+  --secondary: hsl(178, 22%, 30%);
+  --tertiary: hsl(348deg 100% 33.33%);
+  --text-shadow-color1: hsl(0, 20%, 84%);
+  --card-shadow-color: rgb(0 0 0 / 30%);
+}
 
-  :root {
-    --h1: 3.052rem;
-    --h2: 2.441rem;
-    --h3: 1.953rem;
-    --h4: 1.563rem;
-    --h5: 1.25rem;
-    --h6: 1.15rem;
-    --caption: 1rem;
-  }
+/* Dark Mode */
+:root[color-mode="dark"] {
+  --surface1: hsl(0, 0%, 10%);
+  --surface2: hsl(0, 0%, 20%);
+  --surface3: hsl(0, 0%, 25%);
+  --element1: hsl(0, 0%, 93%);
+  --element2: hsl(0, 0%, 87%);
+  --element3: hsl(0, 0%, 80%);
+  --element4: hsl(0, 0%, 30%);
+  --elementInverse: hsl(0, 0%, 7%);
+  --text-shadow-color1: hsl(349, 38%, 20%);
+  --card-shadow-color: rgb(255 255 255/ 30%);
+}
+
+:root {
+  font-size: 16px;
+  --h1: clamp(40px, 5vw, 4.5rem);
+  --h2: clamp(30px, 4vw, 3rem);
+  --h3: clamp(22px, 3vw, 1.875rem);
+  --h4: clamp(18px, 2vw, 1.5rem);
+  --h5: 1.125rem;
+  --h6: 1rem;
+  --white: hsl(0, 0%, 100%);
+  --body: clamp(16px, 3vw, 1.25rem);
+  --caption: clamp(14px, 2vw, 0.75rem);
+  --primary-color: hsl(349, 98%, 34%);
+  --secondary-color: hsl(169deg 52% 43%);
+  --tertiary: hsl(55, 67%, 80%);
+  --danger: hsl(10, 100%, 65%);
+}
+

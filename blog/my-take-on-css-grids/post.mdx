@@ -1,0 +1,65 @@
+---
+title: My take on CSS Grids
+path: /blog/css-grids-examples-guide-tutorial/
+description: CSS grids are awesome, now that more browsers are supporting it, it's time that we embrace grid and use its full potential. Click to read more.
+heroImage: ./css-grid.png
+tags: [css]
+published: true
+date: 2022-08-20
+---
+
+For a long time, I was against the use of modern CSS properties and tools. This was because the organization that I used to work for supports older versions of [Internet Explorer](https://en.wikipedia.org/wiki/Internet_Explorer_version_history#:~:text=The%20first%20version%20of%20Internet,other%20companies%20initiating%20browser%20development.). So Flexbox and Grid were out of the equation. It was just `position` `display` `float` `clear` `text-align` `vertical-align` properties that I was using for positioning.
+
+Later when I moved to a new organization, there were no such restrictions. All I had to do was make the web pages load faster and look good on all devices and browsers. Then I took interest in `flexbox`. I almost use all the flex properties regularly and they are stored in my mind as a fresh copy.
+
+Even when I was working with flexbox, I always looked up to CSS Grids as something awesome. Every time I try to learn/read and understand it, I would get bored or screw up my understanding. But now, after eons, I guess I've finally cracked up the mystery behind CSS Grids.
+
+Recently, I played a game that has like 80 levels in it, which progressively teaches you about CSS grids. It took me 3 days to complete all the levels. I played it during my leisure time, it was fun. Thanks to the creator. You can give it a try, it's interesting.
+
+> Play it here - [Coding fantasy - CSS Grid game](https://codingfantasy.com/games/css-grid-attack)
+
+## Do we need media queries? I guess not.
+There are functions in CSS!! Yes, you heard me - functions! What if I told you that you are already using them!? Yes, `rgb()`, `rgba()`, `hsl()`, `calc()`, etc all these are CSS functions. Grids introduce few new functions to use `repeat()`and `minmax()`. 
+
+### WTH is `minmax()`?
+With `minmax()` we can avoid writing media queries and breakpoints. All you have to do is define a minimum width and a maximum width for your grid cells. The rest would be taken care of by CSS.
+
+`minmax(minimum-value, max-value)`
+The values can be any of these `px`, `%`, `fr`, `min-content`, `max-content`.  Alright, we have talked a lot about CSS and grids. Let's see some code.
+
+## Tile layout
+Previously, tile layout was difficult and we had to write a bunch of CSS code. Now with grid, it has become a breeze. I use the CSS grid for my [blog listing page](https://samuellawrentz.com/blog/). Do check it out!
+
+```css
+.grid {
+  display: grid;
+  grid-gap: 15px;
+  // auto-fit takes care of the number of columns it can fit into
+  // the given space
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  grid-auto-rows: 200px;
+  grid-auto-flow: dense;
+}
+```
+## Breaking down into bits
+Okay, let me break down the above style into some readable components
+ - `display: grid`
+	Obviously, This is required.
+ - `grid-gap:15px`
+	This is used to define a gap between the grid cells. Forget about margins. If it is a grid, we use `gap` or `grid-gap`
+ - `grid-template-columns`
+	This is used to define the blueprint of the grid columns - describes how many columns and the width of each column.
+ - `repeat()` 
+ As mentioned earlier, this is a CSS function, that repeats whatever is passed as a 2nd argument for the number of times passed in the 1st argument.
+ - `auto-fit` 
+ Calculates the number of columns that need to be generated based on the specified width.
+ - `minmax()`
+ This also is a CSS function, we've already covered it above.
+ - `grid-auto-rows`
+ This property defines a standard height for the rows so that you don't have to specify explicit heights.
+ - `grid-auto-flow`
+ This property is used to specify the algorithm that is used to fill the grid. By default it is `row`. `dense` fills the gap with smaller items wherever possible. This makes the grid look dense.
+
+I've shared my thoughts and understanding. Feedbacks are valuable. Do follow this blog for more updates.
+
+> Written with [StackEdit](https://stackedit.io/).

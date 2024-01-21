@@ -1,0 +1,29 @@
+---
+title: How to Optimize React Components Using Computed Variables
+path: /blog/computed-state-in-react
+description: Learn how to optimize your React components using computed variables. Improve performance, simplify your code, and make your app faster. Read now!
+heroImage: ./cheetah.png
+tags: [react, optimisation, performance]
+published: true
+date: 2023-03-30
+---
+React is like a high-speed jet ski with its reactive state variables and props that allow you to zip around your app with lightning-fast agility. But what if I told you that you could make your app even faster? Get ready to strap on your racing goggles as we dive into the world of computed variables.
+
+## Computed Variables in React
+In React, a computed variable is a value that is derived from or computed based on one or more state variables. It is similar to a computed property in other frameworks, such as Vue.js or Knockout.js. Computed variables are created using hooks like useMemo or useCallback, and their value is only recomputed when their dependencies change. This allows for a more efficient rendering process, since the component doesn't need to re-render every time a state variable changes, but only when the computed variable changes. In other words, computed variables act as a kind of pit stop, where the component can swap out a slow state variable for a speedy computed one. This can help eliminate unnecessary re-renders and make your app faster than a cheetah on a jet ski, especially in complex applications where performance is critical.
+
+## Some code please
+Let's take a look at an example. Say you have a component that renders a list of items, and you want to display the total number of items in the list. You could use a computed variable to achieve this:
+
+```js
+const [items, setItems] = useState([]);
+
+// usememo is not necessary here, but it's good practice
+// if itemCount is a computation heavy value, we can memoize it
+const itemCount = useMemo(() => items.length, [items]);
+```
+
+By using `useMemo`, we can create a memoized version of the `itemCount` variable. This means that the value of `itemCount` will only be computed when the `items` state variable changes, which can help eliminate unnecessary re-renders and make your app faster than a jet-propelled cheetah.
+
+## Conclusion: The Fast and the Furious
+In conclusion, computed variables can help make your React app faster than a cheetah on a jet ski. By identifying which state variables are computed values and replacing them with normal variables, you can improve your app's performance and leave your competitors in the dust. So buckle up and get ready to leave your competition in the rearview mirror!
