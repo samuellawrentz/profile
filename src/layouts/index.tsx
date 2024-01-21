@@ -34,13 +34,18 @@ const TimerBlock = () => {
     );
   }, []);
   return (
-    <div
-      className={`timer ${percent < 100 ? "visible" : ""}`}
-      title="This helps me increase the session time of my site. Thank you!"
-    >
+    <div className={`timer ${percent < 100 ? "visible" : ""}`} title="">
       <Block display="flex" alignItems="center" gap={16}>
         <CircularProgress percent={percent} />
-        <div>{timeString}</div>
+        <div className="tooltip">
+          {timeString}
+          <div className="top">
+            <p>
+              This helps me increase the session time of my site. Thank you!
+            </p>
+            <i></i>
+          </div>
+        </div>
       </Block>
       <div className="text-caption">{texts[Math.floor(percent / 39)]}</div>
     </div>
@@ -55,6 +60,7 @@ function Layout({ children, ...data }: LayoutProps) {
   const location = useLocation();
   const doesAnyHistoryEntryExist = location.key !== "initial";
   const shouldShowBack = data.path !== "/" && doesAnyHistoryEntryExist;
+  const isBlogHome = data.path === "/blog/";
 
   return (
     <div>
@@ -148,9 +154,7 @@ function Layout({ children, ...data }: LayoutProps) {
       </Block>
       {/* <canvas id="canvas" className="background-canvas"></canvas>./ */}
       <main>{children}</main>
-      <div className="time">
-        <TimerBlock />
-      </div>
+      <div className="time">{!isBlogHome && <TimerBlock />}</div>
       {!is404 && <Footer />}
     </div>
   );

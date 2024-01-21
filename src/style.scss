@@ -200,9 +200,7 @@ h4 {
 
 .blogs {
   display: flex;
-  gap: 40px;
   flex-wrap: wrap;
-  row-gap: 40px;
   flex-direction: column;
 
   .card {
@@ -236,6 +234,21 @@ h4 {
     h3 {
       margin: 12px 0;
     }
+    &__home {
+      padding: 0;
+      gap: 0;
+      .card__details {
+        padding: 0;
+        margin-bottom: 32px;
+        h4 {
+          margin: 12px 0 8px;
+        }
+      }
+      .card__date {
+        margin-bottom: -12px;
+        font-size: var(--h6);
+      }
+    }
 
     &__details {
       padding: 16px;
@@ -250,7 +263,7 @@ h4 {
     }
   }
 
-  .card:not(.read-more) {
+  .card.bordered:not(.read-more) {
     display: flex;
     box-shadow: 12px 12px 0px var(--card-shadow-color);
     border: 2px solid var(--element1);
@@ -415,6 +428,8 @@ li {
   padding: 0 16px;
   right: 12px;
   top: -6px;
+  -webkit-text-fill-color: white;
+  color: white;
 }
 
 .card {
@@ -451,7 +466,7 @@ li {
     border: 1px solid var(--element3);
     border-radius: 35px;
     font-size: var(--h6);
-    color: var(--element1);
+    color: var(--element3);
   }
 }
 .date-tag {
@@ -515,6 +530,9 @@ li {
   .dark-calendar {
     display: none;
   }
+  .blogs a {
+    flex: 1 0 120px;
+  }
 
   a.gradient {
     &:hover {
@@ -555,6 +573,52 @@ li {
     transform: translateX(-4px);
   }
 }
+.tooltip {
+  position: relative;
+}
+
+.tooltip .top {
+  min-width: 200px;
+  top: -10px;
+  left: 50%;
+  transform: translate(-50%, -100%);
+  padding: 10px 20px;
+  color: #444444;
+  background-color: #eeeeee;
+  font-weight: normal;
+  font-size: 13px;
+  border-radius: 8px;
+  position: absolute;
+  z-index: 99999999;
+  box-sizing: border-box;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+  display: none;
+}
+
+.tooltip:hover .top {
+  display: block;
+}
+
+.tooltip .top i {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -12px;
+  width: 24px;
+  height: 12px;
+  overflow: hidden;
+}
+
+.tooltip .top i::after {
+  content: "";
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  background-color: #eeeeee;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.5);
+}
 
 /* Apply the styles to the back arrow icon */
 .back-arrow {
@@ -574,5 +638,9 @@ li {
 [color-mode="dark"] {
   .light-calendar {
     display: none;
+  }
+  input,
+  .input-wrapper input {
+    color: var(--primary-color);
   }
 }

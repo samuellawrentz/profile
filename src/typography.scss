@@ -1,28 +1,29 @@
+.text-regularLight {
+  font-weight: 100;
+  font-size: var(--h4);
+}
+.text-title2 {
+  font-weight: 600;
+  line-height: 1.3;
+  font-size: var(--h4);
+}
 
+.text-regular {
+  font-size: inherit;
+}
+.text-caption {
+  font-size: var(--caption);
+  font-weight: 100;
+  letter-spacing: 0.5px;
+}
+.text-subtext {
+  font-size: var(--h6);
+}
 
-    .text-regularLight {
-        font-weight: 100;
-        font-size: var(--h4);
-    }
-    .text-title2 {
-        font-weight: 600;
-        line-height: 1.3;
-        font-size: var(--h4);
-    }
+h5 {
+  margin-bottom: 0.5rem;
+  & + p {
+    margin-top: 0.5rem;
+  }
+}
 
-    .text-regular {
-        font-size: inherit;
-    }
-    .text-caption {
-        font-size: var(--caption);
-        font-weight: 100;
-        letter-spacing: 0.5px;
-    }
-
-    h5{
-        margin-bottom: 0.5rem;
-        & + p {
-            margin-top: 0.5rem;
-        }
-    }
-  

@@ -83,7 +83,7 @@ function IndexPage({ data }) {
               i: number,
             ) => (
               <Link to={path} key={i}>
-                <div className="card">
+                <div className="card card__home">
                   <div className="card__image">
                     <Img
                       fluid={heroImage?.childImageSharp?.fluid}
@@ -93,7 +93,7 @@ function IndexPage({ data }) {
                   <div className="card__details">
                     <div className="card__date text-regularLight">{date}</div>
                     <div className="card__title">
-                      <h3>{title}</h3>
+                      <h4>{title}</h4>
                     </div>
                     <Block
                       display="flex"
