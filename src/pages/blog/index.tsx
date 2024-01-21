@@ -56,12 +56,12 @@ function Blog({ data }: any) {
                     <Img fluid={heroImage.childImageSharp.fluid} alt={title} />
                   </div>
                   <div className="card__details">
-                    <div className="card__date text-regularLight">{date}</div>
+                    <div className="card__date text-caption">{date}</div>
                     <div className="card__title">
                       <h3>{title}</h3>
                     </div>
                     {!(i % 2 && i % 5) && (
-                      <div className="subtext">
+                      <div className="subtext text-subtext">
                         {description.length > 150 ? excerpt : description}
                       </div>
                     )}
