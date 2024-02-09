@@ -144,13 +144,13 @@ function IndexPage({ data }) {
                         Journey{" "}
                       </Link>
                     </b>
-                    an interesting depiction of my career
+                    - an interesting depiction of my career
                   </li>
                   <li>
                     <Link to="/about-me/coding-activity" className="fancy-href">
                       Coding activity
                     </Link>
-                    what I do with my laptop
+                    - what I do with my laptop
                   </li>
                 </ul>
               </Block>
@@ -208,6 +208,63 @@ function IndexPage({ data }) {
               </div>
               <div className="text-caption technologies">
                 Vannila Javascript, Highcharts Custom module, SVG, HTML, CSS
+              </div>
+            </div>
+          </a>
+
+          <a
+            href="https://www.npmjs.com/package/react-highlighting-textbox"
+            target="_blank"
+            className="gradient card-container"
+            rel="noreferrer"
+          >
+            <div className="card card__details">
+              <div className="card__title text-title2">
+                <h3>React Highlight Textbox</h3>
+              </div>
+              <div className="card__description">
+                A on-of-a-kind React component that highlights the text within
+                an input.
+              </div>
+              <div className="text-caption technologies">
+                React, Typescript, CSS
+              </div>
+            </div>
+          </a>
+          <a
+            href="https://marketplace.visualstudio.com/items?itemName=SamuelLawrentz.jira-git-commit-helper"
+            target="_blank"
+            className="gradient card-container"
+            rel="noreferrer"
+          >
+            <div className="card card__details featured">
+              <div className="card__title text-title2">
+                <h3>JIRA Commit Helper</h3>
+              </div>
+              <div className="card__description">
+                A VS Code extension that will help adding JIRA ID to commit
+                messages.
+              </div>
+              <div className="text-caption technologies">
+                Typescript, VS Code API, Git, JIRA API
+              </div>
+            </div>
+          </a>
+          <a
+            href="https://www.npmjs.com/package/rc-json-editor"
+            target="_blank"
+            className="gradient card-container"
+            rel="noreferrer"
+          >
+            <div className="card card__details">
+              <div className="card__title text-title2">
+                <h3>rc-json-editor</h3>
+              </div>
+              <div className="card__description">
+                A React component that helps you to edit JSON data.
+              </div>
+              <div className="text-caption technologies">
+                React, Typescript, CSS, OOPS
               </div>
             </div>
           </a>
