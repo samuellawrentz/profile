@@ -18,7 +18,7 @@ module.exports = [
     type: "input",
     name: "heroimage",
     message: "Enter the path for the hero image.",
-    default: "./header.png",
+    default: "./assets/header.png",
   },
   {
     type: "input",
