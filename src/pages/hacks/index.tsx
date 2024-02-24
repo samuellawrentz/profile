@@ -37,44 +37,27 @@ function Hacks({ data }: any) {
           </Block>
         </div>
       </div>
-      <div className="blogs home-blog">
+      <div className="hacks">
         {hacks.map(
           (
             {
               excerpt,
-              frontmatter: { date, title, path, heroImage, description, tags },
+              frontmatter: { date, title, path, description, tags },
             }: any,
             i: number,
           ) => {
             i = i + 1;
             return (
               <Link to={path} className={``} key={i}>
-                <div className="card">
-                  <div className="card__details">
-                    <div className="card__date text-caption">{date}</div>
-                    <div className="card__title">
-                      <h3>{title}</h3>
-                    </div>
-                    {!(i % 2 && i % 5) && (
-                      <div className="subtext text-subtext">
-                        {description.length > 150 ? excerpt : description}
-                      </div>
-                    )}
-                    <Block
-                      display="flex"
-                      gap={48}
-                      alignItems="center"
-                      className="date-tag"
-                    >
-                      <div className="tags">
-                        {tags.map((tag: any) => (
-                          <div className="tag" key={tag}>
-                            {tag}
-                          </div>
-                        ))}
-                      </div>
-                    </Block>
-                  </div>
+                <div className="gradient">
+                  <h4>{title}</h4>
+                  <div className="subtext text-subtext">{description}</div>
+                  <Block display="flex" gap={8} style={{ fontSize: 14 }}>
+                    <em>
+                      <b>Tags: </b>
+                      {tags.join(", ")}
+                    </em>
+                  </Block>
                 </div>
               </Link>
             );

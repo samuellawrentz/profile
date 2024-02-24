@@ -1,0 +1,42 @@
+---
+title: Mastering useContext for State Management in React
+path: /hacks/react/state-management-using-usecontext
+description: Understanding useContext for state management in React. Learn how to leverage hooks for efficient state management.
+type: hack
+tags: [react, hooks, state management]
+---
+
+Managing state in large React applications can be complex, but useContext hook simplifies it. The `useContext` hook is a built-in hook in React that allows you to share state and other data between components without passing props.
+
+Here's a simple implementation:
+
+```javascript
+import React, { useContext, useState } from 'react';
+
+const MyContext = React.createContext();
+
+function ProviderComponent({ children }) {
+  const [state, setState] = useState(0);
+  return (
+    <MyContext.Provider value={{ state, setState }}>
+      {children}
+    </MyContext.Provider>
+  );
+}
+
+function ConsumerComponent() {
+  const context = useContext(MyContext);
+  return (
+    <div>
+      {context.state}
+      <button onClick={() => context.setState(context.state + 1)}>
+        Increment
+      </button>
+    </div>
+  );
+}
+```
+
+In the above code, `ProviderComponent` provides the state to its children. In `ConsumerComponent`, we use `useContext` to access the state and the `setState` function.
+
+Remember, `useContext` doesn't replace Redux or other state management libraries but provides a simpler way for state sharing between components.

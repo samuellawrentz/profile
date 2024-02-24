@@ -1,0 +1,42 @@
+---
+title: Implementing Context API for Global State Management in React
+path: /hacks/react/global-state-management-using-context-api
+description: Learn how to manage global state in your React applications using the Context API. This tutorial includes code snippets for better understanding.
+type: hack
+tags: [react, context api, state management]
+---
+
+React's Context API provides a way to pass data through the component tree without having to pass props down manually at every level. 
+
+First, create a context.
+
+```javascript
+import React from 'react';
+const MyContext = React.createContext(defaultValue);
+```
+
+Next, provide the context to the components that need it.
+
+```javascript
+<MyContext.Provider value={/* some value */}>
+```
+
+Finally, consume it in your components.
+
+```javascript
+class MyClassComponent extends React.Component {
+  static contextType = MyContext;
+  render() {
+    return <div>{this.context}</div>; // value from MyContext.Provider
+  }
+}
+```
+
+Or in functional components, use the `useContext` Hook.
+
+```javascript
+import React, { useContext } from 'react';
+const value = useContext(MyContext);
+```
+
+Remember, Context API is designed to share data that can be considered “global” for a tree of React components, like the current authenticated user, theme, or preferred language.

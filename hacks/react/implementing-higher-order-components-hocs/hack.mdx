@@ -1,0 +1,33 @@
+---
+title: Mastering Higher-Order Components in React
+path: /hacks/react/implementing-higher-order-components
+description: Learn to implement Higher-Order Components (HOCs) in React. Understand the concept of HOCs, their benefits, and how to use them effectively.
+type: hack
+tags: [react, higher-order components, web development]
+---
+
+Higher-Order Components (HOCs) in React are a pattern derived from React's compositional nature. HOCs are a great way to reuse component logic, and their pattern involves a function that takes a component and returns a new component.
+
+Here's a simple example of a HOC:
+
+```javascript
+function withExample(WrappedComponent) {
+  return class extends React.Component {
+    render() {
+      return <WrappedComponent {...this.props} />;
+    }
+  };
+}
+```
+
+In the above code, `withExample` is a HOC. It's a function that takes a component `WrappedComponent` and returns a new component that renders the `WrappedComponent`.
+
+To use this HOC, we can simply do:
+
+```javascript
+const EnhancedComponent = withExample(SomeComponent);
+```
+
+`EnhancedComponent` will have the same behavior as `SomeComponent`, but now it has the potential to be enhanced with additional props, state, or lifecycle methods.
+
+Remember, HOCs are not part of the React API. They are a pattern that emerges from React's compositional nature.

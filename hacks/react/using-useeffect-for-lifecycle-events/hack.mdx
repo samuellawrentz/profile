@@ -1,0 +1,53 @@
+---
+title: Mastering useEffect for React Lifecycle Events
+path: /hacks/react/use-effect-for-lifecycle-events
+description: Unpack the power of React's useEffect Hook for managing lifecycle events. Learn to write clean, effective code with examples.
+type: hack
+tags: [react, hooks, useEffect]
+---
+
+React's `useEffect` hook allows you to handle lifecycle events in your functional components. It's like combining `componentDidMount`, `componentDidUpdate`, and `componentWillUnmount` in class components.
+
+Here's a basic usage of `useEffect`:
+
+```javascript
+import React, { useEffect } from 'react';
+
+function App() {
+  useEffect(() => {
+    // Your code here
+  }, []);
+
+  return <div>My App</div>;
+}
+```
+
+In the example above, the function passed to `useEffect` will run after the render is committed to the screen. Think of it as `componentDidMount` and `componentDidUpdate` combined.
+
+To mimic `componentDidMount`, pass an empty array `[]` as the second argument to `useEffect`:
+
+```javascript
+useEffect(() => {
+   // This will run ONCE after initial render, similar to componentDidMount
+}, []);
+```
+
+To mimic `componentDidUpdate`, you can pass specific values in the array:
+
+```javascript
+useEffect(() => {
+  // This runs AFTER every render, ONLY IF `prop` has changed since last render
+}, [prop]);
+```
+
+To mimic `componentWillUnmount`, return a function from within the function passed to `useEffect`:
+
+```javascript
+useEffect(() => {
+  // component cleanup
+  return () => {
+    // This will run when the component unmounts, similar to componentWillUnmount
+  };
+}, []);
+```
+Master `useEffect` to write clean, robust, and efficient React code!

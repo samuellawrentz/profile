@@ -1,0 +1,30 @@
+---
+title: Setting Initial State with React's useState Hook
+path: /hacks/react/setting-initial-state-with-usestate
+description: Learn how to set initial state in React using useState hook. This post includes snippets of code for a better understanding.
+type: hack
+tags: [react, useState, state management]
+---
+When using React, it’s often necessary to set an initial state for your components. This can be achieved using the `useState` hook.
+
+Here's how you can set the initial state:
+
+```javascript
+import React, { useState } from 'react';
+
+function App() {
+  const [state, setState] = useState('Initial State');
+
+  return (
+    <div>
+      <p>{state}</p>
+    </div>
+  );
+}
+
+export default App;
+```
+
+In the above example, `useState` hook is called with the initial state 'Initial State'. It returns a pair — the current state value (`state` in our case) and a function that lets you update it (`setState`).
+
+The `useState` hook is a built-in function in React that lets you add and manipulate state in functional components. This was not possible in earlier versions of React without converting the functional component into a class component.

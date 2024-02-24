@@ -1,0 +1,41 @@
+---
+title: Implementing Lazy Loading in React with Suspense
+path: /hacks/react/lazy-loading-with-suspense
+description: A quick guide on implementing lazy loading in React applications using Suspense. Boost web app performance and enhance user experience.
+type: hack
+tags: [react, lazy loading, suspense]
+---
+
+In React, lazy loading with Suspense can be a game changer for web app performance. It allows you to defer loading components until they're needed, enhancing user experience.
+
+To start, import `Suspense` and `lazy` from React:
+
+```javascript
+import React, { Suspense, lazy } from 'react';
+```
+
+Declare your lazily loaded component:
+
+```javascript
+const LazyComponent = lazy(() => import('./LazyComponent'));
+```
+
+Wrap the `LazyComponent` with `Suspense` and provide a fallback UI:
+
+```javascript
+function App() {
+  return (
+    <div>
+      <Suspense fallback={<div>Loading...</div>}>
+        <LazyComponent />
+      </Suspense>
+    </div>
+  );
+}
+
+export default App;
+```
+
+In this example, the `LazyComponent` will only be loaded when it's rendered. Until then, the fallback UI ("Loading...") will be displayed.
+
+Remember to place the `Suspense` component high enough in your component tree to capture all components you want to lazily load.

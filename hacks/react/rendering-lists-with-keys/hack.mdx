@@ -1,0 +1,35 @@
+---
+title: Rendering Lists with Keys in React
+path: /hacks/react/rendering-lists-with-keys
+description: Learn how to efficiently render lists in React using keys. This hack covers the importance of keys and how to use them in your React applications.
+type: hack
+tags: [react, lists, keys]
+---
+
+In React, lists can be rendered by mapping through an array of data and returning JSX for each item. However, to ensure each item in the list is uniquely identified, React requires a `key` prop.
+
+```javascript
+const numbers = [1, 2, 3, 4, 5];
+const listItems = numbers.map((number) =>
+  <li key={number.toString()}>
+    {number}
+  </li>
+);
+```
+
+The `key` is a special string attribute you need to include when creating lists of elements. Keys help React identify which items have changed, are added, or are removed. 
+
+However, do not use indexes for keys if the order of items may change. This can negatively impact performance and may cause issues with the component state.
+
+```javascript
+const todoItems = todos.map((todo, index) =>
+  // Only do this if items have no stable IDs
+  <li key={index}>
+    {todo.text}
+  </li>
+);
+```
+
+Instead, it's better to use unique string identifiers from your data if available.
+
+Understanding and properly implementing keys in React will lead to better performance and fewer bugs in your application.

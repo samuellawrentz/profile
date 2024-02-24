@@ -1,0 +1,35 @@
+---
+title: Immutable Array State Updates in React
+path: /hacks/react/handling-array-state-updates-immutably
+description: Learn how to handle array state updates immutably in React. Get best practices and code snippets to improve your React development skills.
+type: hack
+tags: [react, javascript, web development]
+---
+
+When working with React, updating the state immutably is a key best practice. Let's see how to handle array state updates immutably.
+
+Consider an array state:
+
+```javascript
+const [items, setItems] = useState(['Apple', 'Banana', 'Cherry']);
+```
+
+To add an item:
+
+```javascript
+setItems(prevItems => [...prevItems, 'Date']);
+```
+
+To remove an item:
+
+```javascript
+setItems(prevItems => prevItems.filter(item => item !== 'Banana'));
+```
+
+To update an item:
+
+```javascript
+setItems(prevItems => prevItems.map((item, index) => index === 1 ? 'Blueberry' : item));
+```
+
+In each case, we're creating a new array instead of mutating the existing one. This allows React to optimize re-rendering and helps prevent hard-to-find bugs related to mutable state.

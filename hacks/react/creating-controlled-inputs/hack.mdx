@@ -1,0 +1,38 @@
+---
+title: Mastering Controlled Inputs in React
+path: /hacks/react/controlled-inputs-best-practices
+description: Learn to create controlled inputs in React, which is a key task in form handling. This post includes practical code snippets for hands-on learning.
+type: hack
+tags: [react, forms, controlled inputs]
+---
+
+Creating controlled inputs in React is crucial for managing form data. A controlled input accepts its current value as a prop and callback to change that value.
+
+Here is a simple example of a controlled input component in React:
+
+```jsx
+class ControlledInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {value: ''};
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(event) {
+    this.setState({value: event.target.value});
+  }
+
+  render() {
+    return (
+      <input type="text" value={this.state.value} onChange={this.handleChange} />
+    );
+  }
+}
+```
+
+In this component, the value of the input is always driven by the React state. When you type in the input field, it triggers `handleChange` which updates the state, causing a re-render with the new value.
+
+This setup gives you more control over your input elements and allows for more complex behaviors. It's a fundamental concept that will enhance your React development skills. 
+
+Remember, the key is to keep your inputs controlled by maintaining the component's state as the single source of truth.

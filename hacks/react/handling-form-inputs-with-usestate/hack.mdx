@@ -1,0 +1,30 @@
+---
+title: Handling React Form Inputs with useState
+path: /hacks/react/handling-form-inputs-usestate
+description: Learn how to handle form inputs in React using the useState hook. This guide will walk you through creating a simple form in React, collecting and managing user input with useState.
+type: hack
+tags: [react, web development, useState]
+---
+
+React's `useState` hook allows us to add state to our functional components. When it comes to forms, it's a powerful tool for capturing user input. Below is a basic example of how to use useState to handle form inputs.
+
+First, we create a state variable and a function to update that state using `useState`.
+
+```javascript
+const [value, setValue] = useState("");
+```
+Next, we create an input field and assign its value to our state variable and its `onChange` event to our update function.
+
+```javascript
+<input type="text" value={value} onChange={e => setValue(e.target.value)} />
+```
+In the above code, `e.target.value` is the current text in the input field. Each time the user types, the input's `onChange` event fires, updating the state with the current input text.
+
+Remember to import the `useState` hook from `React` at the beginning of your file.
+
+```javascript
+import React, { useState } from 'react';
+```
+And that's it! With just a few lines of code, you've created a reactive form input in React using `useState`.
+
+Remember that each input field should have its own state variable. This way, you can capture and manage each input independently.
