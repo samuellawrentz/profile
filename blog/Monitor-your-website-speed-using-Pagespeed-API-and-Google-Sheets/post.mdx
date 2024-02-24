@@ -11,7 +11,7 @@ date: 2022-08-12
 Everyone loves speed - be it cars, superbikes, or websites. A good website (like this one 😉) loads content within the blink of an eye. A fast website can generate a lot of traffic easily. Users feel energetic and comfortable in using a website that responds quickly to their inputs. To measure the speed and performance, you need to be introduced to PageSpeed.
 
 ## PageSpeed ⚡️
-[PageSpeed Insights](https://developers.google.com/speed/docs/insights/v5/get-started) is a google metric that helps developers and businesses to find out how their website performs and loads on different devices and conditions. A good website must have a PageSpeed above 90, where 100 is the best.
+[PageSpeed Insights](https://developers.google.com/speed/docs/insights/v5/get-started) is a google metric that helps developers and businesses to find out how their website performs and loads on different devices and conditions. A good website must have a PageSpeed above 90, where 100 is the best. For example, my website's pagespeed is almost 95-98, you can check it out [here](https://samuellawrentz.com/blog/monitor-website-pagespeed-with-googlesheets/).
 
 The PageSpeed of this website is almost 95-98. I'm planning to make it 100 soon, stay tuned.
 
@@ -26,10 +26,10 @@ You can get the speed insights of your website here - [Google PageSpeed Insigts]
 This API is provided by google so that you can fetch your PageSpeed scores programmatically using the API. To get started, you have to create a google project and [enable API usage.](https://console.developers.google.com/apis/credentials) You will get an **API Key**. This is required to make API calls to the google PageSpeed server. Google has a free tier so cost shouldn't be a concern.
 
 ## Google Sheets Apps Script
-Google sheet has a section that allows you to write scripts that can be triggered automatically. The syntax looks like plain Javascript, but its called [Apps Script or Google Script](https://www.google.com/script/start/). You can find it in Extensions > Apps Script.
+Google sheet has a section that allows you to write scripts that can be triggered automatically. The syntax looks like plain Javascript, but its called [Apps Script or Google Script](https://www.google.com/script/start/). You can find it in Extensions > Apps Script. For tips and tricks about coding standards, you can refer to this [post](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged).
 
 ### Ok fine, How do we do the monitoring part?
-You can make an API call to fetch the PageSpeed data and then write it to the last row in the sheet once everyday. In this manner, we can have a track of daily PageSpeed data and it can be used for further analytics.
+You can make an API call to fetch the PageSpeed data and then write it to the last row in the sheet once everyday. In this manner, we can have a track of daily PageSpeed data and it can be used for further analytics. To understand the importance of analytics, you can refer to my [post](https://samuellawrentz.com/blog/gatsby-incremental-faster-builds-github-actions/) on Gatsby incremental faster builds with Github actions.
 
 You can even set up a mail alert if the PageSpeed goes than, say 80 *(I'm leaving it upto you, my fellow developer)*. The AppsScript code is as follows, put it in the `Code.gs` file in the script editor.
 

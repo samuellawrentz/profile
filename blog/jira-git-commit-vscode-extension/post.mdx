@@ -7,21 +7,22 @@ tags: [devexp, git, jira, productivity]
 published: true
 date: 2024-02-10
 ---
+
 - Are you wondering how to streamline your Git commit messages?
 - Do you want to have a consistent git commit template with JIRA IDs included?
-- Do you want to get the JIRA details right in the IDE so that you can add proper commit messages with ticket IDs? 
+- Do you want to get the JIRA details right in the IDE so that you can add proper commit messages with ticket IDs?
 - Do you feel your productivity goes on a toss every time you go to the browser just to search the ticket ID that you are working on?
 
-I've got you covered. I created this VSCode extension two years back and was using it personally, and did not promote it or publish it anywhere. Now I have published it, and it will surely help the developer community. This is my first VS Code extension, and I'm so excited.
+If you're looking for a solution to streamline your coding standards, you might find this [blog on coding standards](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged) helpful. For those interested in enhancing their VIM experience, here's a [blog on VIM experience](https://samuellawrentz.com/blog/vim-experience-nvim-dev-experience/).
 
-This extension has all the features that you would require to add consistency in all your commit messages. Check it out.
+This extension, JIRA Git Commit Helper, has all the features that you would require to add consistency in all your commit messages. Check it out.
 
 ### After using this extension
 This is how your git commit history would look if you started using this extension.
 ![Clean git commits with JIRA IDs](./gitcommit.png)
 
 #### Wanna try the JIRA Git Commit extension?
-I've added some useful liks for using this extension. Do check it out.
+I've added some useful links for using this extension. Do check it out.
 
 - **Marketplace URL** - [https://marketplace.visualstudio.com/items?itemName=SamuelLawrentz.jira-git-commit-helper](https://marketplace.visualstudio.com/items?itemName=SamuelLawrentz.jira-git-commit-helper)
 - **Github Repo URL** - [https://github.com/samuellawrentz/jira-git-commit-helper/tree/master](https://github.com/samuellawrentz/jira-git-commit-helper/tree/master)
@@ -43,6 +44,7 @@ I've added some useful liks for using this extension. Do check it out.
 
 <div style={{ textAlign: 'center'}}>Listing of JIRAs by the extension</div>
 
+Additionally, you might be interested in [monitoring your website's pagespeed](https://samuellawrentz.com/blog/monitor-website-pagespeed-with-googlesheets/).
 
 
 ## The Problem
@@ -68,6 +70,8 @@ These steps were a blocker to my productivity and breaking my flow state.
   - 🔂 Revert
 
 This way, the commits are streamlined.
+
+If you're interested in understanding more about state management in React, check out this [blog](https://samuellawrentz.com/hacks/react/state-management-using-usecontext).
 
 ## Solution
 VS Code is the primary editor for most devs out there. I wanted to make this experience seamless. I'll show you how this extension was built.
@@ -112,6 +116,8 @@ let issuesCache = new Cache(context);
 await issuesCache.put(CONSTANTS.storageKeys.tickets, jiraTickets, 1800);
 ```
 
+If you're interested in understanding more about handling side effects in React, check out this [blog](https://samuellawrentz.com/hacks/react/handling-side-effects-with-useeffect).
+
 ### Recommended Workflow
 Before executing this workflow, bind the command `JIRA Commit Helper: Create commit message` command to a key chord like Cmd + G, Cmd + M _(Git + Message)_.
 After this, committing becomes very easy.
@@ -139,5 +145,6 @@ You can add this to workspace recommendations in your source code and it will be
 
 Do give a [5-star rating](https://marketplace.visualstudio.com/items?itemName=SamuelLawrentz.jira-git-commit-helper&ssr=false#review-details) for the extension. Submit issues or leave feedback if any. Thanks much. Do share. Also feel free to explore this site.
 
-Peace out!
+For more insights, you can check out this [blog post on React and JSX](https://samuellawrentz.com/hacks/react/mapping-arrays-to-jsx-elements) and this [post on React and Hooks](https://samuellawrentz.com/hacks/react/setting-initial-state-with-usestate).
 
+Peace out!
