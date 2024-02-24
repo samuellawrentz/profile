@@ -39,6 +39,7 @@ exports.createPages = async ({ graphql, actions }) => {
       context: {
         title: node.frontmatter.title,
         id: node.id,
+        nodes: result.data.allMdx.nodes,
       },
     });
   });

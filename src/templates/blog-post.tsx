@@ -50,6 +50,22 @@ function Blog(props: any) {
         </MDXProvider>
       </Block>
       <Block spacing={[32]}>
+        <h3 className="hacks-cont">Explore more articles</h3>
+        <ul>
+          {[1, 2, 3, 4].map((i) => {
+            const posts = props.pageContext.nodes;
+            const randomPost = posts[Math.floor(Math.random() * posts.length)];
+            return (
+              <li key={i}>
+                <Link to={randomPost.frontmatter.path} className="gradient">
+                  <div>{randomPost.frontmatter.title}</div>
+                </Link>
+              </li>
+            );
+          })}
+        </ul>
+      </Block>
+      <Block spacing={[32]}>
         That's it for now, thanks for reading! You can find me at{" "}
         <a href="https://x.com/samuellawrentz"> @samuellawrentz</a> on X.
       </Block>
