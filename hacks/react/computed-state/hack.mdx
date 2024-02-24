@@ -1,0 +1,49 @@
+---
+title: How to use computed state in React Class Components
+path: /hacks/react/how-to-use-computed-state-in-react
+description: This post provides a walkthrough on using computed state in React. It covers its benefits in reducing code complexity, ensuring data consistency and highlights the constraint of avoiding direct state manipulation. A must-read for React developers aiming for code efficiency.
+type: hack
+tags: [react, state, computed-state]
+---
+
+In React, computed state is often used to derive data from the main state. It's important to remember one constraint - direct manipulation of state is forbidden in React.
+
+Suppose, we have an existing state:
+
+```javascript
+this.state = {
+  firstName: 'John',
+  lastName: 'Doe'
+};
+```
+
+To compute a value based on this state, you would create a function that will be executed within the render method:
+
+```javascript
+fullName() {
+  return `${this.state.firstName} ${this.state.lastName}`;
+}
+```
+
+Then call this function in your render method:
+
+```javascript
+render() {
+  return (
+    <div>
+      <h2>{this.fullName()}</h2>
+    </div>
+  );
+}
+```
+
+Now, the full name is dynamically calculated and will update as soon as either its first or last name changes.
+
+The use of computed state can significantly decrease complexity in your code by avoiding storing redundant data and ensuring that your data is always consistent. Remember that improperly handling computed state may result in inconsistency and subtle bugs in your application.
+
+## References
+1. [React: Main Concepts](https://reactjs.org/docs/hello-world.html)
+2. [The Power of Computed Properties in JavaScript](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Functions/get)
+3. [Understanding State and Props in React](https://reactjs.org/docs/faq-state.html)
+4. [React Component Lifecycle](https://reactjs.org/docs/react-component.html#the-component-lifecycle)
+

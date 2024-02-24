@@ -537,15 +537,7 @@ li {
   a.gradient {
     &:hover {
       > * {
-        background: linear-gradient(
-          70deg,
-          var(--element1),
-          hsl(213, 12%, 63%),
-          hsl(89, 14%, 36%),
-          hsl(241, 48%, 71%),
-          hsl(348, 64%, 71%)
-        );
-        background-clip: text;
+        background:  linear-gradient(70deg, var(--element1), hsl(213deg 100% 70.6%), hsl(89deg 6.24% 22.42%), hsl(241deg 54.13% 46.34%), hsl(348deg 84.93% 55.58%));       background-clip: text;
         -webkit-text-fill-color: transparent;
       }
     }

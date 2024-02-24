@@ -77,7 +77,7 @@ function IndexPage({ data }) {
           <div className="end"></div>
         </div>
         <div className="blogs">
-          {data.allMdx.nodes.map(
+          {data.blogs.nodes.map(
             (
               { frontmatter: { date, title, path, heroImage, tags } },
               i: number,
@@ -154,6 +154,23 @@ function IndexPage({ data }) {
                   </li>
                 </ul>
               </Block>
+              <Block spacing={[24, 34]} gap={16}>
+                <h3>Interested in short hacks?</h3>
+                <ul>
+                  {data.hacks.nodes.map((hack) => (
+                    <li key={hack.id}>
+                      <Link to={hack.frontmatter.path} className="gradient">
+                        <div>{hack.frontmatter.title}</div>
+                      </Link>
+                    </li>
+                  ))}
+                  <li>
+                    <Link to="/hacks/" className="gradient">
+                      <div><b>Explore more hacks --></b></div>
+                    </Link>
+                  </li>
+                </ul>
+              </Block>
             </div>
           </div>
         </div>
@@ -211,26 +228,6 @@ function IndexPage({ data }) {
               </div>
             </div>
           </a>
-
-          <a
-            href="https://www.npmjs.com/package/react-highlighting-textbox"
-            target="_blank"
-            className="gradient card-container"
-            rel="noreferrer"
-          >
-            <div className="card card__details">
-              <div className="card__title text-title2">
-                <h3>React Highlight Textbox</h3>
-              </div>
-              <div className="card__description">
-                A on-of-a-kind React component that highlights the text within
-                an input.
-              </div>
-              <div className="text-caption technologies">
-                React, Typescript, CSS
-              </div>
-            </div>
-          </a>
           <a
             href="https://marketplace.visualstudio.com/items?itemName=SamuelLawrentz.jira-git-commit-helper"
             target="_blank"
@@ -247,6 +244,25 @@ function IndexPage({ data }) {
               </div>
               <div className="text-caption technologies">
                 Typescript, VS Code API, Git, JIRA API
+              </div>
+            </div>
+          </a>
+          <a
+            href="https://www.npmjs.com/package/react-highlighting-textbox"
+            target="_blank"
+            className="gradient card-container"
+            rel="noreferrer"
+          >
+            <div className="card card__details">
+              <div className="card__title text-title2">
+                <h3>React Highlight Textbox</h3>
+              </div>
+              <div className="card__description">
+                A on-of-a-kind React component that highlights the text within
+                an input.
+              </div>
+              <div className="text-caption technologies">
+                React, Typescript, CSS
               </div>
             </div>
           </a>
@@ -305,7 +321,7 @@ function IndexPage({ data }) {
             <Block>
               <Text type="title2">Samuel Lawrentz</Text>
               <TextBlock type="regular" spacing={[16]}>
-                Software Development Engineer UI -{" "}
+                Senior UI Engineer -{" "}
                 <a href="https://plivo.com" target="_blank" rel="noreferrer">
                   Plivo
                 </a>
@@ -386,7 +402,7 @@ export const query = graphql`
         }
       }
     }
-    allMdx(
+    blogs: allMdx(
       sort: { frontmatter: { date: DESC } }
       filter: { frontmatter: { published: { eq: true } } }
       limit: 4
@@ -406,6 +422,18 @@ export const query = graphql`
               }
             }
           }
+        }
+      }
+    }
+    hacks: allMdx(filter: { frontmatter: { type: { eq: "hack" } } }, limit: 4) {
+      nodes {
+        id
+        excerpt(pruneLength: 140)
+        frontmatter {
+          title
+          date(formatString: "DD MMM, YYYY")
+          path
+          tags
         }
       }
     }
