@@ -1,0 +1,35 @@
+---
+title: Using defaultProps in React
+path: /hacks/react/using-defaultprops-for-default-props
+description: Learn how to use defaultProps in React to set default values for your props. This post provides clear examples and explanations.
+type: hack
+tags: [react, defaultProps, javascript]
+---
+
+In React, `defaultProps` can be used to set default values for the props in a component. They are used when no value or undefined is supplied for a prop.
+
+Here's a basic example of how to use `defaultProps`:
+
+```javascript
+class MyComponent extends React.Component {
+  render() {
+    return <h1>{this.props.message}</h1>;
+  }
+}
+
+MyComponent.defaultProps = {
+  message: 'Hello, World!'
+};
+```
+
+In this example, if `message` prop is not provided while using `MyComponent`, it will default to 'Hello, World!'.
+
+```javascript
+ReactDOM.render(<MyComponent />, document.getElementById('root'));
+```
+
+The rendered HTML will be `<h1>Hello, World!</h1>` as 'Hello, World!' is the default value set for the `message` prop.
+
+Remember, defaultProps are defined as a property on the component class itself, after the class declaration and using the same name as the component.
+
+This feature is particularly useful in avoiding potential bugs due to undefined props and it improves code readability by providing an overview of the expected props.

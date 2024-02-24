@@ -1,0 +1,39 @@
+---
+title: Adding Event Handlers in JSX
+path: /hacks/react/adding-event-handlers-in-jsx
+description: Learn how to add event handlers in JSX. A step-by-step guide to understanding and implementing event handlers in React's JSX syntax.
+type: hack
+tags: [react, jsx, event handlers]
+---
+
+To add event handlers in JSX, we utilize camelCase syntax rather than lowercase. Let's consider a button click event. In plain JavaScript, it would look like this:
+
+```javascript
+<button onclick="activateFunction()">Click Me!</button>
+```
+
+In React's JSX, we modify it to:
+
+```jsx
+<button onClick={activateFunction}>Click Me!</button>
+```
+
+Here `activateFunction` is a function defined in your component. Remember, in JSX, you pass a function as the event handler, rather than a string.
+
+Event handlers in React are attached directly to components and, when using class components, typically trigger methods. This is slightly different from assigning events to DOM in HTML.
+
+```jsx
+class MyComponent extends React.Component {
+  activateFunction() {
+    // your code here
+  }
+
+  render() {
+    return <button onClick={this.activateFunction}>Click Me!</button>
+  }
+}
+```
+
+Note: Make sure to bind your methods in class components to access `this`.
+
+This guide should help you get started with event handlers in JSX!

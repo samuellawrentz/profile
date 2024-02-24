@@ -1,0 +1,35 @@
+---
+title: Mapping Arrays to JSX Elements in React
+path: /hacks/react/mapping-arrays-to-jsx-elements
+description: Learn how to map arrays to JSX elements in React. This is a vital skill for dynamic rendering of lists or grids in your React applications.
+type: hack
+tags: [react, jsx, arrays]
+---
+
+In React, a common requirement is to render a list of items. This can be achieved by mapping arrays to JSX elements.
+
+Consider an array of strings:
+
+```javascript
+const fruits = ['Apple', 'Banana', 'Cherry'];
+```
+
+To render these as a list, we use the JavaScript `map` function. Each item in the array becomes a JSX element:
+
+```javascript
+{fruits.map((fruit) => 
+  <li key={fruit}>{fruit}</li>
+)}
+```
+
+Here, each `fruit` in the `fruits` array is passed to an arrow function, which returns a JSX `<li>` element. The `key` prop is essential when creating lists in React because it helps React identify which items have changed, are added, or are removed.
+
+The output will be:
+
+```html
+<li>Apple</li>
+<li>Banana</li>
+<li>Cherry</li>
+```
+
+This technique allows you to dynamically render lists or grids in your React applications.

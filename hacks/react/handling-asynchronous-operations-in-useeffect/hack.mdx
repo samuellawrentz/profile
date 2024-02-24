@@ -1,0 +1,33 @@
+---
+title: Mastering Asynchronous Operations in useEffect
+path: /hacks/react/handling-asynchronous-operations-in-useeffect
+description: Quick guide on handling asynchronous operations in useEffect hook in React. Learn how to effectively manage async operations using Promise and async-await.
+type: hack
+tags: [react, asynchronous, useEffect]
+---
+
+React `useEffect` hook can be a little tricky when dealing with asynchronous operations like fetching data from an API. Here's a simple way to handle it.
+
+```javascript
+import React, { useEffect, useState } from 'react';
+
+function Example() {
+  const [data, setData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const response = await fetch('https://api.example.com');
+      const data = await response.json();
+      setData(data);
+    };
+    fetchData();
+  }, []);
+  
+  return (
+      // Render your component
+  );
+}
+```
+In this example, we define an async function inside `useEffect` and immediately call it. This avoids directly adding `async` to `useEffect` which could lead to race conditions. Also, remember to include any dependencies in the dependency array (the second argument to `useEffect`), in this case it's an empty array because we only want to fetch data once on component mount.
+
+By following this pattern, you can effectively manage asynchronous operations within `useEffect`. Happy coding!

@@ -1,0 +1,32 @@
+---
+title: Optimizing React Apps with useCallback
+path: /hacks/react/optimizing-react-apps-usecallback
+description: Learn how to optimize your React applications by avoiding unnecessary renders with the useCallback hook. This post will guide you through the process with simple examples.
+type: hack
+tags: [react, useCallback, optimization]
+---
+
+React's `useCallback` hook can help to avoid unnecessary re-renders in your application, improving performance. It returns a memoized version of the callback function that only changes if one of the dependencies has changed.
+
+```javascript
+const memoizedCallback = useCallback(
+  () => {
+    doSomething(a, b);
+  },
+  [a, b],
+);
+```
+In this snippet, `a` and `b` are the dependencies. The callback function will not be recreated unless either `a` or `b` changes.
+
+Without `useCallback`, the function would be recreated every render, potentially causing unnecessary re-renders in child components that depend on the callback.
+
+```javascript
+function Component() {
+  doSomething(a, b);
+
+  return <ChildComponent callback={doSomething} />;
+}
+```
+In this case, `doSomething` function is recreated every time `Component` re-renders, causing `ChildComponent` to re-render as well even if props have not changed.
+
+By understanding and using `useCallback`, you can control when components re-render and optimize your React applications.

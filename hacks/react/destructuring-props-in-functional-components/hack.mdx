@@ -1,0 +1,27 @@
+---
+title: Destructuring Props in React Functional Components
+path: /hacks/react/destructuring-props-in-functional-components
+description: Discover how to use destructuring props in React functional components to write cleaner and more efficient code.
+type: hack
+tags: [react, javascript, functional components]
+---
+
+Destructuring in JavaScript helps us write cleaner code by allowing us to extract multiple properties from an object or array in a single statement. In React, we use destructuring in functional components to handle props.
+
+Here's how you might do it without destructuring:
+
+```javascript
+function Greeting(props) {
+  return <h1>Hello, {props.name}</h1>;
+}
+```
+Now, let's use destructuring to achieve the same result:
+
+```javascript
+function Greeting({ name }) {
+  return <h1>Hello, {name}</h1>;
+}
+```
+In the second example, we're destructuring `name` directly from the props. This allows us to use `name` directly in the component, making our code cleaner and easier to read.
+
+Remember, when using destructuring with functional components, you can destructure as many props as you need in the function parameters. This will make your code efficient and clean.

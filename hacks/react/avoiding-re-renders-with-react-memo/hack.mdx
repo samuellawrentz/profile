@@ -1,0 +1,35 @@
+---
+title: Avoiding Unnecessary Re-renders with React.memo
+path: /hacks/react/avoid-re-renders-react-memo
+description: Learn how to optimize your React applications by avoiding unnecessary re-renders using React.memo. This post includes examples and detailed explanations.
+type: hack
+tags: [react, web development, performance optimization]
+---
+
+React.memo is a higher order component that helps prevent unnecessary re-renders. It does a shallow comparison of the previous and current props and re-renders the component only if the props have changed.
+
+Here is an example of how to use React.memo:
+
+```javascript
+const MyComponent = React.memo(function MyComponent(props) {
+  /* render using props */
+});
+```
+
+In this example, `MyComponent` will only re-render if the props have changed. This can be highly beneficial for performance optimization, especially when dealing with larger components or lists.
+
+However, it's important to note that React.memo only does a shallow comparison, so it might not work as expected with complex objects or arrays. In such cases, you might need to implement a custom comparison function.
+
+```javascript
+const MyComponent = React.memo(
+  function MyComponent(props) {
+    /* render using props */
+  },
+  (prevProps, nextProps) => {
+    // return true if passing nextProps would return
+    // the same result as passing prevProps, otherwise return false
+  }
+);
+``` 
+
+Remember, judicious use of React.memo can greatly enhance the performance of your React applications.
