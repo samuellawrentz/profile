@@ -10,14 +10,13 @@ description: Sometimes you have a list of values to choose from and you want to 
 
 import { CodePen } from 'mdx-embed'
 
-Sometimes you have a list of values to choose from and you want to randomize it? It can be easily done with a line of code. This approach can be used in any programming language. Since I’m kinda comfortable with Javascript I’ve used JS code here. Please feel free to let me know your feedback and suggestions in the comments section. This article will help us understand how to select a random value from an array of values.
+Sometimes you have a list of values to choose from and you want to randomize it? It can be easily done with a line of code. This approach can be used in any programming language. Since I’m kinda comfortable with Javascript I’ve used JS code here. Please feel free to let me know your feedback and suggestions in the comments section. This article will help us understand how to select a random value from an array of values. Also if you are interested in React, check this post about [arrays and react elements](https://samuellawrentz.com/hacks/react/mapping-arrays-to-jsx-elements).
 
 Getting a random number is easy. You just need to call Math.random() and it will produce a random decimal between 0 and 1 (exclusive). You just need to multiply it with the upper limit of your choice.
 
 ## How to use `Math.random()` and select a random value from an array?
 
-The idea is simple, we just get a random index between 0 and array’s length and pick a value using that index. But the catch here is that Math.random() gives us a decimal with greater precision so we floor the random number to an integer.
-
+The idea is simple, we just get a random index between 0 and array’s length and pick a value using that index. But the catch here is that Math.random() gives us a decimal with greater precision so we floor the random number to an integer. [Understanding arrow functions in event handlers](https://samuellawrentz.com/hacks/react/understanding-arrow-functions-in-event-handlers) can also be handy in this case.
 
 The idea is simple, we just get a random index between 0 and array’s length and pick a value using that index. But the catch here is that Math.random() gives us a decimal with greater precision so we floor the random number to an integer.
 
@@ -48,5 +47,4 @@ If you want a value to be repeated often or you wanted to give more weight to a 
 const arr = ['apple', 'apple', 'apple', 'orange', 'pineapple', 'banana', 'grapes'];
 ```
 
-In this way, you will get more apples returned than other values. I hope this article helps you to get a random value from an array of values. More tutorials and content is coming up your way. Also, check out my previous articles on how to grow your online presence and how wordpress.org differs from wordpress.com.
-
+In this way, you will get more apples returned than other values. I hope this article helps you to get a random value from an array of values. More tutorials and content is coming up your way. Also, check out my previous articles on [how to use computed state in React](https://samuellawrentz.com/blog/computed-state-in-react).

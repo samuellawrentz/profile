@@ -8,7 +8,7 @@ tags: [gatsby, node]
 description: So this website is built using GatsbyJS, which is super cool and super easy to get started. It took just one week for me to set this all up. This is the 6th blog post here on this website and if you try sharing this blog post on the internet you would see a image with the title. This image is called the OG image. Click to read more...
 ---
 
-So this website is built using [GatsbyJS](https://www.gatsbyjs.com/), which is super cool and super easy to get started. It took just one week for me to set this all up. This is the 6th blog post here on this website and if you try sharing this blog post on the internet you would see a image with the title. This image is called the OG image.
+So this website is built using [GatsbyJS](https://www.gatsbyjs.com/), which is super cool and super easy to get started. If you want to learn more about my experience with Gatsby, you can check out my other blog posts about [Gatsby and incremental faster builds](https://samuellawrentz.com/blog/gatsby-incremental-faster-builds-github-actions/). This is the 6th blog post here on this website and if you try sharing this blog post on the internet you would see a image with the title. This image is called the OG image.
 
 ## What is an OG image?
 Open Graph Images is a simple way to add images to your posts. An open graph image or OG image is the image that appears when you post a link to a web page or video content on your social media sites. This forms part of an important group of meta tags that directly impact how the content links perform on social media platforms. 
@@ -29,13 +29,13 @@ After doing some intensive google searches, I figured out there is actually anot
 The above image was generated using the following code and its the OG image for this blog.
 
 ### Integrating [`node-canvas`](https://github.com/Automattic/node-canvas) into the Gatsby Ecosystem
-It is time to implement our idea. This is where the concept of `plugins` come into picture. 
+It is time to implement our idea. This is where the concept of `plugins` come into picture. If you're interested in how plugins work and contribute to the coding standards, you can check out my [coding standards blog post](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged).
 
 #### Gatsby Plugins
 Gatsby has almost 3000 plugins for each of your requirement be it meta tags, RSS feeds, image optimization, etc. These plugins tap into your website content/data and then create assets or does stuff that you want to before build, post build, etc. 
 
 #### The plugin
-A local plugin can be created by creating a folder with package.json in it. The code goes into the `gatsby-node.js` file.
+A local plugin can be created by creating a folder with package.json in it. The code goes into the `gatsby-node.js` file. You can also learn more about creating plugins and how they can be used in your workflow by checking out my [Jira Git Commit Workflow VSCode Extension](https://samuellawrentz.com/blog/jira-git-commit-workflow-vscode-extension/) blog post.
 
 ```js
 // plugins/gatsby-node.js
@@ -114,6 +114,6 @@ exports.gen = function gen(title, id) {
 
 ```
 
-That is how the OG image for this blog is getting generated. Hope you liked this post. Stay tuned for more.
+That is how the OG image for this blog is getting generated. Hope you liked this post. Stay tuned for more. You can explore more of my posts on [React](https://samuellawrentz.com/hacks/react/understanding-arrow-functions-in-event-handlers) and [other hacks](https://samuellawrentz.com/hacks/) I have shared.
 
 ❤️❤️❤️
