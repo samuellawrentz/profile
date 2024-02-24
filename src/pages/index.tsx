@@ -115,7 +115,7 @@ function IndexPage({ data }) {
             ),
           )}
           <div className="card read-more">
-            <div className="card__image">
+            <div className="card__image" style={{alignSelf:"flex-start"}}>
               <Img fixed={data.book.childImageSharp.fixed}></Img>
             </div>
             <div className="card__details">
