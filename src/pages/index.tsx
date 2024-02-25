@@ -178,56 +178,6 @@ function IndexPage({ data }) {
       <div className="section">
         <div className="section__title">Projects</div>
         <div className="cards">
-          <Link
-            to="/projects/quotes-generator"
-            className="gradient card-container"
-          >
-            <div className="card featured card__details">
-              <div className="card__title text-title2">
-                <h3>Quotes Generator</h3>
-              </div>
-              <div className="card__description">
-                A tool that helps you to create motivational quotes with
-                backgrounds.
-              </div>
-              <div className="text-caption technologies">
-                HTML Canvas, CSS, jQuery, UnsplashAPI, React
-              </div>
-            </div>
-          </Link>
-          <Link to="/projects/pasttenser" className="gradient card-container">
-            <div className="card card__details">
-              <div className="card__title text-title2">
-                <h3>PastTenser</h3>
-              </div>
-              <div className="card__description">
-                An API that can give you the pastense of any verb that is
-                provided.
-              </div>
-              <div className="text-caption technologies">
-                ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5
-              </div>
-            </div>
-          </Link>
-          <a
-            href="https://samuellawrentz.github.io/highcharts-networkChart/"
-            target="_blank"
-            className="gradient card-container"
-            rel="noreferrer"
-          >
-            <div className="card card__details">
-              <div className="card__title text-title2">
-                <h3>Network chart</h3>
-              </div>
-              <div className="card__description">
-                This is a network chart built using Highchart APIs - helps you
-                visualise connections.
-              </div>
-              <div className="text-caption technologies">
-                Vannila Javascript, Highcharts Custom module, SVG, HTML, CSS
-              </div>
-            </div>
-          </a>
           <a
             href="https://marketplace.visualstudio.com/items?itemName=SamuelLawrentz.jira-git-commit-helper"
             target="_blank"
@@ -247,6 +197,24 @@ function IndexPage({ data }) {
               </div>
             </div>
           </a>
+          <Link
+            to="/projects/quotes-generator"
+            className="gradient card-container"
+          >
+            <div className="card card__details">
+              <div className="card__title text-title2">
+                <h3>Quotes Generator</h3>
+              </div>
+              <div className="card__description">
+                A tool that helps you to create motivational quotes with
+                backgrounds.
+              </div>
+              <div className="text-caption technologies">
+                HTML Canvas, CSS, jQuery, UnsplashAPI, React
+              </div>
+            </div>
+          </Link>
+          
           <a
             href="https://www.npmjs.com/package/react-highlighting-textbox"
             target="_blank"
@@ -277,10 +245,60 @@ function IndexPage({ data }) {
                 <h3>rc-json-editor</h3>
               </div>
               <div className="card__description">
-                A React component that helps you to edit JSON data.
+                A React component that helps you to edit JSON data easily in a visual format
               </div>
               <div className="text-caption technologies">
                 React, Typescript, CSS, OOPS
+              </div>
+            </div>
+          </a>
+                    <a
+            href="https://github.com/samuellawrentz/commit-message-helper"
+            target="_blank"
+            className="gradient card-container"
+            rel="noreferrer"
+          >
+            <div className="card card__details featured">
+              <div className="card__title text-title2">
+                <h3>commit-helper</h3>
+              </div>
+              <div className="card__description">
+                A utility program written completely in go, to streamline git commit messages.
+              </div>
+              <div className="text-caption technologies">
+                Go, Rest APIs, TUI
+              </div>
+            </div>
+          </a>
+                    <Link to="/projects/pasttenser" className="gradient card-container">
+            <div className="card card__details">
+              <div className="card__title text-title2">
+                <h3>PastTenser</h3>
+              </div>
+              <div className="card__description">
+                An API that can give you the pastense of any verb that is
+                provided.
+              </div>
+              <div className="text-caption technologies">
+                ExpressJS, KnockoutJS, jQuery, NodeJs, CSS3, HTML5
+              </div>
+            </div>
+          </Link>
+          <a
+            href="https://samuellawrentz.github.io/highcharts-networkChart/"
+            target="_blank"
+            className="gradient card-container"
+            rel="noreferrer"
+          >
+            <div className="card card__details">
+              <div className="card__title text-title2">
+                <h3>Network chart</h3>
+              </div>
+              <div className="card__description">
+                This is a custom network chart built using Highchart APIs.
+              </div>
+              <div className="text-caption technologies">
+                Vannila Javascript, Highcharts Custom module, SVG, HTML, CSS
               </div>
             </div>
           </a>
