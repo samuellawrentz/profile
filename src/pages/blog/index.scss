@@ -63,3 +63,17 @@
     margin-bottom: 8px;
   }
 }
+
+.category-heading {
+    font-size: var(--h4);
+    font-weight: 300;
+    text-decoration: none;
+    text-transform: capitalize;
+    &:hover {
+        color: var(--primary-color);
+    }
+    &.active {
+      color: var(--primary-color);
+      font-weight: 500;
+    }
+}
