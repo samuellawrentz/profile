@@ -19,7 +19,7 @@ deckgo-highlight-code {
     h4 {
         margin-bottom: 20px;
     }
-    p + div.text-regularLight, p + div.blog-cont {
+    p + div.text-regularLight, p + div.blog-cont, div.hacks-cont {
         font-size: inherit;
         font-weight: inherit;
         max-width: 700px;
@@ -36,7 +36,7 @@ code {
 }
 
 blockquote {
-    border-left: 5px solid var(--surface3);
+    border-left: 5px solid var(--primary-color);
     margin-left: 0;
     padding-left: 40px;
 }
