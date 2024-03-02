@@ -5,7 +5,7 @@ import "./../blog/index.scss";
 import { HacksTemplate } from "../../templates/hacks-home";
 
 function Hacks({ data }: any) {
-  return <HacksTemplate data={data} pageType="all" />;
+  return <HacksTemplate data={data} pageType="philosophy" />;
 }
 
 export default Hacks;
@@ -14,7 +14,9 @@ export const query = graphql`
   {
     allMdx(
       sort: { frontmatter: { date: DESC } }
-      filter: { frontmatter: { type: { eq: "hack" } } }
+      filter: {
+        frontmatter: { type: { eq: "hack" }, category: { eq: "philosophy" } }
+      }
     ) {
       nodes {
         id

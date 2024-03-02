@@ -7,6 +7,7 @@ import { Block } from "../components/block";
 import { MDXProvider } from "@mdx-js/react";
 import { StickyShareButtons } from "sharethis-reactjs";
 import { defineCustomElements as deckDeckGoHighlightElement } from "@deckdeckgo/highlight-code/dist/loader";
+import { getNumbersFromString } from "../components/utils";
 
 const components = {};
 
@@ -14,6 +15,11 @@ function Hack(props: any) {
   useEffect(() => {
     deckDeckGoHighlightElement();
   }, []);
+
+  const postNumbers = getNumbersFromString(
+    props.data.mdx.frontmatter.title,
+    props.pageContext.nodes.length,
+  );
   return (
     <div className="blog-content">
       <SEO
@@ -76,9 +82,9 @@ function Hack(props: any) {
       <Block spacing={[32]}>
         <h3 className="hacks-cont">Explore more articles</h3>
         <ul>
-          {[1, 2, 3, 4].map((i) => {
+          {postNumbers.map((i) => {
             const posts = props.pageContext.nodes;
-            const randomPost = posts[Math.floor(Math.random() * posts.length)];
+            const randomPost = posts[i];
             return (
               <li key={i}>
                 <Link to={randomPost.frontmatter.path} className="gradient">

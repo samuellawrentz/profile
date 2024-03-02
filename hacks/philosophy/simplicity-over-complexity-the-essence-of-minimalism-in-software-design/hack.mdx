@@ -1,0 +1,44 @@
+---
+title: Mastering Minimalism in Software Design - Simplicity Over Complexity
+path: /software-philosophy/mastering-minimalism-in-software-design-simplicity-over-complexity
+description: Explore the essence of minimalism in software design, emphasizing simplicity over complexity. Dive into code examples and best practices to enhance your software engineering skills.
+type: hack
+category: philosophy
+tags: [software design, minimalism, simplicity]
+---
+
+_"The art of simplicity is a puzzle of complexity."_ - Douglas Horton
+
+In the realm of software engineering, the philosophy of **Simplicity Over Complexity** plays a vital role. This principle, an essential part of minimalistic software design, advocates for maintaining the simplicity of code, reducing cognitive load for developers, and enhancing maintainability.
+
+Consider an example:
+
+```javascript
+// Complex code
+function calculateSalary(employee) {
+    if(employee.type === 'fulltime') {
+        return employee.hoursWorked * employee.hourlyRate;
+    } else if(employee.type === 'parttime') {
+        return employee.hoursWorked * employee.hourlyRate * 0.5;
+    }
+}
+
+// Simplified code
+function calculateSalary(employee) {
+    let rate = employee.type === 'fulltime' ? 1 : 0.5;
+    return employee.hoursWorked * employee.hourlyRate * rate;
+}
+```
+
+The simplified code is easier to understand, maintain, and less prone to errors. This embodies the concept of simplicity over complexity. 
+
+Minimalism in software design is not just about writing less code. It's also about [creating simpler architecture](https://samuellawrentz.com/blog/vim-experience-nvim-dev-experience/), [increasing build speeds](https://samuellawrentz.com/blog/gatsby-incremental-faster-builds-github-actions/), and [using computed state in React](https://samuellawrentz.com/blog/computed-state-in-react), among others. 
+
+Following [coding standards](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged) and [utilizing bookmarklets](https://samuellawrentz.com/blog/bookmarklets/) can help maintain simplicity. Monitoring [website pagespeed](https://samuellawrentz.com/blog/monitor-website-pagespeed-with-googlesheets/) and using [Jira git commit workflow](https://samuellawrentz.com/blog/jira-git-commit-workflow-vscode-extension/) can also contribute to a minimalist approach.
+
+_"Simplicity is the soul of efficiency."_ - Austin Freeman
+
+In conclusion, simplicity over complexity is a philosophy that encourages minimalism in software design, making software systems more maintainable, efficient, and reliable. 
+
+Embrace simplicity. Master Minimalism. Happy Coding!
+
