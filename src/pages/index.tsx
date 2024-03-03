@@ -372,7 +372,7 @@ function IndexPage({ data }) {
                   type="secondary"
                   size="small"
                   target="_blank"
-                  to="https://resume.io/r/71xcDAIDW"
+                  to="/Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf"
                 >
                   <Block display="flex" gap={8} alignItems="center">
                     <Icon name="launch" size={16}></Icon>
