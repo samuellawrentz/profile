@@ -1,0 +1,59 @@
+---
+title: Implementing Authentication the Easier Way
+path: /hacks/react/easier-authentication-implementation
+description: Dive into the simplified process of implementing authentication in your React applications. Learn about various methods, best practices, and key concepts.
+type: hack
+category: react
+tags: [authentication, react, best practices]
+---
+
+"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." - Martin Fowler. With this idea in our minds, let's simplify the process of implementing authentication in React applications.
+
+## Understanding Authentication
+Authentication is a critical aspect of any application. It ensures that only authorized users can access specific functionalities of your app. There are several methods to implement this, but we are going to focus on a straightforward approach.
+
+## Implementing Authentication 
+In React, we can implement authentication using Context API and hooks. 
+
+```javascript
+import React, { createContext, useContext, useState } from 'react';
+
+const AuthContext = createContext();
+
+export function useAuth() {
+  return useContext(AuthContext);
+}
+
+export function AuthProvider({ children }) {
+  const [currentUser, setCurrentUser] = useState(null);
+
+  const value = {
+    currentUser,
+    setCurrentUser,
+  };
+
+  return (
+    <AuthContext.Provider value={value}>
+      {children}
+    </AuthContext.Provider>
+  );
+}
+```
+In the above code, we create an `AuthContext` and two handy functions: `useAuth` and `AuthProvider`. You can check more about Context API and hooks from [here](https://samuellawrentz.com/hacks/react/setting-initial-state-with-usestate).
+
+## Using the Authentication
+With the AuthProvider set up, wrap it around your application in the main component. Now, you can access the current user and the `setCurrentUser` function anywhere in your app using the `useAuth` hook.
+
+```javascript
+import { useAuth } from './AuthProvider';
+...
+const {currentUser, setCurrentUser} = useAuth();
+```
+In the above code, `useAuth` allows us to access the current user and the `setCurrentUser` function anywhere in our app.
+
+## Conclusion
+And there you have it! A straightforward way to implement authentication in your React applications. Remember, the key to good software is simplicity and readability. As Edsger Dijkstra once said, "Simplicity is prerequisite for reliability."
+
+For additional insights on coding standards, check out this [blog post](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged). For more React hacks, be sure to explore other posts on this [site](https://samuellawrentz.com/hacks/react/mapping-arrays-to-jsx-elements).
+
+Happy coding!
