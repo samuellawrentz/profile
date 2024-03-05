@@ -1,0 +1,58 @@
+---
+title: Understanding and Using Context API
+path: /hacks/react/understanding-and-utilizing-context-api
+description: Dive deep into Understanding and Using Context API in React. Master the philosophy behind it and apply it in your projects for efficient state management.
+type: hack
+category: react
+tags: [context api, state management, react]
+---
+
+"Any fool can write code that a computer can understand. Good programmers write code that humans can understand." — Martin Fowler.
+
+When it comes to state management in React, Context API is a game changer. It provides a way to pass data through the component tree without having to pass props down manually at every level, a concept known as "prop drilling".
+
+```javascript
+import React, { createContext, useState } from "react";
+
+// Create a Context
+const MyContext = createContext();
+
+// Create a Provider Component
+export const MyProvider = props => {
+  const [state, setState] = useState(0);
+
+  return (
+    <MyContext.Provider value={[state, setState]}>
+      {props.children}
+    </MyContext.Provider>
+  );
+};
+
+export default MyContext;
+```
+
+The above code sets up a simple Context API, where `MyProvider` is a provider component wrapping the children that will need access to the context. The `value` prop on `MyContext.Provider` is the value that will be available to all children components.
+
+Using the Context in a child component is straightforward. Import the context, and use the `useContext` hook to access the state and the `setState` function.
+
+```javascript
+import React, { useContext } from "react";
+import MyContext from "./MyContext";
+
+const ChildComponent = () => {
+  const [state, setState] = useContext(MyContext);
+
+  return (
+    <div>
+      <p>{state}</p>
+      <button onClick={() => setState(state + 1)}>Increase</button>
+    </div>
+  );
+};
+```
+
+In this example, we're importing the context and using the `useContext` hook to get the state and the `setState` function. We can then use these in our component as we would with local state.
+
+Context API is an efficient and scalable way to manage state in large React applications. It allows you to avoid prop drilling and keep your codebase more readable and maintainable. If you're interested in learning more about state management and other React topics, check out these posts on [Computed State](https://samuellawrentz.com/blog/computed-state-in-react) and [Coding Standards](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged).
+
+Remember, understanding and properly implementing the Context API can take your React applications to the next level. As the famous quote goes, "Simplicity is the soul of efficiency" - Austin Freeman.
