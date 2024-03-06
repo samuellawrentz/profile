@@ -42,17 +42,19 @@ export const HacksTemplate = ({ data, pageType }: any) => {
             justifyContent="center"
             spacing={[0, 16]}
           >
-            {["philosophy", "react", "microfrontend"].map((category) => (
-              <Link
-                to={`/hacks/${category}`}
-                className={`category-heading ${
-                  pageType === category && "active"
-                }`}
-                key={category}
-              >
-                {category}
-              </Link>
-            ))}
+            {["neovim", "philosophy", "react", "microfrontend"].map(
+              (category) => (
+                <Link
+                  to={`/hacks/${category}`}
+                  className={`category-heading ${
+                    pageType === category && "active"
+                  }`}
+                  key={category}
+                >
+                  {category}
+                </Link>
+              ),
+            )}
           </Block>
         </div>
       </div>
