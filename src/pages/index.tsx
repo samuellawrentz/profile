@@ -115,7 +115,7 @@ function IndexPage({ data }) {
             ),
           )}
           <div className="card read-more">
-            <div className="card__image" style={{alignSelf:"flex-start"}}>
+            <div className="card__image" style={{ alignSelf: "flex-start" }}>
               <Img fixed={data.book.childImageSharp.fixed}></Img>
             </div>
             <div className="card__details">
@@ -164,11 +164,19 @@ function IndexPage({ data }) {
                       </Link>
                     </li>
                   ))}
-                  <li>
-                    <Link to="/hacks/" className="gradient">
-                      <div><b>Explore more hacks --></b></div>
-                    </Link>
-                  </li>
+                  <Link to="/hacks/" className="gradient">
+                    <Button
+                      type="secondary"
+                      style={{
+                        width: 200,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        marginTop: 20,
+                      }}
+                    >
+                      Explore Hacks
+                    </Button>
+                  </Link>
                 </ul>
               </Block>
             </div>
@@ -214,7 +222,7 @@ function IndexPage({ data }) {
               </div>
             </div>
           </Link>
-          
+
           <a
             href="https://www.npmjs.com/package/react-highlighting-textbox"
             target="_blank"
@@ -245,14 +253,15 @@ function IndexPage({ data }) {
                 <h3>rc-json-editor</h3>
               </div>
               <div className="card__description">
-                A React component that helps you to edit JSON data easily in a visual format
+                A React component that helps you to edit JSON data easily in a
+                visual format
               </div>
               <div className="text-caption technologies">
                 React, Typescript, CSS, OOPS
               </div>
             </div>
           </a>
-                    <a
+          <a
             href="https://github.com/samuellawrentz/commit-message-helper"
             target="_blank"
             className="gradient card-container"
@@ -263,14 +272,15 @@ function IndexPage({ data }) {
                 <h3>commit-helper</h3>
               </div>
               <div className="card__description">
-                A utility program written completely in go, to streamline git commit messages.
+                A utility program written completely in go, to streamline git
+                commit messages.
               </div>
               <div className="text-caption technologies">
                 Go, Rest APIs, TUI
               </div>
             </div>
           </a>
-                    <Link to="/projects/pasttenser" className="gradient card-container">
+          <Link to="/projects/pasttenser" className="gradient card-container">
             <div className="card card__details">
               <div className="card__title text-title2">
                 <h3>PastTenser</h3>
