@@ -1,0 +1,61 @@
+---
+title: Neovim Remote - Collaborative Editing Made Easy with Neovim's Remote Plugin Host
+path: /hacks/neovim/remote-collaborative-editing-neovim-plugin-host
+description: Discover Neovim Remote, a game-changer for collaborative editing. Dive deep into its plugin host capabilities, and enhance your coding experience.
+type: hack
+category: neovim
+tags: [neovim remote, collaborative editing, remote plugin host]
+---
+
+## Introduction
+
+Neovim, the modern spinoff of the venerable text editor Vim, has been making waves in the developer community for its innovative features, one of which is the Remote Plugin Host. This feature has revolutionized collaborative coding by allowing multiple users to edit a file simultaneously.
+
+> "Collaboration divides the task and multiplies the success."
+
+## Neovim Remote: A Brief Overview
+
+Neovim Remote (nvr) is a tool that helps control nvim processes. It's particularly useful in combination with the `:terminal` feature. With nvr, you can send commands from a terminal window to another nvim process. It's also worth noting that nvr fully supports `--remote`, `--remote-wait`, `--remote-silent`, `--remote-tab`, `--remote-send`, and `--remote-expr`.
+
+```python
+pip install neovim-remote
+```
+
+## Collaborative Editing with Neovim's Remote Plugin Host
+
+Neovim's Remote Plugin Host enhances Neovim's traditional editing capabilities by enabling real-time collaboration. This means multiple users can edit the same file simultaneously, much like Google Docs.
+
+To start a new Neovim server session:
+
+```bash
+nvr --serverlist
+NVIM_LISTEN_ADDRESS=/tmp/nvimsocket nvr --remote file.txt
+```
+
+To connect to an existing Neovim server session:
+
+```bash
+nvr --servername /tmp/nvimsocket --remote file.txt
+```
+
+## Advantages of Neovim's Remote Plugin Host
+
+Neovim's Remote Plugin Host comes with several benefits:
+
+1. Real-time collaboration: Multiple users can edit the same file simultaneously.
+
+2. Simplified plugin management: The Remote Plugin Host simplifies the process of managing and using plugins.
+
+3. Improved performance: Neovim's Remote Plugin Host runs plugins asynchronously, meaning they don't block the user interface and thus provide a smoother user experience.
+
+4. Extensibility: With the Remote Plugin Host, you can write Neovim plugins in any language.
+
+## Conclusion
+
+Whether you're pair programming, doing code reviews, or teaching, Neovim's Remote Plugin Host can make the process smoother and more efficient. By enabling real-time, collaborative editing, it's a game-changer for team-based projects.
+
+> "Alone we can do so little; together we can do so much." - Helen Keller
+
+So, take the plunge, install Neovim Remote, and revolutionize your coding experience!
+
+**Remember:** *Collaborative editing isn’t about coding faster, it’s about coding smarter.*
