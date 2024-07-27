@@ -14,7 +14,7 @@ function Blog({ data }: any) {
     ({ excerpt, frontmatter: { title, description, tags } }: any) =>
       `${excerpt}|${title}|${description}|${tags.join("|")}`
         .toLowerCase()
-        .indexOf(searchTerm.toLowerCase()) !== -1
+        .indexOf(searchTerm.toLowerCase()) !== -1,
   );
   return (
     <div>
@@ -46,7 +46,7 @@ function Blog({ data }: any) {
               excerpt,
               frontmatter: { date, title, path, heroImage, description, tags },
             }: any,
-            i: number
+            i: number,
           ) => {
             i = i + 1;
             return (
@@ -72,7 +72,7 @@ function Blog({ data }: any) {
                       className="date-tag"
                     >
                       <div className="tags">
-                        {tags.map((tag: any) => (
+                        {tags.slice(-3).map((tag: any) => (
                           <div className="tag" key={tag}>
                             {tag}
                           </div>
@@ -83,7 +83,7 @@ function Blog({ data }: any) {
                 </div>
               </Link>
             );
-          }
+          },
         )}
         {!blogs.length && (
           <div className="not-found">
