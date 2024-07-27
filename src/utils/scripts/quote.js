@@ -60,7 +60,7 @@ function generate(text){
   document.querySelector('.text').style.fontSize = '23px';
   document.querySelector('.text').textContent = text;
   const prom = new Promise((resolve, reject) => {
-      getDataUri('https://source.unsplash.com/random/'+ getRandomFromArray(dimension) +'?'+selected+'&sig=' + Math.floor(Math.random() * 100), function (dataURL) {
+      getDataUri('https://picsum.photos/400/800'+ getRandomFromArray(dimension) +'?'+selected+'&sig=' + Math.floor(Math.random() * 100), function (dataURL) {
       const img = document.querySelector('.quote-container');
       screenshot(dataURL).then(function(url){
           img.style.backgroundImage = 'url(' + url + ')';
@@ -134,7 +134,7 @@ var getDataUri = function (targetUrl, callback) {
 
 export function refreshImage() {
   const selected = getRandomFromArray(topics);
-  getDataUri("https://source.unsplash.com/random/", function (dataURL) {
+  getDataUri("https://picsum.photos/400/800", function (dataURL) {
     screenshot(dataURL).then(function (url) {
       // imageContainer.style.filter = "brightness(1)";
       imageContainer.style.backgroundImage = "url(" + url + ")";
