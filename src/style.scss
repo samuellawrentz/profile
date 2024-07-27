@@ -251,6 +251,7 @@ h4 {
     }
 
     &__details {
+      overflow: hidden;
       padding: 16px;
       padding-bottom: 20px;
       flex: 1;
@@ -461,7 +462,13 @@ li {
   display: flex;
   gap: 8px;
   margin-top: 4px;
+  overflow-x: auto;
   .tag {
+    text-wrap: nowrap;
+    max-width: 160px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
     padding: 0 12px;
     border: 1px solid var(--element3);
     border-radius: 35px;
@@ -472,6 +479,7 @@ li {
 .date-tag {
   margin-top: 8px;
   justify-content: space-between;
+  overflow: hidden;
 }
 
 .wave {
