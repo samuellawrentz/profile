@@ -15,7 +15,10 @@ export const query = graphql`
     allMdx(
       sort: { frontmatter: { date: DESC } }
       filter: {
-        frontmatter: { type: { eq: "hack" }, category: { eq: "philosophy" } }
+        frontmatter: {
+          type: { eq: "hack" }
+          category: { in: ["philosophy", "software philosophy"] }
+        }
       }
     ) {
       nodes {
