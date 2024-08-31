@@ -1,0 +1,42 @@
+2024-08-31 18:16:14 - Starting blog post generation
+2024-08-31 18:16:19 - Generated headings:
+2024-08-31 18:16:19 -   React:
+2024-08-31 18:16:19 -     - "Mastering State Management in React: A Comprehensive Guide"
+2024-08-31 18:16:19 -     - "Exploring the Power of React Hooks for Superior Web Development"
+2024-08-31 18:16:19 -     - "Building Seamless User Interfaces with React: A Step-by-Step Tutorial"
+2024-08-31 18:16:19 -   Neovim:
+2024-08-31 18:16:19 -     - "Enhancing Your Coding Experience with Neovim: A Beginner’s Guide"
+2024-08-31 18:16:19 -     - "Streamlining Development Workflows with Neovim’s Powerful Features"
+2024-08-31 18:16:19 -     - "Understanding Neovim: How to Customize and Improve Your Text Editor"
+2024-08-31 18:16:19 -   Philosophy:
+2024-08-31 18:16:19 -     - "Delving into Existentialism: A Deep Dive into Philosophy’s Most Intriguing School"
+2024-08-31 18:16:19 -     - "The Impact of Ancient Philosophy on Modern Thinking: A Closer Look"
+2024-08-31 18:16:19 -     - "The Ethical Dilemmas of Today: A Philosophical Perspective"
+2024-08-31 18:16:19 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/react/mastering-state-management-in-react-a-comprehensive-guide
+2024-08-31 18:16:28 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/react/mastering-state-management-in-react-a-comprehensive-guide/hack.mdx
+2024-08-31 18:16:29 - Completed writing for '"Mastering State Management in React: A Comprehensive Guide"' in react
+2024-08-31 18:16:29 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/react/exploring-the-power-of-react-hooks-for-superior-web-development
+2024-08-31 18:16:39 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/react/exploring-the-power-of-react-hooks-for-superior-web-development/hack.mdx
+2024-08-31 18:16:40 - Completed writing for '"Exploring the Power of React Hooks for Superior Web Development"' in react
+2024-08-31 18:16:40 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/react/building-seamless-user-interfaces-with-react-a-step-by-step-tutorial
+2024-08-31 18:16:53 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/react/building-seamless-user-interfaces-with-react-a-step-by-step-tutorial/hack.mdx
+2024-08-31 18:16:54 - Completed writing for '"Building Seamless User Interfaces with React: A Step-by-Step Tutorial"' in react
+2024-08-31 18:16:54 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/neovim/enhancing-your-coding-experience-with-neovim-a-beginners-guide
+2024-08-31 18:17:05 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/neovim/enhancing-your-coding-experience-with-neovim-a-beginners-guide/hack.mdx
+2024-08-31 18:17:06 - Completed writing for '"Enhancing Your Coding Experience with Neovim: A Beginner’s Guide"' in neovim
+2024-08-31 18:17:06 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/neovim/streamlining-development-workflows-with-neovims-powerful-features
+2024-08-31 18:17:16 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/neovim/streamlining-development-workflows-with-neovims-powerful-features/hack.mdx
+2024-08-31 18:17:17 - Completed writing for '"Streamlining Development Workflows with Neovim’s Powerful Features"' in neovim
+2024-08-31 18:17:17 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/neovim/understanding-neovim-how-to-customize-and-improve-your-text-editor
+2024-08-31 18:17:28 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/neovim/understanding-neovim-how-to-customize-and-improve-your-text-editor/hack.mdx
+2024-08-31 18:17:29 - Completed writing for '"Understanding Neovim: How to Customize and Improve Your Text Editor"' in neovim
+2024-08-31 18:17:29 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/philosophy/delving-into-existentialism-a-deep-dive-into-philosophys-most-intriguing-school
+2024-08-31 18:17:39 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/philosophy/delving-into-existentialism-a-deep-dive-into-philosophys-most-intriguing-school/hack.mdx
+2024-08-31 18:17:40 - Completed writing for '"Delving into Existentialism: A Deep Dive into Philosophy’s Most Intriguing School"' in philosophy
+2024-08-31 18:17:40 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/philosophy/the-impact-of-ancient-philosophy-on-modern-thinking-a-closer-look
+2024-08-31 18:17:48 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/philosophy/the-impact-of-ancient-philosophy-on-modern-thinking-a-closer-look/hack.mdx
+2024-08-31 18:17:49 - Completed writing for '"The Impact of Ancient Philosophy on Modern Thinking: A Closer Look"' in philosophy
+2024-08-31 18:17:49 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/philosophy/the-ethical-dilemmas-of-today-a-philosophical-perspective
+2024-08-31 18:17:57 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/philosophy/the-ethical-dilemmas-of-today-a-philosophical-perspective/hack.mdx
+2024-08-31 18:17:58 - Completed writing for '"The Ethical Dilemmas of Today: A Philosophical Perspective"' in philosophy
+2024-08-31 18:17:58 - Finished blog post generation
