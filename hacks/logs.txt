@@ -1,0 +1,43 @@
+2024-08-31 18:40:13 - Starting blog post generation
+2024-08-31 18:40:18 - Generated headings:
+2024-08-31 18:40:18 -   React:
+2024-08-31 18:40:18 -     - "Unleashing the Power of React for Web Development: A Comprehensive Guide"
+2024-08-31 18:40:18 -     - "React vs. Vue: A Detailed Comparative Analysis for 2022"
+2024-08-31 18:40:18 -     - "Mastering Component-Based Architecture with React"
+2024-08-31 18:40:18 -   Neovim:
+2024-08-31 18:40:18 -     - "Exploring Neovim: A Next-Generation Vim Editor"
+2024-08-31 18:40:18 -     - "Boost Your Coding Efficiency: Neovim Tips & Tricks"
+2024-08-31 18:40:18 -     - "Transitioning from Vim to Neovim: An Essential Walkthrough"
+2024-08-31 18:40:18 -   Software philosophy:
+2024-08-31 18:40:18 -     - "The Ethical Dilemmas in Software Development: A Deep Dive"
+2024-08-31 18:40:18 -     - "Agile vs Waterfall: Philosophies Shaping Software Development"
+2024-08-31 18:40:18 -     - "The Philosophy Behind Open Source Software: An Unbiased Examination"
+2024-08-31 18:40:18 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/react/unleashing-the-power-of-react-for-web-development-a-comprehensive-guide
+2024-08-31 18:40:27 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/react/unleashing-the-power-of-react-for-web-development-a-comprehensive-guide/hack.mdx
+2024-08-31 18:40:28 - Completed writing for '"Unleashing the Power of React for Web Development: A Comprehensive Guide"' in react
+2024-08-31 18:40:28 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/react/react-vs-vue-a-detailed-comparative-analysis-for-2022
+2024-08-31 18:40:37 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/react/react-vs-vue-a-detailed-comparative-analysis-for-2022/hack.mdx
+2024-08-31 18:40:38 - Completed writing for '"React vs. Vue: A Detailed Comparative Analysis for 2022"' in react
+2024-08-31 18:40:38 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/react/mastering-component-based-architecture-with-react
+2024-08-31 18:40:50 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/react/mastering-component-based-architecture-with-react/hack.mdx
+2024-08-31 18:40:51 - Completed writing for '"Mastering Component-Based Architecture with React"' in react
+2024-08-31 18:40:51 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/neovim/exploring-neovim-a-next-generation-vim-editor
+2024-08-31 18:40:58 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/neovim/exploring-neovim-a-next-generation-vim-editor/hack.mdx
+2024-08-31 18:40:59 - Completed writing for '"Exploring Neovim: A Next-Generation Vim Editor"' in neovim
+2024-08-31 18:40:59 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/neovim/boost-your-coding-efficiency-neovim-tips-tricks
+2024-08-31 18:41:09 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/neovim/boost-your-coding-efficiency-neovim-tips-tricks/hack.mdx
+2024-08-31 18:41:10 - Completed writing for '"Boost Your Coding Efficiency: Neovim Tips & Tricks"' in neovim
+2024-08-31 18:41:10 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/neovim/transitioning-from-vim-to-neovim-an-essential-walkthrough
+2024-08-31 18:41:20 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/neovim/transitioning-from-vim-to-neovim-an-essential-walkthrough/hack.mdx
+2024-08-31 18:41:21 - Completed writing for '"Transitioning from Vim to Neovim: An Essential Walkthrough"' in neovim
+2024-08-31 18:41:21 - Created folder: /Users/samuel.lawerence/src/profile/hacks/software philosophy
+2024-08-31 18:41:21 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/software philosophy/the-ethical-dilemmas-in-software-development-a-deep-dive
+2024-08-31 18:41:29 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/software philosophy/the-ethical-dilemmas-in-software-development-a-deep-dive/hack.mdx
+2024-08-31 18:41:30 - Completed writing for '"The Ethical Dilemmas in Software Development: A Deep Dive"' in software philosophy
+2024-08-31 18:41:30 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/software philosophy/agile-vs-waterfall-philosophies-shaping-software-development
+2024-08-31 18:41:41 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/software philosophy/agile-vs-waterfall-philosophies-shaping-software-development/hack.mdx
+2024-08-31 18:41:42 - Completed writing for '"Agile vs Waterfall: Philosophies Shaping Software Development"' in software philosophy
+2024-08-31 18:41:42 - Created subfolder: /Users/samuel.lawerence/src/profile/hacks/software philosophy/the-philosophy-behind-open-source-software-an-unbiased-examination
+2024-08-31 18:41:49 - Generated blog post: /Users/samuel.lawerence/src/profile/hacks/software philosophy/the-philosophy-behind-open-source-software-an-unbiased-examination/hack.mdx
+2024-08-31 18:41:50 - Completed writing for '"The Philosophy Behind Open Source Software: An Unbiased Examination"' in software philosophy
+2024-08-31 18:41:50 - Finished blog post generation
