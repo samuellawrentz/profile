@@ -376,7 +376,7 @@ function IndexPage({ data }) {
                   <a href="https://codepen.io/samuellawrentz">Codepen</a>
                 </Text>
               </Block>
-              <Block>
+              {/* <Block>
                 <LinkButton
                   className="gradient"
                   type="secondary"
@@ -389,7 +389,7 @@ function IndexPage({ data }) {
                     <span>View Resume</span>
                   </Block>
                 </LinkButton>
-              </Block>
+              </Block> */}
             </Block>
           </Block>
         </div>

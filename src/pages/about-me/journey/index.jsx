@@ -1,5 +1,6 @@
 import { StaticImage } from "gatsby-plugin-image";
 import React from "react";
+import PropTypes from "prop-types";
 import { Block } from "../../../components/block";
 import { TextBlock } from "../../../components/typography";
 
@@ -17,6 +18,12 @@ const TimeBlock = ({ year, title, children }) => (
     </TextBlock>
   </Block>
 );
+
+TimeBlock.propTypes = {
+  year: PropTypes.string.isRequired,
+  title: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+};
 
 // Main Component utilizing TimeBlock
 const About = () => (
@@ -42,12 +49,12 @@ const About = () => (
         autonomy to construct high-performing web pages, refining my skills
         along the way.
       </TimeBlock>
-      <TimeBlock year="2020" title="Covid Chaos, WFH Woes">
+      <TimeBlock year="2020" title="Promoted to Senior Frontend Developer">
         The pandemic hit hard, turning 2020 and the subsequent year into a
         whirlwind of work-from-home days, revolving around hand sanitization
         rituals and adapting to the new norm.
       </TimeBlock>
-      <TimeBlock year="2021" title="SDE Role at Contacto">
+      <TimeBlock year="2021" title="SDE-1 Role at Contacto">
         Stepped into the product engineering team at Contacto, delving into a
         tech stack enriched with Electron, React, Vue, Redux, SCSS, and more.
       </TimeBlock>
@@ -64,6 +71,12 @@ const About = () => (
         Last year, I embraced ownership and responsibility, evolving into a
         better Senior/Lead Engineer. The past year brought invaluable learnings,
         shaping me into a more adept professional.
+      </TimeBlock>
+      <TimeBlock year="2025" title="Promotion to SDE3 & AI Innovation">
+        Achieved promotion to SDE3, marking a significant career milestone. Led
+        a complete application overhaul leveraging AI technologies,
+        demonstrating technical leadership while continuing to build and explore
+        new frontiers in software development.
       </TimeBlock>
     </div>
   </div>
