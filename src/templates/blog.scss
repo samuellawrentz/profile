@@ -1,6 +1,6 @@
 .hero-image {
     border-radius: 15px;
-    height: 350px;
+    height: 450px;
 }
 
 deckgo-highlight-code {
@@ -13,8 +13,24 @@ deckgo-highlight-code {
     a {
         color: var(--tertiary);
     }
+    h1 {
+        font-size: 3rem;
+    }
     h2 {
         margin-top: 60px;
+        font-size: 2rem;
+        margin-bottom: 10px;
+        &+p {
+            margin-top: 10px;
+        }
+    }
+    h3 {
+        margin-bottom: 10px;
+        font-size: 1.5rem;
+        opacity: 0.8; 
+        &+* {
+            margin-top: 16px;
+        }
     }
     h4 {
         margin-bottom: 20px;
@@ -22,8 +38,11 @@ deckgo-highlight-code {
     p + div.text-regularLight, p + div.blog-cont, div.hacks-cont {
         font-size: inherit;
         font-weight: inherit;
-        max-width: 700px;
+        max-width: 800px;
         line-height: 1.85;
+    }
+    li {
+        margin-bottom: 10px;
     }
 }
 
