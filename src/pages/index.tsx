@@ -8,7 +8,6 @@ import "../style.scss";
 import Avatar from "../components/avatar";
 import SEO from "../components/seo";
 import Button, { LinkButton } from "../components/button";
-import { EmailBlock } from "../components/email-bar";
 import { Icon } from "../components/icon";
 
 // @ts-expect-error any error new
@@ -26,14 +25,15 @@ function IndexPage({ data }) {
         <div className="intro">
           <h1>HI, I'M SAM</h1>
           <h2 className="subtext">
-            I design and code beautifully simple things.
+            I craft pixel-perfect interfaces and bring ideas to life.
           </h2>
           <p>
-            I'm that <b>Frontend Engineer</b> who comes up with creative CSS
-            ideas at 2.00 am. Who always tries to reduce the no. of lines in any
-            given file. <br />
-            <br /> A <b>Javascript developer</b> who thinks that -{" "}
-            <em>"There is always a simpler way to solve a problem."</em>
+            I'm that <b>Frontend Engineer</b> who geeks out over clean
+            architecture and elegant solutions. Always exploring the
+            intersection of AI and web technologies to push creative boundaries.{" "}
+            <br />
+            <br /> A <b>Typescript Architect</b> guided by the philosophy -{" "}
+            <em>"Simplicity is the ultimate sophistication in code."</em>
           </p>
           <p>❤ ❤ ❤</p>
         </div>
@@ -325,7 +325,7 @@ function IndexPage({ data }) {
         </div>
         <div>
           <TextBlock spacing={[0, 25]}>
-            I’m the kind of person who likes to connect with new people.
+            I'm the kind of person who likes to connect with new people.
             <br />
             Who also likes to learn new technologies.
             <br />
