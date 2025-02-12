@@ -1,0 +1,12 @@
+---
+description: To generate new blog files
+globs: *.md, *.mdx
+---
+Let the content be of length around 500 words
+Use proper code snippets where needed
+Use markdown format 
+Refer front matter from [post.mdx](mdc:blog/gatsby-og-image/post.mdx)
+Keep the language a bit funny and tech savy
+The target audience are interns to senior developers
+Put the blog in the blogs folder 
+use this image as default heroimage [default.png](mdc:blog/default.png)

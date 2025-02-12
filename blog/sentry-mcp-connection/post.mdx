@@ -1,0 +1,102 @@
+---
+title: Connect to Sentry MCP Server - A Developer's Guide
+date: 2025-02-11
+published: true
+path: /blog/sentry-mcp-connection/
+heroImage: ./sentry.png
+tags: [sentry, mcp, cursor]
+description: Learn how to connect Cursor IDE with Sentry using MCP server. A complete guide from setup to troubleshooting, perfect for developers who want to supercharge their error tracking with AI capabilities.
+---
+
+Hey there, fellow code wrangler! 👋 Tired of jumping between Cursor and Sentry tabs like a caffeinated kangaroo? Well, grab your favorite debugging mug because we're about to connect these two beautiful tools using the magic of MCP (Model Context Protocol)!
+
+## What's this MCP thing anyway? 🤔
+
+Think of MCP as the cool matchmaker that gets your AI tools to dance with your data sources. It's like Tinder, but for developer tools (and way more successful at making meaningful connections, trust me!).
+
+## Prerequisites (The Boring-but-Important Stuff)
+
+Before we dive in, let's make sure you've got all your ducks in a row:
+
+1. **Cursor IDE** - You've got this installed, right? RIGHT?
+2. **Python & pipx** - Because we're fancy like that
+
+```bash
+# Install pipx if you haven't already
+python -m pip install --user pipx
+python -m pipx ensurepath
+
+# Verify installation
+pipx --version
+```
+
+3. **Sentry Account** - You'll need one of those sweet, sweet auth tokens
+
+## The Main Event: Setting Up Sentry MCP 🎪
+
+### Step 1: Grab Your Auth Token
+
+1. Head over to [Sentry.io](https://sentry.io)
+2. Navigate to Settings > Auth Tokens
+3. Create a new token (give it the permissions it needs to be useful)
+
+### Step 2: Fire Up the MCP Server
+
+```bash
+pipx run mcp-server-sentry --auth-token YOUR_TOKEN
+```
+
+Replace `YOUR_TOKEN` with your actual token. And please, for the love of all things holy, don't commit this token to Git! 🙈
+
+### Step 3: Configure Cursor
+
+1. Open Cursor Settings (the gear icon, you know the drill)
+2. Find Features > MCP
+3. Click "+ Add New MCP Server"
+4. Fill in these details:
+   - Transport Type: `command`
+   - Name: "Sentry" (or "Error-Be-Gone" if you're feeling creative)
+   - Command: The command from Step 2
+
+## Testing Your Connection 🧪
+
+If everything's working, you should be able to:
+- See Sentry in your MCP server list
+- Query error events
+- Track performance metrics
+- Feel like a 10x developer
+
+Try these cool prompts in Cursor:
+```
+"Show me production errors from last hour"
+"List unresolved issues affecting most users"
+"Get performance metrics for the auth service"
+```
+
+## Troubleshooting (When Things Go South) 🔧
+
+If your connection is acting like a moody teenager:
+
+1. Check your auth token (is it valid?)
+2. Verify pipx installation (`pipx --version`)
+3. Look for error messages in Cursor's MCP logs
+4. Make sure your network isn't blocking the connection
+
+## Pro Tips 🎯
+
+1. Keep your token secure (seriously, don't share it!)
+2. Use minimal permissions
+3. Regular health checks are your friend
+4. Update your MCP server package regularly
+
+## Wrapping Up 🎁
+
+There you have it! You've just leveled up your error tracking game. Now your Cursor IDE can chat directly with Sentry, making debugging feel less like a wild goose chase and more like a guided tour.
+
+Remember: With great power comes great responsibility. Use your new MCP superpowers wisely!
+
+Happy coding! 🚀
+
+---
+
+P.S. If this helped you avoid at least one production fire, consider sharing it with your team. They'll thank you later! 😉 
