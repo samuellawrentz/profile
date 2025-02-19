@@ -6,7 +6,8 @@ Let the content be of length around 500 words
 Use proper code snippets where needed
 Use markdown format 
 Refer front matter from [post.mdx](mdc:blog/gatsby-og-image/post.mdx)
-Keep the language a bit funny and tech savy
+Keep the language slightly funny (Kevin Hart style) and tech savy
+Don't bring into code part or while explaining techinal concepts
 The target audience are interns to senior developers
 Put the blog in the blogs folder 
 use this image as default heroimage [default.png](mdc:blog/default.png)
