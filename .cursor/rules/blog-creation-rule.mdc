@@ -1,6 +1,7 @@
 ---
 description: To generate new blog files
 globs: *.md, *.mdx
+alwaysApply: false
 ---
 Let the content be of length around 500 words
 Use proper code snippets where needed
@@ -10,4 +11,5 @@ Keep the language slightly funny (Kevin Hart style) and tech savy
 Don't bring into code part or while explaining techinal concepts
 The target audience are interns to senior developers
 Put the blog in the blogs folder 
+Attach outgoing links from any webpage that is attached in the prompt
 use this image as default heroimage [default.png](mdc:blog/default.png)
