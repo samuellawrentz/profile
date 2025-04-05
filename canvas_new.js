@@ -36,69 +36,74 @@ function generateText(ctx, title) {
 }
 
 async function generateImage(title, id, headerpath) {
-  if (!headerpath?.includes("/header.png")) {
-    gen(title, id);
-    return;
-  }
-  const baseImagePath = path.resolve(headerpath);
-  let baseImage = null;
-  let logo = null;
-  const outputWidth = 1200;
-  const outputHeight = 630;
-
   try {
-    baseImage = await loadImage(baseImagePath);
-    logo = await loadImage(path.resolve("src/assets/logo.jpg"));
+    if (!headerpath?.includes("/header.png")) {
+      gen(title, id);
+      return;
+    }
+    const baseImagePath = path.resolve(headerpath);
+    let baseImage = null;
+    let logo = null;
+    const outputWidth = 1200;
+    const outputHeight = 630;
+
+    try {
+      baseImage = await loadImage(baseImagePath);
+      logo = await loadImage(path.resolve("src/assets/logo.jpg"));
+    } catch (error) {
+      console.error("Error loading base image:", error, baseImagePath);
+      throw error;
+    }
+
+    const canvas = createCanvas(outputWidth, outputHeight);
+    const ctx = canvas.getContext("2d");
+
+    // Calculate scaled dimensions while maintaining aspect ratio
+    const aspectRatio = baseImage.width / baseImage.height;
+
+    let scaledWidth = outputWidth;
+    let scaledHeight = outputHeight;
+
+    // If the aspect ratio of the base image is greater than the aspect ratio
+    // of the output canvas, scale based on height to fill the canvas
+    if (aspectRatio > outputWidth / outputHeight) {
+      scaledHeight = outputHeight;
+      scaledWidth = scaledHeight * aspectRatio;
+    }
+    // Otherwise, scale based on width to fill the canvas
+    else {
+      scaledWidth = outputWidth;
+      scaledHeight = scaledWidth / aspectRatio;
+    }
+    ctx.drawImage(baseImage, 0, 0, scaledWidth, scaledHeight);
+
+    // Create a linear gradient
+    const angle = 9 * (Math.PI / 180);
+    const x0 = outputWidth / 2 + Math.cos(angle + Math.PI) * outputWidth;
+    const y0 = outputHeight / 2 + Math.sin(angle + Math.PI) * outputHeight;
+    const x1 = outputWidth / 2 + Math.cos(angle) * outputWidth;
+    const y1 = outputHeight / 2 + Math.sin(angle) * outputHeight;
+    const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
+
+    gradient.addColorStop(0, "hsla(" + 360 * Math.random() + ",80%,15%,1)");
+    gradient.addColorStop(1, "hsla(" + 360 * Math.random() + ",0%,14%,0.1)");
+
+    // Apply the gradient over the image
+    ctx.fillStyle = gradient;
+    ctx.fillRect(0, 0, outputWidth, outputHeight);
+
+    // Add text
+    generateText(ctx, title);
+    ctx.drawImage(logo, 60, 80, 70, 70);
+
+    // Save canvas to file
+    const buffer = canvas.toBuffer("image/png");
+    console.info("Generating for", id);
+    fs.writeFileSync(path.resolve(`./public/og-images/${id}.png`), buffer);
   } catch (error) {
-    console.error("Error loading base image:", error);
+    console.error("Error generating image:", error, title, id, headerpath);
     throw error;
   }
-
-  const canvas = createCanvas(outputWidth, outputHeight);
-  const ctx = canvas.getContext("2d");
-
-  // Calculate scaled dimensions while maintaining aspect ratio
-  const aspectRatio = baseImage.width / baseImage.height;
-
-  let scaledWidth = outputWidth;
-  let scaledHeight = outputHeight;
-
-  // If the aspect ratio of the base image is greater than the aspect ratio
-  // of the output canvas, scale based on height to fill the canvas
-  if (aspectRatio > outputWidth / outputHeight) {
-    scaledHeight = outputHeight;
-    scaledWidth = scaledHeight * aspectRatio;
-  }
-  // Otherwise, scale based on width to fill the canvas
-  else {
-    scaledWidth = outputWidth;
-    scaledHeight = scaledWidth / aspectRatio;
-  }
-  ctx.drawImage(baseImage, 0, 0, scaledWidth, scaledHeight);
-
-  // Create a linear gradient
-  const angle = 9 * (Math.PI / 180);
-  const x0 = outputWidth / 2 + Math.cos(angle + Math.PI) * outputWidth;
-  const y0 = outputHeight / 2 + Math.sin(angle + Math.PI) * outputHeight;
-  const x1 = outputWidth / 2 + Math.cos(angle) * outputWidth;
-  const y1 = outputHeight / 2 + Math.sin(angle) * outputHeight;
-  const gradient = ctx.createLinearGradient(x0, y0, x1, y1);
-
-  gradient.addColorStop(0, "hsla(" + 360 * Math.random() + ",80%,15%,1)");
-  gradient.addColorStop(1, "hsla(" + 360 * Math.random() + ",0%,14%,0.1)");
-
-  // Apply the gradient over the image
-  ctx.fillStyle = gradient;
-  ctx.fillRect(0, 0, outputWidth, outputHeight);
-
-  // Add text
-  generateText(ctx, title);
-  ctx.drawImage(logo, 60, 80, 70, 70);
-
-  // Save canvas to file
-  const buffer = canvas.toBuffer("image/png");
-  console.info("Generating for", id);
-  fs.writeFileSync(path.resolve(`./public/og-images/${id}.png`), buffer);
 }
 
 module.exports = generateImage;
