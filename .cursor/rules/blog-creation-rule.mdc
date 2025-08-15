@@ -1,15 +1,79 @@
 ---
-description: To generate new blog files
-globs: *.md, *.mdx
+description: 
+globs: 
 alwaysApply: false
 ---
-Let the content be of length around 500 words
-Use proper code snippets where needed
-Use markdown format 
-Refer front matter from [post.mdx](mdc:blog/gatsby-og-image/post.mdx)
-Keep the language slightly funny (Kevin Hart style) and tech savy
-Don't bring into code part or while explaining techinal concepts
-The target audience are interns to senior developers
-Put the blog in the blogs folder 
-Attach outgoing links from any webpage that is attached in the prompt
-use this image as default heroimage [default.png](mdc:blog/default.png)
+# Blog Creation Rule - Samuel's Writing Style
+
+## Content Structure & Length
+- Target length: 500-800 words (flexible based on topic complexity)
+- Use markdown format with proper front matter
+- Reference front matter structure from [post.mdx](mdc:blog/gatsby-og-image/post.mdx)
+- Use [default.png](mdc:blog/default.png) as default heroImage unless topic-specific image is provided
+
+## Writing Voice & Tone
+- **Conversational and relatable**: Write like you're talking to a friend over coffee
+- **Self-deprecating humor**: Share personal struggles and "fails" in a humorous way
+- **Kevin Hart-style energy**: Quick, energetic, and enthusiastic but not over-the-top
+- **Tech-savvy but accessible**: Explain complex concepts in simple terms
+- **Storytelling approach**: Use narrative structure with clear beginning, middle, and end
+
+## Content Patterns
+### Opening Style
+- Start with a relatable scenario or personal anecdote
+- Use phrases like "Hey there, folks!" or "Picture this:"
+- Set up the problem/challenge before diving into solutions
+- Include warnings for technical content when appropriate
+
+### Body Structure
+- **Use analogies and metaphors**: Compare tech concepts to everyday things
+- **Include personal timeline/journey**: Show the process, not just the result
+- **Break down complex topics**: Use subheadings and bullet points
+- **Share search history/struggles**: Be transparent about the learning process
+- **Include practical examples**: Always provide working code snippets
+
+### Technical Content
+- Provide complete, runnable code examples
+- Include installation commands and setup instructions
+- Explain the "why" behind technical decisions
+- Use proper syntax highlighting for code blocks
+- Don't over-comment code - only explain complex logic
+
+## Humor & Personality
+- **Coffee references**: Frequent mentions of coffee consumption during coding
+- **Time-based narratives**: Hour-by-hour breakdowns of problem-solving sessions
+- **Self-aware commentary**: Acknowledge when things go wrong or take longer than expected
+- **Pop culture references**: Occasional references to movies, games, or internet culture
+- **Celebration of small wins**: Express genuine excitement about solving problems
+
+## Linking Strategy
+- **Extensive internal linking**: Reference 4-6 other blog posts per article
+- **Natural link integration**: Weave links into the narrative flow
+- **External resource links**: Include official documentation and helpful tools
+- **Cross-promotion**: Link to related projects and tools you've built
+
+## Technical Standards
+- Always include working code examples
+- Provide package installation commands
+- Mention browser compatibility when relevant
+- Include performance considerations
+- Reference official documentation
+
+## Audience Considerations
+- Target: Interns to senior developers
+- Assume basic programming knowledge but explain advanced concepts
+- Include both beginner-friendly explanations and advanced tips
+- Make content valuable for different skill levels
+
+## Content Placement
+- Save all blog files in the `blog/` folder
+- Create topic-specific subdirectories when needed
+- Include relevant images in the same directory as the post
+
+## Style Guidelines
+- Use bold text for emphasis on key points
+- Include code snippets with proper language tags
+- Don't use too much emojis
+- Use bullet points and numbered lists for clarity
+- Include relevant emojis sparingly (mainly for celebration/conclusion)
+- End with encouraging or motivational statements
