@@ -1,0 +1,127 @@
+---
+title: How to Enable Borders on Vim LSP Hover Information (The Simple Way)
+date: 2025-08-15
+heroImage: ./header.png
+path: /blog/vim-lsp-hover-borders/
+published: true
+tags: [vim, lsp, configuration]
+description: Struggling with borderless LSP hover popups in Vim? Here's the incredibly simple one-line fix that took me way too long to discover. No plugins required, just one vim.opt setting and you're golden.
+---
+
+Hey there, fellow Vim warriors! Picture this: you're deep in the zone, coding away with your perfectly configured Vim setup, using LSP for all that sweet intellisense goodness. Everything's working beautifully – you're getting hover information, diagnostics, the whole nine yards. But there's just one tiny thing driving you absolutely bonkers: **those hover popups have no borders**.
+
+I know, I know. It's such a small detail, but when you're staring at code for hours (fueled by ungodly amounts of coffee, naturally), those borderless popups just... they blend into everything. It's like trying to read a ghost's diary written in invisible ink.
+
+## The Great Border Hunt Begins
+
+So there I was, 2 AM on a Tuesday (because when else do we solve these problems?), frantically Googling variations of "vim lsp hover border", "neovim popup border", and my personal favorite: "why does my vim hate aesthetic boundaries." 
+
+I dove deep into plugin documentation, thinking surely I need some fancy border plugin. Maybe `popup.nvim`? Or perhaps some custom LSP configuration that requires seventeen different settings and a blood sacrifice to the Vim gods? I was ready to install whatever it took.
+
+**Spoiler alert**: I was overthinking it. By approximately 847%.
+
+## The Plot Twist (AKA The Solution)
+
+After what felt like an eternity of rabbit holes and coffee-induced documentation reading, I stumbled upon the solution. Turns out there are actually **two approaches** that work beautifully, and both are surprisingly simple.
+
+**Method 1: Global Window Borders**
+```lua
+vim.o.winborder = 'rounded'
+```
+
+**Method 2: LSP-Specific Hover Configuration**
+```lua
+-- In your keybinding configuration
+{ "K", function() vim.lsp.buf.hover { border = "single", max_height = 25, max_width = 120 } end, desc = "Hover documentation" }
+```
+
+That's it! No plugins required, no complex setup wizardry. Just a couple of configuration options and boom – you've got gorgeous borders on your LSP hover information.
+
+![screenshot of the hover](./ss.png)
+
+## How It Actually Works
+
+Here's the thing that makes this so elegant: Neovim's built-in popup system already has border support. It was just sitting there, waiting for us to ask nicely.
+
+**Method 1** (`vim.o.winborder`) sets a global border style for all floating windows in your Neovim session. This affects not just LSP hover information, but also completion menus, diagnostic popups, and other floating windows.
+
+**Method 2** gives you granular control over LSP hover specifically. You can customize the border style, maximum height, and width just for hover documentation. This approach lets you keep different border styles for different types of popups if you're feeling fancy.
+
+You have several border style options:
+- `rounded` - Nice rounded corners (classic choice)
+- `single` - Clean single-line border  
+- `double` - Double-line border for that retro terminal vibe
+- `solid` - Solid block characters
+- `none` - No border (but why would you want that?)
+
+The LSP-specific approach also lets you control popup dimensions with `max_height` and `max_width` parameters, which is super handy for those monster documentation strings that want to take over your entire screen.
+
+## The Complete Setup
+
+**Option 1: Global Window Borders (Simplest)**
+
+Add this to your `init.lua`:
+
+```lua
+-- Set borders for all floating windows
+vim.o.winborder = 'rounded'
+```
+
+**Option 2: LSP-Specific Configuration (More Control)**
+
+If you're using which-key or custom keybindings, you can configure the hover function directly:
+
+```lua
+-- In your keybinding setup (like which-key configuration)
+{ "K", function() 
+    vim.lsp.buf.hover { 
+      border = "single", 
+      max_height = 25, 
+      max_width = 120 
+    } 
+  end, 
+  desc = "Hover documentation" 
+}
+```
+
+Or if you prefer a more traditional keymap:
+
+```lua
+vim.keymap.set('n', 'K', function()
+  vim.lsp.buf.hover { border = "single", max_height = 25, max_width = 120 }
+end, { desc = "Hover documentation" })
+```
+
+That's it. Restart your editor, hover over a function, and marvel at those beautiful borders. It's like putting glasses on for the first time – suddenly everything just looks... better.
+
+## Why This Matters More Than You Think
+
+Look, I get it. Borders on popup windows might seem like a trivial cosmetic thing. But here's why it actually matters:
+
+**Visual Separation**: When you're working with complex codebases, clear visual boundaries help your brain process information faster. Those borders create a clear distinction between the hover information and your actual code.
+
+**Reduced Eye Strain**: Borderless popups can blend into your background, forcing your eyes to work harder to focus on the content. With borders, your brain instantly knows where to look.
+
+**Professional Polish**: If you're sharing your screen during code reviews or pair programming sessions, those clean borders make your setup look intentional and professional.
+
+## The Learning Moment
+
+The real lesson here isn't about borders – it's about not overcomplicating solutions. I spent hours researching plugins and complex configurations when the answer was literally one line of built-in functionality.
+
+This reminds me of my experience with [coding standards and tooling](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged/) – sometimes the best solutions are the simplest ones hiding in plain sight.
+
+## Beyond Just Borders
+
+Once you've got your borders sorted, you might want to explore other LSP customizations. The popup system in modern Vim is surprisingly flexible. You can customize colors, positioning, and even add custom keybindings for navigating hover information.
+
+If you're interested in more Vim productivity tips, check out my other posts about [development workflow optimization](https://samuellawrentz.com/blog/jira-git-commit-workflow-vscode-extension/) and how small configuration changes can have huge impacts on your daily coding experience.
+
+## Wrapping Up
+
+Sometimes the best discoveries are the simplest ones. One line of configuration, and suddenly your LSP hover information goes from "meh" to "oh, that's so much better!"
+
+Next time you find yourself going down a rabbit hole for what seems like a complex problem, take a step back. Check the built-in options first. You might be surprised at what's already there, just waiting for you to ask nicely.
+
+Now go forth and enjoy your beautifully bordered hover information. Your eyes (and your late-night coding sessions) will thank you.
+
+Happy coding! 🎉
