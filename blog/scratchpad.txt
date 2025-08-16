@@ -1,0 +1,7 @@
+explain how ai is changing the way we code. 
+it makes anyone fluent in any language
+you just need the idea
+vibe coding = coding without worrying about code, optimisations, implementations
+multiple inference providers help you to try out different models
+anthropics sonnet 4 and gpt 5 seem to work great
+qwen coder 480b is also great
