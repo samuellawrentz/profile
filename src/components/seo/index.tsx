@@ -35,6 +35,8 @@ const SEO = ({ title, description, image, article }: any) => {
       <meta name="description" content={seo.description} />
       <meta name="image" content={seo.image} />
 
+            <meta name="google-adsense-account" content="ca-pub-7276855123882739">
+
       {seo.url && <meta property="og:url" content={seo.url} />}
 
       <meta property="og:type" content={article ? "article" : "website"} />
