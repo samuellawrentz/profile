@@ -1,0 +1,179 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Free Quotes Image Generator Online - Samuel Lawrentz"
+  description="Create or generate beautiful quotes pictures with unsplash images quickly and free. Our quote maker and generator require NO login or signup. Try now!"
+>
+  <div>
+    <div class="container quotes-page" style="gap:40px;flex-wrap:wrap;">
+      <div class="intro quotes-intro" style="flex:1 1 300px;">
+        <h1>Image Quote Generator</h1>
+        <div class="sub-heading text-regularLight" style="margin-bottom:16px;">Built with ❤ by Samuellawrentz</div>
+        <div>
+          <p>This is a simple image generator that helps you put your quotes and download them as an image.</p>
+          <h3>How to use it?</h3>
+          <ol>
+            <li>The card loads up with some random picture</li>
+            <li>Enter your text/quote</li>
+            <li>Change/remove the author name</li>
+            <li>Use the refresh button to change the image</li>
+            <li>Click the download button once you are done with the changes</li>
+          </ol>
+          <p class="text-regularLight" style="font-style:italic;border-left:3px solid var(--element3);padding-left:12px;">
+            More features like custom image, filters are on the way! Stay tuned.
+          </p>
+        </div>
+      </div>
+      <div id="sam-container" style="flex:1 1 300px;">
+        <div class="contents">
+          <div class="quote-container">
+            <div class="image-container" style="filter:brightness(1);"></div>
+            <div class="quote">
+              <div class="text" contenteditable="true">Type here.</div>
+              <div class="author" contenteditable="true">Samuel Lawrentz</div>
+            </div>
+          </div>
+        </div>
+        <div class="controls">
+          <div class="image-selector control">
+            <span class="button1" id="refresh-btn" title="Refresh image">
+              <span class="material-icons-round">refresh</span>
+            </span>
+            <span class="button1" id="download-btn" title="Download image">
+              <span class="material-icons-round">download</span>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top:48px;">
+      <div class="section__title">Few Samples</div>
+      <p style="color:var(--element2);margin-bottom:24px;">
+        Here are some sample quote images generated with this tool.
+      </p>
+      <div class="cards quotes-cards">
+        <div class="card" style="padding:0;overflow:hidden;">
+          <img src="https://images.unsplash.com/photo-1499892477393-f675706cbe6e?w=400" alt="Quote sample 1" style="width:100%;height:200px;object-fit:cover;" />
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400" alt="Quote sample 2" style="width:100%;height:200px;object-fit:cover;" />
+        </div>
+        <div class="card" style="padding:0;overflow:hidden;">
+          <img src="https://images.unsplash.com/photo-1518756131217-31eb79b20e8f?w=400" alt="Quote sample 3" style="width:100%;height:200px;object-fit:cover;" />
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  // Minimal inline version of the quote generator logic
+  const unsplashImages = [
+    'https://images.unsplash.com/photo-1499892477393-f675706cbe6e?w=800',
+    'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=800',
+    'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f?w=800',
+    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
+    'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=800',
+  ];
+
+  let currentIndex = 0;
+
+  function setImage(url) {
+    const container = document.querySelector('.image-container');
+    if (container) {
+      container.style.backgroundImage = `url(${url})`;
+      container.style.backgroundSize = 'cover';
+      container.style.backgroundPosition = 'center';
+    }
+  }
+
+  function refreshImage() {
+    currentIndex = (currentIndex + 1) % unsplashImages.length;
+    setImage(unsplashImages[currentIndex]);
+  }
+
+  function downloadImage() {
+    const container = document.querySelector('.quote-container');
+    if (!container) return;
+    // Simple download using html2canvas if available, else alert
+    alert('Download feature requires html2canvas library. Coming soon!');
+  }
+
+  // Initialize
+  setImage(unsplashImages[0]);
+
+  document.getElementById('refresh-btn')?.addEventListener('click', refreshImage);
+  document.getElementById('download-btn')?.addEventListener('click', downloadImage);
+</script>
+
+<style>
+  .quote-container {
+    position: relative;
+    width: 100%;
+    max-width: 400px;
+    height: 280px;
+    border-radius: 8px;
+    overflow: hidden;
+    background: #333;
+  }
+  .image-container {
+    position: absolute;
+    inset: 0;
+    background-size: cover;
+    background-position: center;
+  }
+  .image-container::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+  }
+  .quote {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 20px;
+    color: #fff;
+    z-index: 1;
+  }
+  .quote .text {
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 1.4;
+    min-height: 24px;
+    outline: none;
+  }
+  .quote .author {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-top: 8px;
+    min-height: 16px;
+    outline: none;
+  }
+  .controls {
+    margin-top: 16px;
+  }
+  .image-selector {
+    display: flex;
+    gap: 12px;
+  }
+  .button1 {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    background: var(--surface2);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: var(--element1);
+  }
+  .button1:hover {
+    background: var(--element3);
+  }
+</style>

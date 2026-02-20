@@ -1,0 +1,270 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import bookImg from '../assets/home/book.webp';
+import friendsLogoImg from '../assets/home/friends_logo.png';
+
+const allBlogPosts = await getCollection('blog', ({ data }) => data.published === true);
+const latestPosts = allBlogPosts
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 4);
+
+const hackCategories = ['react', 'neovim', 'philosophy', 'microfrontend', 'software-philosophy'];
+
+const projects = [
+  {
+    title: 'JIRA Commit Helper',
+    description: 'A VSCode extension that supercharges your Git workflow by integrating JIRA ticket IDs into commit messages automatically.',
+    tech: ['VSCode Extension', 'TypeScript', 'JIRA API'],
+    link: 'https://marketplace.visualstudio.com/items?itemName=samuellawrentz.jira-commit-helper',
+  },
+  {
+    title: 'Quotes Generator',
+    description: 'A browser-based image quote generator that creates beautiful quote images with Unsplash backgrounds. No login required.',
+    tech: ['React', 'Canvas API', 'Unsplash'],
+    link: '/projects/quotes-generator/',
+  },
+  {
+    title: 'React Highlight Textbox',
+    description: 'A React component that highlights specific words or patterns inside a text input in real-time.',
+    tech: ['React', 'CSS', 'npm'],
+    link: 'https://www.npmjs.com/package/react-highlight-textbox',
+  },
+  {
+    title: 'rc-json-editor',
+    description: 'A lightweight, dependency-free JSON editor component for React with syntax highlighting and validation.',
+    tech: ['React', 'TypeScript', 'npm'],
+    link: 'https://www.npmjs.com/package/rc-json-editor',
+  },
+  {
+    title: 'commit-helper',
+    description: 'A CLI tool to streamline git commit message generation with JIRA integration and conventional commits support.',
+    tech: ['Node.js', 'CLI', 'Git'],
+    link: 'https://github.com/samuellawrentz/commit-helper',
+  },
+  {
+    title: 'PastTenser',
+    description: 'A fun API that returns the past tense of any English verb. Built with NodeJS and hosted as a public endpoint.',
+    tech: ['Node.js', 'Express', 'REST API'],
+    link: '/projects/pasttenser/',
+  },
+];
+---
+
+<BaseLayout title="Samuel Lawrentz - The Frontend Dev">
+  <div class="main-content">
+    <!-- Hero Section -->
+    <div class="container">
+      <div class="intro">
+        <h1>HI, I'M SAM</h1>
+        <h2 class="subtext">I craft pixel-perfect interfaces and bring ideas to life.</h2>
+        <p>
+          I'm that <b>Frontend Engineer</b> who geeks out over clean architecture and elegant solutions.
+          Always exploring the intersection of AI and web technologies to push creative boundaries.
+        </p>
+        <p>
+          A <b>Typescript Architect</b> guided by the philosophy &mdash;
+          <em>"Simplicity is the ultimate sophistication in code."</em>
+        </p>
+        <p>❤ ❤ ❤</p>
+      </div>
+      <div class="image heart-image">
+        <div class="heart"></div>
+        <div class="hcard"></div>
+      </div>
+    </div>
+
+    <!-- Blog Section -->
+    <div class="section blog">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
+        <div class="section__title" style="margin-bottom:0;">Blog</div>
+        <a href="/blog/" class="gradient">
+          <button class="btn btn--secondary">Read more</button>
+        </a>
+      </div>
+      <div class="wave">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
+          <path
+            fill-opacity="1"
+            d="M0,320L34.3,298.7C68.6,277,137,235,206,234.7C274.3,235,343,277,411,293.3C480,309,549,299,617,266.7C685.7,235,754,181,823,133.3C891.4,85,960,43,1029,37.3C1097.1,32,1166,64,1234,106.7C1302.9,149,1371,203,1406,229.3L1440,256L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"
+          ></path>
+        </svg>
+        <div class="end"></div>
+      </div>
+      <div class="blogs">
+        {latestPosts.map((post) => (
+          <a href={post.data.path}>
+            <div class="card card__home">
+              {post.data.heroImage && (
+                <div class="card__image">
+                  <Image src={post.data.heroImage} alt={post.data.title} width={240} height={160} />
+                </div>
+              )}
+              <div class="card__details">
+                <div class="card__date text-regularLight">
+                  {new Date(post.data.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
+                </div>
+                <div class="card__title">
+                  <h4>{post.data.title}</h4>
+                </div>
+                <div class="date-tag" style="display:flex;gap:48px;align-items:center;">
+                  <div class="tags">
+                    {post.data.tags.map((tag) => (
+                      <div class="tag">{tag}</div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+
+        <div class="card read-more">
+          <div class="card__image" style="align-self:flex-start;">
+            <Image src={bookImg} alt="Blog book" height={350} />
+          </div>
+          <div class="card__details">
+            <div class="card__title">
+              <h2>I write about Javascript, CSS, and all things web.</h2>
+            </div>
+            <div class="card__description">
+              If you love to read tech blogs? I got you covered. I post new content <b>every month.</b>
+              I write about web, <b>ReactJS, Typescript, NodeJS, CSS, Developer productivity tips,</b> etc.
+            </div>
+            <div style="margin:24px 0 34px;display:flex;flex-direction:column;gap:16px;">
+              <h3>You should see my,</h3>
+              <ul>
+                <li>
+                  <b><a href="/about-me/journey/" class="fancy-href">Journey</a></b>
+                  &mdash; an interesting depiction of my career
+                </li>
+                <li>
+                  <a href="/about-me/coding-activity/" class="fancy-href">Coding Activity</a>
+                  &mdash; my WakaTime stats and language usage
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Hacks Section -->
+    <div class="section">
+      <div class="section__title">Hacks</div>
+      <p style="margin-bottom:24px;color:var(--element2);">
+        Short, practical tips and tricks across various frontend topics.
+      </p>
+      <div class="cards">
+        {hackCategories.map((cat) => (
+          <a href={`/hacks/${cat}/`}>
+            <div class="card">
+              <div class="card__title" style="font-size:var(--h4);font-weight:600;text-transform:capitalize;">
+                {cat.replace(/-/g, ' ')}
+              </div>
+              <div class="card__description" style="margin-top:8px;color:var(--element2);font-size:var(--caption);">
+                Browse {cat.replace(/-/g, ' ')} hacks &rarr;
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Projects Section -->
+    <div class="section">
+      <div class="section__title">Projects</div>
+      <div class="cards">
+        {projects.map((project) => (
+          <a href={project.link} target={project.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer">
+            <div class="card">
+              <div class="card__title" style="font-size:var(--h4);font-weight:600;">{project.title}</div>
+              <div style="margin:8px 0;color:var(--element2);font-size:var(--body);">{project.description}</div>
+              <div class="technologies">
+                <div class="tags">
+                  {project.tech.map((t) => (
+                    <div class="tag">{t}</div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <!-- Social / Friends Section -->
+    <div class="section friends">
+      <div class="section__title">We can be friends</div>
+      <div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start;">
+        <div>
+          <Image src={friendsLogoImg} alt="We can be friends" class="friendsLogo" width={200} height={50} />
+          <p style="max-width:480px;margin-top:24px;">
+            I'm the kind of person who likes to connect with new people.<br />
+            Who also likes to learn new technologies.<br />
+            <span style="display:block;margin-top:16px;">
+              There is lot more, try searching me on{' '}
+              <a href="https://www.google.com/search?q=samuel+lawrentz" target="_blank" rel="noreferrer">Google!</a>
+            </span>
+          </p>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:var(--h3);font-weight:600;">Samuel Lawrentz</div>
+          <div style="color:var(--element2);margin-bottom:8px;">
+            Senior UI Engineer &mdash; <a href="https://plivo.com" target="_blank" rel="noreferrer">Plivo</a>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap;">
+            <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer" class="social-link">Github</a>
+            <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer" class="social-link">LinkedIn</a>
+            <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer" class="social-link">Twitter</a>
+            <a href="https://codepen.io/samuellawrentz" target="_blank" rel="noreferrer" class="social-link">Codepen</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</BaseLayout>
+
+<script>
+  setTimeout(() => document.querySelector('.heart-image')?.classList.add('tilt'), 100);
+</script>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 24px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--body);
+    transition: all 0.2s ease;
+  }
+  .btn--secondary {
+    background: transparent;
+    border: 2px solid var(--element1);
+    color: var(--element1);
+    width: 200px;
+  }
+  .btn--secondary:hover {
+    background: var(--element1);
+    color: var(--surface1);
+  }
+  .social-link {
+    font-size: var(--caption);
+    text-decoration: none;
+    padding: 4px 0;
+    border-bottom: 1px solid var(--element3);
+  }
+  .social-link:hover {
+    border-bottom-color: var(--element1);
+  }
+  .card__image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+</style>

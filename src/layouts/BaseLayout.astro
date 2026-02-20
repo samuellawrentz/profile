@@ -1,0 +1,118 @@
+---
+import '../styles/global.scss';
+import Footer from '../components/Footer.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import SessionTimer from '../components/SessionTimer';
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Samuel Lawrentz - The Frontend Dev",
+  description = "Samuel Lawrentz - Frontend developer, blogger, and web enthusiast.",
+} = Astro.props;
+---
+
+<html lang="en" color-mode="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+
+    <!-- Google Fonts: IBM Plex Sans + Material Icons Round -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      rel="stylesheet"
+    />
+
+    <!-- Google Tag Manager -->
+    <script is:inline>
+      (function (w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({ 'gtm.start': new Date().getTime(), event: 'gtm.js' });
+        var f = d.getElementsByTagName(s)[0],
+          j = d.createElement(s),
+          dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src = 'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+      })(window, document, 'script', 'dataLayer', 'GTM-MKMH3FD');
+    </script>
+
+    <!-- Inline theme init: prevents flash by setting color-mode before render -->
+    <script is:inline>
+      (function () {
+        var stored = localStorage.getItem('color-mode');
+        var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        var mode = stored || (prefersDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('color-mode', mode);
+      })();
+    </script>
+
+    <slot name="head" />
+  </head>
+  <body>
+    <!-- Google Tag Manager (noscript) -->
+    <noscript>
+      <iframe
+        src="https://www.googletagmanager.com/ns.html?id=GTM-MKMH3FD"
+        height="0"
+        width="0"
+        style="display:none;visibility:hidden"></iframe>
+    </noscript>
+
+    <div class="logo" style="display:flex;justify-content:space-between;align-items:center;gap:24px;">
+      <span class="header-action-icon back-arrow hide-icon" id="back-arrow">
+        <span class="material-icons-round" style="font-size:32px;" title="Go Back">arrow_back</span>
+      </span>
+
+      <a class="gradient pull-back" href="/" style="text-decoration:none;font-size:0;" id="site-logo">
+        <span style="display:inline-flex;gap:16px;align-items:center;">
+          <img src="/assets/logo.jpg" alt="Samuel Lawrentz Logo" width="60" height="60" style="border-radius:50%;" />
+          <span>
+            <div class="text-body" style="font-size:20px;">Samuel Lawrentz</div>
+            <div class="text-caption">The Frontend dev</div>
+          </span>
+        </span>
+      </a>
+
+      <span style="margin-left:auto;">
+        <ThemeToggle />
+      </span>
+
+      <a class="rss header-action-icon" href="/rss.xml" aria-label="RSS feed">
+        <span class="material-icons-round" style="font-size:32px;" title="RSS feed">rss_feed</span>
+      </a>
+    </div>
+
+    <main>
+      <slot />
+    </main>
+
+    <div class="time"><SessionTimer client:load /></div>
+    <Footer />
+  </body>
+</html>
+
+<script>
+  // Back arrow visibility: show when there's navigation history and not on home
+  const backArrow = document.getElementById('back-arrow');
+  const logoLink = document.getElementById('site-logo');
+
+  if (backArrow && window.history.length > 1 && window.location.pathname !== '/') {
+    backArrow.classList.remove('hide-icon');
+    logoLink?.classList.remove('pull-back');
+    backArrow.addEventListener('click', () => window.history.back());
+  }
+</script>

@@ -1,0 +1,43 @@
+---
+const facts = [
+  "Most American car horns honk in the key of F.",
+  "The name Wendy was made up for the book 'Peter Pan.'",
+  "Barbie's full name is Barbara Millicent Roberts.",
+  "It's impossible to sneeze with your eyes open.",
+  "A duck's quack doesn't echo, and no one knows why.",
+  "The longest one-syllable word in the English language is 'screeched.'",
+  "All of the clocks in the movie 'Pulp Fiction' are stuck on 4:20.",
+  "No word in the English language rhymes with month, orange, silver or purple.",
+  "Dreamt is the only English word that ends in the letters 'mt'.",
+  "Almonds are members of the peach family.",
+  "Winston Churchill was born in a ladies' room during a dance.",
+  "Maine is the only state whose name is just one syllable.",
+  "There are only four words in the English language which end in 'dous': tremendous, horrendous, stupendous, and hazardous.",
+  "A cat has 32 muscles in each ear.",
+  "An ostrich's eye is bigger than its brain.",
+  "Tigers have striped skin, not just striped fur.",
+  "In most advertisements, including newspapers, the time displayed on a watch is 10:10.",
+  "Al Capone's business card said he was a used furniture dealer.",
+  "The characters Bert and Ernie on Sesame Street were named after Bert the cop and Ernie the taxi driver in Frank Capra's 'It's A Wonderful Life'.",
+  "A dragonfly has a lifespan of 24 hours.",
+];
+const fact = facts[Math.floor(Math.random() * facts.length)];
+---
+
+<div class="footer">
+  <h3>Wow! You've reached the end. Here's a useless fact before you leave.</h3>
+  <div class="text-caption">Did you know?</div>
+  <div class="fact-container">
+    {fact}
+  </div>
+</div>
+
+<style>
+  .footer {
+    text-align: center;
+    background-color: var(--surface3);
+    padding: 8px;
+    padding-bottom: 24px;
+    margin-top: 24px;
+  }
+</style>

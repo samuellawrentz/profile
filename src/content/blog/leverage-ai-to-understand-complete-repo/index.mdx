@@ -1,0 +1,100 @@
+---
+title: "Demystifying codebases: How to use AI to understand complex codebases easily and quickly?"
+path: /blog/how-to-understand-complex-code-with-ai/
+description: "Struggling to understand a massive codebase? Discover how Gemini Pro & ChatGPT, powerful AI tools, can help you quickly analyze, navigate, and comprehend complex software projects."
+date: 2024-07-28
+heroImage: ./ai_code.jpeg
+published: true
+tags: ["AI", "Source Code", "Gemini", "ChatGPT"]
+---
+Are you staring down a massive code repository, feeling overwhelmed by its complexity? You're not alone. Diving into unfamiliar codebases can be a daunting task, but luckily, we're in an era where artificial intelligence (AI) is changing the game. Let's explore how Gemini Pro, a cutting-edge AI model, can become your code comprehension sidekick.
+
+![AI Codebase](./ai_codebase.jpg)
+
+**The Challenge of Code Comprehension**
+
+Large software projects often evolve into intricate webs of files, functions, and classes. For newcomers and even seasoned developers, understanding the underlying structure, dependencies, and purpose of each element can be a major hurdle. Manual analysis can be painfully slow, error-prone, and simply frustrating. 
+
+**Enter Gemini Pro: Your AI-Powered Code Navigator**
+
+Gemini Pro is a language model developed to handle vast amounts of text – an impressive 2 million tokens, to be precise! This immense capacity makes it the perfect tool to analyze an entire code repository in one go. By feeding your repository into Gemini Pro, you unlock a powerful ally that can answer your most pressing questions about the code.
+
+**How to Leverage Gemini Pro for Codebase Mastery**
+
+Here's a step-by-step guide on how to harness the power of Gemini Pro:
+
+1. **Create a Unified Source Dump:**
+   - Use a simple script to combine all the code files in your repository into a single text file. Here's an example bash script to get you started:
+
+ ```bash
+#!/bin/bash
+
+# Directory of the repository (default to current directory if not specified)
+REPO_DIR="${1:-.}"
+
+# Output file
+OUTPUT_FILE="combined_code_dump.txt"
+
+# List of file extensions to include
+FILE_EXTENSIONS=("tsx" "ts")  # Add more extensions as needed
+
+# Empty the output file if it exists
+> "$OUTPUT_FILE"
+
+# Function to combine files
+combine_files() {
+  local dir="$1"
+  for ext in "${FILE_EXTENSIONS[@]}"; do
+    find "$dir" -type f -name "*.$ext" -print0 | while IFS= read -r -d '' file; do
+      echo "// File: $file" >> "$OUTPUT_FILE"
+      cat "$file" >> "$OUTPUT_FILE"
+      echo -e "\n\n" >> "$OUTPUT_FILE"
+    done
+  done
+}
+
+# Combine the files
+combine_files "$REPO_DIR"
+
+echo "All code files have been combined into $OUTPUT_FILE"
+```
+
+2. **Feed the Dump to Gemini Pro:**
+   - Upload your `source_dump.txt` file to the Gemini Pro environment. There are various ways to integrate with Gemini Pro, so explore the documentation for the best approach for your setup.
+
+3. **Ask the Right Questions:**
+   - Gemini Pro's understanding of your codebase is only as good as the questions you ask. Here are some powerful prompts to kickstart your exploration:
+
+   - "What is the overall architecture of this project?"
+   - "Summarize the main functions and classes in this repository."
+   - "How does module X interact with module Y?"
+   - "Identify potential bottlenecks or areas for optimization."
+   - "Generate a flowchart illustrating the main code paths."
+
+**Key Benefits of the Gemini Pro Approach**
+
+* **Speed:**  Save countless hours compared to manual code review.
+* **Accuracy:** Reduce the risk of misunderstandings or overlooking crucial details.
+* **Insight:** Gain a high-level overview and drill down into specific areas effortlessly.
+* **Collaboration:** Share insights easily with your team.
+* **Continuous Learning:** Adapt to code changes by updating the source dump and re-querying Gemini Pro.
+
+**Important Considerations**
+
+* **Privacy:** If your codebase is sensitive, ensure you're using a secure environment for interacting with Gemini Pro.
+* **Complexity:**  Extremely large or highly complex repositories might require breaking them down into more manageable chunks for optimal analysis.
+
+**Keywords for Search Engine Optimization**
+
+code comprehension, code analysis, AI-powered development, Gemini Pro, language models, codebase navigation, software development tools, code repository analysis
+
+**Conclusion**
+
+Don't let complex codebases intimidate you. Embrace the power of AI and Gemini Pro to accelerate your understanding, boost productivity, and become a codebase wizard. Share your experiences and tips in the comments below!
+
+**Pro Tip:** Experiment with different question styles to extract the most valuable insights from Gemini Pro. The more you interact with it, the better you'll become at getting the information you need. 
+
+### References
+- A tweet that I came by that inspired me to write this article.
+  I will attach the tweet here, once I find it.
+

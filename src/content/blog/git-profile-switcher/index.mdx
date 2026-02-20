@@ -1,0 +1,373 @@
+---
+title: "Seamlessly Switch Between Personal and Work GitHub Accounts on macOS"
+date: 2025-11-07
+published: true
+tags: ["Git", "SSH", "macOS", "Productivity", "Bash"]
+path: "/blog/git-profile-switcher/"
+description: "Build a bash script to switch between personal and work GitHub accounts without the SSH agent headaches."
+heroImage: "./header.png"
+---
+
+Ever found yourself in this scenario? You're working on a personal project, push to GitHub, and suddenly you're committing as your work account. Or worse, you get that dreaded "Permission denied (publickey)" error even though your SSH config looks perfect.
+
+If you're juggling multiple GitHub accounts, you know the pain. Let's build a solution that actually works.
+
+## The Problem: Manual Git Profile Management
+
+As developers, we often need to maintain separate GitHub identities:
+
+- **Personal account** for side projects and open source contributions
+- **Work account** for company projects
+- **Client accounts** for freelance work
+
+The manual process involves:
+
+1. Updating `git config user.name` and `git config user.email`
+2. Managing multiple SSH keys
+3. Editing SSH config files
+4. Dealing with SSH agent caching issues
+
+But here's the hidden problem that trips everyone up...
+
+## The Hidden Issue: SSH Agent Caching
+
+You've done everything right:
+
+- Generated separate SSH keys for each account
+- Updated your `~/.ssh/config` file
+- Set the correct git user config
+
+Yet you still get authentication errors. Why?
+
+**The SSH agent caches your keys and ignores your SSH config file!**
+
+When you run `ssh-add`, the agent remembers which key to use for GitHub.com. Even if you change your SSH config, the agent keeps using the cached key. This is why switching accounts feels like black magic.
+
+## The Solution: A Complete Profile Switcher
+
+Let's build a bash script called `gsw` (Git Switch) that handles everything:
+
+```bash
+#!/bin/bash
+
+# Git Profile Switcher (gsw)
+# Switch between personal and work GitHub accounts seamlessly
+
+set -e
+
+# Configuration
+PERSONAL_NAME="Your Personal Name"
+PERSONAL_EMAIL="personal@example.com"
+PERSONAL_SSH_KEY="$HOME/.ssh/id_personal"
+
+WORK_NAME="Your Work Name"
+WORK_EMAIL="work@company.com"
+WORK_SSH_KEY="$HOME/.ssh/id_work"
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+# Function to print colored output
+print_status() {
+    echo -e "${GREEN}[INFO]${NC} $1"
+}
+
+print_warning() {
+    echo -e "${YELLOW}[WARNING]${NC} $1"
+}
+
+print_error() {
+    echo -e "${RED}[ERROR]${NC} $1"
+}
+
+# Function to show current configuration
+show_current_config() {
+    echo "Current Git Configuration:"
+    echo "------------------------"
+    echo "Name: $(git config --global user.name)"
+    echo "Email: $(git config --global user.email)"
+    echo "SSH Key: $(ssh-add -l | grep github || echo 'No GitHub key in agent')"
+    echo ""
+}
+
+# Function to update SSH config
+update_ssh_config() {
+    local profile=$1
+    local ssh_key=$2
+
+    # Backup existing config
+    cp "$HOME/.ssh/config" "$HOME/.ssh/config.backup" 2>/dev/null || true
+
+    # Remove existing GitHub entries
+    sed -i '' '/^Host github\.com$/,/^$/d' "$HOME/.ssh/config" 2>/dev/null || true
+
+    # Add new GitHub configuration
+    cat >> "$HOME/.ssh/config" << EOF
+
+Host github.com
+    HostName github.com
+    User git
+    IdentityFile $ssh_key
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+
+EOF
+
+    print_status "SSH config updated for $profile profile"
+}
+
+# Function to switch SSH keys
+switch_ssh_key() {
+    local ssh_key=$1
+
+    # Remove all SSH keys from agent
+    ssh-add -D 2>/dev/null || true
+
+    # Add the new key
+    ssh-add "$ssh_key"
+
+    print_status "SSH key switched to $ssh_key"
+}
+
+# Function to update git configuration
+update_git_config() {
+    local name=$1
+    local email=$2
+
+    git config --global user.name "$name"
+    git config --global user.email "$email"
+
+    print_status "Git config updated: $name <$email>"
+}
+
+# Main switching logic
+switch_profile() {
+    local profile=$1
+
+    case $profile in
+        "personal"|"p")
+            print_status "Switching to PERSONAL profile"
+            update_ssh_config "personal" "$PERSONAL_SSH_KEY"
+            switch_ssh_key "$PERSONAL_SSH_KEY"
+            update_git_config "$PERSONAL_NAME" "$PERSONAL_EMAIL"
+            ;;
+        "work"|"w")
+            print_status "Switching to WORK profile"
+            update_ssh_config "work" "$WORK_SSH_KEY"
+            switch_ssh_key "$WORK_SSH_KEY"
+            update_git_config "$WORK_NAME" "$WORK_EMAIL"
+            ;;
+        *)
+            print_error "Unknown profile: $profile"
+            echo "Usage: gsw [personal|work|p|w|status]"
+            exit 1
+            ;;
+    esac
+
+    show_current_config
+}
+
+# Function to show help
+show_help() {
+    echo "Git Profile Switcher (gsw)"
+    echo "Usage: gsw [personal|work|p|w|status|help]"
+    echo ""
+    echo "Commands:"
+    echo "  personal, p    Switch to personal GitHub account"
+    echo "  work, w        Switch to work GitHub account"
+    echo "  status         Show current configuration"
+    echo "  help           Show this help message"
+}
+
+# Main script logic
+case "${1:-}" in
+    "personal"|"p"|"work"|"w")
+        switch_profile "$1"
+        ;;
+    "status"|"s")
+        show_current_config
+        ;;
+    "help"|"h"|"-h"|"--help")
+        show_help
+        ;;
+    "")
+        print_error "No profile specified"
+        show_help
+        exit 1
+        ;;
+    *)
+        print_error "Unknown command: $1"
+        show_help
+        exit 1
+        ;;
+esac
+```
+
+## Implementation Details Explained
+
+### Why `ssh-add -D` is Critical
+
+The `ssh-add -D` command removes **all** keys from the SSH agent. This is the magic that makes profile switching work. Without it, the agent would keep using the cached key regardless of your SSH config changes.
+
+### Using `$HOME` Instead of `~`
+
+In bash scripts, `$HOME` is more reliable than `~` because:
+
+- `~` expansion doesn't work consistently in all contexts
+- `$HOME` works reliably in variable assignments and file paths
+- It's more explicit about what you're referencing
+
+### SSH Config Management
+
+The script:
+
+1. Backs up your existing SSH config
+2. Removes any existing GitHub.com entries
+3. Adds a fresh configuration for the selected profile
+
+This prevents conflicts and ensures clean switching.
+
+## Setting Up Your Environment
+
+### 1. Generate SSH Keys
+
+```bash
+# Personal key
+ssh-keygen -t ed25519 -C "personal@example.com" -f ~/.ssh/id_personal
+
+# Work key
+ssh-keygen -t ed25519 -C "work@company.com" -f ~/.ssh/id_work
+```
+
+### 2. Add Keys to GitHub
+
+Add the public keys (`id_personal.pub` and `id_work.pub`) to their respective GitHub accounts.
+
+### 3. Install the Script
+
+```bash
+# Make it executable
+chmod +x gsw
+
+# Move to a directory in your PATH
+sudo mv gsw /usr/local/bin/
+```
+
+### 4. Add Aliases (Optional)
+
+Add these to your `~/.zshrc` or `~/.bashrc`:
+
+```bash
+alias gsw-p='gsw personal'
+alias gsw-w='gsw work'
+alias gsw-s='gsw status'
+```
+
+## Usage Examples
+
+```bash
+# Switch to personal account
+gsw personal
+
+# Switch to work account
+gsw work
+
+# Check current configuration
+gsw status
+
+# Quick aliases
+gsw-p    # Switch to personal
+gsw-w    # Switch to work
+gsw-s    # Show status
+```
+
+## Troubleshooting Common Issues
+
+### "Permission denied (publickey)" Error
+
+1. Verify the SSH key exists: `ls -la ~/.ssh/id_*`
+2. Check if key is in agent: `ssh-add -l`
+3. Test connection: `ssh -T git@github.com`
+
+### Git Commit Still Shows Wrong Author
+
+1. Check global config: `git config --global --list`
+2. Check local config: `git config --local --list` (in repo directory)
+3. Remove local config if needed: `git config --local --unset user.name`
+
+### SSH Agent Not Running
+
+```bash
+# Start SSH agent
+eval "$(ssh-agent -s)"
+
+# Add it to your shell profile
+echo 'eval "$(ssh-agent -s)"' >> ~/.zshrc
+```
+
+## Bonus Tips
+
+### Same SSH Key on Multiple Accounts
+
+You can use the same SSH key for multiple GitHub accounts. Just add the same public key to both accounts. The script will still work for switching git user configs.
+
+### Shell Integration
+
+Add this function to your shell for a nice prompt indicator:
+
+```bash
+# Add to ~/.zshrc or ~/.bashrc
+git_profile_prompt() {
+    local email=$(git config --global user.email)
+    if [[ $email == *"personal"* ]]; then
+        echo "🏠"
+    elif [[ $email == *"work"* ]]; then
+        echo "💼"
+    else
+        echo "❓"
+    fi
+}
+
+# Add to your prompt
+export PS1='$(git_profile_prompt) '$PS1
+```
+
+### Git Hooks for Safety
+
+Create a pre-commit hook to verify you're using the right identity:
+
+```bash
+#!/bin/sh
+# .git/hooks/pre-commit
+
+REPO_EMAIL=$(git config user.email)
+GLOBAL_EMAIL=$(git config --global user.email)
+
+if [ "$REPO_EMAIL" != "$GLOBAL_EMAIL" ]; then
+    echo "⚠️  Warning: Local git email differs from global profile"
+    echo "Local: $REPO_EMAIL"
+    echo "Global: $GLOBAL_EMAIL"
+fi
+```
+
+## The Bottom Line
+
+Managing multiple GitHub accounts doesn't have to be a headache. The key is understanding that SSH agent caching is the real culprit behind most authentication issues.
+
+With this `gsw` script, you can:
+
+- Switch profiles instantly
+- Avoid SSH agent conflicts
+- Maintain clean git history
+- Focus on coding instead of configuration
+
+No more "why isn't this working?" moments. Just clean, reliable profile switching.
+
+---
+
+_Happy coding with the right identity! 🚀_
+
+P.S. If you're interested in more productivity hacks, check out my post on [useful CSS generators](https://samuellawrentz.com/blog/useful-css-generators/) or learn about [vim productivity tips](https://samuellawrentz.com/blog/vim-is-a-blackhole/).

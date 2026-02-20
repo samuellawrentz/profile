@@ -1,0 +1,26 @@
+---
+---
+
+<button class="header-action-icon" id="theme-toggle" aria-label="Toggle theme">
+  <span class="material-icons-round" id="theme-icon">dark_mode</span>
+</button>
+
+<script>
+  const toggle = document.getElementById('theme-toggle');
+  const icon = document.getElementById('theme-icon');
+
+  function updateTheme(isDark: boolean) {
+    document.documentElement.setAttribute('color-mode', isDark ? 'dark' : 'light');
+    localStorage.setItem('color-mode', isDark ? 'dark' : 'light');
+    if (icon) icon.textContent = isDark ? 'light_mode' : 'dark_mode';
+  }
+
+  toggle?.addEventListener('click', () => {
+    const isDark = document.documentElement.getAttribute('color-mode') !== 'dark';
+    updateTheme(isDark);
+  });
+
+  // Sync icon on load
+  const current = document.documentElement.getAttribute('color-mode');
+  if (icon) icon.textContent = current === 'dark' ? 'light_mode' : 'dark_mode';
+</script>

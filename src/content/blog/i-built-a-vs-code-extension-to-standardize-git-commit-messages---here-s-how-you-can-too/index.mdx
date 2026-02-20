@@ -1,0 +1,63 @@
+---
+title: I built a VS Code Extension to standardize Git Commit Messages!
+path: /blog/git-commit-message-jira-extension/
+description: "Struggling with inconsistent Git commit messages in your organization&#39;s repositories? In this blog post, I&#39;ll share how I built a custom VS Code extension in JavaScript to standardize Git commit messages and streamline workflows. By fetching the ticket number from the JIRA REST API, developers can prefill the SCM commit input box with a commit message in the format (<Ticket number>) <Type>: , ensuring consistency and clarity across commit messages. Learn how you can build your own extension and simplify your Git workflows."
+heroImage: ../default.png
+tags: [vscode, vscode-extension, productivity]
+published: false
+date: 2023-04-01
+---
+
+Have you ever struggled with inconsistent Git commit messages in your organization's repositories? If so, you're not alone. I too found myself frustrated by this issue, and I went in search of a VS Code extension that could help enforce a standardized format for commit messages. Unfortunately, I was unable to find an extension that met my needs. So, I decided to build my own! 
+
+In this post, I'll share with you the story of how I built a custom VS Code extension in JavaScript to streamline Git workflows and ensure consistent commit messages. With this extension, developers can prefill the SCM commit input box with a commit message in the format `(\<Ticket number\>) \<Type\>: `, where the ticket number and type of commit are selected by the user. This format helps ensure consistency and clarity across commit messages based on your organization's [coding standards](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged).
+
+## The Problem
+
+Inconsistent Git commit messages can be a major headache for developers and project managers alike. Without a standard format for commit messages, it can be difficult to track changes, understand the purpose of a commit, and identify which tickets or issues a commit is related to. In my own organization, we struggled with inconsistent commit messages across various repositories, and I knew there had to be a better way.
+
+## The Solution
+
+After searching for a VS Code extension that could help standardize our commit messages, I realized that I would need to build my own. Fortunately, creating a custom VS Code extension in JavaScript is relatively straightforward, especially if you are familiar with cutting-edge development experiences like [Neovim](https://samuellawrentz.com/blog/vim-experience-nvim-dev-experience/).
+
+To begin, I used the [VS Code Extension Generator](https://code.visualstudio.com/api/get-started/your-first-extension) to create a basic extension template. 
+
+The extension, written in JavaScript, adds a new command to VS Code called createCommitMessage. When the user executes this command, it prompts them to enter a ticket number and select a type of commit (such as "feat", "fix", or "chore"). It then constructs a commit message in the format (\<Ticket number\>) \<Type\>: , and pre-fills the Git commit input box with this message. The user can then add their own commit message and complete the commit as usual. It's as simple as creating [bookmarklets](https://samuellawrentz.com/blog/bookmarklets/).
+
+## The Code
+This is not the actual code, but something similar is used. You can check the repository for more details.
+
+```js
+function activate(context) {
+  let disposable = vscode.commands.registerCommand('extension.createCommitMessage', function () {
+    vscode.window.showInputBox({
+      prompt: 'Enter the ticket number'
+    }).then(ticketNumber => {
+      if (!ticketNumber) return;
+      vscode.window.showQuickPick(['feat', 'fix', 'chore'], {
+        placeHolder: 'Select the type of commit'
+      }).then(type => {
+        if (!type) return;
+        const commitMessage = `(${ticketNumber}) ${type}: `;
+        const gitExtension = vscode.extensions.getExtension('vscode.git');
+        if (!gitExtension) {
+          vscode.window.showErrorMessage('Git extension not found');
+          return;
+        }
+        const api = gitExtension.exports.getAPI(1);
+        if (!api.repositories.length) {
+          vscode.window.showErrorMessage('No Git repository found');
+          return;
+        }
+        const repo = api.repositories[0];
+        repo.inputBox.value = commitMessage;
+      });
+    });
+  });
+  context.subscriptions.push(disposable);
+}
+```
+
+This code defines an activate function that registers the createCommitMessage command. When the command is executed, it uses showInputBox and showQuickPick to prompt the user for input, constructs a commit message in the desired format, and sets the value property of the Git commit input box to the message. 
+
+Overall, this extension provides a simple way to standardize commit messages across your organization and improve the consistency and clarity of your Git repositories. It's like having a [personalized coding standard](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged) for every commit message.

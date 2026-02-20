@@ -1,0 +1,50 @@
+---
+title: Handling Errors Gracefully with React Error Boundaries
+path: /hacks/react/error-handling-with-error-boundaries
+description: Learn how to handle errors in React applications using Error Boundaries, a powerful tool to ensure your app's resilience and improve user experience.
+type: hack
+category: react
+tags: [react, error boundaries, error handling]
+---
+
+React Error Boundaries provide a way to catch JavaScript errors anywhere in a component's child tree, log these errors, and display a fallback UI. They catch errors during rendering, in lifecycle methods, and constructors of the child tree.
+
+Here's a basic example of an Error Boundary:
+
+```javascript
+class ErrorBoundary extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hasError: false };
+  }
+
+  static getDerivedStateFromError(error) {
+    // Update state so the next render will show the fallback UI.
+    return { hasError: true };
+  }
+
+  componentDidCatch(error, info) {
+    // You can also log the error to an error reporting service
+    logErrorToMyService(error, info);
+  }
+
+  render() {
+    if (this.state.hasError) {
+      // You can render any custom fallback UI
+      return <h1>Something went wrong.</h1>;
+    }
+
+    return this.props.children; 
+  }
+}
+```
+
+You can use it as a regular component:
+
+```javascript
+<ErrorBoundary>
+  <MyWidget />
+</ErrorBoundary>
+```
+
+If `MyWidget` throws an error during rendering, the Error Boundary will catch it, display a fallback UI, and log the error.

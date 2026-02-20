@@ -1,0 +1,33 @@
+.button {
+    padding: 8px 20px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: inline-flex;
+    align-items: center;
+    cursor: pointer;
+    transition: box-shadow ease 0.1s;
+    &-disabled {
+        opacity: 0.5;
+        pointer-events: none;
+    }
+    &-secondary {
+        border: 2px solid var(--element1);
+        color: var(--element1);
+        background-color: transparent;
+        box-shadow: 8px 8px var(--element3)
+    }
+    &-small {
+        font-size: 14px;
+        padding: 1px 10px;
+    }
+    &:hover {
+        box-shadow: none;
+    }
+}
+
+.input-wrapper + .button {
+}
+
+.link-button {
+    text-decoration: none;
+}

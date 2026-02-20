@@ -1,0 +1,46 @@
+---
+title: How to post to Instagram using an API?
+date: 2022-07-10
+path: /blog/instagram-api/
+published: true
+heroImage: ./instagram.png
+tags: [node]
+description: Did you know that you can post to instagram using an API? It can be done via the Instagram private API. You can automate your instagram with few lines of code.
+---
+
+I like to automate things very much, so I was looking for a way to automate my [Instagram account](https://samuellawrentz.com/blog/vim-experience-nvim-dev-experience/). I searched and looked for many ways and all of them seemed to be impossible. It is because Instagram doesn’t provide an API that can post images for you. After quite a few days of research, I came across a technique that would help us post to Instagram using an API – [The Instagram-Private-API](https://github.com/dilame/instagram-private-api).
+
+## Instagram Private API
+
+The Instagram Private API is kind of like a back door to Instagram where you can manipulate and control Instagram as to how you would do in the real mobile application. You can like, comment, share, publish stories, or even send a DM using this API. This API is not very famous because your account could be at risk if you use this API.
+
+Here at [offshorewritings.com](https://offshorewritings.com), most of our social media interactions are automated. Thanks to Google’s [Puppeteer](https://github.com/puppeteer/puppeteer), [Heroku](https://dashboard.heroku.com/) and [Zapier](https://zapier.com/). We have reduced the effort to publish to post our quotes and articles across various platforms. I’ve shared the code which can be used to login to Instagram and upload a photo for you through the API. There are also [examples](https://github.com/dilame/instagram-private-api/tree/master/examples) where you can post an image directly from a [web URL](https://samuellawrentz.com/blog/gatsby-incremental-faster-builds-github-actions/).
+
+## The Code to post via API
+
+You can use this code directly to post to Instagram from the API, just a couple of lines. Before using it make sure that you have the packages installed.
+
+```shell
+npm install instagram-private-api
+```
+
+Then you can use the following code to post your pictures. Make sure, the pictures are in proper resolution and aspect ratio. Instagram supports the aspect ratio of `4:5` and `1.91:1`. If your images are not in this resolution, you might get an error.
+
+```js
+const { IgApiClient } = require('instagram-private-api');
+const { readFile } = require('fs');
+const { promisify } = require('util');
+const readFileAsync = promisify(readFile);
+const ig = new IgApiClient();
+
+// Log in to your account
+const auth = await ig.account.login('username', 'password');
+
+// Post the image
+const publishResult = await ig.publish.photo({
+  file: await readFileAsync('path-to-image.jpg'),
+  caption: 'Hello World',
+});
+```
+
+If you have any questions or queries, please let me know in the comments section. Happy to help. You can try out the <a href="/projects/quotes-generator">Free Online Image Quotes Generator</a> developed by me to generate quotes online and download them instantly. For more [coding related content](https://samuellawrentz.com/blog/computed-state-in-react), please visit my blog.

@@ -1,0 +1,69 @@
+---
+title: Simplifying Forms in React with Formik
+path: /hacks/react/simplifying-forms-in-react-with-formik
+description: Learn to simplify complex forms in React with Formik. Boost your App's performance and user experience.
+type: hack
+category: react
+tags: [formik, react, forms]
+---
+
+# Simplifying Forms in React with Formik
+
+As software engineers, we often encounter complex forms in our React applications. Managing form states, validation, and submission can be a cumbersome task. But with **Formik**, we can simplify this process.
+
+Formik is a small library that helps you with the 3 most annoying parts of forms in React:
+- Getting values in and out of form state
+- Validation and error messages
+- Handling form submission
+
+Let's dive into how we can leverage Formik to simplify our React forms.
+
+## Formik Installation
+You can install Formik by running `npm install formik` or `yarn add formik` in your terminal.
+
+```bash
+npm install formik
+```
+
+## Using Formik
+Formik provides a `Formik` component that we can use to wrap our form. This `Formik` component takes initial values for our form, an onSubmit function, and a function that returns our form.
+
+Here is an example of a simple form with Formik:
+
+```jsx
+import React from 'react';
+import { Formik, Field, Form } from 'formik';
+
+const BasicForm = () => (
+  <Formik
+    initialValues={{ email: '', password: '' }}
+    onSubmit={(values, { setSubmitting }) => {
+      setTimeout(() => {
+        alert(JSON.stringify(values, null, 2));
+        setSubmitting(false);
+      }, 400);
+    }}
+  >
+    {({ isSubmitting }) => (
+      <Form>
+        <Field type="email" name="email" />
+        <Field type="password" name="password" />
+        <button type="submit" disabled={isSubmitting}>
+          Submit
+        </button>
+      </Form>
+    )}
+  </Formik>
+);
+
+export default BasicForm;
+```
+
+Formik simplifies forms in React, making our code cleaner and simpler to understand. For more complex examples and to understand how Formik handles form submission, validation, and error messages, check out the [Formik documentation](https://formik.org/docs/overview).
+
+Remember: "Any fool can write code that a computer can understand. Good programmers write code that humans can understand." - Martin Fowler
+
+Related:
+- [Computed State in React](https://samuellawrentz.com/blog/computed-state-in-react)
+- [Coding Standards](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged)
+- [Bookmarklets](https://samuellawrentz.com/blog/bookmarklets/)

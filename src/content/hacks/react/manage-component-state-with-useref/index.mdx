@@ -1,0 +1,52 @@
+---
+title: Manage Component State with useRef
+path: /hacks/react/manage-component-state-with-useref
+description: Explore useRef, a React hook for managing component state, with practical examples. Boost your React knowledge and improve your software engineering skills.
+type: hack
+category: react
+tags: [react, software-engineering, useRef]
+---
+
+"Managing state is the heart of every React component." This post aims to help you understand and apply the useRef React hook to handle component states. 
+
+useRef is a built-in React hook that allows us to create and manage refs in a functional component. Refs provide a way to access DOM nodes or React elements created in the render method. 
+
+```javascript
+import React, { useRef } from 'react';
+
+function ExampleComponent() {
+  const ref = useRef(null);
+
+  function handleClick() {
+    ref.current.focus();
+  }
+
+  return (
+    <>
+      <input ref={ref} type="text" />
+      <button onClick={handleClick}>Focus the input</button>
+    </>
+  );
+}
+
+export default ExampleComponent;
+```
+
+In this example, useRef is used to create a ref to a DOM node, which can then be accessed and manipulated directly.
+
+Remember, useRef does not trigger re-renders when its content changes, unlike other state variables managed with useState or useReducer. It’s a more direct way of accessing values and doesn't trigger lifecycle events or additional renders. It’s a perfect solution when you need to store a mutable variable that doesn't impact the rendering of your component.
+
+Here are a few practical use cases where useRef comes in handy:
+
+- Storing the previous state of a component without triggering a re-render
+- Accessing and interacting with DOM nodes directly
+- Keeping track of timers or intervals
+
+For more detailed scenarios and examples of using useRef, you might find these posts interesting: [Computed State in React](https://samuellawrentz.com/blog/computed-state-in-react) and [Updating State with setState Callback](https://samuellawrentz.com/hacks/react/updating-state-with-setstate-callback).
+
+In summary, useRef is a powerful hook that allows for more control over your React components. Remember to use it wisely to maintain the declarative nature of React.
+
+As Donald Knuth said, "Premature optimization is the root of all evil (or at least most of it) in programming." So, understand your needs before deciding on your state management strategy.
+
+Happy Coding!
+

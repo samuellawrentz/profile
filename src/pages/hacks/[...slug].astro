@@ -1,0 +1,84 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SEO from '../../components/SEO.astro';
+
+export async function getStaticPaths() {
+  const hacks = await getCollection('hacks');
+  const paths = [];
+
+  // Individual hack pages
+  for (const hack of hacks) {
+    const slug = hack.data.path.replace(/^\/hacks\//, '').replace(/\/$/, '');
+    paths.push({ params: { slug }, props: { hack, isCategory: false } });
+  }
+
+  // Category listing pages
+  const categories = [...new Set(hacks.map(h => {
+    const parts = h.data.path.split('/');
+    return parts[2];
+  }))];
+
+  for (const cat of categories) {
+    const catHacks = hacks.filter(h => h.data.path.includes(`/hacks/${cat}/`));
+    paths.push({ params: { slug: cat }, props: { hack: null, isCategory: true, categoryName: cat, categoryHacks: catHacks } });
+  }
+
+  return paths;
+}
+
+const { hack, isCategory, categoryName, categoryHacks } = Astro.props;
+
+let Content;
+let relatedHacks;
+
+if (!isCategory && hack) {
+  const rendered = await render(hack);
+  Content = rendered.Content;
+  const allHacks = await getCollection('hacks');
+  relatedHacks = allHacks.filter(h => h.id !== hack.id).slice(0, 4);
+}
+---
+<BaseLayout title={isCategory ? `${categoryName} Hacks - Samuel Lawrentz` : hack?.data.title}>
+  {isCategory ? (
+    <div class="main-content">
+      <h1>{categoryName?.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')} Hacks</h1>
+      <div class="blogs">
+        {categoryHacks?.map(h => (
+          <a href={h.data.path} class="gradient">
+            <div class="card">
+              <div class="card__details">
+                <div class="card__title"><h4>{h.data.title}</h4></div>
+                <div class="tags">
+                  {h.data.tags.map(tag => <span class="tag">{tag}</span>)}
+                </div>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  ) : (
+    <div class="blog-content">
+      <SEO slot="head" title={hack?.data.title} description={hack?.data.description} image={`/og-images/${hack?.data.path.replace(/[/-]/gi, '')}.png`} article={true} />
+      <h1>{hack?.data.title}</h1>
+      <div class="tags">
+        {hack?.data.tags.map(tag => <span class="tag">{tag}</span>)}
+      </div>
+      <div class="hacks-cont text-regular">
+        {Content && <Content />}
+      </div>
+      <div>
+        <h3>Explore more articles</h3>
+        <ul>
+          {relatedHacks?.map(h => (
+            <li><a href={h.data.path} class="gradient">{h.data.title}</a></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        Keep experimenting and happy coding! You can find me at <a href="https://x.com/samuellawrentz">@samuellawrentz</a> on X.
+      </div>
+    </div>
+  )}
+</BaseLayout>

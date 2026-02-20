@@ -1,0 +1,32 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+const hacks = await getCollection('hacks');
+const categories = [...new Set(hacks.map(h => {
+  const parts = h.data.path.split('/');
+  return parts[2]; // /hacks/category/slug -> category
+}))];
+
+const categoryData = categories.map(cat => ({
+  name: cat,
+  count: hacks.filter(h => h.data.path.includes(`/hacks/${cat}/`)).length,
+  displayName: cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
+}));
+---
+<BaseLayout title="Hacks - Samuel Lawrentz">
+  <div class="main-content">
+    <h1>Hacks</h1>
+    <p>Quick tips, tricks, and short-form content organized by category.</p>
+    <div class="cards">
+      {categoryData.map(cat => (
+        <a href={`/hacks/${cat.name}/`} class="gradient card-container">
+          <div class="card card__details">
+            <h3>{cat.displayName}</h3>
+            <p>{cat.count} hacks</p>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</BaseLayout>

@@ -1,0 +1,16 @@
+---
+const { type = 'info' } = Astro.props;
+---
+<aside class={`banner banner-${type}`}>
+  <slot />
+</aside>
+<style>
+  .banner {
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    margin: 1.5rem 0;
+    border-left: 4px solid;
+  }
+  .banner-info { background: var(--surface2, #f0f0f0); border-color: var(--element2, #666); }
+  .banner-warning { background: #fff3cd; border-color: #ffc107; }
+</style>

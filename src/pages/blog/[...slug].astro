@@ -1,0 +1,50 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SEO from '../../components/SEO.astro';
+import { Image } from 'astro:assets';
+import GiscusComments from '../../components/GiscusComments';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.published === true);
+  return posts.map(post => {
+    const slug = post.data.path.replace(/^\/blog\//, '').replace(/\/$/, '');
+    return { params: { slug }, props: { post } };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = await getCollection('blog', ({ data }) => data.published === true);
+const relatedPosts = allPosts.filter(p => p.id !== post.id).slice(0, 4);
+
+const ogImagePath = `/og-images/${post.data.path.replace(/[/-]/gi, '')}.png`;
+const dateStr = new Date(post.data.date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+---
+<BaseLayout title={`Samuel Lawrentz | ${post.data.title}`}>
+  <SEO slot="head" title={`Samuel Lawrentz | ${post.data.title}`} description={post.data.description} image={ogImagePath} article={true} />
+  <div class="blog-content">
+    {post.data.heroImage && <Image src={post.data.heroImage} alt={post.data.title} class="hero-image" width={900} />}
+    <h1>{post.data.title}</h1>
+    <div class="tags">
+      {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
+    </div>
+    <p class="text-regularLight">{dateStr}</p>
+    <div class="blog-cont text-regular">
+      <Content />
+    </div>
+    <div>
+      <h3>Explore more articles</h3>
+      <ul>
+        {relatedPosts.map(p => (
+          <li><a href={p.data.path} class="gradient">{p.data.title}</a></li>
+        ))}
+      </ul>
+    </div>
+    <div>
+      That's it for now, thanks for reading! You can find me at <a href="https://x.com/samuellawrentz">@samuellawrentz</a> on X.
+    </div>
+    <GiscusComments client:visible />
+  </div>
+</BaseLayout>

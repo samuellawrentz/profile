@@ -1,0 +1,28 @@
+---
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  article?: boolean;
+}
+
+const {
+  title = "Samuel Lawrentz - The Frontend Dev",
+  description = "Samuel Lawrentz - Frontend developer, blogger, and web enthusiast.",
+  image = "/og-image.png",
+  article = false,
+} = Astro.props;
+
+const canonicalURL = new URL(Astro.url.pathname, Astro.site);
+---
+
+<meta property="og:title" content={title} />
+<meta property="og:description" content={description} />
+<meta property="og:image" content={image} />
+<meta property="og:type" content={article ? "article" : "website"} />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:site" content="@samuellawrentz" />
+<meta name="twitter:title" content={title} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+<link rel="canonical" href={canonicalURL} />

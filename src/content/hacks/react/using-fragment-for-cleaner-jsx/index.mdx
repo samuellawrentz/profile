@@ -1,0 +1,42 @@
+---
+title: Using Fragment for Cleaner JSX in React
+path: /hacks/react/using-fragment-for-cleaner-jsx
+description: Learn how to use React.Fragment for cleaner JSX and improved performance. This hack guide simplifies the use of fragments in your React code.
+type: hack
+category: react
+tags: [react, jsx, code optimization]
+---
+
+React Fragments allow you to return multiple elements from a component's render method without creating an additional DOM element. They help in wrapping up multiple elements, leading to a cleaner and more readable JSX.
+
+Here is an example of its usage:
+
+```jsx
+import React, { Fragment } from 'react';
+
+function Component() {
+  return (
+    <Fragment>
+      <h1>Title</h1>
+      <p>Description</p>
+    </Fragment>
+  );
+}
+```
+
+As you can see, instead of a `div` or any other wrapper, we are using `Fragment` which doesn't add any extra nodes to the DOM. This results in a more optimized and efficient code.
+
+You can also use the short syntax for Fragments:
+
+```jsx
+function Component() {
+  return (
+    <>
+      <h1>Title</h1>
+      <p>Description</p>
+    </>
+  );
+}
+```
+
+This reduces clutter in your JSX and aids in making your code cleaner and easier to understand. Happy coding!

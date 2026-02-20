@@ -1,0 +1,71 @@
+---
+title: How to create React Hooks? - A simple guide
+date: 2022-08-10
+published: true
+path: /blog/how-to-create-react-hooks-simple/
+heroImage: ./react-hooks.jpg
+tags: [react, javascript]
+description: React hooks are a great way to get deeper into the React world. This post teaches you how you can create a simple hook timer using React. Click to read more.
+---
+
+I love React, and so do you! The Javascript ecosystem has grown so much that now we have amazing frameworks like React, Vue, Svelte (Sorry Vue!), and amazing tools like Vite, Webpack, Rollup, and many more. Nowadays it's mostly declarative coding than the old imperative style we used to follow [a while back](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged).
+## Hooks
+Hooks are nothing but a Javascript function where you can move your repetitive logic in React. If you understand the beauty of Hooks, you would find yourself writing [clean React code](https://samuellawrentz.com/hacks/react/coding-standards-husky-typescript-lint-staged). Hooks were introduced in React v17, since then it is driving the developers crazy.
+
+Almost all developers use React Hooks in their daily code. A few of the famous and popular hooks are `useState`, and `useEffect`. You are not a React developer if you have not used [these things](https://samuellawrentz.com/hacks/react/setting-initial-state-with-usestate). Gone are the days of class-based components. Now everything has become functional.
+
+<aside class="banner banner-info">Hooks allow you to use other hooks inside it - this is the main difference between a Javascript function and a [React Hook](https://samuellawrentz.com/hacks/react/how-to-use-computed-state-in-react).</aside>
+
+## Creating a React Hook
+There is only one rule that you have to follow to create a react hook -
+The function must start with "use". This will allow React to understand the function is a hook and it doesn't treat it as a normal function.
+### Creating a simple timer in React using Hooks
+Okay, let us create a simple hook that can be used as a timer. You can follow this tutorial for [creating a timer with hooks](https://samuellawrentz.com/hacks/react/handling-array-state-updates-immutably).
+
+```js
+// hook.js
+
+import {useState, useEffect} from 'react'
+
+export const useTimer = () => {
+	const [tick, setTick] = useState(0)
+	const date = new Date(0)
+	date.setSeconds(tick)
+	// This converts seconds to mm:ss format
+	const timeString = date.toISOString().substr(14, 5);
+
+	// Runs only on init
+	useEffect(() => {
+	    const interval = setInterval(() => setTick(t => t+1), 1000)
+	    return () => clearInterval(interval)
+  });
+
+	// Return the timer string finally
+	return timeString
+}
+```
+
+Then you can use it in your component like this in a simple way.
+
+```jsx
+export const Timer = () => {
+	// As simple as that
+	const timeString = useTimer()
+	return <div>{timeString}</div>
+}
+```
+
+How cool is that? The state logic has been moved into the hook and you don't have to worry about anything else. Thus Hooks can be used to separate UI logic from business logic. You can learn more about [handling form inputs](https://samuellawrentz.com/hacks/react/handling-form-inputs-usestate) with hooks.
+
+I've created the sample code for you to try in the Codesandbox. You can play with it.
+
+<iframe
+  src="https://codesandbox.io/embed/usetimer-hook-cnt88o?fontsize=14&hidenavigation=1&module=%2Fsrc%2FuseTimer.js&theme=light"
+  style="width:100%; height:500px; border:0; border-radius: 4px; overflow:hidden;"
+  title="useTimer hook"
+  allow="accelerometer; ambient-light-sensor; camera; encrypted-media; geolocation; gyroscope; hid; microphone; midi; payment; usb; vr; xr-spatial-tracking"
+  sandbox="allow-forms allow-modals allow-popups allow-presentation allow-same-origin allow-scripts"
+></iframe>
+
+
+Hope you liked this tutorial, follow for more. Share this with your colleague or friend. Thank you!

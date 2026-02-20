@@ -1,0 +1,104 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Old Home Page - Samuel Lawrentz">
+  <main class="old-index">
+    <!-- Hero Sheet -->
+    <div class="sheet" style="background:#5386e4;padding:40px;border-radius:8px;margin-bottom:24px;">
+      <div style="display:flex;align-items:flex-end;gap:24px;">
+        <div style="flex:1 0 82%;">
+          <div style="font-size:var(--h0,3rem);font-weight:700;margin-bottom:17px;color:#fff;">
+            Hi, I'm Samuel Lawrentz
+          </div>
+          <div style="font-size:var(--h1);margin-bottom:36px;color:#fff;">
+            I design and code beautifully simple things
+          </div>
+          <div style="font-size:var(--h3);margin-bottom:25px;color:rgba(255,255,255,0.85);font-style:italic;border-left:4px solid rgba(255,255,255,0.5);padding-left:16px;">
+            Software is a great combination between artistry and engineering
+          </div>
+          <div style="color:#fff;">
+            Which makes me a <b>Frontend Engineer</b>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Timeline Sheet -->
+    <div class="sheet" style="background:#FF674D;padding:40px;border-radius:8px;">
+      <div class="timeline-holder">
+        <div class="timeline" style="margin-bottom:30px;">
+          <div class="year">
+            <div style="height:24px;color:rgba(255,255,255,0.7);">2017</div>
+            <div style="font-size:var(--h3);font-weight:600;color:#fff;">First Job - Burning Glass</div>
+          </div>
+          <div style="max-width:480px;color:rgba(255,255,255,0.9);">
+            I was hired as intern during campus placements, where I worked with C, C++ after which I became a full-time SDE.
+          </div>
+        </div>
+        <div class="timeline" style="margin-bottom:30px;">
+          <div class="year">
+            <div style="height:24px;color:rgba(255,255,255,0.7);">2018</div>
+            <div style="font-size:var(--h3);font-weight:600;color:#fff;">Got into the Web development team</div>
+          </div>
+          <div style="max-width:480px;color:rgba(255,255,255,0.9);">
+            Not sure if it was my luck or destiny, I was moved to the web development team that was in charge of building SPAs and dynamic web apps.
+          </div>
+        </div>
+        <div class="timeline" style="margin-bottom:30px;">
+          <div class="year">
+            <div style="height:24px;color:rgba(255,255,255,0.7);">2019</div>
+            <div style="font-size:var(--h3);font-weight:600;color:#fff;">Frontend Developer at Plivo</div>
+          </div>
+          <div style="max-width:480px;color:rgba(255,255,255,0.9);">
+            Joined Plivo as a Frontend Developer, building high-performance web pages and honing my craft in modern web technologies.
+          </div>
+        </div>
+        <div class="timeline" style="margin-bottom:30px;">
+          <div class="year">
+            <div style="height:24px;color:rgba(255,255,255,0.7);">2020+</div>
+            <div style="font-size:var(--h3);font-weight:600;color:#fff;">Continuous Growth</div>
+          </div>
+          <div style="max-width:480px;color:rgba(255,255,255,0.9);">
+            Promotions, new roles, and constant learning. See the full <a href="/about-me/journey/" style="color:#fff;text-decoration:underline;">journey page</a> for the complete story.
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .old-index .timeline {
+    text-align: right;
+    margin-right: 70px;
+  }
+  .old-index .timeline .year {
+    position: relative;
+  }
+  .old-index .timeline .year:after {
+    content: '';
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    top: 50%;
+    transform: translateY(-50%);
+    right: -54px;
+    box-shadow: 0 0px 0 12px rgba(255,255,255,0.2);
+  }
+  .old-index .timeline-holder {
+    position: relative;
+  }
+  .old-index .timeline-holder:after {
+    content: '';
+    position: absolute;
+    right: 20px;
+    height: 100%;
+    width: 8px;
+    top: 0;
+    background-color: rgba(255,255,255,0.3);
+    border-radius: 8px;
+  }
+</style>
