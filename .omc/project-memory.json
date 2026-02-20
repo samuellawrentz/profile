@@ -1,0 +1,338 @@
+{
+  "version": "1.0.0",
+  "lastScanned": 1771526901015,
+  "projectRoot": "/home/samm/src/personal/profile",
+  "techStack": {
+    "languages": [],
+    "frameworks": [],
+    "packageManager": null,
+    "runtime": null
+  },
+  "build": {
+    "buildCommand": null,
+    "testCommand": null,
+    "lintCommand": null,
+    "devCommand": null,
+    "scripts": {}
+  },
+  "conventions": {
+    "namingStyle": null,
+    "importStyle": null,
+    "testPattern": null,
+    "fileOrganization": null
+  },
+  "structure": {
+    "isMonorepo": false,
+    "workspaces": [],
+    "mainDirectories": [],
+    "gitBranches": {
+      "defaultBranch": "master",
+      "branchingStrategy": null
+    }
+  },
+  "customNotes": [],
+  "directoryMap": {},
+  "hotPaths": [
+    {
+      "path": "src/pages/index.astro",
+      "accessCount": 114,
+      "lastAccessed": 1771609217048,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/global.scss",
+      "accessCount": 59,
+      "lastAccessed": 1771609324094,
+      "type": "file"
+    },
+    {
+      "path": "src/layouts/BaseLayout.astro",
+      "accessCount": 30,
+      "lastAccessed": 1771609323508,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/variables.scss",
+      "accessCount": 18,
+      "lastAccessed": 1771609335884,
+      "type": "file"
+    },
+    {
+      "path": "astro.config.mjs",
+      "accessCount": 17,
+      "lastAccessed": 1771609335831,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/blog/[...slug].astro",
+      "accessCount": 14,
+      "lastAccessed": 1771609336509,
+      "type": "file"
+    },
+    {
+      "path": "",
+      "accessCount": 12,
+      "lastAccessed": 1771609324751,
+      "type": "directory"
+    },
+    {
+      "path": "package.json",
+      "accessCount": 11,
+      "lastAccessed": 1771568968127,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/blog/index.astro",
+      "accessCount": 11,
+      "lastAccessed": 1771609354019,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/hacks/[...slug].astro",
+      "accessCount": 10,
+      "lastAccessed": 1771609718238,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/responsive.scss",
+      "accessCount": 8,
+      "lastAccessed": 1771559498964,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Footer.astro",
+      "accessCount": 8,
+      "lastAccessed": 1771609354479,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/blog.scss",
+      "accessCount": 7,
+      "lastAccessed": 1771559499418,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/typography.scss",
+      "accessCount": 6,
+      "lastAccessed": 1771559498534,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/heart.scss",
+      "accessCount": 6,
+      "lastAccessed": 1771571055818,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/about-me/coding-activity/index.astro",
+      "accessCount": 6,
+      "lastAccessed": 1771609275206,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/hacks/index.astro",
+      "accessCount": 6,
+      "lastAccessed": 1771609705621,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/components/banner.scss",
+      "accessCount": 5,
+      "lastAccessed": 1771554994687,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/components/button.scss",
+      "accessCount": 5,
+      "lastAccessed": 1771554994869,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/components/footer.scss",
+      "accessCount": 5,
+      "lastAccessed": 1771554995203,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/about-me/journey/index.astro",
+      "accessCount": 5,
+      "lastAccessed": 1771588271879,
+      "type": "file"
+    },
+    {
+      "path": "src/content.config.ts",
+      "accessCount": 5,
+      "lastAccessed": 1771609314424,
+      "type": "file"
+    },
+    {
+      "path": "src/components/SEO.astro",
+      "accessCount": 4,
+      "lastAccessed": 1771608709584,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/delving-into-existentialism-a-deep-dive-into-philosophys-most-intriguing-school/index.mdx",
+      "accessCount": 3,
+      "lastAccessed": 1771529048273,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/the-impact-of-ancient-philosophy-on-modern-thinking-a-closer-look/index.mdx",
+      "accessCount": 3,
+      "lastAccessed": 1771529048436,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/the-ethical-dilemmas-of-today-a-philosophical-perspective/index.mdx",
+      "accessCount": 3,
+      "lastAccessed": 1771529048491,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/projects/pasttenser/index.astro",
+      "accessCount": 3,
+      "lastAccessed": 1771559511592,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/projects/quotes-generator/index.astro",
+      "accessCount": 3,
+      "lastAccessed": 1771559512013,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/fail-fast-learn-faster-the-art-of-iteration-in-software/index.mdx",
+      "accessCount": 3,
+      "lastAccessed": 1771609323119,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/embracing-agility-principles-for-effective-software-development/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771529041147,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/prioritizing-security-a-fundamental-tenet-of-software-philosophy/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771529042197,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/putting-users-first-a-guide-to-user-centric-software-development/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771529042931,
+      "type": "file"
+    },
+    {
+      "path": "src/content/hacks/philosophy/simplicity-over-complexity-the-essence-of-minimalism-in-software-design/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771529043385,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/components/circular-progress.scss",
+      "accessCount": 2,
+      "lastAccessed": 1771554426900,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/components/input.scss",
+      "accessCount": 2,
+      "lastAccessed": 1771554427587,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/components/sheet.scss",
+      "accessCount": 2,
+      "lastAccessed": 1771554427945,
+      "type": "file"
+    },
+    {
+      "path": "src/styles/components/topbar.scss",
+      "accessCount": 2,
+      "lastAccessed": 1771554428312,
+      "type": "file"
+    },
+    {
+      "path": "src/components/ThemeToggle.astro",
+      "accessCount": 2,
+      "lastAccessed": 1771554429161,
+      "type": "file"
+    },
+    {
+      "path": "src/components/Banner.astro",
+      "accessCount": 2,
+      "lastAccessed": 1771554429541,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/404.astro",
+      "accessCount": 2,
+      "lastAccessed": 1771554434052,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/legacy/old-home-page.astro",
+      "accessCount": 2,
+      "lastAccessed": 1771554685263,
+      "type": "file"
+    },
+    {
+      "path": "tsconfig.json",
+      "accessCount": 1,
+      "lastAccessed": 1771527921887,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/react-hooks/index.mdx",
+      "accessCount": 1,
+      "lastAccessed": 1771528322003,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/random-array/2022-06-27.mdx",
+      "accessCount": 1,
+      "lastAccessed": 1771528331706,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/rss.xml.ts",
+      "accessCount": 1,
+      "lastAccessed": 1771528485975,
+      "type": "file"
+    },
+    {
+      "path": "public/robots.txt",
+      "accessCount": 1,
+      "lastAccessed": 1771528486739,
+      "type": "file"
+    },
+    {
+      "path": "public/CNAME",
+      "accessCount": 1,
+      "lastAccessed": 1771528487242,
+      "type": "file"
+    },
+    {
+      "path": "src/components/GiscusComments.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771528496244,
+      "type": "file"
+    },
+    {
+      "path": "src/components/SessionTimer.tsx",
+      "accessCount": 1,
+      "lastAccessed": 1771528505976,
+      "type": "file"
+    },
+    {
+      "path": "scripts/generate-og-images.js",
+      "accessCount": 1,
+      "lastAccessed": 1771528651440,
+      "type": "file"
+    }
+  ],
+  "userDirectives": []
+}

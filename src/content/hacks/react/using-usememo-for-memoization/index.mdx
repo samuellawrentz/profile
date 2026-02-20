@@ -1,0 +1,28 @@
+---
+title: Mastering Memoization with useMemo in React
+path: /hacks/react/mastering-memoization-usememo
+description: Explore the power of memoization in React with the useMemo hook. Learn to optimize your application by preventing unnecessary re-rendering.
+type: hack
+category: react
+tags: [react, usememo, performance optimization]
+---
+
+In React, you can utilize useMemo for memoization, a technique for optimizing speed by storing costly function call results and reusing them when identical inputs occur. 
+
+```javascript
+import React, { useMemo } from 'react';
+
+function MyComponent({ values }) {
+  const sortedValues = useMemo(() => {
+    return values.sort((a, b) => a - b);
+  }, [values]);
+
+  return <div>{sortedValues}</div>
+}
+```
+
+In this component, `useMemo` is used to cache the sorted `values` array. The second argument to `useMemo` is an array of dependencies. The memoized value is only recalculated when one of these dependencies changes. 
+
+By using `useMemo`, we ensure the expensive `sort` operation is not performed unless `values` changes. This can greatly improve performance in large applications where unnecessary re-rendering can cause lag. 
+
+Remember, `useMemo` should only be used when dealing with expensive computations as adding it unnecessarily can lead to performance degradation.

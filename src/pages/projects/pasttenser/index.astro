@@ -1,0 +1,182 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="PastTenser - Past Tense API by Samuel Lawrentz"
+  description="A quick API that gives you the past tense of the requested verb. Built with NodeJS and Express."
+>
+  <div>
+    <div class="khabyl-project" style="display:flex;align-items:center;gap:32px;flex-wrap:wrap;">
+      <div style="flex:1 1 60%;position:relative;">
+        <h1>PastTenser</h1>
+        <h2>A quick API that gives you the past tense of the requested verb.</h2>
+        <div class="input-block" style="display:flex;gap:12px;margin:32px 0;">
+          <input
+            id="verb-input"
+            maxlength="30"
+            placeholder="Enter a verb"
+            class="verb-input"
+          />
+          <button id="find-btn" class="btn btn--primary">Find</button>
+        </div>
+        <div id="error-text" class="error-text"></div>
+        <div id="result-display" class="result-display" style="display:none;"></div>
+      </div>
+      <div id="khaby" style="flex:1 0 30%;text-align:center;">
+        <img
+          id="khaby-open"
+          src="/assets/khaby-lame-1.png"
+          alt="Khaby Lame open"
+          style="max-width:200px;display:none;"
+        />
+        <img
+          id="khaby-close"
+          src="/assets/khaby-lame-2.png"
+          alt="Khaby Lame close"
+          style="max-width:200px;"
+        />
+      </div>
+    </div>
+
+    <div class="khaby-section" style="margin-top:48px;">
+      <div style="background:var(--surface2);border-left:4px solid var(--primary-color);padding:16px 20px;border-radius:4px;margin-bottom:32px;">
+        This is not working now because Heroku has removed free plans. I will deploy it somewhere else soon.
+      </div>
+      <h3>How does it work?</h3>
+      <p>
+        It's very simple. In fact, it is a normal Javascript map lookup. The
+        backend for this is written in NodeJS with ExpressJS and hosted on
+        Heroku. It's an API that I developed just for fun so you can use it
+        for fun.
+        <br />
+        <span class="text-caption">
+          Additional fact #1: This API also returns the past-participle form of the verb.
+        </span>
+        <br />
+        <span class="text-caption">
+          Additional fact #2: This API is not accurate. Don't rely on the results.
+        </span>
+        <br />
+        <span class="text-caption">
+          Additional fact #3: Now that Heroku is going to stop free plans, I need to think about deploying the API elsewhere.
+        </span>
+      </p>
+      <p>
+        As you know, the image I used here is <b>Khaby Lame.</b> He is just
+        awesome for his quirky parody videos. I find his facial expressions
+        funny and useful in a page like this.
+      </p>
+    </div>
+
+    <div class="khaby-section" style="margin-top:32px;">
+      <h3>Lets Get Technical</h3>
+      <p>
+        <b>CSS properties:</b> clip-path, keyframes, transform - skew, rotate
+        <br />
+        <b>Javascript Stack:</b> NodeJS, React, ExpressJS, Fetch API
+        <br />
+        <b>Deployed to:</b> Heroku
+      </p>
+    </div>
+  </div>
+</BaseLayout>
+
+<script is:inline>
+  const errorMap = {
+    spaces: "Do verbs have spaces? You are sus.",
+    long: 'Is there a verb that really goes like that?',
+    other: "We dont do that here! #wakandaForever",
+  };
+
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
+  const input = document.getElementById('verb-input');
+  const btn = document.getElementById('find-btn');
+  const errorEl = document.getElementById('error-text');
+  const resultEl = document.getElementById('result-display');
+
+  function getError(verb) {
+    if (verb.match(/[^A-Za-z]/g)) return errorMap.other;
+    if (verb.match(/\s/g)) return errorMap.spaces;
+    if (verb.length > 20) return errorMap.long;
+    return null;
+  }
+
+  function fetchData() {
+    const verb = input.value;
+    const error = getError(verb);
+    errorEl.textContent = error || '';
+    if (error || !verb) return;
+
+    fetch('https://pastenser.herokuapp.com/' + capitalizeFirstLetter(verb))
+      .then((res) => res.json())
+      .then((val) => {
+        resultEl.textContent = val['past tense'];
+        resultEl.style.display = 'block';
+      })
+      .catch(() => {
+        resultEl.textContent = 'API unavailable (Heroku free plan removed)';
+        resultEl.style.display = 'block';
+      });
+  }
+
+  btn.addEventListener('click', fetchData);
+  input.addEventListener('keypress', (e) => e.charCode === 13 && fetchData());
+  input.addEventListener('input', () => {
+    resultEl.style.display = 'none';
+    const error = getError(input.value);
+    errorEl.textContent = error || '';
+    btn.disabled = !!error;
+  });
+</script>
+
+<style>
+  .verb-input {
+    flex: 1;
+    padding: 10px 16px;
+    border: 2px solid var(--element3);
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--element1);
+    font-size: var(--body);
+    font-family: inherit;
+    transition: border-color 0.2s;
+  }
+  .verb-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+  }
+  .btn--primary {
+    padding: 10px 24px;
+    background: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: var(--body);
+    transition: opacity 0.2s;
+  }
+  .btn--primary:hover { opacity: 0.85; }
+  .btn--primary:disabled { opacity: 0.4; cursor: not-allowed; }
+  .error-text {
+    color: #e52e71;
+    font-size: var(--caption);
+    min-height: 20px;
+  }
+  .result-display {
+    margin-top: 16px;
+    font-size: var(--h2);
+    font-weight: 600;
+    color: var(--primary-color);
+  }
+  .text-caption {
+    font-size: var(--caption);
+    color: var(--element2);
+    display: block;
+    margin: 4px 0;
+  }
+</style>

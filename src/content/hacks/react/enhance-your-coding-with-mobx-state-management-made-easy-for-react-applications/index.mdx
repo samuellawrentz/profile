@@ -1,0 +1,97 @@
+---
+title: Enhance Your Coding With MobX - State Management Made Easy for React Applications
+path: /hacks/react/enhance-your-coding-with-mobx-state-management-made-easy
+description: Dive deep into MobX, a battle-tested package for easy state management in React applications. Explore how MobX can supercharge your React coding experience.
+type: hack
+category: react
+tags: [mobx, react, state management]
+---
+
+# Introduction
+
+In the world of React, managing application state can get complex as your app grows. Here's where MobX comes in. MobX simplifies state management, making your React application more maintainable and efficient.
+
+> "Any application that can be written in JavaScript, will eventually be written in JavaScript." - Jeff Atwood
+
+# Installing and Setting Up MobX
+
+First, install MobX and MobX React binding in your project:
+
+```bash
+npm install mobx mobx-react
+```
+
+# Creating an Observable State
+
+In MobX, any data source that can change is an observable. Let's create a simple store with an observable state:
+
+```javascript
+import { observable } from 'mobx';
+
+class TodoStore {
+  @observable todos = [];
+}
+```
+
+# Updating and Using Observable State
+
+To change the state, you simply assign a new value to it. And to use it, you can use the `observer` function from `mobx-react`:
+
+```javascript
+import { observer } from 'mobx-react';
+
+@observer
+class TodoList extends React.Component {
+  render() {
+    return (
+      <div>
+        {this.props.store.todos.map(todo => <div>{todo}</div>)}
+      </div>
+    );
+  }
+}
+```
+
+# Computing Derived Values
+
+MobX has a `computed` function that you can use to derive values from your state, similar to how you'd use selectors. Here's how you can use it:
+
+```javascript
+import { observable, computed } from 'mobx';
+
+class TodoStore {
+  @observable todos = [];
+  @computed get completedTodosCount() {
+    return this.todos.filter(todo => todo.completed === true).length;
+  }
+}
+```
+
+# Actions
+
+Actions in MobX are methods that modify state. They make it easier to manage complex updates:
+
+```javascript
+import { observable, action } from 'mobx';
+
+class TodoStore {
+  @observable todos = [];
+  @action addTodo(todo) {
+    this.todos.push(todo);
+  }
+}
+```
+
+For a deep dive into computed states in React, check out [this blog post](https://samuellawrentz.com/blog/computed-state-in-react).
+
+To learn more about conditional rendering in React, you can visit [this link](https://samuellawrentz.com/hacks/react/conditional-rendering-with-and-operator).
+
+For more React hacks, have a look at [this page](https://samuellawrentz.com/hacks/react/mapping-arrays-to-jsx-elements).
+
+---
+
+Remember, MobX is just a tool. It's up to you, the developer, to use it wisely. As the saying goes,
+
+> "Give a man a program, frustrate him for a day. Teach a man to program, frustrate him for a lifetime." - Muhammad Waseem
+
+Happy coding!

@@ -1,0 +1,512 @@
+---
+import { getCollection } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SEO from '../../components/SEO.astro';
+
+const posts = (await getCollection('blog', ({ data }) => data.published === true))
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
+
+const featuredPost = posts[0];
+const remainingPosts = posts.slice(1);
+
+function formatDate(date: Date): string {
+  return new Date(date).toLocaleDateString('en-US', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+function estimateReadTime(description?: string): string {
+  if (!description) return '5 min read';
+  const words = description.split(/\s+/).length;
+  const minutes = Math.max(1, Math.ceil(words / 200));
+  return `${minutes} min read`;
+}
+---
+<BaseLayout title="Blog - Samuel Lawrentz">
+  <SEO slot="head" title="Blog - Samuel Lawrentz" description="Tech blog about frontend development, React, TypeScript, and web technologies" />
+
+  <div class="blog-page">
+    <div class="blog-page__grain"></div>
+
+    {/* ── Page Header ── */}
+    <header class="blog-header">
+      <div class="blog-header__title-row">
+        <h1 class="blog-header__title">Blog</h1>
+        <span class="blog-header__count">{posts.length} posts</span>
+      </div>
+      <p class="blog-header__subtitle">
+        Writing about frontend craft, developer tooling, and the things I learn along the way.
+      </p>
+    </header>
+
+    {posts.length === 0 && (
+      <div class="blog-empty">
+        <p class="blog-empty__text">No posts yet. Check back soon.</p>
+      </div>
+    )}
+
+    {/* ── Featured Post ── */}
+    {featuredPost && (
+      <a href={featuredPost.data.path} class="featured">
+        <article class="featured__card" style="--i: 0">
+          {featuredPost.data.heroImage && (
+            <div class="featured__image-wrap">
+              <Image
+                src={featuredPost.data.heroImage}
+                alt={featuredPost.data.title}
+                width={1200}
+                height={500}
+                class="featured__image"
+              />
+            </div>
+          )}
+          <div class="featured__overlay"></div>
+          <div class="featured__content">
+            <div class="featured__meta">
+              <time class="featured__date">{formatDate(featuredPost.data.date)}</time>
+              <span class="featured__read-time">{estimateReadTime(featuredPost.data.description)}</span>
+            </div>
+            <h2 class="featured__title">{featuredPost.data.title}</h2>
+            {featuredPost.data.description && (
+              <p class="featured__desc">{featuredPost.data.description}</p>
+            )}
+            <div class="featured__tags">
+              {featuredPost.data.tags.map(tag => (
+                <span class="tag-pill">{tag}</span>
+              ))}
+            </div>
+            <span class="featured__cta">Read article &rarr;</span>
+          </div>
+        </article>
+      </a>
+    )}
+
+    {/* ── Post Grid ── */}
+    {remainingPosts.length > 0 && (
+      <div class="post-grid">
+        {remainingPosts.map((post, idx) => (
+          <a href={post.data.path} class="post-card" style={`--i: ${idx + 1}`}>
+            <article class="post-card__inner">
+              {post.data.heroImage && (
+                <div class="post-card__image-wrap">
+                  <Image
+                    src={post.data.heroImage}
+                    alt={post.data.title}
+                    width={480}
+                    height={200}
+                    class="post-card__image"
+                  />
+                </div>
+              )}
+              <div class="post-card__body">
+                <div class="post-card__meta">
+                  <time class="post-card__date">{formatDate(post.data.date)}</time>
+                  <span class="post-card__read-time">{estimateReadTime(post.data.description)}</span>
+                </div>
+                <h3 class="post-card__title">{post.data.title}</h3>
+                {post.data.description && (
+                  <p class="post-card__desc">{post.data.description}</p>
+                )}
+                <div class="post-card__footer">
+                  <div class="post-card__tags">
+                    {post.data.tags.map(tag => (
+                      <span class="tag-pill">{tag}</span>
+                    ))}
+                  </div>
+                  <span class="post-card__arrow">&rarr;</span>
+                </div>
+              </div>
+            </article>
+          </a>
+        ))}
+      </div>
+    )}
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Grain Overlay ── */
+  .blog-page {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .blog-page__grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 200px 200px;
+  }
+
+  /* ── Page Header ── */
+  .blog-header {
+    margin-bottom: 3rem;
+    animation: fadeSlideUp 0.6s ease both;
+  }
+
+  .blog-header__title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .blog-header__title {
+    font-family: 'Sora', sans-serif;
+    font-size: var(--h1);
+    font-weight: 800;
+    color: var(--element1);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .blog-header__count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--element3);
+    background: var(--surface2);
+    padding: 0.25em 0.7em;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  .blog-header__subtitle {
+    font-size: 1.05rem;
+    color: var(--element3);
+    margin: 0.75rem 0 0;
+    max-width: 540px;
+    line-height: 1.6;
+  }
+
+  /* ── Empty State ── */
+  .blog-empty {
+    text-align: center;
+    padding: 4rem 1rem;
+  }
+
+  .blog-empty__text {
+    font-family: 'JetBrains Mono', monospace;
+    color: var(--element3);
+    font-size: 0.9rem;
+  }
+
+  /* ── Featured Post ── */
+  .featured {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: 3rem;
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.1s;
+  }
+
+  .featured__card {
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    min-height: 340px;
+    display: flex;
+    align-items: flex-end;
+    background: var(--surface2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .featured:hover .featured__card {
+    transform: translateY(-3px);
+    box-shadow: 0 16px 48px -12px var(--card-shadow-color);
+  }
+
+  .featured__image-wrap {
+    position: absolute;
+    inset: 0;
+  }
+
+  .featured__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .featured__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      hsl(0 0% 5% / 0.92) 0%,
+      hsl(0 0% 5% / 0.6) 50%,
+      hsl(0 0% 5% / 0.25) 100%
+    );
+    z-index: 1;
+  }
+
+  .featured__content {
+    position: relative;
+    z-index: 2;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .featured__meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.75rem;
+  }
+
+  .featured__date,
+  .featured__read-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: hsl(0 0% 70%);
+  }
+
+  .featured__read-time::before {
+    content: '\00b7';
+    margin-right: 1rem;
+    color: hsl(0 0% 50%);
+  }
+
+  .featured__title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    font-weight: 700;
+    color: hsl(0 0% 95%);
+    line-height: 1.2;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .featured__desc {
+    font-size: 0.95rem;
+    color: hsl(0 0% 72%);
+    line-height: 1.5;
+    margin: 0 0 1rem;
+    max-width: 600px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .featured__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 1rem;
+  }
+
+  .featured__cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--primary-color);
+    transition: letter-spacing 0.3s ease;
+  }
+
+  .featured:hover .featured__cta {
+    letter-spacing: 0.1em;
+  }
+
+  /* ── Tag Pills ── */
+  .tag-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2em 0.6em;
+    border-radius: 4px;
+    background: hsl(0 0% 100% / 0.1);
+    color: hsl(0 0% 72%);
+    white-space: nowrap;
+  }
+
+  /* Override tag pills inside non-featured cards for theme awareness */
+  .post-card .tag-pill {
+    background: var(--surface2);
+    color: var(--element3);
+  }
+
+  /* ── Post Grid ── */
+  .post-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+  }
+
+  .post-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    animation: fadeSlideUp 0.5s ease both;
+    animation-delay: calc(var(--i) * 0.07s);
+  }
+
+  .post-card__inner {
+    background: var(--surface2);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border-left: 2px solid transparent;
+    transition:
+      border-color 0.25s ease,
+      transform 0.25s ease,
+      box-shadow 0.25s ease;
+  }
+
+  .post-card:hover .post-card__inner {
+    border-left-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px -8px var(--card-shadow-color);
+  }
+
+  .post-card__image-wrap {
+    aspect-ratio: 12 / 5;
+    overflow: hidden;
+  }
+
+  .post-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .post-card:hover .post-card__image {
+    transform: scale(1.04);
+  }
+
+  .post-card__body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .post-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .post-card__date,
+  .post-card__read-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--element3);
+  }
+
+  .post-card__read-time::before {
+    content: '\00b7';
+    margin-right: 0.75rem;
+    color: var(--element4);
+  }
+
+  .post-card__title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--element1);
+    line-height: 1.3;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+  }
+
+  .post-card__desc {
+    font-size: 0.85rem;
+    color: var(--element3);
+    line-height: 1.55;
+    margin: 0 0 auto;
+    padding-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .post-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .post-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.35rem;
+  }
+
+  .post-card__arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 1rem;
+    color: var(--element4);
+    transition: color 0.25s ease, transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .post-card:hover .post-card__arrow {
+    color: var(--primary-color);
+    transform: translateX(4px);
+  }
+
+  /* ── Animation ── */
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .blog-page {
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .blog-header {
+      margin-bottom: 2rem;
+    }
+
+    .post-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .featured__card {
+      min-height: 280px;
+    }
+
+    .featured__content {
+      padding: 1.25rem;
+    }
+
+    .featured__title {
+      font-size: 1.35rem;
+    }
+  }
+</style>

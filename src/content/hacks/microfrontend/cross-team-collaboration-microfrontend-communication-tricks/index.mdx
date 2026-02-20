@@ -1,0 +1,45 @@
+---
+title: Cross-Team Collaboration - MicroFrontend Communication Tricks
+path: /hacks/microfrontend/cross-team-collaboration-with-microfrontend
+description: Learn key hacks for effective cross-team collaboration using Micro Frontend architecture. Enhance your skills with these MicroFrontend communication tricks.
+type: hack
+category: microfrontend
+tags: [micro frontend, cross-team collaboration, communication tricks]
+---
+
+The Micro Frontend architecture is a design approach where a front-end app is decomposed into individual, semi-independent "micro-apps" working loosely together. This approach can improve the productivity of your team but can also introduce new challenges related to cross-team communication.
+
+## Tip 1: Use Custom Events
+
+Custom events can be used to communicate between micro frontends. 
+
+```javascript
+// Microfrontend 1
+document.dispatchEvent(new CustomEvent('myEvent', { detail: 'data from microfrontend 1' }));
+
+// Microfrontend 2
+document.addEventListener('myEvent', (e) => {
+  console.log(e.detail);
+});
+```
+
+## Tip 2: Shared State
+
+Another approach is to use shared state, which can be implemented with libraries such as Redux or MobX.
+
+```javascript
+// Shared store
+import { createStore } from 'redux';
+
+const store = createStore(myReducer);
+
+// Microfrontend 1
+store.dispatch({ type: 'ACTION_TYPE', payload: 'data from microfrontend 1' });
+
+// Microfrontend 2
+store.subscribe(() => {
+  console.log(store.getState());
+});
+```
+
+Remember, cross-team collaboration with Micro Frontends is all about setting up efficient communication channels. Happy coding!

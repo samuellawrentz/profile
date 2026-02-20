@@ -1,0 +1,60 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="404 - Page Not Found | Samuel Lawrentz">
+  <div class="not-found">
+    <div class="not-found__code">404</div>
+    <h1 class="not-found__title">Page Not Found</h1>
+    <p class="not-found__message">
+      Oops! The page you're looking for doesn't exist or has been moved.
+    </p>
+    <a href="/" class="not-found__link">
+      <span class="material-icons-round" style="vertical-align:middle;margin-right:8px;">arrow_back</span>
+      Back to Home
+    </a>
+  </div>
+</BaseLayout>
+
+<style>
+  .not-found {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 60vh;
+    text-align: center;
+    padding: 40px 20px;
+  }
+  .not-found__code {
+    font-size: clamp(80px, 20vw, 160px);
+    font-weight: 100;
+    line-height: 1;
+    color: var(--element3);
+    text-shadow: 4px 8px var(--text-shadow-color1);
+    margin-bottom: 16px;
+  }
+  .not-found__title {
+    font-size: var(--h1);
+    margin: 0 0 16px;
+  }
+  .not-found__message {
+    color: var(--element2);
+    max-width: 400px;
+    margin-bottom: 40px;
+  }
+  .not-found__link {
+    display: inline-flex;
+    align-items: center;
+    padding: 12px 28px;
+    border: 2px solid var(--element1);
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.2s ease;
+  }
+  .not-found__link:hover {
+    background: var(--element1);
+    color: var(--surface1);
+  }
+</style>

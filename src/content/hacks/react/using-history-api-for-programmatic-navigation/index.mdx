@@ -1,0 +1,33 @@
+---
+title: Navigating with History API in JavaScript
+path: /hacks/react/navigating-with-history-api
+description: Learn how to use the History API for programmatic navigation in web development. Enhance your JavaScript skills and improve user experience.
+type: hack
+category: react
+tags: [javascript, history api, web development]
+---
+
+The History API in JavaScript allows us to manipulate the browser history programmatically, providing a better user experience. Particularly useful in single-page applications (SPAs).
+
+Here's a quick rundown:
+
+```javascript
+// Push a new entry to the history stack
+history.pushState(stateObject, title, url);
+
+// Replace the current entry on the history stack
+history.replaceState(stateObject, title, url);
+
+// Moving backwards and forwards through the history stack
+history.back(); // equivalent to 'Back' button
+history.forward(); // equivalent to 'Forward' button
+history.go(-1); // equivalent to history.back()
+```
+
+The `stateObject` is a JavaScript object associated with the new history entry created by `pushState()` or `replaceState()`. The `title` parameter is ignored in most browsers due to security issues. The `url` parameter is optional and represents the new URL of the current entry.
+
+Remember, manipulating the history can lead to unexpected navigation behavior, so use it wisely.
+
+Happy coding!
+
+---

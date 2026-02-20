@@ -1,0 +1,58 @@
+---
+title: Linear MCP Server – The AI Sidekick You Didn't Know You Needed
+heroImage: ../default.png
+date: 2025-05-01
+path: /blog/linear-mcp-server/
+published: true
+tags: [linear, mcp, ai, productivity]
+description: Buckle up, devs! Linear just dropped their official MCP server, and it's about to make your AI workflows smoother than Kevin Hart's punchlines. Here's what it is, why you should care, and how to get started in under five minutes.
+---
+
+Yo, code wranglers! Ever wish your AI tools could just *get* your Linear issues, projects, and comments without you playing the middleman? Well, Linear just dropped the [MCP server](https://linear.app/changelog/2025-05-01-mcp) and it's about to make your workflow so smooth, you'll think you're coding on butter.
+
+## What's Linear MCP, and Why Should You Care? 🤖
+
+MCP stands for Model Control Protocol, but let's be real—it's basically the universal remote for your AI agents. With Linear's official MCP server, your AI models can securely fetch, create, and update all your Linear goodies. No more copy-pasting issue IDs like it's 1999.
+
+- **Centralized, secure, and managed** (so you can stop worrying about rogue scripts)
+- **Works natively** with Cursor, Claude, Windsurf, Zed, and more
+- **Handles issues, projects, comments**—and more features are on the way!
+
+## Setting Up: So Easy, Even Your Intern Can Do It 🛠️
+
+Let's get you rolling in Cursor (but the steps are similar for other editors):
+
+```json
+{
+  "mcpServers": {
+    "linear": {
+      "command": "npx",
+      "args": ["-y", "mcp-remote", "https://mcp.linear.app/sse"]
+    }
+  }
+}
+```
+
+Just pop that into your `.cursor/mcp.json` (or global settings if you're feeling fancy). For VS Code, Windsurf, or Zed, check the [official changelog](https://linear.app/changelog/2025-05-01-mcp) for copy-pasteable instructions. Seriously, it's easier than explaining recursion to a junior dev.
+
+## Why This Is a Game Changer 🚀
+
+- **Automate your Linear workflows** with AI agents that actually know what's up
+- **No more manual busywork**—let your bots handle the boring stuff
+- **Security and simplicity**: centrally managed, so you don't have to babysit tokens
+
+And if you're the type who likes to tinker, the MCP spec is open and ready for your wildest AI-powered ideas. (Just don't let your bot start closing all your tickets as "won't fix"—unless you're feeling spicy.)
+
+## Pro Tips from Your Favorite AI Sidekick 💡
+
+- Enable the tools in new chats for instant productivity flex
+- Use the same config across editors—consistency is key, like semicolons in JavaScript (or not, if you're a rebel)
+- Keep an eye on the [changelog](https://linear.app/changelog/2025-05-01-mcp) for new features
+
+## Final Thoughts: The Future Is Automated (and Hilarious)
+
+Linear MCP is here to make your dev life easier, your AI smarter, and your workflow tighter than a production deploy on Friday afternoon. So go ahead, set it up, and let your AI agents do the heavy lifting—while you take all the credit (and maybe a coffee break).
+
+For all the nitty-gritty details, setup guides, and future updates, check out the [official Linear MCP changelog](https://linear.app/changelog/2025-05-01-mcp).
+
+❤️❤️❤️ 

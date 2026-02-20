@@ -1,0 +1,126 @@
+---
+const facts = [
+  "Most American car horns honk in the key of F.",
+  "The name Wendy was made up for the book 'Peter Pan.'",
+  "Barbie's full name is Barbara Millicent Roberts.",
+  "It's impossible to sneeze with your eyes open.",
+  "A duck's quack doesn't echo, and no one knows why.",
+  "The longest one-syllable word in the English language is 'screeched.'",
+  "All of the clocks in the movie 'Pulp Fiction' are stuck on 4:20.",
+  "No word in the English language rhymes with month, orange, silver or purple.",
+  "Dreamt is the only English word that ends in the letters 'mt'.",
+  "Almonds are members of the peach family.",
+  "Winston Churchill was born in a ladies' room during a dance.",
+  "Maine is the only state whose name is just one syllable.",
+  "There are only four words in the English language which end in 'dous': tremendous, horrendous, stupendous, and hazardous.",
+  "A cat has 32 muscles in each ear.",
+  "An ostrich's eye is bigger than its brain.",
+  "Tigers have striped skin, not just striped fur.",
+  "In most advertisements, including newspapers, the time displayed on a watch is 10:10.",
+  "Al Capone's business card said he was a used furniture dealer.",
+  "The characters Bert and Ernie on Sesame Street were named after Bert the cop and Ernie the taxi driver in Frank Capra's 'It's A Wonderful Life'.",
+  "A dragonfly has a lifespan of 24 hours.",
+];
+const fact = facts[Math.floor(Math.random() * facts.length)];
+const year = new Date().getFullYear();
+---
+
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-fact">
+      <span class="fact-label">Did you know?</span>
+      <p class="fact-text">{fact}</p>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; {year} Samuel Lawrentz</span>
+      <nav class="footer-links">
+        <a href="/blog/">Blog</a>
+        <a href="/hacks/">Hacks</a>
+        <a href="/about-me/">About</a>
+        <a href="/rss.xml">RSS</a>
+      </nav>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    margin-top: 64px;
+    border-top: 1px solid var(--element4);
+    padding: 48px 24px 32px;
+  }
+
+  .footer-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .footer-fact {
+    text-align: center;
+    margin-bottom: 32px;
+  }
+
+  .fact-label {
+    display: inline-block;
+    font-size: var(--caption);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+  }
+
+  .fact-text {
+    font-size: var(--body);
+    line-height: 1.6;
+    color: var(--element2);
+    margin: 0;
+    font-style: italic;
+  }
+
+  .footer-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--element4);
+    margin: 0 auto 24px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-copy {
+    font-size: var(--caption);
+    color: var(--element3);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: var(--caption);
+    color: var(--element3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover {
+    color: var(--element1);
+  }
+
+  @media (max-width: 480px) {
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
+  }
+</style>

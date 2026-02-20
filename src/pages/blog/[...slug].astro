@@ -1,0 +1,719 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SEO from '../../components/SEO.astro';
+import { Image } from 'astro:assets';
+import GiscusComments from '../../components/GiscusComments';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog', ({ data }) => data.published === true);
+  return posts.map(post => {
+    const slug = post.data.path.replace(/^\/blog\//, '').replace(/\/$/, '');
+    return { params: { slug }, props: { post } };
+  });
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+
+const allPosts = await getCollection('blog', ({ data }) => data.published === true);
+const relatedPosts = allPosts
+  .filter(p => p.id !== post.id)
+  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .slice(0, 4);
+
+const ogImagePath = `/og-images/${post.data.path.replace(/[/-]/gi, '')}.png`;
+
+function formatDate(date: Date): string {
+  return new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
+}
+
+function estimateReadTime(description?: string): string {
+  if (!description) return '5 min read';
+  const words = description.split(/\s+/).length;
+  const minutes = Math.max(1, Math.ceil(words / 200));
+  return `${minutes} min read`;
+}
+
+const dateStr = formatDate(post.data.date);
+const readTime = estimateReadTime(post.data.description);
+---
+<BaseLayout title={`Samuel Lawrentz | ${post.data.title}`}>
+  <SEO slot="head" title={`Samuel Lawrentz | ${post.data.title}`} description={post.data.description} image={ogImagePath} article={true} />
+
+  <div class="article-page">
+    <div class="article-page__grain"></div>
+
+    <div class="article-shell">
+
+      {/* ── Article Header ── */}
+      <header class="article-header">
+        <a href="/blog/" class="back-link">
+          <span class="back-link__arrow">&larr;</span>
+          All posts
+        </a>
+
+        <div class="article-meta">
+          <time class="article-meta__date">{dateStr}</time>
+          <span class="article-meta__sep">&middot;</span>
+          <span class="article-meta__read-time">{readTime}</span>
+        </div>
+
+        <h1 class="article-title">{post.data.title}</h1>
+
+        {post.data.description && (
+          <p class="article-desc">{post.data.description}</p>
+        )}
+
+        {post.data.tags && post.data.tags.length > 0 && (
+          <div class="article-tags">
+            {post.data.tags.map((tag: string) => (
+              <span class="tag-pill">{tag}</span>
+            ))}
+          </div>
+        )}
+      </header>
+
+      {/* ── Hero Image ── */}
+      {post.data.heroImage && (
+        <div class="article-hero">
+          <Image
+            src={post.data.heroImage}
+            alt={post.data.title}
+            width={900}
+            height={480}
+            class="article-hero__img"
+          />
+        </div>
+      )}
+
+      {/* ── Article Body ── */}
+      <div class="article-body">
+        <div class="article-content prose prose-neutral max-w-none prose-a:text-tertiary prose-code:bg-element4 prose-code:rounded prose-code:px-1">
+          <Content />
+        </div>
+      </div>
+
+      {/* ── Author Footer ── */}
+      <div class="author-footer">
+        <div class="author-footer__inner">
+          <div class="author-footer__text">
+            <p class="author-footer__thanks">Thanks for reading!</p>
+            <p class="author-footer__bio">
+              I write about frontend craft, React, TypeScript, and the web. Found this useful? Let me know.
+            </p>
+          </div>
+          <a
+            href="https://x.com/samuellawrentz"
+            target="_blank"
+            rel="noreferrer"
+            class="author-footer__cta"
+          >
+            @samuellawrentz &rarr;
+          </a>
+        </div>
+      </div>
+
+      {/* ── Related Posts ── */}
+      {relatedPosts.length > 0 && (
+        <section class="related">
+          <div class="related__header">
+            <h2 class="related__title">More articles</h2>
+            <a href="/blog/" class="related__all">All posts &rarr;</a>
+          </div>
+          <div class="related__grid">
+            {relatedPosts.map((p, idx) => (
+              <a href={p.data.path} class="related-card" style={`--i: ${idx}`}>
+                <article class="related-card__inner">
+                  {p.data.heroImage && (
+                    <div class="related-card__image-wrap">
+                      <Image
+                        src={p.data.heroImage}
+                        alt={p.data.title}
+                        width={480}
+                        height={200}
+                        class="related-card__image"
+                      />
+                    </div>
+                  )}
+                  <div class="related-card__body">
+                    <div class="related-card__meta">
+                      <time class="related-card__date">{formatDate(p.data.date)}</time>
+                      <span class="related-card__read-time">{estimateReadTime(p.data.description)}</span>
+                    </div>
+                    <h3 class="related-card__title">{p.data.title}</h3>
+                    {p.data.description && (
+                      <p class="related-card__desc">{p.data.description}</p>
+                    )}
+                    <div class="related-card__footer">
+                      <div class="related-card__tags">
+                        {p.data.tags.slice(0, 2).map((tag: string) => (
+                          <span class="tag-pill">{tag}</span>
+                        ))}
+                      </div>
+                      <span class="related-card__arrow">&rarr;</span>
+                    </div>
+                  </div>
+                </article>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {/* ── Comments ── */}
+      <div class="comments-wrap">
+        <GiscusComments client:visible />
+      </div>
+
+    </div>
+  </div>
+</BaseLayout>
+
+<style>
+  /* ── Grain Overlay ── */
+  .article-page__grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px;
+  }
+
+  /* ── Layout Shell ── */
+  .article-page {
+    position: relative;
+  }
+
+  .article-shell {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+
+  /* ── Back Link ── */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--element3);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: 2.5rem;
+    animation: fadeSlideUp 0.4s ease both;
+  }
+
+  .back-link:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  .back-link__arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .back-link:hover .back-link__arrow {
+    transform: translateX(-3px);
+  }
+
+  /* ── Article Header ── */
+  .article-header {
+    max-width: 720px;
+    margin-bottom: 2.5rem;
+    animation: fadeSlideUp 0.5s ease both;
+    animation-delay: 0.05s;
+  }
+
+  .article-meta {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .article-meta__date,
+  .article-meta__read-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--element3);
+  }
+
+  .article-meta__sep {
+    color: var(--element4);
+    font-size: 0.9rem;
+  }
+
+  .article-title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.75rem, 5vw, 3rem);
+    font-weight: 800;
+    color: var(--element1);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin: 0 0 1rem;
+  }
+
+  .article-desc {
+    font-size: 1.05rem;
+    color: var(--element2);
+    line-height: 1.65;
+    margin: 0 0 1.25rem;
+  }
+
+  .article-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* ── Tag Pills ── */
+  .tag-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.2em 0.6em;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--element3);
+    white-space: nowrap;
+    border: 1px solid var(--element4);
+  }
+
+  /* ── Hero Image ── */
+  .article-hero {
+    margin-bottom: 3rem;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid var(--element4);
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.1s;
+  }
+
+  .article-hero__img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+
+  /* ── Article Body ── */
+  .article-body {
+    border-top: 1px solid var(--element4);
+    padding-top: 2.5rem;
+    margin-bottom: 3rem;
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.15s;
+  }
+
+  .article-content {
+    max-width: 720px;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--element2);
+  }
+
+  /* ── Prose overrides to match design system ── */
+  .article-content :global(h1),
+  .article-content :global(h2),
+  .article-content :global(h3),
+  .article-content :global(h4) {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    color: var(--element1);
+    letter-spacing: -0.02em;
+    margin-top: 2.25em;
+    margin-bottom: 0.75em;
+  }
+
+  .article-content :global(h2) {
+    font-size: 1.6rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--element4);
+  }
+
+  .article-content :global(h3) {
+    font-size: 1.25rem;
+  }
+
+  .article-content :global(p) {
+    margin-bottom: 1.5em;
+  }
+
+  .article-content :global(a) {
+    font-family: inherit;
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 40%, transparent);
+    transition: border-color 0.2s;
+  }
+
+  .article-content :global(a:hover) {
+    border-bottom-color: var(--primary-color);
+  }
+
+  .article-content :global(blockquote) {
+    border-left: 3px solid var(--primary-color);
+    margin: 2em 0;
+    padding: 0.75em 1.5em;
+    background: var(--surface2);
+    border-radius: 0 8px 8px 0;
+    color: var(--element2);
+    font-style: italic;
+  }
+
+  .article-content :global(pre) {
+    border-radius: 8px;
+    border: 1px solid var(--element4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    overflow-x: auto;
+    margin: 1.75em 0;
+    padding: 1.25em 1.5em;
+  }
+
+  .article-content :global(pre code) {
+    font-family: inherit;
+    font-size: inherit;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    border-radius: 0;
+    color: inherit;
+  }
+
+  .article-content :global(code:not(pre code)) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875em;
+    background: var(--surface2);
+    border: 1px solid var(--element4);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--element1);
+  }
+
+  .article-content :global(strong) {
+    color: var(--element1);
+    font-weight: 700;
+  }
+
+  .article-content :global(ul),
+  .article-content :global(ol) {
+    padding-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+
+  .article-content :global(li) {
+    margin-bottom: 0.4em;
+  }
+
+  .article-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--element4);
+    margin: 2.5em 0;
+  }
+
+  .article-content :global(img) {
+    border-radius: 8px;
+    border: 1px solid var(--element4);
+    max-width: 100%;
+    height: auto;
+    margin: 1.5em 0;
+  }
+
+  /* ── Author Footer ── */
+  .author-footer {
+    border-top: 1px solid var(--element4);
+    padding: 2.5rem 0;
+    margin-bottom: 0;
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.2s;
+  }
+
+  .author-footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--element4);
+    flex-wrap: wrap;
+  }
+
+  .author-footer__thanks {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--element1);
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .author-footer__bio {
+    font-size: 0.9rem;
+    color: var(--element3);
+    margin: 0;
+    line-height: 1.55;
+    max-width: 440px;
+  }
+
+  .author-footer__cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--element1);
+    text-decoration: none;
+    border: 1px solid var(--element4);
+    padding: 0.6em 1.1em;
+    border-radius: 6px;
+    background: transparent;
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .author-footer__cta:hover {
+    background: var(--element1);
+    color: var(--surface1, #fff);
+    border-color: var(--element1);
+  }
+
+  /* ── Related Section ── */
+  .related {
+    border-top: 1px solid var(--element4);
+    padding: 3rem 0;
+  }
+
+  .related__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+  }
+
+  .related__title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--element1);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .related__all {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--element2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .related__all:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  .related__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  /* ── Related Card ── */
+  .related-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    animation: fadeSlideUp 0.5s ease both;
+    animation-delay: calc(var(--i) * 0.07s + 0.25s);
+  }
+
+  .related-card__inner {
+    background: var(--surface2);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--element4);
+    border-left: 2px solid transparent;
+    transition: border-color 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .related-card:hover .related-card__inner {
+    border-left-color: var(--primary-color);
+    border-color: var(--element4);
+    border-left-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px -8px var(--card-shadow-color);
+  }
+
+  .related-card__image-wrap {
+    aspect-ratio: 12 / 5;
+    overflow: hidden;
+  }
+
+  .related-card__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.4s ease;
+  }
+
+  .related-card:hover .related-card__image {
+    transform: scale(1.04);
+  }
+
+  .related-card__body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .related-card__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .related-card__date,
+  .related-card__read-time {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--element3);
+  }
+
+  .related-card__read-time::before {
+    content: '\00b7';
+    margin-right: 0.6rem;
+    color: var(--element4);
+  }
+
+  .related-card__title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--element1);
+    line-height: 1.3;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-card__desc {
+    font-size: 0.8rem;
+    color: var(--element3);
+    line-height: 1.5;
+    margin: 0 0 auto;
+    padding-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .related-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .related-card__arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--element4);
+    transition: color 0.25s ease, transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  .related-card:hover .related-card__arrow {
+    color: var(--primary-color);
+    transform: translateX(4px);
+  }
+
+  /* ── Comments ── */
+  .comments-wrap {
+    border-top: 1px solid var(--element4);
+    padding-top: 3rem;
+  }
+
+  /* ── Animation ── */
+  @keyframes fadeSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .article-shell {
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .article-title {
+      font-size: clamp(1.5rem, 7vw, 2.2rem);
+    }
+
+    .related__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .author-footer__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .article-shell {
+      padding: 1.25rem 0.875rem 2.5rem;
+    }
+
+    .article-content :global(h2) {
+      font-size: 1.3rem;
+    }
+
+    .article-content :global(h3) {
+      font-size: 1.1rem;
+    }
+  }
+</style>

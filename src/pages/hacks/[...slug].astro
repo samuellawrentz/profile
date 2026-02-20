@@ -1,0 +1,816 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SEO from '../../components/SEO.astro';
+
+export async function getStaticPaths() {
+  const hacks = await getCollection('hacks');
+  const paths = [];
+
+  // Individual hack pages
+  for (const hack of hacks) {
+    const slug = hack.data.path.replace(/^\/hacks\//, '').replace(/\/$/, '');
+    paths.push({ params: { slug }, props: { hack, isCategory: false } });
+  }
+
+  // Category listing pages
+  const categories = [...new Set(hacks.map(h => {
+    const parts = h.data.path.split('/');
+    return parts[2];
+  }))];
+
+  for (const cat of categories) {
+    const catHacks = hacks.filter(h => h.data.path.includes(`/hacks/${cat}/`));
+    paths.push({ params: { slug: cat }, props: { hack: null, isCategory: true, categoryName: cat, categoryHacks: catHacks } });
+  }
+
+  return paths;
+}
+
+const { hack, isCategory, categoryName, categoryHacks } = Astro.props;
+
+let Content;
+let relatedHacks;
+let hackCategory = '';
+
+if (!isCategory && hack) {
+  const rendered = await render(hack);
+  Content = rendered.Content;
+  hackCategory = hack.data.path.split('/')[2];
+  const allHacks = await getCollection('hacks');
+  relatedHacks = allHacks
+    .filter(h => h.id !== hack.id && h.data.path.includes(`/hacks/${hackCategory}/`))
+    .slice(0, 4);
+  if (relatedHacks.length < 4) {
+    const more = allHacks.filter(h => h.id !== hack.id && !relatedHacks.includes(h)).slice(0, 4 - relatedHacks.length);
+    relatedHacks = [...relatedHacks, ...more];
+  }
+}
+
+const categoryDisplay = (cat: string) => cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+const ensureTrailingSlash = (p: string) => p.endsWith('/') ? p : p + '/';
+---
+<BaseLayout title={isCategory ? `${categoryDisplay(categoryName!)} — Hacks` : hack?.data.title}>
+  {!isCategory && hack && (
+    <SEO slot="head" title={hack.data.title} description={hack.data.description} image={`/og-images/${hack.data.path.replace(/[/-]/gi, '')}.png`} article={true} />
+  )}
+
+  {isCategory ? (
+    <!-- ═══ Category Listing ═══ -->
+    <div class="cat-page">
+      <div class="cat-page__grain"></div>
+
+      <header class="cat-header">
+        <a href="/hacks/" class="back-link">
+          <span class="back-link__arrow">&larr;</span>
+          All hacks
+        </a>
+
+        <div class="cat-header__title-row">
+          <h1 class="cat-header__title">{categoryDisplay(categoryName!)}</h1>
+          <span class="cat-header__count">{categoryHacks?.length} hacks</span>
+        </div>
+      </header>
+
+      <div class="hack-list">
+        {categoryHacks?.map((h, idx) => {
+          return (
+            <a href={ensureTrailingSlash(h.data.path)} class="hack-card" style={`--i: ${idx}`}>
+              <article class="hack-card__inner">
+                <div class="hack-card__body">
+                  <h3 class="hack-card__title">{h.data.title}</h3>
+                  {h.data.description && (
+                    <p class="hack-card__desc">{h.data.description}</p>
+                  )}
+                  <div class="hack-card__footer">
+                    <div class="hack-card__tags">
+                      {h.data.tags.slice(0, 3).map((tag: string) => (
+                        <span class="tag-pill">{tag}</span>
+                      ))}
+                    </div>
+                    <span class="hack-card__arrow">&rarr;</span>
+                  </div>
+                </div>
+              </article>
+            </a>
+          );
+        })}
+      </div>
+    </div>
+  ) : (
+    <!-- ═══ Individual Hack ═══ -->
+    <div class="hack-page">
+      <div class="hack-page__grain"></div>
+
+      <div class="hack-shell">
+
+        {/* ── Breadcrumb ── */}
+        <nav class="breadcrumb">
+          <a href="/hacks/" class="breadcrumb__link">Hacks</a>
+          <span class="breadcrumb__sep">/</span>
+          <a href={`/hacks/${hackCategory}/`} class="breadcrumb__link">{categoryDisplay(hackCategory)}</a>
+        </nav>
+
+        {/* ── Header ── */}
+        <header class="hack-header">
+          <h1 class="hack-title">{hack?.data.title}</h1>
+          {hack?.data.description && (
+            <p class="hack-desc">{hack.data.description}</p>
+          )}
+          {hack?.data.tags && hack.data.tags.length > 0 && (
+            <div class="hack-tags">
+              {hack.data.tags.map((tag: string) => (
+                <span class="tag-pill">{tag}</span>
+              ))}
+            </div>
+          )}
+        </header>
+
+        {/* ── Content ── */}
+        <div class="hack-body">
+          <div class="hack-content prose prose-neutral max-w-none prose-a:text-tertiary prose-code:bg-element4 prose-code:rounded prose-code:px-1">
+            {Content && <Content />}
+          </div>
+        </div>
+
+        {/* ── Author Footer ── */}
+        <div class="author-footer">
+          <div class="author-footer__inner">
+            <div class="author-footer__text">
+              <p class="author-footer__thanks">Keep experimenting!</p>
+              <p class="author-footer__bio">
+                Quick hacks and tips from my daily workflow. Found this useful? Let me know.
+              </p>
+            </div>
+            <a
+              href="https://x.com/samuellawrentz"
+              target="_blank"
+              rel="noreferrer"
+              class="author-footer__cta"
+            >
+              @samuellawrentz &rarr;
+            </a>
+          </div>
+        </div>
+
+        {/* ── Related Hacks ── */}
+        {relatedHacks && relatedHacks.length > 0 && (
+          <section class="related">
+            <div class="related__header">
+              <h2 class="related__title">More hacks</h2>
+              <a href={`/hacks/${hackCategory}/`} class="related__all">View all &rarr;</a>
+            </div>
+            <div class="related__grid">
+              {relatedHacks.map((h, idx) => (
+                <a href={ensureTrailingSlash(h.data.path)} class="related-card" style={`--i: ${idx}`}>
+                  <article class="related-card__inner">
+                    <div class="related-card__body">
+                      <h3 class="related-card__title">{h.data.title}</h3>
+                      {h.data.description && (
+                        <p class="related-card__desc">{h.data.description}</p>
+                      )}
+                      <div class="related-card__footer">
+                        <div class="related-card__tags">
+                          {h.data.tags.slice(0, 2).map((tag: string) => (
+                            <span class="tag-pill">{tag}</span>
+                          ))}
+                        </div>
+                        <span class="related-card__arrow">&rarr;</span>
+                      </div>
+                    </div>
+                  </article>
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+      </div>
+    </div>
+  )}
+</BaseLayout>
+
+<style>
+  /* ══════════════════════════════════════
+     Shared
+     ══════════════════════════════════════ */
+  .cat-page__grain,
+  .hack-page__grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px;
+  }
+
+  .tag-pill {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 0.15em 0.5em;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--element3);
+    white-space: nowrap;
+    border: 1px solid var(--element4);
+  }
+
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ══════════════════════════════════════
+     Category Listing Page
+     ══════════════════════════════════════ */
+  .cat-page {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--element3);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: 2rem;
+    animation: fadeSlideUp 0.4s ease both;
+  }
+
+  .back-link:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  .back-link__arrow {
+    display: inline-block;
+    transition: transform 0.2s ease;
+  }
+
+  .back-link:hover .back-link__arrow {
+    transform: translateX(-3px);
+  }
+
+  .cat-header {
+    margin-bottom: 2.5rem;
+    animation: fadeSlideUp 0.5s ease both;
+    animation-delay: 0.05s;
+  }
+
+  .cat-header__title-row {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+
+  .cat-header__title {
+    font-family: 'Sora', sans-serif;
+    font-size: var(--h1);
+    font-weight: 800;
+    color: var(--element1);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0;
+  }
+
+  .cat-header__count {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--element3);
+    background: var(--surface2);
+    padding: 0.25em 0.7em;
+    border-radius: 100px;
+    white-space: nowrap;
+  }
+
+  /* ── Hack List ── */
+  .hack-list {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .hack-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    animation: fadeSlideUp 0.5s ease both;
+    animation-delay: calc(var(--i) * 0.04s + 0.1s);
+  }
+
+  .hack-card__inner {
+    background: var(--surface2);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid transparent;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+
+  .hack-card:hover .hack-card__inner {
+    border-color: var(--element4);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px -8px var(--card-shadow-color);
+  }
+
+  .hack-card__body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .hack-card__title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--element1);
+    line-height: 1.3;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hack-card__desc {
+    font-size: 0.8rem;
+    color: var(--element3);
+    line-height: 1.5;
+    margin: 0 0 auto;
+    padding-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hack-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .hack-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .hack-card__arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--element4);
+    flex-shrink: 0;
+    transition: color 0.25s, transform 0.25s;
+  }
+
+  .hack-card:hover .hack-card__arrow {
+    color: var(--primary-color);
+    transform: translateX(4px);
+  }
+
+  /* ══════════════════════════════════════
+     Individual Hack Page
+     ══════════════════════════════════════ */
+  .hack-page {
+    position: relative;
+  }
+
+  .hack-shell {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 5rem;
+  }
+
+  /* ── Breadcrumb ── */
+  .breadcrumb {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    animation: fadeSlideUp 0.4s ease both;
+  }
+
+  .breadcrumb__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    color: var(--element3);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .breadcrumb__link:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  .breadcrumb__sep {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--element4);
+  }
+
+  /* ── Hack Header ── */
+  .hack-header {
+    max-width: 720px;
+    margin-bottom: 2.5rem;
+    animation: fadeSlideUp 0.5s ease both;
+    animation-delay: 0.05s;
+  }
+
+  .hack-title {
+    font-family: 'Sora', sans-serif;
+    font-size: clamp(1.75rem, 5vw, 2.75rem);
+    font-weight: 800;
+    color: var(--element1);
+    line-height: 1.15;
+    letter-spacing: -0.03em;
+    margin: 0 0 1rem;
+  }
+
+  .hack-desc {
+    font-size: 1.05rem;
+    color: var(--element2);
+    line-height: 1.65;
+    margin: 0 0 1.25rem;
+  }
+
+  .hack-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+
+  /* ── Hack Body ── */
+  .hack-body {
+    border-top: 1px solid var(--element4);
+    padding-top: 2.5rem;
+    margin-bottom: 3rem;
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.1s;
+  }
+
+  .hack-content {
+    max-width: 720px;
+    font-size: 1.0625rem;
+    line-height: 1.8;
+    color: var(--element2);
+  }
+
+  .hack-content :global(h1),
+  .hack-content :global(h2),
+  .hack-content :global(h3),
+  .hack-content :global(h4) {
+    font-family: 'Sora', sans-serif;
+    font-weight: 700;
+    color: var(--element1);
+    letter-spacing: -0.02em;
+    margin-top: 2.25em;
+    margin-bottom: 0.75em;
+  }
+
+  .hack-content :global(h2) {
+    font-size: 1.6rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--element4);
+  }
+
+  .hack-content :global(h3) {
+    font-size: 1.25rem;
+  }
+
+  .hack-content :global(p) {
+    margin-bottom: 1.5em;
+  }
+
+  .hack-content :global(a) {
+    color: var(--primary-color);
+    text-decoration: none;
+    border-bottom: 1px solid color-mix(in srgb, var(--primary-color) 40%, transparent);
+    transition: border-color 0.2s;
+  }
+
+  .hack-content :global(a:hover) {
+    border-bottom-color: var(--primary-color);
+  }
+
+  .hack-content :global(blockquote) {
+    border-left: 3px solid var(--primary-color);
+    margin: 2em 0;
+    padding: 0.75em 1.5em;
+    background: var(--surface2);
+    border-radius: 0 8px 8px 0;
+    color: var(--element2);
+    font-style: italic;
+  }
+
+  .hack-content :global(pre) {
+    border-radius: 8px;
+    border: 1px solid var(--element4);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875rem;
+    overflow-x: auto;
+    margin: 1.75em 0;
+    padding: 1.25em 1.5em;
+  }
+
+  .hack-content :global(pre code) {
+    font-family: inherit;
+    font-size: inherit;
+    background: none !important;
+    border: none !important;
+    padding: 0 !important;
+    border-radius: 0;
+    color: inherit;
+  }
+
+  .hack-content :global(code:not(pre code)) {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.875em;
+    background: var(--surface2);
+    border: 1px solid var(--element4);
+    padding: 0.15em 0.4em;
+    border-radius: 4px;
+    color: var(--element1);
+  }
+
+  .hack-content :global(strong) {
+    color: var(--element1);
+    font-weight: 700;
+  }
+
+  .hack-content :global(ul),
+  .hack-content :global(ol) {
+    padding-left: 1.5em;
+    margin-bottom: 1.5em;
+  }
+
+  .hack-content :global(li) {
+    margin-bottom: 0.4em;
+  }
+
+  .hack-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--element4);
+    margin: 2.5em 0;
+  }
+
+  .hack-content :global(img) {
+    border-radius: 8px;
+    border: 1px solid var(--element4);
+    max-width: 100%;
+    height: auto;
+    margin: 1.5em 0;
+  }
+
+  /* ── Author Footer ── */
+  .author-footer {
+    border-top: 1px solid var(--element4);
+    padding: 2.5rem 0;
+    animation: fadeSlideUp 0.6s ease both;
+    animation-delay: 0.15s;
+  }
+
+  .author-footer__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    padding: 2rem;
+    border-radius: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--element4);
+    flex-wrap: wrap;
+  }
+
+  .author-footer__thanks {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--element1);
+    margin: 0 0 0.4rem;
+    letter-spacing: -0.01em;
+  }
+
+  .author-footer__bio {
+    font-size: 0.9rem;
+    color: var(--element3);
+    margin: 0;
+    line-height: 1.55;
+    max-width: 440px;
+  }
+
+  .author-footer__cta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    color: var(--element1);
+    text-decoration: none;
+    border: 1px solid var(--element4);
+    padding: 0.6em 1.1em;
+    border-radius: 6px;
+    background: transparent;
+    white-space: nowrap;
+    transition: background 0.2s, border-color 0.2s, color 0.2s;
+    flex-shrink: 0;
+  }
+
+  .author-footer__cta:hover {
+    background: var(--element1);
+    color: var(--surface1);
+    border-color: var(--element1);
+  }
+
+  /* ── Related Section ── */
+  .related {
+    border-top: 1px solid var(--element4);
+    padding: 3rem 0;
+  }
+
+  .related__header {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    margin-bottom: 1.75rem;
+  }
+
+  .related__title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--element1);
+    margin: 0;
+    letter-spacing: -0.02em;
+  }
+
+  .related__all {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.04em;
+    color: var(--element2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .related__all:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  .related__grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.25rem;
+  }
+
+  .related-card {
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    animation: fadeSlideUp 0.5s ease both;
+    animation-delay: calc(var(--i) * 0.07s + 0.2s);
+  }
+
+  .related-card__inner {
+    background: var(--surface2);
+    border-radius: 10px;
+    overflow: hidden;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--element4);
+    border-left: 2px solid transparent;
+    transition: border-color 0.25s, transform 0.25s, box-shadow 0.25s;
+  }
+
+  .related-card:hover .related-card__inner {
+    border-left-color: var(--primary-color);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px -8px var(--card-shadow-color);
+  }
+
+  .related-card__body {
+    padding: 1.25rem;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .related-card__title {
+    font-family: 'Sora', sans-serif;
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--element1);
+    line-height: 1.3;
+    margin: 0 0 0.5rem;
+    letter-spacing: -0.01em;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-card__desc {
+    font-size: 0.8rem;
+    color: var(--element3);
+    line-height: 1.5;
+    margin: 0 0 auto;
+    padding-bottom: 0.75rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .related-card__footer {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 0.5rem;
+    margin-top: auto;
+  }
+
+  .related-card__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.3rem;
+  }
+
+  .related-card__arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--element4);
+    transition: color 0.25s, transform 0.25s;
+    flex-shrink: 0;
+  }
+
+  .related-card:hover .related-card__arrow {
+    color: var(--primary-color);
+    transform: translateX(4px);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .cat-page,
+    .hack-shell {
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .hack-title {
+      font-size: clamp(1.5rem, 7vw, 2.2rem);
+    }
+
+    .hack-list,
+    .related__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .author-footer__inner {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .hack-shell {
+      padding: 1.25rem 0.875rem 2.5rem;
+    }
+
+    .hack-content :global(h2) {
+      font-size: 1.3rem;
+    }
+
+    .hack-content :global(h3) {
+      font-size: 1.1rem;
+    }
+  }
+</style>

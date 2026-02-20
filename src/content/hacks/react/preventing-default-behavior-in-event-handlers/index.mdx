@@ -1,0 +1,35 @@
+---
+title: Preventing Default Actions in Event Handlers
+path: /hacks/react/preventing-default-actions-in-event-handlers
+description: Learn how to prevent default actions in event handlers in React. It includes snippets of code to easily understand and implement this approach.
+type: hack
+category: react
+tags: [react, event handlers, default action]
+---
+
+In React, browser-based events often come with default behaviors. For instance, a form submission reloads the page by default. To prevent this, we can use the `event.preventDefault()` method. 
+
+Consider a form submission event:
+
+```jsx
+class Form extends React.Component {
+  handleSubmit(event) {
+    event.preventDefault();
+    // handle logic here
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit}>
+        <button type="submit">Submit</button>
+      </form>
+    )
+  }
+}
+```
+
+In the example above, `event.preventDefault()` stops the default browser behavior of reloading the page on form submission. Instead, the `handleSubmit` function is executed.
+
+Remember, not all event handlers have default actions. For those that do, `event.preventDefault()` can be a useful tool to control the behavior of your React app.
+
+---

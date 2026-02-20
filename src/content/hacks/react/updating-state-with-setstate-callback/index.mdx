@@ -1,0 +1,34 @@
+---
+title: Updating State with React's setState Callback
+path: /hacks/react/updating-state-with-setstate-callback
+description: Learn how to efficiently update state in React using the setState callback. Discover how to avoid common pitfalls and enhance your React applications.
+type: hack
+category: react
+tags: [react, state management, setState]
+---
+
+In React, when updating state based on the previous state, it's recommended to use the `setState` function with a callback.
+
+The reason is that `setState` is asynchronous, which can lead to unexpected results when you update the state multiple times in a row. Using a callback ensures that the updates are executed in the correct order.
+
+Here's an example:
+
+```javascript
+this.setState(prevState => ({
+  counter: prevState.counter + 1,
+}));
+```
+
+In this case, `prevState` is the state at the time the update is applied, ensuring a reliable state update.
+
+Remember, return a new object to avoid mutating the original state. Avoid this common pitfall to ensure your React apps stay bug-free and efficient.
+
+Happy coding!
+
+```javascript
+this.setState(prevState => {
+  prevState.counter++; // Don't do this!
+});
+```
+
+These are some simple yet powerful techniques to master React state management.

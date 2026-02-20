@@ -1,0 +1,33 @@
+---
+title: Rendering Components Conditionally in React
+path: /hacks/react/rendering-components-conditionally-with-ternary-operator
+description: Learn how to render React components conditionally using the ternary operator. Master conditional rendering in React to build dynamic UIs.
+type: hack
+category: react
+tags: [react, conditional rendering, ternary operator]
+---
+
+Conditional rendering in React allows us to display different components or results based on certain conditions. A handy way to achieve this is by using the ternary operator. 
+
+The ternary operator is a one-line shortcut for the `if-else` statement. It checks a condition and returns a value based on whether the condition is `true` or `false`.
+
+Here is a simple example:
+
+```jsx
+const App = () => {
+  const isUserLoggedIn = true;
+  return (
+    <div>
+      {isUserLoggedIn ? <LogoutButton /> : <LoginButton />}
+    </div>
+  );
+};
+```
+
+In this example, if `isUserLoggedIn` is `true`, `<LogoutButton />` is rendered, otherwise `<LoginButton />` is rendered. This allows us to conditionally render components in a clean and concise way.
+
+Remember that the condition should always return a boolean (`true` or `false`) for the ternary operator to work properly. 
+
+Mastering conditional rendering techniques such as these will allow you to create more dynamic and interactive user interfaces in React.
+
+Happy coding!
