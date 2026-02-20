@@ -31,7 +31,7 @@ const dateStr = new Date(post.data.date).toLocaleDateString('en-US', { day: '2-d
       {post.data.tags.map(tag => <span class="tag">{tag}</span>)}
     </div>
     <p class="text-regularLight">{dateStr}</p>
-    <div class="blog-cont text-regular">
+    <div class="blog-cont prose prose-neutral max-w-none prose-a:text-tertiary prose-code:bg-element4 prose-code:rounded prose-code:px-1">
       <Content />
     </div>
     <div>

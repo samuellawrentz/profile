@@ -1,0 +1,33 @@
+@layer theme, base, components, utilities;
+@import "tailwindcss/theme.css" layer(theme);
+@import "tailwindcss/utilities.css" layer(utilities);
+
+@theme {
+  --color-surface1: var(--surface1);
+  --color-surface2: var(--surface2);
+  --color-surface3: var(--surface3);
+  --color-element1: var(--element1);
+  --color-element2: var(--element2);
+  --color-element3: var(--element3);
+  --color-element4: var(--element4);
+  --color-element-inverse: var(--elementInverse);
+  --color-primary: var(--primary-color);
+  --color-secondary: var(--secondary-color);
+  --color-tertiary: var(--tertiary);
+  --color-danger: var(--danger);
+  --color-info: var(--info);
+  --color-card-shadow: var(--card-shadow-color);
+  --font-size-h1: var(--h1);
+  --font-size-h2: var(--h2);
+  --font-size-h3: var(--h3);
+  --font-size-h4: var(--h4);
+  --font-size-h5: var(--h5);
+  --font-size-h6: var(--h6);
+  --font-size-body: var(--body);
+  --font-size-caption: var(--caption);
+  --breakpoint-mobile: 700px;
+}
+
+@plugin "@tailwindcss/typography";
+
+@custom-variant dark (&:where([color-mode="dark"], [color-mode="dark"] *));
