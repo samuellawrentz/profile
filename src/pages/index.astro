@@ -50,221 +50,1053 @@ const projects = [
     link: '/projects/pasttenser/',
   },
 ];
+
+const featured = latestPosts[0];
+const restPosts = latestPosts.slice(1);
 ---
 
 <BaseLayout title="Samuel Lawrentz - The Frontend Dev">
-  <div class="main-content">
-    <!-- Hero Section -->
-    <div class="container">
-      <div class="intro">
-        <h1>HI, I'M SAM</h1>
-        <h2 class="subtext">I craft pixel-perfect interfaces and bring ideas to life.</h2>
-        <p>
-          I'm that <b>Frontend Engineer</b> who geeks out over clean architecture and elegant solutions.
-          Always exploring the intersection of AI and web technologies to push creative boundaries.
-        </p>
-        <p>
-          A <b>Typescript Architect</b> guided by the philosophy &mdash;
-          <em>"Simplicity is the ultimate sophistication in code."</em>
-        </p>
-        <p>❤ ❤ ❤</p>
-      </div>
-      <div class="image heart-image">
-        <div class="heart"></div>
-        <div class="hcard"></div>
-      </div>
-    </div>
+  <div class="page-grain"></div>
+  <div class="editorial">
 
-    <!-- Blog Section -->
-    <div class="section blog">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:30px;">
-        <div class="section__title" style="margin-bottom:0;">Blog</div>
-        <a href="/blog/" class="gradient">
-          <button class="btn btn--secondary">Read more</button>
-        </a>
-      </div>
-      <div class="wave">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320">
-          <path
-            fill-opacity="1"
-            d="M0,320L34.3,298.7C68.6,277,137,235,206,234.7C274.3,235,343,277,411,293.3C480,309,549,299,617,266.7C685.7,235,754,181,823,133.3C891.4,85,960,43,1029,37.3C1097.1,32,1166,64,1234,106.7C1302.9,149,1371,203,1406,229.3L1440,256L1440,320L1405.7,320C1371.4,320,1303,320,1234,320C1165.7,320,1097,320,1029,320C960,320,891,320,823,320C754.3,320,686,320,617,320C548.6,320,480,320,411,320C342.9,320,274,320,206,320C137.1,320,69,320,34,320L0,320Z"
-          ></path>
-        </svg>
-        <div class="end"></div>
-      </div>
-      <div class="blogs">
-        {latestPosts.map((post) => (
-          <a href={post.data.path}>
-            <div class="card card__home">
-              {post.data.heroImage && (
-                <div class="card__image">
-                  <Image src={post.data.heroImage} alt={post.data.title} width={240} height={160} />
-                </div>
-              )}
-              <div class="card__details">
-                <div class="card__date text-regularLight">
-                  {new Date(post.data.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}
-                </div>
-                <div class="card__title">
-                  <h4>{post.data.title}</h4>
-                </div>
-                <div class="date-tag" style="display:flex;gap:48px;align-items:center;">
-                  <div class="tags">
-                    {post.data.tags.map((tag) => (
-                      <div class="tag">{tag}</div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          </a>
-        ))}
-
-        <div class="card read-more">
-          <div class="card__image" style="align-self:flex-start;">
-            <Image src={bookImg} alt="Blog book" height={350} />
+    <!-- Hero -->
+    <section class="hero">
+      <div class="hero__layout">
+        <div class="hero__text">
+          <h1 class="hero__heading">
+            <span class="hero__hi">Hi, I'm</span>
+            <span class="hero__name">SAM</span>
+          </h1>
+          <p class="hero__tagline" id="tagline"></p>
+          <p class="hero__bio">
+            <b>Frontend Engineer</b> obsessed with clean architecture and elegant solutions.
+            Exploring the intersection of AI and web to push creative boundaries.
+          </p>
+          <p class="hero__philosophy">
+            <em>"Simplicity is the ultimate sophistication in code."</em>
+          </p>
+        </div>
+        <div class="hero__visual">
+          <!-- Hidden original heart for DOM compat -->
+          <div class="image heart-image" style="display:none;">
+            <div class="heart"></div>
+            <div class="hcard"></div>
           </div>
-          <div class="card__details">
-            <div class="card__title">
-              <h2>I write about Javascript, CSS, and all things web.</h2>
-            </div>
-            <div class="card__description">
-              If you love to read tech blogs? I got you covered. I post new content <b>every month.</b>
-              I write about web, <b>ReactJS, Typescript, NodeJS, CSS, Developer productivity tips,</b> etc.
-            </div>
-            <div style="margin:24px 0 34px;display:flex;flex-direction:column;gap:16px;">
-              <h3>You should see my,</h3>
-              <ul>
-                <li>
-                  <b><a href="/about-me/journey/" class="fancy-href">Journey</a></b>
-                  &mdash; an interesting depiction of my career
-                </li>
-                <li>
-                  <a href="/about-me/coding-activity/" class="fancy-href">Coding Activity</a>
-                  &mdash; my WakaTime stats and language usage
-                </li>
-              </ul>
-            </div>
+          <!-- CSS Art Composition -->
+          <div class="geo-art" aria-hidden="true">
+            <div class="geo-art__ring geo-art__ring--outer"></div>
+            <div class="geo-art__ring geo-art__ring--inner"></div>
+            <div class="geo-art__diamond"></div>
+            <div class="geo-art__dot geo-art__dot--1"></div>
+            <div class="geo-art__dot geo-art__dot--2"></div>
+            <div class="geo-art__dot geo-art__dot--3"></div>
+            <div class="geo-art__line geo-art__line--h"></div>
+            <div class="geo-art__line geo-art__line--v"></div>
+            <div class="geo-art__bracket geo-art__bracket--open">{'{'}</div>
+            <div class="geo-art__bracket geo-art__bracket--close">{'}'}</div>
+            <div class="geo-art__pixel-heart"></div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <!-- Hacks Section -->
-    <div class="section">
-      <div class="section__title">Hacks</div>
-      <p style="margin-bottom:24px;color:var(--element2);">
-        Short, practical tips and tricks across various frontend topics.
-      </p>
-      <div class="cards">
-        {hackCategories.map((cat) => (
-          <a href={`/hacks/${cat}/`}>
-            <div class="card">
-              <div class="card__title" style="font-size:var(--h4);font-weight:600;text-transform:capitalize;">
-                {cat.replace(/-/g, ' ')}
+    <!-- Blog -->
+    <section class="ed-section">
+      <div class="ed-section__header">
+        <h2 class="ed-section__title">Blog</h2>
+        <a href="/blog/" class="section__link">All posts &rarr;</a>
+      </div>
+
+      <div class="blog-editorial">
+        {featured && (
+          <a href={featured.data.path} class="blog-featured">
+            {featured.data.heroImage && (
+              <div class="blog-featured__img">
+                <Image src={featured.data.heroImage} alt={featured.data.title} width={720} height={400} />
               </div>
-              <div class="card__description" style="margin-top:8px;color:var(--element2);font-size:var(--caption);">
-                Browse {cat.replace(/-/g, ' ')} hacks &rarr;
+            )}
+            <div class="blog-featured__body">
+              <time class="blog-date">{new Date(featured.data.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</time>
+              <h3 class="blog-featured__title">{featured.data.title}</h3>
+              {featured.data.description && <p class="blog-featured__desc">{featured.data.description}</p>}
+              <div class="blog-tags">
+                {featured.data.tags.map((tag: string) => (
+                  <span class="blog-tag">{tag}</span>
+                ))}
               </div>
             </div>
           </a>
-        ))}
-      </div>
-    </div>
+        )}
 
-    <!-- Projects Section -->
-    <div class="section">
-      <div class="section__title">Projects</div>
-      <div class="cards">
-        {projects.map((project) => (
-          <a href={project.link} target={project.link.startsWith('http') ? '_blank' : '_self'} rel="noreferrer">
-            <div class="card">
-              <div class="card__title" style="font-size:var(--h4);font-weight:600;">{project.title}</div>
-              <div style="margin:8px 0;color:var(--element2);font-size:var(--body);">{project.description}</div>
-              <div class="technologies">
-                <div class="tags">
-                  {project.tech.map((t) => (
-                    <div class="tag">{t}</div>
+        <div class="blog-rest">
+          {restPosts.map((post) => (
+            <a href={post.data.path} class="blog-card">
+              {post.data.heroImage && (
+                <div class="blog-card__img">
+                  <Image src={post.data.heroImage} alt={post.data.title} width={360} height={200} />
+                </div>
+              )}
+              <div class="blog-card__body">
+                <time class="blog-date">{new Date(post.data.date).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })}</time>
+                <h4 class="blog-card__title">{post.data.title}</h4>
+                <div class="blog-tags">
+                  {post.data.tags.map((tag: string) => (
+                    <span class="blog-tag">{tag}</span>
                   ))}
                 </div>
               </div>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      <div class="blog-cta">
+        <div class="blog-cta__img">
+          <Image src={bookImg} alt="Blog book" height={280} />
+        </div>
+        <div class="blog-cta__body">
+          <h3>I write about Javascript, CSS, and all things web.</h3>
+          <p>New content <b>every month</b> covering ReactJS, Typescript, NodeJS, CSS, and developer productivity.</p>
+          <div class="blog-cta__links">
+            <a href="/about-me/journey/" class="cta-link">My Journey &rarr;</a>
+            <a href="/about-me/coding-activity/" class="cta-link">Coding Activity &rarr;</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Hacks -->
+    <section class="ed-section">
+      <div class="ed-section__header">
+        <h2 class="ed-section__title">Hacks</h2>
+      </div>
+      <p class="ed-section__subtitle">Short, practical tips and tricks across frontend topics.</p>
+      <div class="hacks-strip">
+        {hackCategories.map((cat) => (
+          <a href={`/hacks/${cat}/`} class="hack-pill">
+            <span class="hack-pill__label">{cat.replace(/-/g, ' ')}</span>
+            <span class="hack-pill__arrow">&rarr;</span>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Projects -->
+    <section class="ed-section">
+      <div class="ed-section__header">
+        <h2 class="ed-section__title">Projects</h2>
+      </div>
+      <div class="bento">
+        {projects.map((project, i) => (
+          <a
+            href={project.link}
+            target={project.link.startsWith('http') ? '_blank' : '_self'}
+            rel="noreferrer"
+            class:list={['bento__card', { 'bento__card--wide': i === 0 || i === 3 }]}
+          >
+            <h3 class="bento__title">{project.title}</h3>
+            <p class="bento__desc">{project.description}</p>
+            <div class="blog-tags">
+              {project.tech.map((t) => (
+                <span class="blog-tag">{t}</span>
+              ))}
             </div>
           </a>
         ))}
       </div>
-    </div>
+    </section>
 
-    <!-- Social / Friends Section -->
-    <div class="section friends">
-      <div class="section__title">We can be friends</div>
-      <div style="display:flex;gap:40px;flex-wrap:wrap;align-items:flex-start;">
-        <div>
-          <Image src={friendsLogoImg} alt="We can be friends" class="friendsLogo" width={200} height={50} />
-          <p style="max-width:480px;margin-top:24px;">
-            I'm the kind of person who likes to connect with new people.<br />
-            Who also likes to learn new technologies.<br />
-            <span style="display:block;margin-top:16px;">
-              There is lot more, try searching me on{' '}
-              <a href="https://www.google.com/search?q=samuel+lawrentz" target="_blank" rel="noreferrer">Google!</a>
-            </span>
-          </p>
+    <!-- Social -->
+    <section class="ed-section ed-social">
+      <div class="social__inner">
+        <div class="social__info">
+          <Image src={friendsLogoImg} alt="We can be friends" class="social__logo" width={180} height={45} />
+          <p class="social__name">Samuel Lawrentz</p>
+          <p class="social__role">Senior UI Engineer &mdash; <a href="https://plivo.com" target="_blank" rel="noreferrer">Plivo</a></p>
         </div>
-        <div style="display:flex;flex-direction:column;gap:8px;">
-          <div style="font-size:var(--h3);font-weight:600;">Samuel Lawrentz</div>
-          <div style="color:var(--element2);margin-bottom:8px;">
-            Senior UI Engineer &mdash; <a href="https://plivo.com" target="_blank" rel="noreferrer">Plivo</a>
-          </div>
-          <div style="display:flex;gap:12px;flex-wrap:wrap;">
-            <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer" class="social-link">Github</a>
-            <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer" class="social-link">LinkedIn</a>
-            <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer" class="social-link">Twitter</a>
-            <a href="https://codepen.io/samuellawrentz" target="_blank" rel="noreferrer" class="social-link">Codepen</a>
-          </div>
-        </div>
+        <nav class="social__links">
+          <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer">Github</a>
+          <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer">LinkedIn</a>
+          <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer">Twitter</a>
+          <a href="https://codepen.io/samuellawrentz" target="_blank" rel="noreferrer">Codepen</a>
+          <a href="https://www.google.com/search?q=samuel+lawrentz" target="_blank" rel="noreferrer">Google me</a>
+        </nav>
       </div>
-    </div>
+    </section>
+
   </div>
 </BaseLayout>
 
 <script>
   setTimeout(() => document.querySelector('.heart-image')?.classList.add('tilt'), 100);
+
+  // Typing tagline
+  const phrases = [
+    'I craft pixel-perfect interfaces.',
+    'I architect scalable frontends.',
+    'I turn ideas into elegant code.',
+  ];
+  const el = document.getElementById('tagline');
+  if (el) {
+    let pi = 0;
+    let ci = 0;
+    let deleting = false;
+    const speed = 60;
+    const pause = 1800;
+
+    function tick() {
+      const phrase = phrases[pi];
+      if (!deleting) {
+        ci++;
+        el.textContent = phrase.slice(0, ci);
+        if (ci === phrase.length) {
+          deleting = true;
+          setTimeout(tick, pause);
+          return;
+        }
+      } else {
+        ci--;
+        el.textContent = phrase.slice(0, ci);
+        if (ci === 0) {
+          deleting = false;
+          pi = (pi + 1) % phrases.length;
+        }
+      }
+      setTimeout(tick, deleting ? speed / 2 : speed);
+    }
+    tick();
+  }
+
 </script>
 
 <style>
-  .btn {
-    display: inline-flex;
+  /* ───────── Grain overlay ───────── */
+  .page-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px;
+  }
+
+  /* ───────── Layout shell ───────── */
+  .editorial {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px;
+  }
+
+
+
+
+  /* ───────── Hero ───────── */
+  .hero {
+    padding: 64px 0 48px;
+  }
+
+  .hero__layout {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 48px;
     align-items: center;
-    justify-content: center;
-    padding: 10px 24px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: inherit;
+  }
+
+  .hero__text {
+    max-width: 560px;
+  }
+
+  .hero__heading {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    line-height: 1;
+    margin: 0 0 24px;
+  }
+
+  .hero__hi {
+    display: block;
+    font-size: clamp(24px, 4vw, 36px);
+    font-weight: 300;
+    letter-spacing: 0.04em;
+    color: var(--element2);
+    margin-bottom: 4px;
+  }
+
+  .hero__name {
+    display: inline-block;
+    font-size: clamp(64px, 10vw, 120px);
+    letter-spacing: -0.03em;
+    background: linear-gradient(
+      135deg,
+      var(--primary-color) 0%,
+      var(--secondary-color) 50%,
+      var(--primary-color) 100%
+    );
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: gradientShimmer 6s ease infinite;
+  }
+
+  @keyframes gradientShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .hero__tagline {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: clamp(16px, 2.5vw, 20px);
+    color: var(--element2);
+    min-height: 1.6em;
+    margin: 0 0 24px;
+    border-right: 2px solid var(--primary-color);
+    display: inline-block;
+    padding-right: 4px;
+    animation: blink 0.8s step-end infinite;
+  }
+
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
+
+  .hero__bio {
     font-size: var(--body);
-    transition: all 0.2s ease;
+    line-height: 1.7;
+    color: var(--element2);
+    margin: 0 0 16px;
   }
-  .btn--secondary {
-    background: transparent;
-    border: 2px solid var(--element1);
-    color: var(--element1);
-    width: 200px;
-  }
-  .btn--secondary:hover {
-    background: var(--element1);
-    color: var(--surface1);
-  }
-  .social-link {
+
+  .hero__philosophy {
     font-size: var(--caption);
-    text-decoration: none;
-    padding: 4px 0;
-    border-bottom: 1px solid var(--element3);
+    color: var(--element3);
+    margin: 0;
   }
-  .social-link:hover {
+
+  .hero__visual {
+    position: relative;
+    width: 280px;
+    height: 280px;
+  }
+
+  /* ───────── CSS Art Geometric Composition ───────── */
+  .geo-art {
+    position: relative;
+    width: 280px;
+    height: 280px;
+    animation: geoFloat 6s ease-in-out infinite;
+  }
+
+  @keyframes geoFloat {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    33% { transform: translateY(-8px) rotate(1deg); }
+    66% { transform: translateY(4px) rotate(-0.5deg); }
+  }
+
+  .geo-art__ring--outer {
+    position: absolute;
+    width: 220px;
+    height: 220px;
+    top: 30px;
+    left: 30px;
+    border: 2px solid var(--element3);
+    border-radius: 50%;
+    animation: ringRotate 20s linear infinite;
+  }
+
+  .geo-art__ring--inner {
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    top: 65px;
+    left: 65px;
+    border: 1.5px dashed var(--element4);
+    border-radius: 50%;
+    animation: ringRotate 15s linear infinite reverse;
+  }
+
+  @keyframes ringRotate {
+    to { transform: rotate(360deg); }
+  }
+
+  .geo-art__diamond {
+    position: absolute;
+    width: 64px;
+    height: 64px;
+    top: 108px;
+    left: 108px;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    transform: rotate(45deg);
+    border-radius: 4px;
+    animation: diamondPulse 3s ease-in-out infinite;
+  }
+
+  @keyframes diamondPulse {
+    0%, 100% { transform: rotate(45deg) scale(1); opacity: 1; }
+    50% { transform: rotate(45deg) scale(0.9); opacity: 0.8; }
+  }
+
+  .geo-art__dot {
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--primary-color);
+  }
+
+  .geo-art__dot--1 {
+    top: 24px;
+    left: 140px;
+    animation: dotBlink 2.5s ease-in-out infinite;
+  }
+
+  .geo-art__dot--2 {
+    bottom: 40px;
+    left: 60px;
+    width: 6px;
+    height: 6px;
+    background: var(--secondary-color);
+    animation: dotBlink 3s ease-in-out 0.5s infinite;
+  }
+
+  .geo-art__dot--3 {
+    top: 100px;
+    right: 20px;
+    width: 10px;
+    height: 10px;
+    background: var(--element3);
+    animation: dotBlink 2s ease-in-out 1s infinite;
+  }
+
+  @keyframes dotBlink {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.3; transform: scale(0.6); }
+  }
+
+  .geo-art__line--h {
+    position: absolute;
+    width: 100%;
+    height: 1px;
+    top: 50%;
+    left: 0;
+    background: linear-gradient(to right, transparent 0%, var(--element4) 30%, var(--element4) 70%, transparent 100%);
+  }
+
+  .geo-art__line--v {
+    position: absolute;
+    width: 1px;
+    height: 100%;
+    left: 50%;
+    top: 0;
+    background: linear-gradient(to bottom, transparent 0%, var(--element4) 30%, var(--element4) 70%, transparent 100%);
+  }
+
+  .geo-art__bracket {
+    position: absolute;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 72px;
+    font-weight: 400;
+    color: var(--element4);
+    line-height: 1;
+    user-select: none;
+  }
+
+  .geo-art__bracket--open {
+    top: 60px;
+    left: -8px;
+    animation: bracketShift 4s ease-in-out infinite;
+  }
+
+  .geo-art__bracket--close {
+    bottom: 50px;
+    right: -8px;
+    animation: bracketShift 4s ease-in-out 2s infinite;
+  }
+
+  @keyframes bracketShift {
+    0%, 100% { transform: translateY(0); opacity: 0.5; }
+    50% { transform: translateY(-6px); opacity: 1; }
+  }
+
+  /* Tiny pixel heart tribute inside the composition */
+  .geo-art__pixel-heart {
+    position: absolute;
+    bottom: 16px;
+    right: 40px;
+    width: 5px;
+    height: 5px;
+    box-shadow:
+      5px 0 0 var(--primary-color),
+      10px 0 0 var(--primary-color),
+      20px 0 0 var(--primary-color),
+      25px 0 0 var(--primary-color),
+      0 5px 0 var(--primary-color),
+      5px 5px 0 var(--primary-color),
+      10px 5px 0 var(--primary-color),
+      15px 5px 0 var(--primary-color),
+      20px 5px 0 var(--primary-color),
+      25px 5px 0 var(--primary-color),
+      30px 5px 0 var(--primary-color),
+      0 10px 0 var(--primary-color),
+      5px 10px 0 var(--primary-color),
+      10px 10px 0 var(--primary-color),
+      15px 10px 0 var(--primary-color),
+      20px 10px 0 var(--primary-color),
+      25px 10px 0 var(--primary-color),
+      30px 10px 0 var(--primary-color),
+      5px 15px 0 var(--primary-color),
+      10px 15px 0 var(--primary-color),
+      15px 15px 0 var(--primary-color),
+      20px 15px 0 var(--primary-color),
+      25px 15px 0 var(--primary-color),
+      10px 20px 0 var(--primary-color),
+      15px 20px 0 var(--primary-color),
+      20px 20px 0 var(--primary-color),
+      15px 25px 0 var(--primary-color);
+    animation: pixelPulse 3.2s ease-in-out infinite;
+  }
+
+  @keyframes pixelPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
+
+  /* ───────── Section shared ───────── */
+  .ed-section {
+    padding: 56px 0;
+    border-top: 1px solid var(--element4);
+    margin: 0;
+    position: relative;
+  }
+
+  .ed-section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 32px;
+  }
+
+  .section__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--element2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .section__link:hover {
+    color: var(--element1);
     border-bottom-color: var(--element1);
   }
-  .card__image img {
+
+  .ed-section__subtitle {
+    color: var(--element2);
+    margin: -16px 0 28px;
+    font-size: var(--body);
+  }
+
+  /* ───────── Blog editorial grid ───────── */
+  .blog-editorial {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 24px;
+    margin-bottom: 40px;
+  }
+
+  .blog-featured {
+    grid-row: 1 / 2;
+    grid-column: 1 / 2;
+    display: flex;
+    flex-direction: column;
+    text-decoration: none;
+    color: inherit;
+    border-radius: 8px;
+    overflow: hidden;
+    min-width: 0;
+    border: 1px solid var(--element4);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  }
+
+  .blog-featured:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px -8px var(--card-shadow-color);
+  }
+
+  .blog-featured__img {
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+  }
+
+  .blog-featured__img :global(img) {
+    display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .blog-featured:hover .blog-featured__img :global(img) {
+    transform: scale(1.04);
+  }
+
+  .blog-featured__body {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .blog-featured__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: clamp(18px, 2.5vw, 24px);
+    font-weight: 600;
+    line-height: 1.3;
+    margin: 0;
+  }
+
+  .blog-featured__desc {
+    font-size: var(--caption);
+    color: var(--element2);
+    line-height: 1.5;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .blog-rest {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    min-width: 0;
+  }
+
+  .blog-card {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 16px;
+    text-decoration: none;
+    color: inherit;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid transparent;
+    min-width: 0;
+    transition: border-color 0.2s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  }
+
+  .blog-card:hover {
+    border-color: var(--element4);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px -6px var(--card-shadow-color);
+  }
+
+  .blog-card__img {
+    border-radius: 6px;
+    overflow: hidden;
+    aspect-ratio: 3 / 2;
+  }
+
+  .blog-card__img :global(img) {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .blog-card__body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 6px;
+  }
+
+  .blog-card__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: clamp(15px, 2vw, 17px);
+    font-weight: 600;
+    line-height: 1.35;
+    margin: 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* ───────── Shared tag / date atoms ───────── */
+  .blog-date {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--element3);
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+  }
+
+  .blog-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 4px;
+  }
+
+  .blog-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--surface2);
+    color: var(--element2);
+    white-space: nowrap;
+  }
+
+  /* ───────── Blog CTA ───────── */
+  .blog-cta {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 32px;
+    align-items: center;
+    padding: 32px;
+    border-radius: 12px;
+    background: var(--surface2);
+    border: 1px solid var(--element4);
+    overflow: hidden;
+  }
+
+  .blog-cta__img :global(img) {
+    border-radius: 8px;
+    max-height: 200px;
+    width: auto;
+  }
+
+  .blog-cta__body :global(h3) {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: var(--h4);
+    font-weight: 600;
+    margin: 0 0 12px;
+  }
+
+  .blog-cta__body :global(p) {
+    color: var(--element2);
+    margin: 0 0 20px;
+    line-height: 1.6;
+  }
+
+  .blog-cta__links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .cta-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--element1);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: border-color 0.2s;
+  }
+
+  .cta-link:hover {
+    border-bottom-color: var(--primary-color);
+  }
+
+  /* ───────── Hacks strip ───────── */
+  .hacks-strip {
+    display: flex;
+    gap: 12px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scrollbar-width: thin;
+    -ms-overflow-style: none;
+  }
+
+  .hacks-strip::-webkit-scrollbar {
+    height: 4px;
+  }
+
+  .hacks-strip::-webkit-scrollbar-thumb {
+    background: var(--element4);
+    border-radius: 4px;
+  }
+
+  .hack-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    white-space: nowrap;
+    padding: 12px 20px;
+    border-radius: 100px;
+    border: 1px solid var(--element4);
+    background: var(--surface2);
+    text-decoration: none;
+    color: var(--element1);
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: 15px;
+    text-transform: capitalize;
+    transition: background 0.25s, border-color 0.25s, padding 0.3s cubic-bezier(0.22, 1, 0.36, 1), gap 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hack-pill__arrow {
+    display: inline-block;
+    font-size: 14px;
+    opacity: 0;
+    max-width: 0;
+    overflow: hidden;
+    transition: opacity 0.25s, max-width 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .hack-pill:hover {
+    background: var(--element1);
+    color: var(--surface1);
+    border-color: var(--element1);
+    padding-right: 24px;
+  }
+
+  .hack-pill:hover .hack-pill__arrow {
+    opacity: 1;
+    max-width: 20px;
+  }
+
+  /* ───────── Bento grid ───────── */
+  .bento {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .bento__card {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid var(--element4);
+    background: var(--surface2);
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.2s;
+  }
+
+  .bento__card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px -8px var(--card-shadow-color);
+    border-color: var(--element3);
+  }
+
+  .bento__card--wide {
+    grid-column: span 2;
+  }
+
+  .bento__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: var(--h4);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .bento__desc {
+    font-size: var(--caption);
+    color: var(--element2);
+    line-height: 1.55;
+    margin: 0;
+  }
+
+  /* ───────── Social ───────── */
+  .ed-social {
+    border-bottom: none;
+  }
+
+  .social__inner {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 40px;
+    flex-wrap: wrap;
+  }
+
+  .social__logo {
+    margin-bottom: 16px;
+  }
+
+  .social__name {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: var(--h4);
+    font-weight: 600;
+    margin: 0 0 4px;
+  }
+
+  .social__role {
+    color: var(--element2);
+    font-size: var(--caption);
+    margin: 0;
+  }
+
+  .social__role a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .social__links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+    align-items: center;
+    padding-top: 4px;
+  }
+
+  .social__links a {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    color: var(--element2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .social__links a:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  /* ───────── Responsive ───────── */
+  @media (max-width: 768px) {
+    .hero {
+      padding: 40px 0 32px;
+    }
+
+    .hero__layout {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+
+    .hero__visual {
+      justify-self: center;
+      width: 200px;
+      height: 200px;
+    }
+
+    .geo-art {
+      width: 200px;
+      height: 200px;
+    }
+
+    .geo-art__ring--outer {
+      width: 160px;
+      height: 160px;
+      top: 20px;
+      left: 20px;
+    }
+
+    .geo-art__ring--inner {
+      width: 110px;
+      height: 110px;
+      top: 45px;
+      left: 45px;
+    }
+
+    .geo-art__diamond {
+      width: 48px;
+      height: 48px;
+      top: 76px;
+      left: 76px;
+    }
+
+    .geo-art__bracket { font-size: 52px; }
+    .geo-art__bracket--open { top: 40px; }
+    .geo-art__bracket--close { bottom: 30px; }
+
+    .blog-editorial {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-rest {
+      gap: 12px;
+    }
+
+    .blog-card {
+      grid-template-columns: 90px 1fr;
+      gap: 12px;
+      padding: 8px;
+    }
+
+    .blog-cta {
+      grid-template-columns: 1fr;
+      text-align: center;
+    }
+
+    .blog-cta__img {
+      justify-self: center;
+    }
+
+    .blog-cta__links {
+      justify-content: center;
+    }
+
+    .bento {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .bento__card--wide {
+      grid-column: span 2;
+    }
+
+    .social__inner {
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .social__links {
+      gap: 16px;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .editorial {
+      padding: 0 16px;
+    }
+
+    .hero__name {
+      font-size: clamp(56px, 16vw, 80px);
+    }
+
+    .ed-section {
+      padding: 40px 0;
+    }
+
+    .bento {
+      grid-template-columns: 1fr;
+    }
+
+    .bento__card--wide {
+      grid-column: span 1;
+    }
+
+    .blog-card {
+      grid-template-columns: 1fr;
+    }
+
+    .blog-card__img {
+      aspect-ratio: 16 / 9;
+    }
+
+    .hacks-strip {
+      gap: 8px;
+    }
+
+    .hack-pill {
+      padding: 10px 16px;
+      font-size: 14px;
+    }
+
+    .blog-cta {
+      padding: 20px;
+    }
   }
 </style>
