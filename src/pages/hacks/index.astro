@@ -34,6 +34,8 @@ const categoryData = categories.map(cat => ({
 })).sort((a, b) => b.count - a.count);
 
 const totalHacks = hacks.length;
+
+const ensureTrailingSlash = (p: string) => p.endsWith('/') ? p : p + '/';
 ---
 <BaseLayout title="Hacks - Samuel Lawrentz">
   <SEO slot="head" title="Hacks - Samuel Lawrentz" description="Quick tips, tricks, and short-form content on React, Neovim, microfrontends, and software philosophy." />
@@ -83,7 +85,7 @@ const totalHacks = hacks.length;
           const category = hack.data.path.split('/')[2];
           const categoryDisplay = category.split('-').map((w: string) => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
           return (
-            <a href={hack.data.path} class="recent-item" style={`--i: ${idx}`}>
+            <a href={ensureTrailingSlash(hack.data.path)} class="recent-item" style={`--i: ${idx}`}>
               <div class="recent-item__left">
                 <span class="recent-item__category">{categoryDisplay}</span>
                 <h3 class="recent-item__title">{hack.data.title}</h3>

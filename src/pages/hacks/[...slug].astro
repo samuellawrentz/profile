@@ -48,6 +48,7 @@ if (!isCategory && hack) {
 }
 
 const categoryDisplay = (cat: string) => cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+const ensureTrailingSlash = (p: string) => p.endsWith('/') ? p : p + '/';
 ---
 <BaseLayout title={isCategory ? `${categoryDisplay(categoryName!)} — Hacks` : hack?.data.title}>
   {!isCategory && hack && (
@@ -74,7 +75,7 @@ const categoryDisplay = (cat: string) => cat.split('-').map(w => w.charAt(0).toU
       <div class="hack-list">
         {categoryHacks?.map((h, idx) => {
           return (
-            <a href={h.data.path} class="hack-card" style={`--i: ${idx}`}>
+            <a href={ensureTrailingSlash(h.data.path)} class="hack-card" style={`--i: ${idx}`}>
               <article class="hack-card__inner">
                 <div class="hack-card__body">
                   <h3 class="hack-card__title">{h.data.title}</h3>
@@ -161,7 +162,7 @@ const categoryDisplay = (cat: string) => cat.split('-').map(w => w.charAt(0).toU
             </div>
             <div class="related__grid">
               {relatedHacks.map((h, idx) => (
-                <a href={h.data.path} class="related-card" style={`--i: ${idx}`}>
+                <a href={ensureTrailingSlash(h.data.path)} class="related-card" style={`--i: ${idx}`}>
                   <article class="related-card__inner">
                     <div class="related-card__body">
                       <h3 class="related-card__title">{h.data.title}</h3>
