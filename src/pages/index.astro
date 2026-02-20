@@ -210,7 +210,10 @@ const restPosts = latestPosts.slice(1);
     <section class="ed-section ed-social">
       <div class="social__inner">
         <div class="social__info">
-          <Image src={friendsLogoImg} alt="We can be friends" class="social__logo" width={180} height={45} />
+          <span class="social__logo-row">
+            <span class="social__tagline">Let us be</span>
+            <Image src={friendsLogoImg} alt="Friends" class="social__logo" width={180} height={45} />
+          </span>
           <p class="social__name">Samuel Lawrentz</p>
           <p class="social__role">Senior UI Engineer &mdash; <a href="https://plivo.com" target="_blank" rel="noreferrer">Plivo</a></p>
         </div>
@@ -919,8 +922,22 @@ const restPosts = latestPosts.slice(1);
     flex-wrap: wrap;
   }
 
-  .social__logo {
+  .social__logo-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
     margin-bottom: 16px;
+  }
+
+  .social__logo {
+    margin: 0;
+    margin-left: -12px;
+  }
+
+  .social__tagline {
+    font-size: var(--caption);
+    color: var(--element2);
+    white-space: nowrap;
   }
 
   .social__name {

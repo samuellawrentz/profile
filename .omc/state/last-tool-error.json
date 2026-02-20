@@ -1,0 +1,7 @@
+{
+  "tool_name": "Read",
+  "tool_input_preview": "{\"file_path\":\"/home/samm/src/personal/profile/src/pages/about-me/journey.astro\"}",
+  "error": "File does not exist. Note: your current working directory is /home/samm/src/personal/profile. Did you mean journey?",
+  "timestamp": "2026-02-20T11:49:55.858Z",
+  "retry_count": 1
+}

@@ -10,6 +10,11 @@ export default defineConfig({
   trailingSlash: 'always',
   vite: {
     plugins: [tailwindcss()],
+    server: {
+      watch: {
+        ignored: ['**/.omc/**'],
+      },
+    },
   },
   integrations: [
     mdx(),
