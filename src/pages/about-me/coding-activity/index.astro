@@ -2,52 +2,389 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout title="My Coding Activity - Samuel Lawrentz">
-  <div class="section__title section__title__new">MY CODING ACTIVITY</div>
-  <p style="margin:40px 0 25px;">
-    I use WakaTime to track my coding activity. It's a great tool to track
-    your coding activity and helps you improve your productivity. It's
-    fascinating how IDEs have evolved over the years.
-    <br /><br />
-    I started with Notepad++, then moved to Visual Studio, and now I
-    am using VSCode and NeoVim. Tracking time helps me to understand how
-    much time I spend on each project and helps me to improve my
-    productivity.
-  </p>
-  <div class="coding-activity" style="display:flex;flex-direction:column;">
-    <figure>
-      <embed src="https://wakatime.com/share/@c2883fa9-c937-4e8e-8956-e5b47d6dbf96/ff4a5ca7-7dee-4ef7-b7e2-af05dcea72f0.svg" />
-    </figure>
-  </div>
+<BaseLayout title="Coding Activity - Samuel Lawrentz">
+  <div class="activity-page">
+    <div class="activity-grain"></div>
 
-  <div class="section">
-    <div class="section__title section__title__new">Top Languages</div>
-    <p style="margin:40px 0 25px;">
-      WakaTime illuminates my coding landscape, presenting insightful charts
-      of my top programming languages. It's a visual journey through
-      efficiency, revealing my coding symphony in a glance. The 'Other'
-      category? A mysterious realm encompassing terminal prowess,
-      alternative IDE wizardry, and untracked coding adventures.
-    </p>
-    <div class="coding-activity" style="display:flex;flex-direction:column;">
-      <figure>
-        <embed src="https://wakatime.com/share/@samuellawrentz/adc4c8e6-679b-435c-becf-3d5a6f5b3f11.svg" />
-      </figure>
-    </div>
-  </div>
+    <!-- Page Header -->
+    <header class="activity-header">
+      <div class="activity-header__eyebrow">
+        <a href="/about-me/journey/" class="activity-header__back">&larr; My Journey</a>
+        <span class="activity-header__badge">WakaTime</span>
+      </div>
+      <h1 class="activity-header__title">Coding Activity</h1>
+      <p class="activity-header__subtitle">
+        Tracking my coding patterns with WakaTime — from Notepad++ to NeoVim,
+        every keystroke tells a story about how I build software.
+      </p>
+    </header>
 
-  <div class="section">
-    <div class="section__title section__title__new">CALENDAR</div>
-    <figure class="hidden dark:block">
-      <embed src="https://wakatime.com/share/@samuellawrentz/f67c01db-1f8f-406e-8778-8f7f93b46ca0.svg" />
-    </figure>
-    <figure class="block dark:hidden">
-      <embed src="https://wakatime.com/share/@samuellawrentz/806d095c-43c0-4d91-ae0c-da554d141dcf.svg" />
-    </figure>
-  </div>
+    <!-- Coding Hours -->
+    <section class="activity-section" style="--delay: 0.1s">
+      <div class="activity-section__header">
+        <span class="activity-section__number">01</span>
+        <div>
+          <h2 class="activity-section__title">Coding Hours</h2>
+          <p class="activity-section__desc">Weekly breakdown of time spent writing code across all projects and editors.</p>
+        </div>
+      </div>
+      <div class="activity-card">
+        <figure class="activity-embed">
+          <embed src="https://wakatime.com/share/@c2883fa9-c937-4e8e-8956-e5b47d6dbf96/ff4a5ca7-7dee-4ef7-b7e2-af05dcea72f0.svg" />
+        </figure>
+      </div>
+    </section>
 
-  <p style="color:var(--element2);">
-    Will revisit this page when I have time. Right now, the design looks
-    miserable.
-  </p>
+    <!-- Top Languages -->
+    <section class="activity-section" style="--delay: 0.2s">
+      <div class="activity-section__header">
+        <span class="activity-section__number">02</span>
+        <div>
+          <h2 class="activity-section__title">Top Languages</h2>
+          <p class="activity-section__desc">A visual breakdown of my most-used programming languages. The "Other" category includes terminal sessions and alternative editors.</p>
+        </div>
+      </div>
+      <div class="activity-card">
+        <figure class="activity-embed">
+          <embed src="https://wakatime.com/share/@samuellawrentz/adc4c8e6-679b-435c-becf-3d5a6f5b3f11.svg" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- Calendar Heatmap -->
+    <section class="activity-section" style="--delay: 0.3s">
+      <div class="activity-section__header">
+        <span class="activity-section__number">03</span>
+        <div>
+          <h2 class="activity-section__title">Calendar</h2>
+          <p class="activity-section__desc">Daily coding heatmap — consistency over intensity.</p>
+        </div>
+      </div>
+      <div class="activity-card">
+        <figure class="activity-embed hidden dark:block">
+          <embed src="https://wakatime.com/share/@samuellawrentz/f67c01db-1f8f-406e-8778-8f7f93b46ca0.svg" />
+        </figure>
+        <figure class="activity-embed block dark:hidden">
+          <embed src="https://wakatime.com/share/@samuellawrentz/806d095c-43c0-4d91-ae0c-da554d141dcf.svg" />
+        </figure>
+      </div>
+    </section>
+
+    <!-- IDE Journey -->
+    <section class="activity-section" style="--delay: 0.4s">
+      <div class="activity-section__header">
+        <span class="activity-section__number">04</span>
+        <div>
+          <h2 class="activity-section__title">IDE Evolution</h2>
+        </div>
+      </div>
+      <div class="ide-timeline">
+        <div class="ide-step">
+          <span class="ide-step__dot"></span>
+          <div class="ide-step__content">
+            <span class="ide-step__label">Notepad++</span>
+            <span class="ide-step__era">The beginning</span>
+          </div>
+        </div>
+        <div class="ide-step">
+          <span class="ide-step__dot"></span>
+          <div class="ide-step__content">
+            <span class="ide-step__label">Visual Studio</span>
+            <span class="ide-step__era">Going professional</span>
+          </div>
+        </div>
+        <div class="ide-step">
+          <span class="ide-step__dot"></span>
+          <div class="ide-step__content">
+            <span class="ide-step__label">VSCode</span>
+            <span class="ide-step__era">Daily driver</span>
+          </div>
+        </div>
+        <div class="ide-step ide-step--active">
+          <span class="ide-step__dot"></span>
+          <div class="ide-step__content">
+            <span class="ide-step__label">NeoVim</span>
+            <span class="ide-step__era">Current setup</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </div>
 </BaseLayout>
+
+<style>
+  /* ── Grain ── */
+  .activity-page {
+    position: relative;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem 4rem;
+  }
+
+  .activity-grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px;
+  }
+
+  /* ── Header ── */
+  .activity-header {
+    margin-bottom: 3.5rem;
+    animation: fadeUp 0.6s ease both;
+  }
+
+  .activity-header__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .activity-header__back {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    color: var(--element3);
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: color 0.2s;
+  }
+
+  .activity-header__back:hover {
+    color: var(--element1);
+  }
+
+  .activity-header__badge {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--element3);
+    background: var(--surface2);
+    padding: 0.25em 0.7em;
+    border-radius: 100px;
+  }
+
+  .activity-header__title {
+    font-family: 'Sora', sans-serif;
+    font-size: var(--h1);
+    font-weight: 800;
+    color: var(--element1);
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin: 0 0 0.75rem;
+  }
+
+  .activity-header__subtitle {
+    font-size: 1.05rem;
+    color: var(--element3);
+    margin: 0;
+    max-width: 580px;
+    line-height: 1.65;
+  }
+
+  /* ── Sections ── */
+  .activity-section {
+    padding: 3rem 0;
+    border-top: 1px solid var(--element4);
+    animation: fadeUp 0.5s ease both;
+    animation-delay: var(--delay, 0s);
+  }
+
+  .activity-section__header {
+    display: flex;
+    gap: 1.25rem;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+  }
+
+  .activity-section__number {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--primary-color);
+    letter-spacing: 0.05em;
+    padding-top: 0.3rem;
+    flex-shrink: 0;
+    opacity: 0.7;
+  }
+
+  .activity-section__title {
+    font-family: 'Sora', sans-serif;
+    font-size: var(--h3);
+    font-weight: 700;
+    color: var(--element1);
+    margin: 0 0 0.35rem;
+    letter-spacing: -0.02em;
+  }
+
+  .activity-section__desc {
+    font-size: 0.9rem;
+    color: var(--element3);
+    margin: 0;
+    line-height: 1.55;
+    max-width: 520px;
+  }
+
+  /* ── Cards ── */
+  .activity-card {
+    background: var(--surface2);
+    border-radius: 12px;
+    border: 1px solid var(--element4);
+    padding: 1.5rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .activity-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -8px var(--card-shadow-color);
+  }
+
+  .activity-embed {
+    margin: 0;
+    width: 100%;
+    overflow: hidden;
+    border-radius: 8px;
+  }
+
+  .activity-embed embed {
+    width: 100%;
+    min-height: 200px;
+    filter: hue-rotate(122deg) brightness(1);
+  }
+
+  /* ── IDE Timeline ── */
+  .ide-timeline {
+    display: flex;
+    gap: 0;
+    position: relative;
+    padding: 0.5rem 0;
+  }
+
+  .ide-step {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    position: relative;
+    text-align: center;
+  }
+
+  /* Connecting line */
+  .ide-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    left: calc(50% + 8px);
+    width: calc(100% - 16px);
+    height: 1px;
+    background: var(--element4);
+  }
+
+  .ide-step__dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--element4);
+    border: 2px solid var(--surface1);
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+    transition: background 0.3s, transform 0.3s;
+  }
+
+  .ide-step--active .ide-step__dot {
+    background: var(--primary-color);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--primary-color) 20%, transparent);
+    transform: scale(1.2);
+  }
+
+  .ide-step__content {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+  }
+
+  .ide-step__label {
+    font-family: 'Sora', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--element1);
+  }
+
+  .ide-step--active .ide-step__label {
+    color: var(--primary-color);
+  }
+
+  .ide-step__era {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--element3);
+    letter-spacing: 0.03em;
+  }
+
+  /* ── Animation ── */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 680px) {
+    .activity-page {
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    .activity-header {
+      margin-bottom: 2.5rem;
+    }
+
+    .activity-section {
+      padding: 2rem 0;
+    }
+
+    .activity-section__header {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .activity-card {
+      padding: 1rem;
+    }
+
+    .ide-timeline {
+      flex-direction: column;
+      gap: 1.5rem;
+      padding-left: 1.5rem;
+    }
+
+    .ide-step {
+      flex-direction: row;
+      align-items: center;
+      text-align: left;
+      gap: 1rem;
+    }
+
+    .ide-step:not(:last-child)::after {
+      top: calc(50% + 8px);
+      left: 6px;
+      width: 1px;
+      height: calc(100% + 1rem);
+    }
+
+    .ide-step__content {
+      align-items: flex-start;
+    }
+  }
+</style>
