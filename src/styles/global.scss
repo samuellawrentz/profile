@@ -403,6 +403,23 @@ li {
   .input-wrapper input {
     color: var(--primary-color);
   }
+
+  /* Activate Shiki dual-theme dark colors */
+  .astro-code,
+  .astro-code span {
+    color: var(--shiki-dark) !important;
+    background-color: var(--shiki-dark-bg) !important;
+    font-style: var(--shiki-dark-font-style) !important;
+    font-weight: var(--shiki-dark-font-weight) !important;
+    text-decoration: var(--shiki-dark-text-decoration) !important;
+  }
+}
+
+/* Prose strong tag visibility in dark mode */
+[color-mode="dark"] .prose strong,
+[color-mode="dark"] .article-content strong,
+[color-mode="dark"] .blog-content strong {
+  color: var(--element1);
 }
 
 /* Blog content styles */
