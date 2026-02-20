@@ -2,120 +2,434 @@
 import BaseLayout from '../../../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import img1 from '../../../assets/journey/img1.png';
+
+const milestones = [
+  {
+    year: '2017',
+    title: 'First Job — Burning Glass',
+    description: 'Secured a role at Burning Glass during campus placements, starting as an intern with C and C++, eventually rising to a full-time Software Development Engineer.',
+    accent: 'hsl(349, 98%, 34%)',
+    tag: 'Origin',
+  },
+  {
+    year: '2018',
+    title: 'Web Development Transition',
+    description: 'Fate smiled as I transitioned to the web development team, taking charge of crafting Single Page Applications and dynamic web apps.',
+    accent: 'hsl(213, 99%, 38%)',
+    tag: 'Pivot',
+  },
+  {
+    year: '2019',
+    title: 'Frontend Freedom at Plivo',
+    description: 'Embracing the role of Frontend Developer at Plivo, I relished the autonomy to construct high-performing web pages, refining my skills along the way.',
+    accent: 'hsl(169, 52%, 43%)',
+    tag: 'Growth',
+  },
+  {
+    year: '2020',
+    title: 'Senior Frontend Developer',
+    description: 'The pandemic hit hard, turning 2020 and the subsequent year into a whirlwind of work-from-home days, revolving around hand sanitization rituals and adapting to the new norm.',
+    accent: 'hsl(45, 90%, 50%)',
+    tag: 'Resilience',
+  },
+  {
+    year: '2021',
+    title: 'SDE-1 at Contacto',
+    description: 'Stepped into the product engineering team at Contacto, delving into a tech stack enriched with Electron, React, Vue, Redux, SCSS, and more.',
+    accent: 'hsl(280, 60%, 50%)',
+    tag: 'Exploration',
+  },
+  {
+    year: '2022',
+    title: 'Mastering React Artistry',
+    description: 'A year dedicated to mastering React, unraveling its intricacies, comprehending value passing, event loops, and core concepts, while also broadening my skillset.',
+    accent: 'hsl(190, 80%, 42%)',
+    tag: 'Mastery',
+  },
+  {
+    year: '2023',
+    title: 'Promoted to SDE-2',
+    description: 'As a Senior UI engineer at Plivo, focused on exciting feature development and optimizing performance, I honed leadership skills.',
+    accent: 'hsl(340, 70%, 50%)',
+    tag: 'Leadership',
+  },
+  {
+    year: '2024',
+    title: 'Senior / Lead Engineer',
+    description: 'Embraced ownership and responsibility, evolving into a better Senior/Lead Engineer. The past year brought invaluable learnings, shaping me into a more adept professional.',
+    accent: 'hsl(25, 90%, 55%)',
+    tag: 'Ownership',
+  },
+  {
+    year: '2025',
+    title: 'SDE-3 & AI Innovation',
+    description: 'Achieved promotion to SDE3, marking a significant career milestone. Led a complete application overhaul leveraging AI technologies, demonstrating technical leadership while continuing to build and explore new frontiers.',
+    accent: 'hsl(160, 70%, 40%)',
+    tag: 'Innovation',
+  },
+  {
+    year: '2026',
+    title: 'Promoted to Manager',
+    description: 'Stepped into engineering management, leading teams and shaping product direction. A new chapter focused on empowering others, scaling impact beyond individual contribution, and building the next generation of engineers.',
+    accent: 'hsl(265, 80%, 55%)',
+    tag: 'New Chapter',
+  },
+];
 ---
 
 <BaseLayout title="My Journey - Samuel Lawrentz">
-  <div class="section__title section__title__new">MY JOURNEY</div>
-  <div class="page-header">
-    <div class="page-header__image" style="margin-bottom:50px;">
-      <Image src={img1} alt="Samuel Lawrentz Journey" />
-    </div>
-  </div>
-  <div class="timeline-holder">
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2017</div>
-        <div class="text-title2">First Job - Burning Glass</div>
+  <div class="journey-page">
+    <!-- Hero -->
+    <header class="journey-hero">
+      <div class="journey-hero__eyebrow">Career Journal</div>
+      <h1 class="journey-hero__title">
+        <span class="journey-hero__year-range">2017</span>
+        <span class="journey-hero__dash">&mdash;</span>
+        <span class="journey-hero__year-range">2026</span>
+      </h1>
+      <p class="journey-hero__subtitle">A decade of building, learning, and leading.</p>
+      <div class="journey-hero__image">
+        <Image src={img1} alt="Samuel Lawrentz Journey" widths={[400, 600]} />
       </div>
-      <div class="subtext" style="max-width:480px;">
-        Secured a role at Burning Glass during campus placements, starting as an
-        intern with C and C++, eventually rising to a full-time Software
-        Development Engineer.
-      </div>
-    </div>
+    </header>
 
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2018</div>
-        <div class="text-title2">Web Development Transition</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        Fate smiled as I transitioned to the web development team, taking charge
-        of crafting Single Page Applications and dynamic web apps.
-      </div>
-    </div>
+    <!-- Timeline -->
+    <section class="timeline-v2" aria-label="Career timeline">
+      <div class="timeline-v2__spine" aria-hidden="true"></div>
 
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2019</div>
-        <div class="text-title2">Frontend Freedom at Plivo</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        Embracing the role of Frontend Developer at Plivo, I relished the
-        autonomy to construct high-performing web pages, refining my skills
-        along the way.
-      </div>
-    </div>
+      {milestones.map((m, i) => (
+        <article
+          class={`milestone milestone--${i % 2 === 0 ? 'left' : 'right'}`}
+          style={`--accent: ${m.accent}; --delay: ${i * 0.07}s;`}
+          data-animate
+        >
+          <div class="milestone__dot" aria-hidden="true">
+            <span class="milestone__dot-ring"></span>
+          </div>
 
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2020</div>
-        <div class="text-title2">Promoted to Senior Frontend Developer</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        The pandemic hit hard, turning 2020 and the subsequent year into a
-        whirlwind of work-from-home days, revolving around hand sanitization
-        rituals and adapting to the new norm.
-      </div>
-    </div>
+          <div class="milestone__card">
+            <span class="milestone__tag">{m.tag}</span>
+            <div class="milestone__year">{m.year}</div>
+            <h2 class="milestone__title">{m.title}</h2>
+            <p class="milestone__desc">{m.description}</p>
+          </div>
+        </article>
+      ))}
+    </section>
 
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2021</div>
-        <div class="text-title2">SDE-1 Role at Contacto</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        Stepped into the product engineering team at Contacto, delving into a
-        tech stack enriched with Electron, React, Vue, Redux, SCSS, and more.
-      </div>
-    </div>
-
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2022</div>
-        <div class="text-title2">Mastering React Artistry</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        A year dedicated to mastering React, unraveling its intricacies,
-        comprehending value passing, event loops, and core concepts, while also
-        broadening my skillset.
-      </div>
-    </div>
-
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2023</div>
-        <div class="text-title2">Promoted to SDE-2</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        As a Senior UI engineer at Plivo, focused on exciting feature
-        development and optimizing performance, I honed leadership skills.
-      </div>
-    </div>
-
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2024</div>
-        <div class="text-title2">Evolving into a Senior/Lead Engineer</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        Last year, I embraced ownership and responsibility, evolving into a
-        better Senior/Lead Engineer. The past year brought invaluable learnings,
-        shaping me into a more adept professional.
-      </div>
-    </div>
-
-    <div class="timeline" style="margin-bottom:40px;">
-      <div class="year">
-        <div class="text-regularLight" style="height:24px;">2025</div>
-        <div class="text-title2">Promotion to SDE3 &amp; AI Innovation</div>
-      </div>
-      <div class="subtext" style="max-width:480px;">
-        Achieved promotion to SDE3, marking a significant career milestone. Led
-        a complete application overhaul leveraging AI technologies,
-        demonstrating technical leadership while continuing to build and explore
-        new frontiers in software development.
-      </div>
+    <!-- Footer flourish -->
+    <div class="journey-end" data-animate>
+      <span class="journey-end__line" aria-hidden="true"></span>
+      <span class="journey-end__text">The journey continues&hellip;</span>
     </div>
   </div>
 </BaseLayout>
+
+<style lang="scss">
+  /* ─── Fonts ─── */
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@400;500;700&display=swap');
+
+  /* ─── Page wrapper ─── */
+  .journey-page {
+    --font-display: 'Playfair Display', 'Georgia', serif;
+    --font-body: 'DM Sans', 'IBM Plex Sans', sans-serif;
+    position: relative;
+    padding-bottom: 80px;
+  }
+
+  /* ─── Hero ─── */
+  .journey-hero {
+    text-align: center;
+    padding: 20px 0 60px;
+    position: relative;
+
+    &__eyebrow {
+      font-family: var(--font-body);
+      text-transform: uppercase;
+      letter-spacing: 0.25em;
+      font-size: 0.75rem;
+      color: var(--element3);
+      margin-bottom: 16px;
+    }
+
+    &__title {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(3rem, 10vw, 7rem);
+      line-height: 1;
+      margin: 0;
+      text-shadow: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.2em;
+    }
+
+    &__year-range {
+      background: linear-gradient(135deg, var(--primary-color), hsl(265, 80%, 55%));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    &__dash {
+      color: var(--element3);
+      -webkit-text-fill-color: var(--element3);
+      font-weight: 100;
+    }
+
+    &__subtitle {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-weight: 700;
+      font-size: clamp(1rem, 2.5vw, 1.35rem);
+      color: var(--element2);
+      margin: 20px 0 40px;
+    }
+
+    &__image {
+      max-width: 520px;
+      margin: 0 auto;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px -12px rgba(0, 0, 0, 0.35);
+
+      img {
+        display: block;
+        width: 100%;
+        height: auto;
+      }
+    }
+  }
+
+  /* ─── Timeline v2 ─── */
+  .timeline-v2 {
+    position: relative;
+    max-width: 860px;
+    margin: 80px auto 0;
+    padding: 0 20px;
+
+    &__spine {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: linear-gradient(
+        to bottom,
+        transparent,
+        var(--element4) 5%,
+        var(--element4) 95%,
+        transparent
+      );
+      transform: translateX(-50%);
+    }
+  }
+
+  /* ─── Milestone ─── */
+  .milestone {
+    position: relative;
+    display: flex;
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.6s ease var(--delay), transform 0.6s ease var(--delay);
+
+    &.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    // Dot on the spine
+    &__dot {
+      position: absolute;
+      left: 50%;
+      top: 28px;
+      width: 16px;
+      height: 16px;
+      transform: translateX(-50%);
+      z-index: 2;
+
+      &-ring {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: var(--accent);
+        box-shadow: 0 0 0 4px var(--surface1), 0 0 0 6px var(--accent);
+        transition: transform 0.3s ease;
+      }
+    }
+
+    &:hover .milestone__dot-ring {
+      transform: scale(1.4);
+    }
+
+    // Card
+    &__card {
+      width: calc(50% - 48px);
+      padding: 28px 32px;
+      background: var(--surface2);
+      border-radius: 12px;
+      border: 1px solid var(--element4);
+      position: relative;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+
+      &:hover {
+        border-color: var(--accent);
+        box-shadow: 0 8px 30px -8px color-mix(in srgb, var(--accent) 25%, transparent);
+      }
+    }
+
+    &__tag {
+      font-family: var(--font-body);
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--accent);
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    &__year {
+      font-family: var(--font-display);
+      font-weight: 900;
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      line-height: 1;
+      color: var(--accent);
+      opacity: 0.18;
+      position: absolute;
+      top: -12px;
+      right: 24px;
+      user-select: none;
+      pointer-events: none;
+    }
+
+    &__title {
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: clamp(1.1rem, 2vw, 1.35rem);
+      line-height: 1.3;
+      margin: 4px 0 10px;
+      color: var(--element1);
+    }
+
+    &__desc {
+      font-family: var(--font-body);
+      font-size: 0.95rem;
+      line-height: 1.65;
+      color: var(--element2);
+      margin: 0;
+    }
+
+    // Left-aligned card
+    &--left {
+      justify-content: flex-start;
+      .milestone__card {
+        margin-left: 0;
+      }
+      .milestone__year {
+        right: 24px;
+      }
+    }
+
+    // Right-aligned card
+    &--right {
+      justify-content: flex-end;
+      .milestone__card {
+        margin-right: 0;
+      }
+      .milestone__year {
+        left: 24px;
+        right: auto;
+      }
+    }
+  }
+
+  /* ─── End flourish ─── */
+  .journey-end {
+    text-align: center;
+    margin-top: 20px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease 0.2s, transform 0.6s ease 0.2s;
+
+    &.is-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    &__line {
+      display: block;
+      width: 2px;
+      height: 48px;
+      background: var(--element4);
+      margin: 0 auto 16px;
+    }
+
+    &__text {
+      font-family: var(--font-display);
+      font-style: italic;
+      font-size: 1.15rem;
+      color: var(--element3);
+    }
+  }
+
+  /* ─── Mobile ─── */
+  @media (max-width: 700px) {
+    .timeline-v2 {
+      padding: 0 0 0 28px;
+
+      &__spine {
+        left: 14px;
+      }
+    }
+
+    .milestone {
+      justify-content: flex-start !important;
+      margin-bottom: 40px;
+
+      &__dot {
+        left: 14px;
+        top: 24px;
+        width: 12px;
+        height: 12px;
+      }
+
+      &__card {
+        width: 100% !important;
+        margin: 0 !important;
+        padding: 20px 24px;
+      }
+
+      &__year {
+        font-size: 2.5rem;
+        top: -8px;
+        right: 16px !important;
+        left: auto !important;
+      }
+    }
+
+    .journey-hero__title {
+      font-size: clamp(2.5rem, 12vw, 4rem);
+    }
+  }
+</style>
+
+<script>
+  // Intersection Observer for scroll-triggered entrance animations
+  const elements = document.querySelectorAll('[data-animate]');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -40px 0px' }
+  );
+  elements.forEach((el) => observer.observe(el));
+</script>
