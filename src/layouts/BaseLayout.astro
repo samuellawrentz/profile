@@ -11,7 +11,7 @@ interface Props {
 }
 
 const {
-  title = "Samuel Lawrentz - The Frontend Dev",
+  title = "Samuel Lawrentz - Design × Code × Systems",
   description = "Samuel Lawrentz - Frontend developer, blogger, and web enthusiast.",
 } = Astro.props;
 ---
@@ -75,28 +75,23 @@ const {
         style="display:none;visibility:hidden"></iframe>
     </noscript>
 
-    <div class="logo" style="display:flex;justify-content:space-between;align-items:center;gap:24px;">
-      <span class="header-action-icon back-arrow hide-icon" id="back-arrow">
-        <span class="material-icons-round" style="font-size:32px;" title="Go Back">arrow_back</span>
-      </span>
-
-      <a class="gradient pull-back" href="/" style="text-decoration:none;font-size:0;" id="site-logo">
+    <div class="logo site-header">
+      <a class="gradient" href="/" style="text-decoration:none;font-size:0;">
         <span style="display:inline-flex;gap:16px;align-items:center;">
           <img src="/assets/logo.jpg" alt="Samuel Lawrentz Logo" width="60" height="60" style="border-radius:50%;" />
           <span>
             <div class="text-body" style="font-size:20px;">Samuel Lawrentz</div>
-            <div class="text-caption">The Frontend dev</div>
+            <div class="text-caption">Design × Code × Systems</div>
           </span>
         </span>
       </a>
 
-      <span style="margin-left:auto;">
+      <span class="site-header__actions">
         <ThemeToggle />
+        <a class="rss header-action-icon" href="/rss.xml" aria-label="RSS feed">
+          <span class="material-icons-round" style="font-size:32px;" title="RSS feed">rss_feed</span>
+        </a>
       </span>
-
-      <a class="rss header-action-icon" href="/rss.xml" aria-label="RSS feed">
-        <span class="material-icons-round" style="font-size:32px;" title="RSS feed">rss_feed</span>
-      </a>
     </div>
 
     <main>
@@ -108,14 +103,3 @@ const {
   </body>
 </html>
 
-<script>
-  // Back arrow visibility: show when there's navigation history and not on home
-  const backArrow = document.getElementById('back-arrow');
-  const logoLink = document.getElementById('site-logo');
-
-  if (backArrow && window.history.length > 1 && window.location.pathname !== '/') {
-    backArrow.classList.remove('hide-icon');
-    logoLink?.classList.remove('pull-back');
-    backArrow.addEventListener('click', () => window.history.back());
-  }
-</script>

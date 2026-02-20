@@ -74,13 +74,24 @@ h4 {
   color: var(--element2);
 }
 
+.site-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.site-header__actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-left: auto;
+}
+
 .header-action-icon {
   font-size: 0;
   transition: all 0.2s ease;
-}
-
-.pull-back {
-  margin-left: -24px;
 }
 
 .container {
@@ -369,11 +380,6 @@ li {
 .card-container {
   background-color: var(--surface2) !important;
   border-radius: 4px;
-}
-
-.hide-icon {
-  overflow: hidden;
-  width: 0;
 }
 
 .coding-activity {

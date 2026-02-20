@@ -70,38 +70,6 @@ a.gradient {
   }
 }
 
-/* Back arrow animations */
-@keyframes arrowNormal {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-2px);
-  }
-}
-
-@keyframes arrowHover {
-  0%,
-  100% {
-    transform: translateX(0);
-  }
-  50% {
-    transform: translateX(-4px);
-  }
-}
-
-.back-arrow {
-  display: inline-block;
-  font-size: 24px;
-  transition: transform 0.3s ease-out;
-  animation: arrowNormal 1s ease infinite;
-}
-
-.back-arrow:hover {
-  animation: arrowHover 0.5s ease infinite;
-}
-
 /* Tooltip system */
 .tooltip {
   position: relative;
