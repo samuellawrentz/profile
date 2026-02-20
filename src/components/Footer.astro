@@ -22,22 +22,105 @@ const facts = [
   "A dragonfly has a lifespan of 24 hours.",
 ];
 const fact = facts[Math.floor(Math.random() * facts.length)];
+const year = new Date().getFullYear();
 ---
 
-<div class="footer">
-  <h3>Wow! You've reached the end. Here's a useless fact before you leave.</h3>
-  <div class="text-caption">Did you know?</div>
-  <div class="fact-container">
-    {fact}
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-fact">
+      <span class="fact-label">Did you know?</span>
+      <p class="fact-text">{fact}</p>
+    </div>
+
+    <div class="footer-divider"></div>
+
+    <div class="footer-bottom">
+      <span class="footer-copy">&copy; {year} Samuel Lawrentz</span>
+      <nav class="footer-links">
+        <a href="/blog/">Blog</a>
+        <a href="/hacks/">Hacks</a>
+        <a href="/about-me/">About</a>
+        <a href="/rss.xml">RSS</a>
+      </nav>
+    </div>
   </div>
-</div>
+</footer>
 
 <style>
   .footer {
+    margin-top: 64px;
+    border-top: 1px solid var(--element4);
+    padding: 48px 24px 32px;
+  }
+
+  .footer-inner {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+
+  .footer-fact {
     text-align: center;
-    background-color: var(--surface3);
-    padding: 8px;
-    padding-bottom: 24px;
-    margin-top: 24px;
+    margin-bottom: 32px;
+  }
+
+  .fact-label {
+    display: inline-block;
+    font-size: var(--caption);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--primary-color);
+    margin-bottom: 8px;
+  }
+
+  .fact-text {
+    font-size: var(--body);
+    line-height: 1.6;
+    color: var(--element2);
+    margin: 0;
+    font-style: italic;
+  }
+
+  .footer-divider {
+    width: 48px;
+    height: 1px;
+    background: var(--element4);
+    margin: 0 auto 24px;
+  }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .footer-copy {
+    font-size: var(--caption);
+    color: var(--element3);
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+  }
+
+  .footer-links a {
+    font-size: var(--caption);
+    color: var(--element3);
+    text-decoration: none;
+    transition: color 0.2s;
+  }
+
+  .footer-links a:hover {
+    color: var(--element1);
+  }
+
+  @media (max-width: 480px) {
+    .footer-bottom {
+      flex-direction: column;
+      text-align: center;
+    }
   }
 </style>
