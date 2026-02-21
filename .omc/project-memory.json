@@ -1,336 +1,452 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1771526901015,
+  "lastScanned": 1771658442944,
   "projectRoot": "/home/samm/src/personal/profile",
   "techStack": {
-    "languages": [],
-    "frameworks": [],
-    "packageManager": null,
+    "languages": [
+      {
+        "name": "JavaScript/TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "package.json"
+        ]
+      },
+      {
+        "name": "TypeScript",
+        "version": null,
+        "confidence": "high",
+        "markers": [
+          "tsconfig.json"
+        ]
+      }
+    ],
+    "frameworks": [
+      {
+        "name": "astro",
+        "version": "5.17.1",
+        "category": "fullstack"
+      },
+      {
+        "name": "react",
+        "version": "19.2.4",
+        "category": "frontend"
+      },
+      {
+        "name": "react-dom",
+        "version": "19.2.4",
+        "category": "frontend"
+      }
+    ],
+    "packageManager": "pnpm",
     "runtime": null
   },
   "build": {
-    "buildCommand": null,
+    "buildCommand": "pnpm build",
     "testCommand": null,
     "lintCommand": null,
-    "devCommand": null,
-    "scripts": {}
+    "devCommand": "pnpm dev",
+    "scripts": {
+      "dev": "astro dev --port 4321",
+      "prebuild": "node scripts/generate-og-images.cjs",
+      "build": "astro build",
+      "preview": "astro preview",
+      "astro": "astro"
+    }
   },
   "conventions": {
     "namingStyle": null,
-    "importStyle": null,
+    "importStyle": "ES modules",
     "testPattern": null,
-    "fileOrganization": null
+    "fileOrganization": "type-based"
   },
   "structure": {
     "isMonorepo": false,
     "workspaces": [],
-    "mainDirectories": [],
+    "mainDirectories": [
+      "public",
+      "scripts",
+      "src",
+      "static"
+    ],
     "gitBranches": {
       "defaultBranch": "master",
       "branchingStrategy": null
     }
   },
   "customNotes": [],
-  "directoryMap": {},
+  "directoryMap": {
+    "_templates": {
+      "path": "_templates",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1771658442902,
+      "keyFiles": []
+    },
+    "blog": {
+      "path": "blog",
+      "purpose": null,
+      "fileCount": 2,
+      "lastAccessed": 1771658442923,
+      "keyFiles": [
+        "default.png",
+        "scratchpad.txt"
+      ]
+    },
+    "dist": {
+      "path": "dist",
+      "purpose": "Distribution/build output",
+      "fileCount": 11,
+      "lastAccessed": 1771658442930,
+      "keyFiles": [
+        "404.html",
+        "CNAME",
+        "Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf",
+        "favicon.ico",
+        "favicon.svg"
+      ]
+    },
+    "hacks": {
+      "path": "hacks",
+      "purpose": null,
+      "fileCount": 1,
+      "lastAccessed": 1771658442931,
+      "keyFiles": [
+        "logs.txt"
+      ]
+    },
+    "plugins": {
+      "path": "plugins",
+      "purpose": null,
+      "fileCount": 0,
+      "lastAccessed": 1771658442931,
+      "keyFiles": []
+    },
+    "public": {
+      "path": "public",
+      "purpose": "Public files",
+      "fileCount": 6,
+      "lastAccessed": 1771658442932,
+      "keyFiles": [
+        "CNAME",
+        "Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf",
+        "favicon.ico",
+        "favicon.svg",
+        "ogimage.png"
+      ]
+    },
+    "scripts": {
+      "path": "scripts",
+      "purpose": "Build/utility scripts",
+      "fileCount": 2,
+      "lastAccessed": 1771658442932,
+      "keyFiles": [
+        "canvas-fallback.js",
+        "generate-og-images.cjs"
+      ]
+    },
+    "src": {
+      "path": "src",
+      "purpose": "Source code",
+      "fileCount": 7,
+      "lastAccessed": 1771658442932,
+      "keyFiles": [
+        "content.config.ts",
+        "custom.d.ts",
+        "heart.scss",
+        "responsive.scss",
+        "style.scss"
+      ]
+    },
+    "static": {
+      "path": "static",
+      "purpose": "Static files",
+      "fileCount": 4,
+      "lastAccessed": 1771658442933,
+      "keyFiles": [
+        "CNAME",
+        "Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf",
+        "favicon.ico",
+        "ogimage.png"
+      ]
+    },
+    "dist/assets": {
+      "path": "dist/assets",
+      "purpose": "Static assets",
+      "fileCount": 1,
+      "lastAccessed": 1771658442934,
+      "keyFiles": [
+        "logo.jpg"
+      ]
+    },
+    "public/assets": {
+      "path": "public/assets",
+      "purpose": "Static assets",
+      "fileCount": 1,
+      "lastAccessed": 1771658442935,
+      "keyFiles": [
+        "logo.jpg"
+      ]
+    },
+    "src/assets": {
+      "path": "src/assets",
+      "purpose": "Static assets",
+      "fileCount": 1,
+      "lastAccessed": 1771658442938,
+      "keyFiles": [
+        "logo.jpg"
+      ]
+    },
+    "src/components": {
+      "path": "src/components",
+      "purpose": "UI components",
+      "fileCount": 7,
+      "lastAccessed": 1771658442943,
+      "keyFiles": [
+        "Banner.astro",
+        "Footer.astro",
+        "GiscusComments.tsx"
+      ]
+    },
+    "src/pages": {
+      "path": "src/pages",
+      "purpose": "Page components",
+      "fileCount": 3,
+      "lastAccessed": 1771658442944,
+      "keyFiles": [
+        "404.astro",
+        "index.astro",
+        "rss.xml.ts"
+      ]
+    }
+  },
   "hotPaths": [
     {
       "path": "src/pages/index.astro",
-      "accessCount": 114,
-      "lastAccessed": 1771609217048,
+      "accessCount": 10,
+      "lastAccessed": 1771661674044,
       "type": "file"
     },
     {
-      "path": "src/styles/global.scss",
-      "accessCount": 59,
-      "lastAccessed": 1771609324094,
+      "path": "src/content/blog/reusable-bun-modules/index.mdx",
+      "accessCount": 10,
+      "lastAccessed": 1771663788520,
       "type": "file"
     },
     {
-      "path": "src/layouts/BaseLayout.astro",
-      "accessCount": 30,
-      "lastAccessed": 1771609323508,
+      "path": "scripts/generate-image.ts",
+      "accessCount": 6,
+      "lastAccessed": 1771664347406,
       "type": "file"
     },
     {
-      "path": "src/styles/variables.scss",
-      "accessCount": 18,
-      "lastAccessed": 1771609335884,
+      "path": "image-gen.md",
+      "accessCount": 6,
+      "lastAccessed": 1771664348167,
       "type": "file"
-    },
-    {
-      "path": "astro.config.mjs",
-      "accessCount": 17,
-      "lastAccessed": 1771609335831,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/blog/[...slug].astro",
-      "accessCount": 14,
-      "lastAccessed": 1771609336509,
-      "type": "file"
-    },
-    {
-      "path": "",
-      "accessCount": 12,
-      "lastAccessed": 1771609324751,
-      "type": "directory"
     },
     {
       "path": "package.json",
-      "accessCount": 11,
-      "lastAccessed": 1771568968127,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/blog/index.astro",
-      "accessCount": 11,
-      "lastAccessed": 1771609354019,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/hacks/[...slug].astro",
-      "accessCount": 10,
-      "lastAccessed": 1771609718238,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/responsive.scss",
-      "accessCount": 8,
-      "lastAccessed": 1771559498964,
-      "type": "file"
-    },
-    {
-      "path": "src/components/Footer.astro",
-      "accessCount": 8,
-      "lastAccessed": 1771609354479,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/blog.scss",
-      "accessCount": 7,
-      "lastAccessed": 1771559499418,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/typography.scss",
-      "accessCount": 6,
-      "lastAccessed": 1771559498534,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/heart.scss",
-      "accessCount": 6,
-      "lastAccessed": 1771571055818,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/about-me/coding-activity/index.astro",
-      "accessCount": 6,
-      "lastAccessed": 1771609275206,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/hacks/index.astro",
-      "accessCount": 6,
-      "lastAccessed": 1771609705621,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/components/banner.scss",
       "accessCount": 5,
-      "lastAccessed": 1771554994687,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/components/button.scss",
-      "accessCount": 5,
-      "lastAccessed": 1771554994869,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/components/footer.scss",
-      "accessCount": 5,
-      "lastAccessed": 1771554995203,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/about-me/journey/index.astro",
-      "accessCount": 5,
-      "lastAccessed": 1771588271879,
+      "lastAccessed": 1771664347945,
       "type": "file"
     },
     {
       "path": "src/content.config.ts",
-      "accessCount": 5,
-      "lastAccessed": 1771609314424,
-      "type": "file"
-    },
-    {
-      "path": "src/components/SEO.astro",
       "accessCount": 4,
-      "lastAccessed": 1771608709584,
+      "lastAccessed": 1771663788967,
       "type": "file"
     },
     {
-      "path": "src/content/hacks/philosophy/delving-into-existentialism-a-deep-dive-into-philosophys-most-intriguing-school/index.mdx",
+      "path": "scripts/image-prompt.ts",
+      "accessCount": 4,
+      "lastAccessed": 1771664347576,
+      "type": "file"
+    },
+    {
+      "path": "src",
       "accessCount": 3,
-      "lastAccessed": 1771529048273,
-      "type": "file"
+      "lastAccessed": 1771661657972,
+      "type": "directory"
     },
     {
-      "path": "src/content/hacks/philosophy/the-impact-of-ancient-philosophy-on-modern-thinking-a-closer-look/index.mdx",
+      "path": "src/content/blog/ai-coding-revolution/index.mdx",
       "accessCount": 3,
-      "lastAccessed": 1771529048436,
+      "lastAccessed": 1771663773251,
       "type": "file"
     },
     {
-      "path": "src/content/hacks/philosophy/the-ethical-dilemmas-of-today-a-philosophical-perspective/index.mdx",
+      "path": "src/content/blog/vibe-coding-revolution/index.mdx",
       "accessCount": 3,
-      "lastAccessed": 1771529048491,
+      "lastAccessed": 1771663773809,
       "type": "file"
     },
     {
-      "path": "src/pages/projects/pasttenser/index.astro",
+      "path": "src/content/blog/.CLAUDE.md",
       "accessCount": 3,
-      "lastAccessed": 1771559511592,
+      "lastAccessed": 1771663899823,
       "type": "file"
     },
     {
-      "path": "src/pages/projects/quotes-generator/index.astro",
+      "path": "scripts/generate-og-images.cjs",
       "accessCount": 3,
-      "lastAccessed": 1771559512013,
+      "lastAccessed": 1771664347192,
       "type": "file"
     },
     {
-      "path": "src/content/hacks/philosophy/fail-fast-learn-faster-the-art-of-iteration-in-software/index.mdx",
+      "path": "src/content/blog/claude-code-efficiency/index.mdx",
       "accessCount": 3,
-      "lastAccessed": 1771609323119,
+      "lastAccessed": 1771664644738,
       "type": "file"
     },
     {
-      "path": "src/content/hacks/philosophy/embracing-agility-principles-for-effective-software-development/index.mdx",
+      "path": "src/content/blog/CLAUDE.md",
       "accessCount": 2,
-      "lastAccessed": 1771529041147,
+      "lastAccessed": 1771660325279,
       "type": "file"
     },
     {
-      "path": "src/content/hacks/philosophy/prioritizing-security-a-fundamental-tenet-of-software-philosophy/index.mdx",
+      "path": "src/content/blog/blog-about-blog/index.mdx",
       "accessCount": 2,
-      "lastAccessed": 1771529042197,
+      "lastAccessed": 1771660900149,
       "type": "file"
     },
     {
-      "path": "src/content/hacks/philosophy/putting-users-first-a-guide-to-user-centric-software-development/index.mdx",
+      "path": "src/content/blog/my-take-on-css-grids/index.mdx",
       "accessCount": 2,
-      "lastAccessed": 1771529042931,
-      "type": "file"
-    },
-    {
-      "path": "src/content/hacks/philosophy/simplicity-over-complexity-the-essence-of-minimalism-in-software-design/index.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771529043385,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/components/circular-progress.scss",
-      "accessCount": 2,
-      "lastAccessed": 1771554426900,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/components/input.scss",
-      "accessCount": 2,
-      "lastAccessed": 1771554427587,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/components/sheet.scss",
-      "accessCount": 2,
-      "lastAccessed": 1771554427945,
-      "type": "file"
-    },
-    {
-      "path": "src/styles/components/topbar.scss",
-      "accessCount": 2,
-      "lastAccessed": 1771554428312,
-      "type": "file"
-    },
-    {
-      "path": "src/components/ThemeToggle.astro",
-      "accessCount": 2,
-      "lastAccessed": 1771554429161,
-      "type": "file"
-    },
-    {
-      "path": "src/components/Banner.astro",
-      "accessCount": 2,
-      "lastAccessed": 1771554429541,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/404.astro",
-      "accessCount": 2,
-      "lastAccessed": 1771554434052,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/legacy/old-home-page.astro",
-      "accessCount": 2,
-      "lastAccessed": 1771554685263,
-      "type": "file"
-    },
-    {
-      "path": "tsconfig.json",
-      "accessCount": 1,
-      "lastAccessed": 1771527921887,
+      "lastAccessed": 1771660900657,
       "type": "file"
     },
     {
       "path": "src/content/blog/react-hooks/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771660901093,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/vim-is-a-blackhole/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771660901799,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/instagram-api/insta.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771660902063,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/bookmarklets/2022-06-19.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771660902964,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/github-mcp-server/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1771660921666,
+      "type": "file"
+    },
+    {
+      "path": "scripts/canvas-fallback.js",
       "accessCount": 1,
-      "lastAccessed": 1771528322003,
+      "lastAccessed": 1771659418788,
+      "type": "file"
+    },
+    {
+      "path": "astro.config.mjs",
+      "accessCount": 1,
+      "lastAccessed": 1771659422824,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog",
+      "accessCount": 1,
+      "lastAccessed": 1771660164263,
+      "type": "directory"
+    },
+    {
+      "path": "src/content/blog/online-presence/index.mdx",
+      "accessCount": 1,
+      "lastAccessed": 1771660168461,
       "type": "file"
     },
     {
       "path": "src/content/blog/random-array/2022-06-27.mdx",
       "accessCount": 1,
-      "lastAccessed": 1771528331706,
+      "lastAccessed": 1771660169928,
       "type": "file"
     },
     {
-      "path": "src/pages/rss.xml.ts",
+      "path": "src/content/blog/gatsby-og-image/index.mdx",
       "accessCount": 1,
-      "lastAccessed": 1771528485975,
+      "lastAccessed": 1771660170393,
       "type": "file"
     },
     {
-      "path": "public/robots.txt",
+      "path": "src/content/blog/you-don-t-need-these-many-state-variables/index.mdx",
       "accessCount": 1,
-      "lastAccessed": 1771528486739,
+      "lastAccessed": 1771660182561,
       "type": "file"
     },
     {
-      "path": "public/CNAME",
+      "path": "src/content/blog/ghostty-config/index.md",
       "accessCount": 1,
-      "lastAccessed": 1771528487242,
+      "lastAccessed": 1771660921195,
       "type": "file"
     },
     {
-      "path": "src/components/GiscusComments.tsx",
+      "path": "src/content/blog/linear-mcp-server/index.mdx",
       "accessCount": 1,
-      "lastAccessed": 1771528496244,
+      "lastAccessed": 1771660922256,
       "type": "file"
     },
     {
-      "path": "src/components/SessionTimer.tsx",
+      "path": "src/content/blog/leverage-ai-to-understand-complete-repo/index.mdx",
       "accessCount": 1,
-      "lastAccessed": 1771528505976,
+      "lastAccessed": 1771660922617,
       "type": "file"
     },
     {
-      "path": "scripts/generate-og-images.js",
+      "path": "src/content/blog/migrating-from-cra-to-vite-with-bunjs/index.mdx",
       "accessCount": 1,
-      "lastAccessed": 1771528651440,
+      "lastAccessed": 1771660924018,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/how-i-salvaged-my-website-from-the-dead/index.mdx",
+      "accessCount": 1,
+      "lastAccessed": 1771660924725,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/frontend-performance-optimisation/index.mdx",
+      "accessCount": 1,
+      "lastAccessed": 1771660925260,
+      "type": "file"
+    },
+    {
+      "path": "hero-light-mode.png",
+      "accessCount": 1,
+      "lastAccessed": 1771661652277,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/blog/[...slug].astro",
+      "accessCount": 1,
+      "lastAccessed": 1771664155512,
+      "type": "file"
+    },
+    {
+      "path": "screenshot.mjs",
+      "accessCount": 1,
+      "lastAccessed": 1771664347736,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/claude-code-efficiency/header.png",
+      "accessCount": 1,
+      "lastAccessed": 1771664382728,
       "type": "file"
     }
   ],

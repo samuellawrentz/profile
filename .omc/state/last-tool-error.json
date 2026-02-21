@@ -1,7 +1,7 @@
 {
-  "tool_name": "Read",
-  "tool_input_preview": "{\"file_path\":\"/home/samm/src/personal/profile/src/pages/about-me/coding-activity.astro\"}",
-  "error": "File does not exist. Note: your current working directory is /home/samm/src/personal/profile. Did you mean coding-activity?",
-  "timestamp": "2026-02-20T17:40:09.132Z",
-  "retry_count": 1
+  "tool_name": "Bash",
+  "tool_input_preview": "{\"command\":\"pkill -f \\\"astro dev\\\" 2>/dev/null; sleep 1; curl -s -o /dev/null -w \\\"%{http_code}\\\" http://localhost:4322/blog/claude-code-efficiency/ 2>/dev/null || echo \\\"server stopped\\\"\",\"descriptio...",
+  "error": "Exit code 144",
+  "timestamp": "2026-02-21T08:56:02.916Z",
+  "retry_count": 2
 }

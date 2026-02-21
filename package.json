@@ -7,7 +7,8 @@
     "prebuild": "node scripts/generate-og-images.cjs",
     "build": "astro build",
     "preview": "astro preview",
-    "astro": "astro"
+    "astro": "astro",
+    "gen:image": "bun scripts/generate-image.ts"
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.13",
@@ -26,6 +27,7 @@
     "tailwindcss": "^4.2.0"
   },
   "devDependencies": {
-    "canvas": "^3.2.1"
+    "canvas": "^3.2.1",
+    "playwright": "^1.58.2"
   }
 }
