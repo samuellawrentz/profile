@@ -12,7 +12,7 @@ I've been a Node.js developer for years. I've written hundreds of `npm init`, wr
 
 Then I switched to [Bun](https://bun.sh). And honestly? I'm not going back.
 
-Let me show you what I mean by walking through a real module I built — `image-gen`, a reusable AI image generation CLI and library powered by Google Gemini. The whole thing is under 100 lines of actual logic. Let's break down why Bun made this effortless and why it runs circles around Node.
+Here's a real module I built — `image-gen`, a reusable AI image generation CLI and library powered by Google Gemini. The whole thing is under 100 lines of actual logic.
 
 ## The Module: `image-gen`
 
@@ -101,13 +101,9 @@ With Node, a CLI binary in TypeScript requires either:
 
 With Bun, the shebang `#!/usr/bin/env bun` is all you need. The file runs as-is.
 
-## Bun vs Node: The Speed Difference is Real
+## Okay but how fast is it actually?
 
-Let me get into the numbers, because "Bun is fast" is easy to say but the benchmarks are genuinely impressive.
-
-### Startup Time
-
-This is where Bun absolutely destroys Node:
+"Bun is fast" is easy to say. Here are the numbers.
 
 | Operation | Node | Bun | Speedup |
 |-----------|------|-----|---------|
@@ -116,11 +112,9 @@ This is where Bun absolutely destroys Node:
 | `install` (cold, no cache) | ~15s | ~3s | **5x** |
 | `install` (cached) | ~5s | ~0.5s | **10x** |
 
-That 10x startup difference matters more than you think. When you're running CLI tools, dev scripts, test suites — those milliseconds compound into minutes across a day.
+That 10x startup difference matters more than you think. Those milliseconds compound into minutes across a day.
 
-### Package Installation
-
-Bun's package manager isn't just faster — it's architecturally different. It uses a global module cache with hardlinks, so installing the same package in a new project is essentially free after the first time. Node's npm copies everything. Every. Single. Time.
+And `bun install`? It uses a global module cache with hardlinks, so installing the same package in a new project is basically free after the first time. Node's npm copies everything. Every. Single. Time.
 
 ```bash
 # Timing a fresh install of this module's dependencies
@@ -131,17 +125,9 @@ time npm install  # 4.2s
 time bun install   # 0.3s
 ```
 
-### Runtime Performance
+For CPU-bound work the difference is smaller, but for tooling and scripting? Bun wins handily.
 
-For I/O-heavy operations like our image generation module (HTTP request to Gemini API, buffer processing, file write), Bun's JavaScriptCore engine and native I/O layer give a noticeable edge:
-
-- **HTTP requests**: Bun's `fetch` is built on native code, not `undici` polyfills
-- **File I/O**: `Bun.write()` uses optimized syscalls
-- **Buffer handling**: Native `Buffer` implementation is faster than Node's
-
-For CPU-bound work, the difference is smaller — both V8 (Node) and JavaScriptCore (Bun) are excellent JIT compilers. But for the kind of tooling and scripting work that most modules do? Bun wins handily.
-
-## The Preset Pattern — Reusability Done Right
+## The preset trick
 
 One design pattern I love in this module is how it handles style customization through presets and system prompts:
 
@@ -159,9 +145,9 @@ Each project defines its own visual style in a local `image-prompt.ts` file, whi
 
 This is the kind of clean separation that Bun's module linking makes trivial. Change the prompt in one project, the module doesn't care. Update the Gemini API logic in the module, all projects benefit immediately.
 
-## Structuring a Reusable Bun Module
+## The folder structure
 
-Here's the pattern I've settled on:
+Here's what I've settled on:
 
 ```
 image-gen/
@@ -175,45 +161,8 @@ image-gen/
   tsconfig.json      # Just for editor support, not for building
 ```
 
-The key principles:
+No build step, dual interface (CLI + library), full TypeScript types for consumers, and exactly ONE dependency (`@google/genai`). That's it.
 
-1. **No build step** — Source files are the distribution
-2. **Dual interface** — Works as both CLI (`bin`) and library (`module`)
-3. **Type exports** — Consumers get full TypeScript types for free
-4. **Preset/plugin pattern** — Shared logic with per-project customization
-5. **Minimal dependencies** — This module has exactly ONE dependency (`@google/genai`)
+If you're still on Node for your internal tools and CLIs — just try `bun init` on your next module. No `tsconfig.json` tweaking, no `type: "module"` vs `"commonjs"` saga, no waiting 10 seconds for a script to start. The whole `image-gen` module is 90 lines across 4 files, works as both a CLI and a library, and took about 20 minutes to write.
 
-## Making the Switch
-
-If you're still on Node and you're building internal tools, CLIs, or utility modules, here's my honest take:
-
-**Switch to Bun for tooling.** Keep Node for production servers if your infrastructure demands it, but for everything else — scripts, CLIs, dev tools, local modules — Bun is objectively better DX.
-
-The things you won't miss:
-- `tsconfig.json` tweaking for module resolution
-- Build steps for TypeScript
-- `npm link` breaking randomly
-- Waiting 10 seconds for a script to start
-- The `type: "module"` vs `"commonjs"` saga
-
-The things you'll gain:
-- Write TypeScript, run TypeScript — no transpilation
-- Sub-10ms startup for scripts and CLIs
-- `bun link` that actually works
-- A package manager that respects your time
-- Native APIs (`Bun.write`, `Bun.file`, `Bun.serve`) that feel modern
-
-## Try It Yourself
-
-Want to build your own reusable Bun module? Start here:
-
-```bash
-mkdir my-module && cd my-module
-bun init
-```
-
-Add a `bin` field, write your TypeScript, `bun link` it into another project, and you're done. No boilerplate. No ceremony. Just code.
-
-The full `image-gen` module I walked through is about 90 lines of actual logic across 4 files. It handles AI image generation with configurable styles, works as both a CLI and a library, supports multiple aspect ratios and presets — and it took about 20 minutes to write. That's the Bun difference.
-
-*Keep building, keep shipping, and stop wasting time on build tooling that should've been solved a decade ago.*
+Stop wasting time on build tooling that should've been solved a decade ago.
