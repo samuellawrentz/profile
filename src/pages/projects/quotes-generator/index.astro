@@ -4,176 +4,937 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 
 <BaseLayout
   title="Free Quotes Image Generator Online - Samuel Lawrentz"
-  description="Create or generate beautiful quotes pictures with unsplash images quickly and free. Our quote maker and generator require NO login or signup. Try now!"
+  description="Create beautiful quote images with stunning backgrounds. No login required. Download as PNG instantly."
 >
-  <div>
-    <div class="container quotes-page" style="gap:40px;flex-wrap:wrap;">
-      <div class="intro quotes-intro" style="flex:1 1 300px;">
-        <h1>Image Quote Generator</h1>
-        <div class="sub-heading text-regularLight" style="margin-bottom:16px;">Built with ❤ by Samuellawrentz</div>
-        <div>
-          <p>This is a simple image generator that helps you put your quotes and download them as an image.</p>
-          <h3>How to use it?</h3>
-          <ol>
-            <li>The card loads up with some random picture</li>
-            <li>Enter your text/quote</li>
-            <li>Change/remove the author name</li>
-            <li>Use the refresh button to change the image</li>
-            <li>Click the download button once you are done with the changes</li>
-          </ol>
-          <p class="text-regularLight" style="font-style:italic;border-left:3px solid var(--element3);padding-left:12px;">
-            More features like custom image, filters are on the way! Stay tuned.
-          </p>
+  <div class="qg-grain"></div>
+  <div class="qg">
+
+    <!-- Header -->
+    <section class="qg-hero">
+      <div class="qg-hero__text">
+        <h1 class="qg-hero__title">Quote<br/><span class="qg-hero__accent">Studio</span></h1>
+        <p class="qg-hero__sub">Craft beautiful quote images. No signup, no watermarks.</p>
+      </div>
+      <div class="qg-hero__geo" aria-hidden="true">
+        <div class="qg-geo__ring"></div>
+        <div class="qg-geo__dot qg-geo__dot--1"></div>
+        <div class="qg-geo__dot qg-geo__dot--2"></div>
+        <svg class="qg-geo__quotes" viewBox="0 0 48 48" fill="none">
+          <path d="M14 24c-4 0-6-2-6-6s2-6 6-6 6 2 6 6l-1 4c-1 3-3 5-5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <path d="M34 24c-4 0-6-2-6-6s2-6 6-6 6 2 6 6l-1 4c-1 3-3 5-5 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        </svg>
+      </div>
+    </section>
+
+    <!-- Canvas workspace -->
+    <section class="qg-workspace">
+      <div class="qg-canvas-wrap">
+        <!-- Live preview -->
+        <div class="qg-preview" id="qg-preview">
+          <div class="qg-preview__bg" id="qg-bg"></div>
+          <div class="qg-preview__overlay" id="qg-overlay"></div>
+          <div class="qg-preview__content">
+            <div class="qg-preview__quote" contenteditable="true" id="qg-quote" spellcheck="false">The only way to do great work is to love what you do.</div>
+            <div class="qg-preview__divider"></div>
+            <div class="qg-preview__author" contenteditable="true" id="qg-author" spellcheck="false">Steve Jobs</div>
+          </div>
+        </div>
+
+        <!-- Hidden canvas for export -->
+        <canvas id="qg-canvas" width="1080" height="1080" style="display:none;"></canvas>
+      </div>
+
+      <!-- Controls panel -->
+      <div class="qg-controls">
+        <div class="qg-ctrl-group">
+          <label class="qg-ctrl-label">Background</label>
+          <div class="qg-bg-grid" id="qg-bg-grid"></div>
+          <button class="qg-load-more" id="qg-load-more">Load more backgrounds</button>
+        </div>
+
+        <div class="qg-ctrl-group">
+          <label class="qg-ctrl-label">Overlay</label>
+          <div class="qg-overlay-options" id="qg-overlay-options">
+            <button class="qg-pill qg-pill--active" data-overlay="dark">Dark</button>
+            <button class="qg-pill" data-overlay="light">Light</button>
+            <button class="qg-pill" data-overlay="gradient">Gradient</button>
+            <button class="qg-pill" data-overlay="none">None</button>
+          </div>
+        </div>
+
+        <div class="qg-ctrl-group">
+          <label class="qg-ctrl-label">Font</label>
+          <div class="qg-font-options" id="qg-font-options">
+            <button class="qg-pill qg-pill--active" data-font="serif" style="font-family:'Playfair Display',serif;">Serif</button>
+            <button class="qg-pill" data-font="sans" style="font-family:'Sora',sans-serif;">Sans</button>
+            <button class="qg-pill" data-font="mono" style="font-family:'JetBrains Mono',monospace;">Mono</button>
+          </div>
+        </div>
+
+        <div class="qg-ctrl-group">
+          <label class="qg-ctrl-label">Text Align</label>
+          <div class="qg-align-options" id="qg-align-options">
+            <button class="qg-pill qg-pill--icon qg-pill--active" data-align="center" title="Center">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="6" x2="18" y2="6"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="6" y1="14" x2="18" y2="14"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            </button>
+            <button class="qg-pill qg-pill--icon" data-align="left" title="Left">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="4" y1="6" x2="16" y2="6"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="4" y1="14" x2="14" y2="14"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            </button>
+            <button class="qg-pill qg-pill--icon" data-align="right" title="Right">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="20" y2="6"/><line x1="4" y1="10" x2="20" y2="10"/><line x1="10" y1="14" x2="20" y2="14"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+            </button>
+          </div>
+        </div>
+
+        <div class="qg-actions">
+          <button class="qg-btn qg-btn--secondary" id="qg-shuffle" title="Shuffle background">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="16 3 21 3 21 8"/><line x1="4" y1="20" x2="21" y2="3"/><polyline points="21 16 21 21 16 21"/><line x1="15" y1="15" x2="21" y2="21"/><line x1="4" y1="4" x2="9" y2="9"/></svg>
+            Shuffle
+          </button>
+          <button class="qg-btn qg-btn--primary" id="qg-download">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+            Download PNG
+          </button>
         </div>
       </div>
-      <div id="sam-container" style="flex:1 1 300px;">
-        <div class="contents">
-          <div class="quote-container">
-            <div class="image-container" style="filter:brightness(1);"></div>
-            <div class="quote">
-              <div class="text" contenteditable="true">Type here.</div>
-              <div class="author" contenteditable="true">Samuel Lawrentz</div>
+    </section>
+
+    <!-- Samples -->
+    <section class="qg-samples">
+      <h2 class="qg-samples__title">Samples</h2>
+      <p class="qg-samples__sub">A few examples of what you can create.</p>
+      <div class="qg-samples__grid">
+        <div class="qg-sample">
+          <div class="qg-sample__card" style="background-image:url('https://images.unsplash.com/photo-1499892477393-f675706cbe6e?w=400');">
+            <div class="qg-sample__overlay"></div>
+            <div class="qg-sample__text">
+              <p>"The best way to predict the future is to create it."</p>
+              <span>Peter Drucker</span>
             </div>
           </div>
         </div>
-        <div class="controls">
-          <div class="image-selector control">
-            <span class="button1" id="refresh-btn" title="Refresh image">
-              <span class="material-icons-round">refresh</span>
-            </span>
-            <span class="button1" id="download-btn" title="Download image">
-              <span class="material-icons-round">download</span>
-            </span>
+        <div class="qg-sample">
+          <div class="qg-sample__card" style="background-image:url('https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400');">
+            <div class="qg-sample__overlay"></div>
+            <div class="qg-sample__text">
+              <p>"Stay hungry, stay foolish."</p>
+              <span>Steve Jobs</span>
+            </div>
+          </div>
+        </div>
+        <div class="qg-sample">
+          <div class="qg-sample__card" style="background-image:url('https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=400');">
+            <div class="qg-sample__overlay"></div>
+            <div class="qg-sample__text">
+              <p>"Simplicity is the ultimate sophistication."</p>
+              <span>Leonardo da Vinci</span>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </section>
 
-    <div class="section" style="margin-top:48px;">
-      <div class="section__title">Few Samples</div>
-      <p style="color:var(--element2);margin-bottom:24px;">
-        Here are some sample quote images generated with this tool.
-      </p>
-      <div class="cards quotes-cards">
-        <div class="card" style="padding:0;overflow:hidden;">
-          <img src="https://images.unsplash.com/photo-1499892477393-f675706cbe6e?w=400" alt="Quote sample 1" style="width:100%;height:200px;object-fit:cover;" />
-        </div>
-        <div class="card" style="padding:0;overflow:hidden;">
-          <img src="https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=400" alt="Quote sample 2" style="width:100%;height:200px;object-fit:cover;" />
-        </div>
-        <div class="card" style="padding:0;overflow:hidden;">
-          <img src="https://images.unsplash.com/photo-1518756131217-31eb79b20e8f?w=400" alt="Quote sample 3" style="width:100%;height:200px;object-fit:cover;" />
-        </div>
-      </div>
-    </div>
   </div>
 </BaseLayout>
 
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Sora:wght@300;600&family=JetBrains+Mono:wght@400&display=swap" rel="stylesheet" />
+
 <script is:inline>
-  // Minimal inline version of the quote generator logic
-  const unsplashImages = [
-    'https://images.unsplash.com/photo-1499892477393-f675706cbe6e?w=800',
-    'https://images.unsplash.com/photo-1470252649378-9c29740c9fa8?w=800',
-    'https://images.unsplash.com/photo-1518756131217-31eb79b20e8f?w=800',
-    'https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800',
-    'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?w=800',
+(function() {
+  // Curated Unsplash photo IDs — large pool for variety
+  const unsplashIds = [
+    'photo-1499892477393-f675706cbe6e', 'photo-1470252649378-9c29740c9fa8',
+    'photo-1518756131217-31eb79b20e8f', 'photo-1506905925346-21bda4d32df4',
+    'photo-1493246507139-91e8fad9978e', 'photo-1507400492013-162706c8c05e',
+    'photo-1476820865390-c52aeebb9891', 'photo-1464822759023-fed622ff2c3b',
+    'photo-1501785888041-af3ef285b470', 'photo-1472214103451-9374bd1c798e',
+    'photo-1433086966358-54859d0ed716', 'photo-1469474968028-56623f02e42e',
+    'photo-1447752875215-b2761acb3c5d', 'photo-1490682143684-14369e18dce8',
+    'photo-1505765050516-f72dcac9c60e', 'photo-1431512284068-4c4002298068',
+    'photo-1504567961542-e24d9439a724', 'photo-1465056836900-8f1e940b3b76',
+    'photo-1419242902214-272b3f66ee7a', 'photo-1500534314209-a25ddb2bd429',
+    'photo-1509316975850-ff9c5deb0cd9', 'photo-1446034295857-c899f4c4fbbe',
+    'photo-1536431311719-398b6704d4cc', 'photo-1549880338-65ddcdfd017b',
   ];
 
-  let currentIndex = 0;
+  function unsplashUrl(id, w) {
+    return `https://images.unsplash.com/${id}?w=${w}&fit=crop&q=80`;
+  }
 
-  function setImage(url) {
-    const container = document.querySelector('.image-container');
-    if (container) {
-      container.style.backgroundImage = `url(${url})`;
-      container.style.backgroundSize = 'cover';
-      container.style.backgroundPosition = 'center';
+  // Shuffle array in place
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
     }
+    return arr;
   }
 
-  function refreshImage() {
-    currentIndex = (currentIndex + 1) % unsplashImages.length;
-    setImage(unsplashImages[currentIndex]);
+  // Pick 8 random IDs from the pool for initial display
+  const shuffled = shuffle([...unsplashIds]);
+  const backgrounds = shuffled.slice(0, 8).map(id => ({
+    url: unsplashUrl(id, 800),
+    thumb: unsplashUrl(id, 120),
+    id,
+  }));
+
+  const fontMap = {
+    serif: "'Playfair Display', Georgia, serif",
+    sans: "'Sora', 'IBM Plex Sans', sans-serif",
+    mono: "'JetBrains Mono', monospace",
+  };
+
+  let state = {
+    bgIndex: 0,
+    overlay: 'dark',
+    font: 'serif',
+    align: 'center',
+  };
+
+  // DOM refs
+  const bgEl = document.getElementById('qg-bg');
+  const overlayEl = document.getElementById('qg-overlay');
+  const quoteEl = document.getElementById('qg-quote');
+  const authorEl = document.getElementById('qg-author');
+  const preview = document.getElementById('qg-preview');
+  const canvas = document.getElementById('qg-canvas');
+  const ctx = canvas.getContext('2d');
+
+  // Background thumbnails
+  const bgGrid = document.getElementById('qg-bg-grid');
+
+  function renderThumbs() {
+    bgGrid.innerHTML = '';
+    backgrounds.forEach((bg, i) => {
+      const thumb = document.createElement('button');
+      thumb.className = 'qg-bg-thumb' + (i === state.bgIndex ? ' qg-bg-thumb--active' : '');
+      thumb.style.backgroundImage = `url(${bg.thumb})`;
+      thumb.addEventListener('click', () => selectBg(i));
+      bgGrid.appendChild(thumb);
+    });
   }
 
-  function downloadImage() {
-    const container = document.querySelector('.quote-container');
-    if (!container) return;
-    // Simple download using html2canvas if available, else alert
-    alert('Download feature requires html2canvas library. Coming soon!');
+  renderThumbs();
+
+  function selectBg(i) {
+    state.bgIndex = i;
+    bgEl.style.backgroundImage = `url(${backgrounds[i].url})`;
+    bgGrid.querySelectorAll('.qg-bg-thumb').forEach((t, j) =>
+      t.classList.toggle('qg-bg-thumb--active', j === i)
+    );
+  }
+
+  // Load more backgrounds
+  document.getElementById('qg-load-more').addEventListener('click', () => {
+    const remaining = unsplashIds.filter(id => !backgrounds.some(b => b.id === id));
+    if (remaining.length === 0) {
+      // All exhausted — generate picsum randoms
+      for (let i = 0; i < 8; i++) {
+        const seed = Date.now() + i;
+        backgrounds.push({
+          url: `https://picsum.photos/seed/${seed}/800/800`,
+          thumb: `https://picsum.photos/seed/${seed}/120/120`,
+          id: 'picsum-' + seed,
+        });
+      }
+    } else {
+      const next = shuffle(remaining).slice(0, 8);
+      next.forEach(id => {
+        backgrounds.push({ url: unsplashUrl(id, 800), thumb: unsplashUrl(id, 120), id });
+      });
+    }
+    renderThumbs();
+    // Select the first new one
+    selectBg(backgrounds.length - 8);
+  });
+
+  function setOverlay(type) {
+    state.overlay = type;
+    const map = {
+      dark: 'rgba(0,0,0,0.55)',
+      light: 'rgba(255,255,255,0.45)',
+      gradient: 'linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.1) 60%, transparent 100%)',
+      none: 'transparent',
+    };
+    overlayEl.style.background = map[type] || map.dark;
+
+    // Adjust text color
+    const isLight = type === 'light';
+    preview.style.setProperty('--qg-text', isLight ? '#111' : '#fff');
+    preview.style.setProperty('--qg-text-sub', isLight ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.7)');
+    preview.style.setProperty('--qg-divider', isLight ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.3)');
+  }
+
+  function setFont(font) {
+    state.font = font;
+    quoteEl.style.fontFamily = fontMap[font];
+    authorEl.style.fontFamily = font === 'serif' ? fontMap.sans : fontMap[font];
+  }
+
+  function setAlign(align) {
+    state.align = align;
+    const content = preview.querySelector('.qg-preview__content');
+    content.style.textAlign = align;
+    content.style.alignItems = align === 'center' ? 'center' : align === 'right' ? 'flex-end' : 'flex-start';
+  }
+
+  // Pill button wiring
+  function wirePills(containerId, callback) {
+    const container = document.getElementById(containerId);
+    container.querySelectorAll('.qg-pill').forEach(btn => {
+      btn.addEventListener('click', () => {
+        container.querySelectorAll('.qg-pill').forEach(b => b.classList.remove('qg-pill--active'));
+        btn.classList.add('qg-pill--active');
+        const val = btn.dataset.overlay || btn.dataset.font || btn.dataset.align;
+        callback(val);
+      });
+    });
+  }
+
+  wirePills('qg-overlay-options', setOverlay);
+  wirePills('qg-font-options', setFont);
+  wirePills('qg-align-options', setAlign);
+
+  // Shuffle — pick a random different background
+  document.getElementById('qg-shuffle').addEventListener('click', () => {
+    let next;
+    do {
+      next = Math.floor(Math.random() * backgrounds.length);
+    } while (next === state.bgIndex && backgrounds.length > 1);
+    selectBg(next);
+  });
+
+  // Download via canvas
+  document.getElementById('qg-download').addEventListener('click', async () => {
+    const btn = document.getElementById('qg-download');
+    btn.textContent = 'Generating...';
+    btn.disabled = true;
+
+    try {
+      const bg = backgrounds[state.bgIndex];
+      const img = new Image();
+      img.crossOrigin = 'anonymous';
+
+      await new Promise((resolve, reject) => {
+        img.onload = resolve;
+        img.onerror = reject;
+        img.src = bg.id.startsWith('picsum-')
+          ? bg.url.replace('/800/800', '/1200/1200')
+          : unsplashUrl(bg.id, 1200);
+      });
+
+      // Draw background (cover)
+      const scale = Math.max(1080 / img.width, 1080 / img.height);
+      const w = img.width * scale;
+      const h = img.height * scale;
+      ctx.drawImage(img, (1080 - w) / 2, (1080 - h) / 2, w, h);
+
+      // Overlay
+      if (state.overlay === 'dark') {
+        ctx.fillStyle = 'rgba(0,0,0,0.55)';
+        ctx.fillRect(0, 0, 1080, 1080);
+      } else if (state.overlay === 'light') {
+        ctx.fillStyle = 'rgba(255,255,255,0.45)';
+        ctx.fillRect(0, 0, 1080, 1080);
+      } else if (state.overlay === 'gradient') {
+        const grad = ctx.createLinearGradient(0, 1080, 0, 0);
+        grad.addColorStop(0, 'rgba(0,0,0,0.8)');
+        grad.addColorStop(0.6, 'rgba(0,0,0,0.1)');
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.fillRect(0, 0, 1080, 1080);
+      }
+
+      // Text settings
+      const isLight = state.overlay === 'light';
+      const textColor = isLight ? '#111' : '#fff';
+      const subColor = isLight ? 'rgba(0,0,0,0.6)' : 'rgba(255,255,255,0.7)';
+      const divColor = isLight ? 'rgba(0,0,0,0.2)' : 'rgba(255,255,255,0.3)';
+
+      const fontFamilyQuote = state.font === 'serif' ? 'Playfair Display, Georgia, serif'
+        : state.font === 'mono' ? 'JetBrains Mono, monospace'
+        : 'Sora, sans-serif';
+      const fontFamilyAuthor = state.font === 'serif' ? 'Sora, sans-serif' : fontFamilyQuote;
+
+      ctx.textAlign = state.align;
+      const xPos = state.align === 'center' ? 540 : state.align === 'right' ? 980 : 100;
+      const maxW = 880;
+
+      // Quote text
+      ctx.fillStyle = textColor;
+      ctx.font = `700 48px ${fontFamilyQuote}`;
+      const quoteText = quoteEl.innerText || 'Your quote here';
+      const lines = wrapText(ctx, quoteText, maxW);
+      const lineHeight = 68;
+      const totalTextH = lines.length * lineHeight + 100;
+      let startY = (1080 - totalTextH) / 2;
+
+      lines.forEach((line, i) => {
+        ctx.fillText(line, xPos, startY + i * lineHeight);
+      });
+
+      // Divider
+      const divY = startY + lines.length * lineHeight + 30;
+      ctx.strokeStyle = divColor;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      if (state.align === 'center') {
+        ctx.moveTo(490, divY);
+        ctx.lineTo(590, divY);
+      } else if (state.align === 'left') {
+        ctx.moveTo(100, divY);
+        ctx.lineTo(200, divY);
+      } else {
+        ctx.moveTo(880, divY);
+        ctx.lineTo(980, divY);
+      }
+      ctx.stroke();
+
+      // Author
+      ctx.fillStyle = subColor;
+      ctx.font = `400 28px ${fontFamilyAuthor}`;
+      const authorText = authorEl.innerText || '';
+      if (authorText) {
+        ctx.fillText(authorText, xPos, divY + 50);
+      }
+
+      // Download
+      const link = document.createElement('a');
+      link.download = 'quote-' + Date.now() + '.png';
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+    } catch (e) {
+      console.error('Download failed:', e);
+      alert('Could not generate image. Try a different background.');
+    }
+
+    btn.innerHTML = '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Download PNG';
+    btn.disabled = false;
+  });
+
+  function wrapText(ctx, text, maxWidth) {
+    const words = text.split(' ');
+    const lines = [];
+    let currentLine = '';
+    for (const word of words) {
+      const test = currentLine ? currentLine + ' ' + word : word;
+      if (ctx.measureText(test).width > maxWidth && currentLine) {
+        lines.push(currentLine);
+        currentLine = word;
+      } else {
+        currentLine = test;
+      }
+    }
+    if (currentLine) lines.push(currentLine);
+    return lines;
   }
 
   // Initialize
-  setImage(unsplashImages[0]);
-
-  document.getElementById('refresh-btn')?.addEventListener('click', refreshImage);
-  document.getElementById('download-btn')?.addEventListener('click', downloadImage);
+  selectBg(0);
+  setOverlay('dark');
+  setFont('serif');
+})();
 </script>
 
 <style>
-  .quote-container {
+  /* ── Grain ── */
+  .qg-grain {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    pointer-events: none;
+    opacity: 0.035;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px;
+  }
+
+  /* ── Shell ── */
+  .qg {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Hero ── */
+  .qg-hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 56px 0 48px;
+    gap: 32px;
+  }
+
+  .qg-hero__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 8vw, 72px);
+    line-height: 1;
+    margin: 0 0 16px;
+    letter-spacing: -0.03em;
+  }
+
+  .qg-hero__accent {
+    display: inline-block;
+    background: linear-gradient(135deg, hsl(349 98% 25%) 0%, hsl(169deg 60% 22%) 100%);
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: qgShimmer 6s ease infinite;
+  }
+
+  @keyframes qgShimmer {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+  }
+
+  .qg-hero__sub {
+    font-size: var(--body);
+    color: var(--element2);
+    margin: 0;
+    max-width: 340px;
+  }
+
+  /* Geometric accent */
+  .qg-hero__geo {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    flex-shrink: 0;
+  }
+
+  .qg-geo__ring {
+    position: absolute;
+    inset: 0;
+    border: 1.5px solid var(--element4);
+    border-radius: 50%;
+    animation: qgRingSpin 20s linear infinite;
+  }
+
+  @keyframes qgRingSpin { to { transform: rotate(360deg); } }
+
+  .qg-geo__dot {
+    position: absolute;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--primary-color);
+  }
+
+  .qg-geo__dot--1 { top: 8px; left: 56px; }
+  .qg-geo__dot--2 { bottom: 16px; right: 12px; background: var(--secondary-color); }
+
+  .qg-geo__quotes {
+    position: absolute;
+    width: 48px;
+    height: 48px;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--element3);
+  }
+
+  /* ── Workspace ── */
+  .qg-workspace {
+    display: grid;
+    grid-template-columns: 1fr 280px;
+    gap: 32px;
+    align-items: start;
+    border-top: 1px solid var(--element4);
+    padding-top: 48px;
+  }
+
+  /* ── Preview card ── */
+  .qg-canvas-wrap {
+    position: relative;
+  }
+
+  .qg-preview {
     position: relative;
     width: 100%;
-    max-width: 400px;
-    height: 280px;
-    border-radius: 8px;
+    aspect-ratio: 1 / 1;
+    border-radius: 12px;
     overflow: hidden;
-    background: #333;
+    background: #1a1a1a;
+    --qg-text: #fff;
+    --qg-text-sub: rgba(255,255,255,0.7);
+    --qg-divider: rgba(255,255,255,0.3);
+    box-shadow: 0 24px 48px -12px rgba(0,0,0,0.3);
+    transition: box-shadow 0.3s ease;
   }
-  .image-container {
+
+  .qg-preview:hover {
+    box-shadow: 0 32px 64px -16px rgba(0,0,0,0.4);
+  }
+
+  .qg-preview__bg {
     position: absolute;
     inset: 0;
     background-size: cover;
     background-position: center;
+    transition: background-image 0.5s ease;
   }
-  .image-container::after {
-    content: '';
+
+  .qg-preview__overlay {
     position: absolute;
     inset: 0;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.55);
+    transition: background 0.4s ease;
   }
-  .quote {
+
+  .qg-preview__content {
     position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    padding: 20px;
-    color: #fff;
-    z-index: 1;
-  }
-  .quote .text {
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 1.4;
-    min-height: 24px;
-    outline: none;
-  }
-  .quote .author {
-    font-size: 13px;
-    opacity: 0.8;
-    margin-top: 8px;
-    min-height: 16px;
-    outline: none;
-  }
-  .controls {
-    margin-top: 16px;
-  }
-  .image-selector {
+    inset: 0;
     display: flex;
-    gap: 12px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 48px;
+    z-index: 1;
+    gap: 0;
   }
-  .button1 {
+
+  .qg-preview__quote {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(18px, 3.5vw, 28px);
+    font-weight: 700;
+    line-height: 1.45;
+    color: var(--qg-text);
+    outline: none;
+    cursor: text;
+    min-height: 1.4em;
+    max-width: 100%;
+    transition: color 0.3s;
+    word-break: break-word;
+  }
+
+  .qg-preview__quote:empty::before {
+    content: 'Type your quote...';
+    opacity: 0.4;
+  }
+
+  .qg-preview__divider {
+    width: 48px;
+    height: 1.5px;
+    background: var(--qg-divider);
+    margin: 20px 0;
+    transition: background 0.3s;
+  }
+
+  .qg-preview__author {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: clamp(12px, 2vw, 15px);
+    font-weight: 300;
+    color: var(--qg-text-sub);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    outline: none;
+    cursor: text;
+    min-height: 1.2em;
+    transition: color 0.3s;
+  }
+
+  .qg-preview__author:empty::before {
+    content: 'Author name';
+    opacity: 0.4;
+  }
+
+  /* ── Controls ── */
+  .qg-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .qg-ctrl-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .qg-ctrl-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--element3);
+  }
+
+  /* BG thumbnails */
+  .qg-bg-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+  }
+
+  .qg-bg-thumb {
+    aspect-ratio: 4 / 3;
+    border: none;
+    border-radius: 6px;
+    background-size: cover;
+    background-position: center;
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s, box-shadow 0.2s;
+    outline: 2px solid transparent;
+    outline-offset: 2px;
+    min-height: 48px;
+  }
+
+  .qg-bg-thumb:hover {
+    transform: scale(1.08);
+  }
+
+  .qg-bg-thumb--active {
+    outline-color: var(--primary-color);
+  }
+
+  .qg-load-more {
+    width: 100%;
+    padding: 8px;
+    border: 1px dashed var(--element4);
+    border-radius: 6px;
+    background: transparent;
+    color: var(--element3);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.03em;
+  }
+
+  .qg-load-more:hover {
+    border-color: var(--element3);
+    color: var(--element1);
+    background: var(--surface2);
+  }
+
+  /* Pill buttons */
+  .qg-pill {
+    padding: 6px 14px;
+    border: 1px solid var(--element4);
+    border-radius: 100px;
+    background: transparent;
+    color: var(--element2);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-family: inherit;
+  }
+
+  .qg-pill--icon {
+    padding: 6px 10px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  .qg-pill:hover {
+    border-color: var(--element3);
+    color: var(--element1);
+  }
+
+  .qg-pill--active {
+    background: var(--element1);
+    color: var(--surface1);
+    border-color: var(--element1);
+  }
+
+  .qg-overlay-options,
+  .qg-font-options,
+  .qg-align-options {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  /* Action buttons */
+  .qg-actions {
+    display: flex;
+    gap: 10px;
+    margin-top: 8px;
+    flex-direction: column;
+  }
+
+  .qg-btn {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    width: 44px;
-    height: 44px;
-    background: var(--surface2);
-    border-radius: 50%;
+    gap: 8px;
+    padding: 12px 20px;
+    border-radius: 8px;
+    border: none;
     cursor: pointer;
-    transition: background 0.2s;
-    color: var(--element1);
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 600;
+    transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .button1:hover {
-    background: var(--element3);
+
+  .qg-btn--primary {
+    background: var(--element1);
+    color: var(--surface1);
+  }
+
+  .qg-btn--primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -6px var(--card-shadow-color);
+  }
+
+  .qg-btn--secondary {
+    background: var(--surface2);
+    color: var(--element1);
+    border: 1px solid var(--element4);
+  }
+
+  .qg-btn--secondary:hover {
+    border-color: var(--element3);
+  }
+
+  .qg-btn:disabled {
+    opacity: 0.6;
+    cursor: wait;
+  }
+
+  /* ── Samples ── */
+  .qg-samples {
+    margin-top: 72px;
+    border-top: 1px solid var(--element4);
+    padding-top: 48px;
+  }
+
+  .qg-samples__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-size: var(--h2);
+    font-weight: 100;
+    text-transform: uppercase;
+    margin: 0 0 8px;
+  }
+
+  .qg-samples__sub {
+    color: var(--element2);
+    margin: 0 0 32px;
+  }
+
+  .qg-samples__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+
+  .qg-sample__card {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 10px;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+  }
+
+  .qg-sample__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+  }
+
+  .qg-sample__text {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 24px;
+    color: #fff;
+    z-index: 1;
+  }
+
+  .qg-sample__text p {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: clamp(14px, 2vw, 18px);
+    font-weight: 700;
+    line-height: 1.45;
+    margin: 0 0 12px;
+  }
+
+  .qg-sample__text span {
+    font-family: 'Sora', sans-serif;
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 768px) {
+    .qg-workspace {
+      grid-template-columns: 1fr;
+    }
+
+    .qg-controls {
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+
+    .qg-ctrl-group {
+      flex: 1 1 calc(50% - 8px);
+      min-width: 140px;
+    }
+
+    .qg-actions {
+      flex-direction: row;
+      flex: 1 1 100%;
+    }
+
+    .qg-actions .qg-btn {
+      flex: 1;
+    }
+
+    .qg-hero__geo {
+      display: none;
+    }
+
+    .qg-samples__grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .qg-samples__grid .qg-sample:last-child {
+      display: none;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .qg {
+      padding: 0 16px 60px;
+    }
+
+    .qg-hero {
+      padding: 32px 0 24px;
+    }
+
+    .qg-preview__content {
+      padding: 28px;
+    }
+
+    .qg-bg-grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .qg-samples__grid {
+      grid-template-columns: 1fr;
+    }
+
+    .qg-samples__grid .qg-sample:last-child {
+      display: block;
+    }
+
+    .qg-actions {
+      flex-direction: column;
+    }
   }
 </style>
