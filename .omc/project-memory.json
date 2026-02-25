@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1771658442944,
+  "lastScanned": 1772021653150,
   "projectRoot": "/home/samm/src/personal/profile",
   "techStack": {
     "languages": [
@@ -36,6 +36,11 @@
         "name": "react-dom",
         "version": "19.2.4",
         "category": "frontend"
+      },
+      {
+        "name": "playwright",
+        "version": "1.58.2",
+        "category": "testing"
       }
     ],
     "packageManager": "pnpm",
@@ -51,7 +56,8 @@
       "prebuild": "node scripts/generate-og-images.cjs",
       "build": "astro build",
       "preview": "astro preview",
-      "astro": "astro"
+      "astro": "astro",
+      "gen:image": "bun scripts/generate-image.ts"
     }
   },
   "conventions": {
@@ -80,14 +86,14 @@
       "path": "_templates",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1771658442902,
+      "lastAccessed": 1772021653065,
       "keyFiles": []
     },
     "blog": {
       "path": "blog",
       "purpose": null,
       "fileCount": 2,
-      "lastAccessed": 1771658442923,
+      "lastAccessed": 1772021653066,
       "keyFiles": [
         "default.png",
         "scratchpad.txt"
@@ -97,7 +103,7 @@
       "path": "dist",
       "purpose": "Distribution/build output",
       "fileCount": 11,
-      "lastAccessed": 1771658442930,
+      "lastAccessed": 1772021653103,
       "keyFiles": [
         "404.html",
         "CNAME",
@@ -110,7 +116,7 @@
       "path": "hacks",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1771658442931,
+      "lastAccessed": 1772021653127,
       "keyFiles": [
         "logs.txt"
       ]
@@ -119,14 +125,14 @@
       "path": "plugins",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1771658442931,
+      "lastAccessed": 1772021653127,
       "keyFiles": []
     },
     "public": {
       "path": "public",
       "purpose": "Public files",
       "fileCount": 6,
-      "lastAccessed": 1771658442932,
+      "lastAccessed": 1772021653127,
       "keyFiles": [
         "CNAME",
         "Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf",
@@ -138,18 +144,20 @@
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
-      "fileCount": 2,
-      "lastAccessed": 1771658442932,
+      "fileCount": 4,
+      "lastAccessed": 1772021653127,
       "keyFiles": [
         "canvas-fallback.js",
-        "generate-og-images.cjs"
+        "generate-image.ts",
+        "generate-og-images.cjs",
+        "image-prompt.ts"
       ]
     },
     "src": {
       "path": "src",
       "purpose": "Source code",
       "fileCount": 7,
-      "lastAccessed": 1771658442932,
+      "lastAccessed": 1772021653128,
       "keyFiles": [
         "content.config.ts",
         "custom.d.ts",
@@ -162,7 +170,7 @@
       "path": "static",
       "purpose": "Static files",
       "fileCount": 4,
-      "lastAccessed": 1771658442933,
+      "lastAccessed": 1772021653129,
       "keyFiles": [
         "CNAME",
         "Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf",
@@ -174,7 +182,7 @@
       "path": "dist/assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1771658442934,
+      "lastAccessed": 1772021653134,
       "keyFiles": [
         "logo.jpg"
       ]
@@ -183,7 +191,7 @@
       "path": "public/assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1771658442935,
+      "lastAccessed": 1772021653141,
       "keyFiles": [
         "logo.jpg"
       ]
@@ -192,7 +200,7 @@
       "path": "src/assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1771658442938,
+      "lastAccessed": 1772021653145,
       "keyFiles": [
         "logo.jpg"
       ]
@@ -201,7 +209,7 @@
       "path": "src/components",
       "purpose": "UI components",
       "fileCount": 7,
-      "lastAccessed": 1771658442943,
+      "lastAccessed": 1772021653145,
       "keyFiles": [
         "Banner.astro",
         "Footer.astro",
@@ -212,7 +220,7 @@
       "path": "src/pages",
       "purpose": "Page components",
       "fileCount": 3,
-      "lastAccessed": 1771658442944,
+      "lastAccessed": 1772021653147,
       "keyFiles": [
         "404.astro",
         "index.astro",
@@ -222,231 +230,39 @@
   },
   "hotPaths": [
     {
-      "path": "src/pages/index.astro",
-      "accessCount": 10,
-      "lastAccessed": 1771661674044,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/reusable-bun-modules/index.mdx",
-      "accessCount": 10,
-      "lastAccessed": 1771663788520,
-      "type": "file"
-    },
-    {
-      "path": "scripts/generate-image.ts",
+      "path": "src/content/blog/you-dont-need-openclaw/index.mdx",
       "accessCount": 6,
-      "lastAccessed": 1771664347406,
+      "lastAccessed": 1772027751733,
       "type": "file"
     },
     {
-      "path": "image-gen.md",
-      "accessCount": 6,
-      "lastAccessed": 1771664348167,
-      "type": "file"
-    },
-    {
-      "path": "package.json",
-      "accessCount": 5,
-      "lastAccessed": 1771664347945,
+      "path": "src/content/blog/claude-code-slack-linear-mcp/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1772021901263,
       "type": "file"
     },
     {
       "path": "src/content.config.ts",
-      "accessCount": 4,
-      "lastAccessed": 1771663788967,
+      "accessCount": 2,
+      "lastAccessed": 1772021905400,
       "type": "file"
     },
     {
-      "path": "scripts/image-prompt.ts",
-      "accessCount": 4,
-      "lastAccessed": 1771664347576,
-      "type": "file"
-    },
-    {
-      "path": "src",
-      "accessCount": 3,
-      "lastAccessed": 1771661657972,
+      "path": "",
+      "accessCount": 1,
+      "lastAccessed": 1772021897071,
       "type": "directory"
-    },
-    {
-      "path": "src/content/blog/ai-coding-revolution/index.mdx",
-      "accessCount": 3,
-      "lastAccessed": 1771663773251,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/vibe-coding-revolution/index.mdx",
-      "accessCount": 3,
-      "lastAccessed": 1771663773809,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/.CLAUDE.md",
-      "accessCount": 3,
-      "lastAccessed": 1771663899823,
-      "type": "file"
-    },
-    {
-      "path": "scripts/generate-og-images.cjs",
-      "accessCount": 3,
-      "lastAccessed": 1771664347192,
-      "type": "file"
     },
     {
       "path": "src/content/blog/claude-code-efficiency/index.mdx",
-      "accessCount": 3,
-      "lastAccessed": 1771664644738,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/CLAUDE.md",
-      "accessCount": 2,
-      "lastAccessed": 1771660325279,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/blog-about-blog/index.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771660900149,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/my-take-on-css-grids/index.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771660900657,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/react-hooks/index.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771660901093,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/vim-is-a-blackhole/index.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771660901799,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/instagram-api/insta.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771660902063,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/bookmarklets/2022-06-19.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771660902964,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/github-mcp-server/index.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1771660921666,
-      "type": "file"
-    },
-    {
-      "path": "scripts/canvas-fallback.js",
       "accessCount": 1,
-      "lastAccessed": 1771659418788,
+      "lastAccessed": 1772021901772,
       "type": "file"
     },
     {
-      "path": "astro.config.mjs",
+      "path": "src/content/blog/you-dont-need-openclaw/header.png",
       "accessCount": 1,
-      "lastAccessed": 1771659422824,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog",
-      "accessCount": 1,
-      "lastAccessed": 1771660164263,
-      "type": "directory"
-    },
-    {
-      "path": "src/content/blog/online-presence/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660168461,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/random-array/2022-06-27.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660169928,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/gatsby-og-image/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660170393,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/you-don-t-need-these-many-state-variables/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660182561,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/ghostty-config/index.md",
-      "accessCount": 1,
-      "lastAccessed": 1771660921195,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/linear-mcp-server/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660922256,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/leverage-ai-to-understand-complete-repo/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660922617,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/migrating-from-cra-to-vite-with-bunjs/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660924018,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/how-i-salvaged-my-website-from-the-dead/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660924725,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/frontend-performance-optimisation/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1771660925260,
-      "type": "file"
-    },
-    {
-      "path": "hero-light-mode.png",
-      "accessCount": 1,
-      "lastAccessed": 1771661652277,
-      "type": "file"
-    },
-    {
-      "path": "src/pages/blog/[...slug].astro",
-      "accessCount": 1,
-      "lastAccessed": 1771664155512,
-      "type": "file"
-    },
-    {
-      "path": "screenshot.mjs",
-      "accessCount": 1,
-      "lastAccessed": 1771664347736,
-      "type": "file"
-    },
-    {
-      "path": "src/content/blog/claude-code-efficiency/header.png",
-      "accessCount": 1,
-      "lastAccessed": 1771664382728,
+      "lastAccessed": 1772022662194,
       "type": "file"
     }
   ],
