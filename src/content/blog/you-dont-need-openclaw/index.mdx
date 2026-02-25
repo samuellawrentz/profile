@@ -32,8 +32,7 @@ Here's the entire architecture:
 travis/
   SOUL.md                    # Personality + operating principles
   CLAUDE.md                  # Wiring: load SOUL.md, use memory system
-  daily-update-prompt.md     # Task: scan Slack + Linear, generate summary
-  weekly-update-prompt.md    # Task: aggregate dailies into weekly report
+  prompts/                   # Task-specific prompt templates
   memories/                  # Persistent context files
     role-and-context.md
     team-roster.md
@@ -42,8 +41,7 @@ travis/
   scripts/
     daily-summary.sh         # Cron runner
     weekly-summary.sh         # Cron runner
-  daily-update/              # Generated reports
-  weekly-update/             # Generated reports
+  output/                    # Generated reports
 ```
 
 That's it. A directory with some markdown files and two shell scripts.
@@ -52,7 +50,7 @@ That's it. A directory with some markdown files and two shell scripts.
 
 The `memories/` directory is the persistence layer. Team roster, quarterly goals, process docs — anything Travis needs to know across sessions lives here as plain markdown. No database, no vector store, no embeddings. Just files.
 
-Prompt files are task-specific instructions with template variables. The daily update prompt tells Travis to scan Slack channels and Linear projects, then generate a structured summary with blockers, decisions made, and things that need my attention.
+Prompt files are task-specific instructions with template variables. One prompt tells Travis to scan Slack channels and Linear projects, then generate a structured summary with blockers, decisions made, and things that need my attention. Another aggregates those into a weekly report.
 
 ## The magic: `claude -p` + cron
 
@@ -74,9 +72,7 @@ That's the whole thing. Claude Code's headless mode — the `-p` flag — turns 
 
 MCP servers give it read access to everything it needs. Slack MCP for channel history, Linear MCP for project tracking. I wrote about setting up both of these [in my last post](/blog/claude-code-slack-linear-mcp/).
 
-The script generates a markdown report, drops it into the `daily-update/` directory, and sends me a Telegram notification with the highlights. Every morning at 7 AM, I wake up to a summary of what happened overnight — blockers, decisions, things that need my attention. No app to open, no chat to scroll through.
-
-The weekly script is the same idea but aggregates the daily reports into a broader narrative with trends and recommendations.
+The script generates a markdown report and sends me a Telegram notification with the highlights. Every morning at 7 AM, I wake up to a summary of what happened overnight — blockers, decisions, things that need my attention. No app to open, no chat to scroll through.
 
 ## Side-by-side
 
