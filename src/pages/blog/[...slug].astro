@@ -38,7 +38,7 @@ function estimateReadTime(description?: string): string {
 const dateStr = formatDate(post.data.date);
 const readTime = estimateReadTime(post.data.description);
 ---
-<BaseLayout title={`Samuel Lawrentz | ${post.data.title}`}>
+<BaseLayout title={`Samuel Lawrentz | ${post.data.title}`} description={post.data.description}>
   <SEO slot="head" title={`Samuel Lawrentz | ${post.data.title}`} description={post.data.description} image={ogImagePath} article={true} />
 
   <div class="article-page">

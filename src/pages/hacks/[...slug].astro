@@ -50,7 +50,7 @@ if (!isCategory && hack) {
 const categoryDisplay = (cat: string) => cat.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
 const ensureTrailingSlash = (p: string) => p.endsWith('/') ? p : p + '/';
 ---
-<BaseLayout title={isCategory ? `${categoryDisplay(categoryName!)} — Hacks` : hack?.data.title}>
+<BaseLayout title={isCategory ? `${categoryDisplay(categoryName!)} — Hacks` : hack?.data.title} description={hack?.data.description}>
   {!isCategory && hack && (
     <SEO slot="head" title={hack.data.title} description={hack.data.description} image={`/og-images/${hack.data.path.replace(/[/-]/gi, '')}.png`} article={true} />
   )}
