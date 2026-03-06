@@ -1,0 +1,70 @@
+---
+title: "2026 Is the Year of CLIs, Skills, and APIs"
+date: 2026-03-06
+heroImage: ./header.png
+path: /blog/year-of-clis-skills-apis/
+published: true
+tags: [ai, agents, api, cli, saas, architecture]
+description: "Agents don't click buttons. The businesses that win from here will be the ones building APIs, CLIs, and skills — not dashboards."
+---
+
+I've been writing frontend code for years. I genuinely love building UIs — the craft of making something feel right, the micro-interactions, the typography. But I've been watching a shift happen over the last few months that I can't ignore anymore.
+
+The software I build every day is increasingly consumed by things that don't have eyes.
+
+## The SaaSpocalypse Already Happened
+
+On February 3rd, 2026, roughly [$285 billion in market value](https://www.outlookindia.com/xhub/blockchain-insights/the-saaspocalypse-of-2026-how-agentic-ai-killed-per-seat-saas) evaporated from SaaS and IT services companies in a single day. The market had a collective realization: if AI agents can do the work of 10 employees using APIs directly, why are we paying per-seat for dashboards those employees used to click through?
+
+Per-seat pricing is dying because agents don't buy seats. [Gartner predicted](https://www.gartner.com/en/newsroom/press-releases/2024-03-20-gartner-predicts-more-than-30-percent-of-the-increase-in-demand-for-apis-will-come-from-ai-and-tools-using-llms-by-2026) that 30% of the increase in API demand by 2026 would come from AI and LLMs. They also predicted [40% of enterprise apps](https://www.gartner.com/en/newsroom/press-releases/2025-08-26-gartner-predicts-40-percent-of-enterprise-apps-will-feature-task-specific-ai-agents-by-2026-up-from-less-than-5-percent-in-2025) would feature task-specific AI agents by 2026, up from less than 5% in 2025. Both predictions landed.
+
+This isn't a correction. It's a reclassification of what software even is.
+
+## CLIs Are the Agent's Mother Tongue
+
+Here's a number that rewired my brain: a device compliance task that consumed [~145,000 tokens through MCP took only ~4,150 tokens via CLI](https://jonnyzzz.com/blog/2026/02/20/cli-tools-for-ai-agents/). That's a 35x reduction. Cloudflare took this even further — their [Code Mode](https://blog.cloudflare.com/code-mode-mcp/) exposes 2,500+ API endpoints through just two MCP tools using ~1,000 tokens, down from 1.17 million tokens for the equivalent traditional MCP server.
+
+Why are CLIs so natural for agents? Because LLMs were literally trained on billions of lines of terminal interactions. `--help` flags, pipes, JSON output, exit codes — these aren't legacy patterns. They're the agent's native interface. A well-designed CLI with `--output json` is more agent-friendly than any React dashboard you could build.
+
+Eugene Petrenko [put it well](https://jonnyzzz.com/blog/2026/02/20/cli-tools-for-ai-agents/): a good CLI is often the fastest way to make a tool usable by AI agents. No SDK installation, no auth dance, no token negotiation. Just structured text in, structured text out.
+
+## Skills: The Missing Layer
+
+This is the part most people aren't talking about yet. We have APIs (how services expose capabilities) and CLIs (how agents invoke them efficiently). But there's a third layer emerging: **skills**.
+
+Skills are composable, reusable bundles of agent capability. Think of them as [the package manager for agent workflows](https://dev.to/miaoshuyo/skills-vs-tools-vs-mcp-vs-subagents-vs-hooks-2026-ultimate-comparison-kpi) — not just a single API call, but an entire workflow packaged up: the prompts, the tool chain, the error handling, the domain expertise.
+
+MCP solved "how do agents talk to tools." Skills solve ["how do developers share agent capabilities."](https://cra.mr/mcp-skills-and-agents/) One is plumbing. The other is product.
+
+The Claude Code ecosystem alone has [over 9,000 plugins](https://halallens.no/en/blog/agentic-coding-in-2026-the-complete-guide-to-plugins-multi-model-orchestration-and-ai-agent-teams) as of February 2026 — skills, agents, hooks, MCP server configurations. That's an entire marketplace of agent capabilities being shared and composed, and it barely existed a year ago.
+
+This is where it gets interesting for businesses. Your competitive advantage isn't your UI anymore. It's whether your capabilities can be consumed as skills by agents operating in someone else's workflow.
+
+## So What Happens to UIs?
+
+They don't die. But their job description changes completely.
+
+The mundane work — data entry, status updates, routine approvals, CRUD operations — agents handle all of it through APIs. No human in the loop means no UI required. What survives is narrow:
+
+**Reporting dashboards.** Humans need to see what agents are doing — decisions made, money spent, confidence levels. Less Salesforce, more Datadog.
+
+**Decision screens.** When an agent hits something that exceeds its confidence — a large purchase, a policy exception, an edge case — it surfaces a single, focused approval screen. Not a full application. One decision point.
+
+**Strategy and analytics.** Humans still set direction, interpret trends, and make judgment calls that require context agents don't have.
+
+That's it. The UI becomes a reporting and decision-elicitation layer. It stops being the place where humans do the work, and starts being the place where humans review and direct the work.
+
+## The Winning Stack
+
+The companies that are already ahead — Stripe with their [Agentic Commerce Suite](https://stripe.com/blog/can-ai-agents-build-real-stripe-integrations), Cloudflare with Code Mode, Salesforce with headless Agentforce — they all figured out the same thing:
+
+1. **API as the product.** Not an afterthought bolted onto the UI. The actual product.
+2. **CLI as the fast lane.** Thin wrappers that speak JSON and respect Unix conventions.
+3. **Skills as the distribution model.** Packaged agent capabilities that compose into workflows.
+4. **UI as the oversight layer.** Reporting, decisions, strategy. Nothing else.
+
+If your entire product value is locked behind a login screen and a series of forms, you're building for a user that's going extinct. The next million users of your software won't have a browser open. They'll call your API, parse the JSON, and move on — in milliseconds.
+
+Build the API. Wrap it in a CLI. Package it as a skill. And let the dashboard show humans what the agents are doing.
+
+That's the stack for 2026.
