@@ -12,6 +12,7 @@ const blog = defineCollection({
     description: z.string().optional(),
     heroImage: image().optional(),
     published: z.boolean().optional().default(false),
+    featured: z.boolean().optional(),
     type: z.string().default("blog"),
   }),
 });

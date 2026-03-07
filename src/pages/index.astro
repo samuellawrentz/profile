@@ -51,8 +51,9 @@ const projects = [
   },
 ];
 
-const featured = latestPosts[0];
-const restPosts = latestPosts.slice(1);
+const featuredPost = allBlogPosts.find((p) => p.data.featured === true);
+const featured = featuredPost ?? latestPosts[0];
+const restPosts = latestPosts.filter((p) => p.id !== featured?.id).slice(0, 3);
 ---
 
 <BaseLayout title="Samuel Lawrentz - Design × Code × Systems">
@@ -158,8 +159,8 @@ const restPosts = latestPosts.slice(1);
           <h3>I write about Javascript, CSS, and all things web.</h3>
           <p>New content <b>every month</b> covering ReactJS, Typescript, NodeJS, CSS, and developer productivity.</p>
           <div class="blog-cta__links">
-            <a href="/about-me/journey/" class="cta-link">My Journey &rarr;</a>
-            <a href="/about-me/coding-activity/" class="cta-link">Coding Activity &rarr;</a>
+            <a href="/blog/" class="cta-link">All posts &rarr;</a>
+            <a href="/rss.xml" class="cta-link">Subscribe via RSS &rarr;</a>
           </div>
         </div>
       </div>
@@ -218,6 +219,7 @@ const restPosts = latestPosts.slice(1);
           <p class="social__role">Software Development Manager &mdash; <a href="https://plivo.com" target="_blank" rel="noreferrer">Plivo</a></p>
         </div>
         <nav class="social__links">
+          <a href="/about/">About</a>
           <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer">Github</a>
           <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer">LinkedIn</a>
           <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer">Twitter</a>

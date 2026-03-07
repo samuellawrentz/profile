@@ -1,0 +1,336 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SEO from '../components/SEO.astro';
+
+const milestones = [
+  { year: '2017', title: 'First Job — Burning Glass', tag: 'Origin', accent: 'hsl(349, 98%, 34%)' },
+  { year: '2018', title: 'Web Development Transition', tag: 'Pivot', accent: 'hsl(213, 99%, 38%)' },
+  { year: '2019', title: 'Frontend Developer at Plivo', tag: 'Growth', accent: 'hsl(169, 52%, 43%)' },
+  { year: '2020', title: 'Senior Frontend Developer', tag: 'Resilience', accent: 'hsl(45, 90%, 50%)' },
+  { year: '2021', title: 'SDE-1 at Contacto', tag: 'Exploration', accent: 'hsl(280, 60%, 50%)' },
+  { year: '2022', title: 'Mastering React', tag: 'Mastery', accent: 'hsl(190, 80%, 42%)' },
+  { year: '2023', title: 'Promoted to SDE-2', tag: 'Leadership', accent: 'hsl(340, 70%, 50%)' },
+  { year: '2024', title: 'Senior / Lead Engineer', tag: 'Ownership', accent: 'hsl(25, 90%, 55%)' },
+  { year: '2025', title: 'SDE-3 & AI Innovation', tag: 'Innovation', accent: 'hsl(160, 70%, 40%)' },
+  { year: '2026', title: 'Promoted to Manager', tag: 'New Chapter', accent: 'hsl(265, 80%, 55%)' },
+];
+---
+
+<BaseLayout
+  title="About — Samuel Lawrentz"
+  description="Samuel Lawrentz is a Software Development Manager at Plivo. Engineer, builder, and writer covering JavaScript, CSS, and all things web."
+>
+  <SEO slot="head" title="About — Samuel Lawrentz" description="Samuel Lawrentz is a Software Development Manager at Plivo. Engineer, builder, and writer covering JavaScript, CSS, and all things web." />
+  <div class="about-page">
+
+    <!-- Hero -->
+    <section class="about-hero">
+      <div class="about-hero__eyebrow">About me</div>
+      <h1 class="about-hero__name">Samuel Lawrentz</h1>
+      <p class="about-hero__role">
+        Software Development Manager &mdash;
+        <a href="https://plivo.com" target="_blank" rel="noreferrer">Plivo</a>
+      </p>
+      <p class="about-hero__bio">
+        Engineer who builds — pixel-perfect UIs, end-to-end systems, and design systems that scale.
+        I've spent the last decade at the intersection of product thinking and engineering craft,
+        most recently stepping into engineering management. I write about JavaScript, CSS,
+        developer productivity, and the messy human side of building software.
+      </p>
+      <nav class="about-hero__links">
+        <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer" class="about-link">GitHub</a>
+        <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer" class="about-link">LinkedIn</a>
+        <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer" class="about-link">Twitter</a>
+      </nav>
+    </section>
+
+    <!-- Journey -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <h2 class="about-section__title">Journey</h2>
+        <a href="/about-me/journey/" class="about-section__link">Full timeline &rarr;</a>
+      </div>
+      <p class="about-section__lead">
+        A decade of building — from C/C++ intern to engineering manager. Here are the chapters.
+      </p>
+      <div class="journey-strip">
+        {milestones.map((m) => (
+          <div class="journey-item" style={`--accent: ${m.accent};`}>
+            <span class="journey-item__tag">{m.tag}</span>
+            <span class="journey-item__year">{m.year}</span>
+            <span class="journey-item__title">{m.title}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <!-- Coding Activity -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <h2 class="about-section__title">Coding Activity</h2>
+        <a href="/about-me/coding-activity/" class="about-section__link">View stats &rarr;</a>
+      </div>
+      <p class="about-section__lead">
+        Tracked coding hours, languages, and editor usage — a live snapshot of what I'm working on.
+      </p>
+      <a href="/about-me/coding-activity/" class="activity-card">
+        <div class="activity-card__icon" aria-hidden="true">&lt;/&gt;</div>
+        <div class="activity-card__body">
+          <div class="activity-card__title">WakaTime stats</div>
+          <div class="activity-card__sub">Languages &middot; Editors &middot; Weekly hours</div>
+        </div>
+        <div class="activity-card__arrow">&rarr;</div>
+      </a>
+    </section>
+
+    <!-- Writing -->
+    <section class="about-section">
+      <div class="about-section__header">
+        <h2 class="about-section__title">Writing</h2>
+        <a href="/blog/" class="about-section__link">All posts &rarr;</a>
+      </div>
+      <p class="about-section__lead">
+        I write every month about React, TypeScript, CSS, and developer craft.
+        Subscribe via <a href="/rss.xml" class="inline-link">RSS</a> to get new posts.
+      </p>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<style>
+  .about-page {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ── Hero ── */
+  .about-hero {
+    padding: 56px 0 48px;
+    border-bottom: 1px solid var(--element4);
+  }
+
+  .about-hero__eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--element3);
+    margin-bottom: 16px;
+  }
+
+  .about-hero__name {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(36px, 7vw, 64px);
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    margin: 0 0 8px;
+    background: linear-gradient(
+      135deg,
+      hsl(349 98% 25%) 0%,
+      hsl(169deg 60% 22%) 50%,
+      hsl(349 98% 25%) 100%
+    );
+    background-size: 200% 200%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .about-hero__role {
+    font-size: var(--caption);
+    color: var(--element2);
+    margin: 0 0 24px;
+  }
+
+  .about-hero__role a {
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .about-hero__bio {
+    font-size: var(--body);
+    line-height: 1.75;
+    color: var(--element2);
+    margin: 0 0 28px;
+    max-width: 640px;
+  }
+
+  .about-hero__links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+  }
+
+  .about-link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--element2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .about-link:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  /* ── Sections ── */
+  .about-section {
+    padding: 48px 0;
+    border-bottom: 1px solid var(--element4);
+  }
+
+  .about-section__header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 12px;
+  }
+
+  .about-section__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(20px, 3vw, 28px);
+    margin: 0;
+  }
+
+  .about-section__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--element2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .about-section__link:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
+  }
+
+  .about-section__lead {
+    font-size: var(--body);
+    color: var(--element2);
+    line-height: 1.7;
+    margin: 0 0 28px;
+  }
+
+  .inline-link {
+    color: var(--element2);
+    text-underline-offset: 3px;
+  }
+
+  /* ── Journey strip ── */
+  .journey-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .journey-item {
+    display: grid;
+    grid-template-columns: 56px 56px 1fr;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid var(--element4);
+  }
+
+  .journey-item:last-child {
+    border-bottom: none;
+  }
+
+  .journey-item__tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+  }
+
+  .journey-item__year {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--element3);
+  }
+
+  .journey-item__title {
+    font-size: var(--body);
+    font-weight: 600;
+    color: var(--element1);
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+  }
+
+  /* ── Activity card ── */
+  .activity-card {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 20px 24px;
+    border: 1px solid var(--element4);
+    border-radius: 10px;
+    background: var(--surface2);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.2s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+  }
+
+  .activity-card:hover {
+    border-color: var(--element3);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px -8px var(--card-shadow-color);
+  }
+
+  .activity-card__icon {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 22px;
+    color: var(--primary-color);
+    flex-shrink: 0;
+  }
+
+  .activity-card__body {
+    flex: 1;
+  }
+
+  .activity-card__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: var(--body);
+    margin-bottom: 2px;
+  }
+
+  .activity-card__sub {
+    font-size: var(--caption);
+    color: var(--element2);
+  }
+
+  .activity-card__arrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    color: var(--element3);
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 480px) {
+    .about-page {
+      padding: 0 16px 60px;
+    }
+
+    .about-hero {
+      padding: 40px 0 36px;
+    }
+
+    .journey-item {
+      grid-template-columns: 48px 48px 1fr;
+      gap: 10px;
+    }
+  }
+</style>

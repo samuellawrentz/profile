@@ -4,6 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SEO from '../../components/SEO.astro';
 import { Image } from 'astro:assets';
 import GiscusComments from '../../components/GiscusComments';
+import { formatDate, estimateReadTime } from '../../utils/blog';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => data.published === true);
@@ -18,28 +19,22 @@ const { Content } = await render(post);
 
 const allPosts = await getCollection('blog', ({ data }) => data.published === true);
 const relatedPosts = allPosts
-  .filter(p => p.id !== post.id)
-  .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
+  .filter(p => p.id !== post.id && p.data.published === true)
+  .sort((a, b) => {
+    const sharedA = a.data.tags.filter((t: string) => post.data.tags.includes(t)).length;
+    const sharedB = b.data.tags.filter((t: string) => post.data.tags.includes(t)).length;
+    if (sharedB !== sharedA) return sharedB - sharedA;
+    return new Date(b.data.date).getTime() - new Date(a.data.date).getTime();
+  })
   .slice(0, 4);
 
 const ogImagePath = `/og-images/${post.data.path.replace(/[/-]/gi, '')}.png`;
-
-function formatDate(date: Date): string {
-  return new Date(date).toLocaleDateString('en-US', { day: '2-digit', month: 'short', year: 'numeric' });
-}
-
-function estimateReadTime(description?: string): string {
-  if (!description) return '5 min read';
-  const words = description.split(/\s+/).length;
-  const minutes = Math.max(1, Math.ceil(words / 200));
-  return `${minutes} min read`;
-}
 
 const dateStr = formatDate(post.data.date);
 const readTime = estimateReadTime(post.data.description);
 ---
 <BaseLayout title={`Samuel Lawrentz | ${post.data.title}`} description={post.data.description}>
-  <SEO slot="head" title={`Samuel Lawrentz | ${post.data.title}`} description={post.data.description} image={ogImagePath} article={true} />
+  <SEO slot="head" title={`Samuel Lawrentz | ${post.data.title}`} description={post.data.description} image={ogImagePath} article={true} publishedDate={post.data.date instanceof Date ? post.data.date.toISOString() : String(post.data.date)} type="article" />
 
   <div class="article-page">
     <div class="article-page__grain"></div>
@@ -68,7 +63,7 @@ const readTime = estimateReadTime(post.data.description);
         {post.data.tags && post.data.tags.length > 0 && (
           <div class="article-tags">
             {post.data.tags.map((tag: string) => (
-              <span class="tag-pill">{tag}</span>
+              <a href={'/blog/tag/' + encodeURIComponent(tag) + '/'} class="tag-pill">{tag}</a>
             ))}
           </div>
         )}
@@ -112,6 +107,11 @@ const readTime = estimateReadTime(post.data.description);
             @samuellawrentz &rarr;
           </a>
         </div>
+      </div>
+
+      {/* ── Subscribe CTA ── */}
+      <div class="post-subscribe">
+        <p>Enjoyed this post? <a href="/rss.xml">Subscribe via RSS</a> to get new posts as they come out.</p>
       </div>
 
       {/* ── Related Posts ── */}
@@ -290,6 +290,41 @@ const readTime = estimateReadTime(post.data.description);
     color: var(--element3);
     white-space: nowrap;
     border: 1px solid var(--element4);
+    text-decoration: none;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  a.tag-pill:hover {
+    color: var(--element1);
+    border-color: var(--element3);
+  }
+
+  /* ── Subscribe CTA ── */
+  .post-subscribe {
+    border-top: 1px solid var(--element4);
+    padding: 1.5rem 0;
+    margin-bottom: 0;
+  }
+
+  .post-subscribe p {
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    letter-spacing: 0.02em;
+    color: var(--element2);
+  }
+
+  .post-subscribe a {
+    color: var(--element2);
+    text-decoration: none;
+    border-bottom: 1px solid var(--element4);
+    padding-bottom: 1px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .post-subscribe a:hover {
+    color: var(--element1);
+    border-bottom-color: var(--element1);
   }
 
   /* ── Hero Image ── */

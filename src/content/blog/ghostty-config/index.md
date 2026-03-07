@@ -4,6 +4,7 @@ date: 2025-10-25
 heroImage: ./header.png
 path: /blog/minimal-ghostty-config/
 published: true
+featured: true
 tags: [ghostty, config, terminal, development]
 description: A no-nonsense Ghostty terminal config focused on aesthetics and tmux integration. Because your terminal should look good and work smoothly.
 ---

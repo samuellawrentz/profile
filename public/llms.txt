@@ -1,0 +1,82 @@
+# Samuel Lawrentz
+
+> Software Development Manager at Plivo. I write about JavaScript, CSS, Neovim, terminal tooling, and AI-assisted development.
+
+## Blog
+
+[2026 Is the Year of CLIs, Skills, and APIs](https://samuellawrentz.com/blog/year-of-clis-skills-apis/): Agents don't click buttons. The businesses that win from here will be the ones building APIs, CLIs, and skills — not dashboards.
+[Building for Agents — When AI Becomes Your Primary User](https://samuellawrentz.com/blog/building-for-agents/): Your next user won't have a browser. Software is shifting from UI-first to API-first as AI agents become the primary clients. Here's how to build for them.
+[How I Turned Slack Chaos Into Linear Tickets With Claude Code](https://samuellawrentz.com/blog/claude-code-slack-linear-mcp/): I use Claude Code to read my Slack messages, summarize what I said and why, figure out follow-ups, and create Linear tickets — all from the terminal.
+[You Don't Need OpenClaw — Claude Code Is Already a Personal AI Assistant](https://samuellawrentz.com/blog/you-dont-need-openclaw/): OpenClaw has 140k GitHub stars. I built the same thing with Claude Code, cron, and ~200 lines of shell scripts. Here's how.
+[How I Actually Use Claude Code — A Workflow That Works](https://samuellawrentz.com/blog/claude-code-efficiency/): Most people use Claude Code like a chatbot. Here's the structured workflow that turns it into a real engineering partner.
+[Building Reusable Bun Modules — Why Bun Makes It Stupidly Easy](https://samuellawrentz.com/blog/reusable-bun-modules/): How I built a reusable AI image generation module with Bun in under 100 lines — and why Bun's module system, speed, and DX make Node feel like a relic.
+[Seamlessly Switch Between Personal and Work GitHub Accounts on macOS](https://samuellawrentz.com/blog/git-profile-switcher/): Build a bash script to switch between personal and work GitHub accounts without the SSH agent headaches.
+[A Minimal Ghostty Config (That Actually Makes Sense)](https://samuellawrentz.com/blog/minimal-ghostty-config/): A no-nonsense Ghostty terminal config focused on aesthetics and tmux integration. Because your terminal should look good and work smoothly.
+[AI Coding Revolution: How Artificial Intelligence is Changing the Way We Code](https://samuellawrentz.com/blog/ai-coding-revolution/): A deep dive into how AI is transforming modern software development, making anyone fluent in any programming language and enabling vibe coding.
+[How to Enable Borders on Vim LSP Hover Information (The Simple Way)](https://samuellawrentz.com/blog/vim-lsp-hover-borders/): Struggling with borderless LSP hover popups in Vim? Here's the incredibly simple one-line fix that took me way too long to discover. No plugins required, just one vim.opt setting and you're golden.
+[The Magic of Smooth Scrolling: Two Lines of CSS That Transform User Experience](https://samuellawrentz.com/blog/smooth-scrolling-css-scroll-behavior/): Transform your website's navigation with just two lines of CSS. Learn how scroll-behavior and scroll-margin-top properties create seamless, professional scrolling experiences that users love.
+[Linear MCP Server – The AI Sidekick You Didn't Know You Needed](https://samuellawrentz.com/blog/linear-mcp-server/): Buckle up, devs! Linear just dropped their official MCP server, and it's about to make your AI workflows smoother than Kevin Hart's punchlines. Here's what it is, why you should care, and how to get started in under five minutes.
+[GitHub's MCP Server Goes Public - A Game Changer for AI Development](https://samuellawrentz.com/blog/github-mcp-server-launch/): GitHub just dropped their own MCP server. If you're wondering what this means for your development workflow and how to get started with it in Cursor, here's what changed.
+[Vibe Coding: When AI Becomes Your Coding Bestie](https://samuellawrentz.com/blog/vibe-coding-revolution/): A hilarious yet insightful look into the world of vibe coding and how it's changing the game for developers everywhere.
+[Connect to Sentry MCP Server - A Developer's Guide](https://samuellawrentz.com/blog/sentry-mcp-connection/): Learn how to connect Cursor IDE with Sentry using MCP server. A complete guide from setup to troubleshooting, perfect for developers who want to supercharge their error tracking with AI capabilities.
+[Demystifying codebases: How to use AI to understand complex codebases easily and quickly?](https://samuellawrentz.com/blog/how-to-understand-complex-code-with-ai/): Struggling to understand a massive codebase? Discover how Gemini Pro and ChatGPT can help you quickly analyze, navigate, and comprehend complex software projects.
+[Supercharge your Git Workflow with the Jira-Git Commit VSCode Extension](https://samuellawrentz.com/blog/jira-git-commit-workflow-vscode-extension/): Supercharge Git commit efficiency and DevOps productivity using the Jira-Git Commit Helper, an integrative VSCode Extension that unites JIRA and IDE for optimized developer workflow.
+[Things learnt from BunJS to CRA migration](https://samuellawrentz.com/blog/cra-to-vite-bunjs/): A short tour on how I migrated from node + CRA to bun + Vite and why it's absolutely amazing and fast.
+[The Ten Commandments of Software Development](https://samuellawrentz.com/blog/ten-commandments-of-software-development/): Explore the fundamental principles of software development philosophy with the Ten Commandments of Software Development.
+[Enforcing coding standards via Typescript, Husky and Lint-staged](https://samuellawrentz.com/blog/coding-standards-husky-typescript-lint-staged/): This blog walks through setting up Typescript, Husky, and lint-staged for enforcing coding standards in a team.
+[Reviving My Website: A Tale of Tech and Determination](https://samuellawrentz.com/blog/how-i-saved-my-website-from-gatsby-screwup/): I thought my website was lost forever. I became the knight in the shining armor with dedication to salvage it. Here's what happened and how I brought it back from the dead.
+[Vim is a blackhole](https://samuellawrentz.com/blog/vim-experience-nvim-dev-experience/): I suddenly got pulled into the blackhole called VIM. I'm going crazy setting up my own personal IDE. Read more.
+[How to Optimize React Components Using Computed Variables](https://samuellawrentz.com/blog/computed-state-in-react/): Learn how to optimize your React components using computed variables. Improve performance, simplify your code, and make your app faster.
+[You don't need these many state variables](https://samuellawrentz.com/blog/reduce-react-states-and-hooks/): A lot of state variables means a lot of re-renders. What if I told you there are computed variables in React to reduce state variable count?
+[Monitor your website speed using Pagespeed API and Google Sheets](https://samuellawrentz.com/blog/monitor-website-pagespeed-with-googlesheets/): This post covers how to monitor your website pagespeed using Google Sheets.
+[My take on CSS Grids](https://samuellawrentz.com/blog/css-grids-examples-guide-tutorial/): CSS grids are awesome, now that more browsers are supporting it, it's time that we embrace grid and use its full potential.
+[Useful CSS Generators](https://samuellawrentz.com/blog/useful-amazing-css-tools-and-generators/): CSS is awesome, these tools take your CSS to the next level. They ease your load and generate CSS code for you online.
+[Frontend Performance Optimisation](https://samuellawrentz.com/blog/frontend-performance-optimisation-enhancement/): Apps need to be performant and instantly interactive to users input. Here's a few ways to boost a web app's performance.
+[How to cache your Gatsby site for faster builds in Github Actions?](https://samuellawrentz.com/blog/gatsby-incremental-faster-builds-github-actions/): Once content grows, build times suffer. Here's how to cache your Gatsby site for faster builds in GitHub Actions.
+[Dynamic OG images for your Gatsby blog](https://samuellawrentz.com/blog/gatsby-dynamic-og-images/): Build dynamic Open Graph images for your Gatsby blog that appear beautifully when sharing links on social media.
+[How to create React Hooks? - A simple guide](https://samuellawrentz.com/blog/how-to-create-react-hooks-simple/): React hooks are a great way to get deeper into the React world. This post teaches you how you can create a simple hook timer using React.
+[Growing your Online Presence - 101](https://samuellawrentz.com/blog/how-to-grow-your-online-presence/): An online presence can be defined by how easy it is to find a brand or company online. Growing your online presence should be your key focus.
+[How I started a tech blog?](https://samuellawrentz.com/blog/how-i-started-a-tech-blog/): It's good to have a tech blog. I have written down my journey of how I started my blog. You too could get the flame from me.
+
+## Hacks
+
+Short, practical tips and tricks across Neovim, React, microfrontend, and software philosophy.
+
+### Neovim
+[Boost Your Coding Efficiency: Neovim Tips & Tricks](https://samuellawrentz.com/hacks/neovim/boost-your-coding-efficiency/): Essential Neovim tips and tricks to enhance your coding efficiency. From key mappings to plugins, learn how to optimize your workflow.
+[Demystifying Buffers, Windows, and Tabs in Neovim](https://samuellawrentz.com/hacks/neovim/demystifying-buffers-windows-tabs-neovim/): Unravel the complexities of Buffers, Windows, and Tabs in Neovim. Gain a deep understanding of these core concepts to boost your productivity.
+[Disable Annoying ESLint LSP server and hide virtual text in Neovim](https://samuellawrentz.com/hacks/neovim/disable-annoying-eslint-lsp-server-and-hide-virtual-text/): Disable ESLint LSP server and hide virtual text in Neovim to avoid annoying linting errors and warnings.
+[Exploring Neovim: A Next-Generation Vim Editor](https://samuellawrentz.com/hacks/neovim/exploring-neovim-next-generation-vim-editor/): Discover the power of Neovim, a next-generation Vim editor that's extensible, fast, and built for modern development.
+[Neovim LSP - Supercharging Your Coding Workflow](https://samuellawrentz.com/hacks/neovim/neovim-lsp-supercharge-coding-workflow-integration/): Learn how to supercharge your coding workflow with Neovim LSP and Language Server Protocol integration.
+[Neovim Plugins Unleashed - Must-Have Extensions](https://samuellawrentz.com/hacks/neovim/neovim-plugins-unleashed/): Boost your productivity and customize your coding environment with these must-have Neovim plugins.
+[Using Neovim as a full IDE for frontend development](https://samuellawrentz.com/hacks/neovim/using-neovim-as-full-ide-frontend-development/): Discover how to transform Neovim into a powerful IDE for frontend development.
+
+### React
+[Avoiding Unnecessary Re-renders with React.memo](https://samuellawrentz.com/hacks/react/avoid-re-renders-react-memo/): Learn how to optimize your React applications by avoiding unnecessary re-renders using React.memo.
+[Mastering Memoization with useMemo in React](https://samuellawrentz.com/hacks/react/mastering-memoization-usememo/): Explore the power of memoization in React with the useMemo hook. Learn to optimize your application by preventing unnecessary re-rendering.
+[Optimizing React Apps with useCallback](https://samuellawrentz.com/hacks/react/optimizing-react-apps-usecallback/): Learn how to optimize your React applications by avoiding unnecessary renders with the useCallback hook.
+[Handling Errors Gracefully with React Error Boundaries](https://samuellawrentz.com/hacks/react/error-handling-with-error-boundaries/): Learn how to handle errors in React applications using Error Boundaries.
+[Implementing Lazy Loading in React with Suspense](https://samuellawrentz.com/hacks/react/lazy-loading-with-suspense/): A quick guide on implementing lazy loading in React applications using Suspense.
+[Mastering State Management in React](https://samuellawrentz.com/hacks/react/mastering-state-management-in-react/): Learn how to effectively manage state in React applications using various methods including Context API, Redux, and more.
+[Code Splitting Strategies in React](https://samuellawrentz.com/hacks/react/code-splitting-optimization-strategies/): Discover best practices for code splitting in React applications, optimizing load times and performance.
+[Implementing Context API for Global State Management](https://samuellawrentz.com/hacks/react/global-state-management-using-context-api/): Learn how to manage global state in your React applications using the Context API.
+[Mastering Higher-Order Components in React](https://samuellawrentz.com/hacks/react/implementing-higher-order-components/): Learn to implement Higher-Order Components (HOCs) in React and use them effectively.
+[Handling Side Effects with React's useEffect](https://samuellawrentz.com/hacks/react/handling-side-effects-with-useeffect/): Learn how to handle side effects in your React components using the useEffect hook.
+
+### Microfrontend
+[Agile Frontend Solutions - MicroFrontend Optimization Hacks](https://samuellawrentz.com/hacks/microfrontend/agile-frontend-microfrontend-optimization/): Discover optimization hacks for MicroFrontend. Enhance your web development skills with these powerful React techniques.
+[Seamless UI Harmony - MicroFrontend Integration Secrets](https://samuellawrentz.com/hacks/microfrontend/seamless-ui-harmony-microfrontend-integration-secrets/): Unlock the secrets of integrating MicroFrontends for seamless UI harmony.
+[Scalable UI Architecture - MicroFrontend Scalability Hacks](https://samuellawrentz.com/hacks/microfrontend/scalable-ui-architecture-microfrontend-scalability-hacks/): Supercharge your Micro Frontend with practical scalability hacks.
+[Cross-Team Collaboration - MicroFrontend Communication Tricks](https://samuellawrentz.com/hacks/microfrontend/cross-team-collaboration-with-microfrontend/): Learn key hacks for effective cross-team collaboration using Micro Frontend architecture.
+
+### Software Philosophy
+[The Ten Commandments of Software Development](https://samuellawrentz.com/hacks/philosophy/fail-fast-learn-faster-the-art-of-iteration-in-software-development/): Discover the philosophy of "Fail Fast, Learn Faster" in software development.
+[Mastering Minimalism in Software Design - Simplicity Over Complexity](https://samuellawrentz.com/hacks/philosophy/mastering-minimalism-in-software-design-simplicity-over-complexity/): Explore the essence of minimalism in software design, emphasizing simplicity over complexity.
+[Embracing Agility - Principles for Effective Software Development](https://samuellawrentz.com/hacks/philosophy/embracing-agility-principles-for-effective-software-development/): Explore the principles of agile software development and how to effectively apply them.
+[Agile vs Waterfall: Philosophies Shaping Software Development](https://samuellawrentz.com/hacks/software-philosophy/agile-vs-waterfall/): Compare Agile and Waterfall methodologies. Understand their philosophies, benefits, and challenges.
+
+## About
+
+Samuel Lawrentz is a Software Development Manager at Plivo, based in India.
+GitHub: https://github.com/samuellawrentz
+LinkedIn: https://in.linkedin.com/in/samuel-lawrentz
