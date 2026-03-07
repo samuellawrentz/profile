@@ -4,6 +4,8 @@ interface Props {
   description?: string;
   image?: string;
   article?: boolean;
+  publishedDate?: string;
+  type?: 'article' | 'website';
 }
 
 const {
@@ -11,19 +13,53 @@ const {
   description = "Samuel Lawrentz - Frontend developer, blogger, and web enthusiast.",
   image = "/og-image.png",
   article = false,
+  publishedDate,
+  type,
 } = Astro.props;
 
 const canonicalURL = new URL(Astro.url.pathname, Astro.site);
 const absoluteImage = image.startsWith('http') ? image : new URL(image, Astro.site).href;
+
+const isArticle = type === 'article' || article === true || !!publishedDate;
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": "Samuel Lawrentz",
+  "url": "https://samuellawrentz.com",
+};
+
+const articleSchema = isArticle ? {
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": title,
+  "author": {
+    "@type": "Person",
+    "name": "Samuel Lawrentz",
+    "url": "https://samuellawrentz.com",
+  },
+  "datePublished": publishedDate,
+  "dateModified": publishedDate,
+  "image": absoluteImage,
+  "publisher": {
+    "@type": "Person",
+    "name": "Samuel Lawrentz",
+  },
+  "url": `https://samuellawrentz.com${Astro.url.pathname}`,
+} : null;
 ---
 
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={absoluteImage} />
-<meta property="og:type" content={article ? "article" : "website"} />
+<meta property="og:type" content={isArticle ? "article" : "website"} />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:site" content="@samuellawrentz" />
 <meta name="twitter:title" content={title} />
 <meta name="twitter:description" content={description} />
 <meta name="twitter:image" content={absoluteImage} />
 <link rel="canonical" href={canonicalURL} />
+<script type="application/ld+json" set:html={JSON.stringify(websiteSchema)} />
+{isArticle && articleSchema && (
+  <script type="application/ld+json" set:html={JSON.stringify(articleSchema)} />
+)}
