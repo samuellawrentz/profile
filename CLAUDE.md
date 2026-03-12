@@ -18,6 +18,7 @@ bun install          # Install dependencies
 bun run dev          # Start dev server (localhost:4321)
 bun run build        # Build (runs OG image generation first via prebuild)
 bun run preview      # Preview production build
+bun run gen:image    # Generate a blog/figure image with the linked image-gen tool
 ```
 
 ## Project Structure
@@ -41,6 +42,7 @@ src/
   components/         # Banner, Footer, GiscusComments, SEO, SessionTimer, ThemeToggle
   styles/             # global.scss, variables.scss, heart.scss, typography.scss, responsive.scss
 scripts/
+  generate-image.ts      # Wrapper around linked image-gen module for blog/figure art
   generate-og-images.cjs  # Node-canvas OG image generator (prebuild)
 public/
   og-images/          # Generated OG images (PNG, not in src/ to avoid WebP conversion)
@@ -52,6 +54,7 @@ public/
 - **Trailing slashes**: Always on (`trailingSlash: 'always'` in astro.config.mjs). All internal links must end with `/`.
 - **Content frontmatter**: `path` field is the URL path (e.g., `/hacks/react/how-to-use-computed-state-in-react/`). Blog paths start with `/blog/`, hack paths with `/hacks/<category>/`.
 - **Images**: Images in `src/` are auto-optimized to WebP. OG images go in `public/og-images/` to stay as PNG for social crawlers.
+- **Hero image workflow**: Generate new blog art with `bun run gen:image "<prompt>" --output ./src/content/blog/<post-dir> --name header`. Keep prompts visual and explicitly ask for **no text** in the image.
 - **Theme**: Dark/light mode via `color-mode` attribute on `<html>`. Inline script in `<head>` prevents flash.
 - **OG images**: Generated at prebuild time via `scripts/generate-og-images.cjs` using node-canvas. Output to `public/og-images/`.
 - **Sass deprecation**: `@import` warnings exist in global.scss — migrate to `@use` when updating styles.
