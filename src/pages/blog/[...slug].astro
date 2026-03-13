@@ -4,7 +4,7 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import SEO from '../../components/SEO.astro';
 import { Image } from 'astro:assets';
 import GiscusComments from '../../components/GiscusComments';
-import { formatDate, estimateReadTime } from '../../utils/blog';
+import { formatDate, estimateReadTime, slugifyTag } from '../../utils/blog';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog', ({ data }) => data.published === true);
@@ -63,7 +63,7 @@ const readTime = estimateReadTime(post.data.description);
         {post.data.tags && post.data.tags.length > 0 && (
           <div class="article-tags">
             {post.data.tags.map((tag: string) => (
-              <a href={'/blog/tag/' + encodeURIComponent(tag) + '/'} class="tag-pill">{tag}</a>
+              <a href={'/blog/tag/' + slugifyTag(tag) + '/'} class="tag-pill">{tag}</a>
             ))}
           </div>
         )}

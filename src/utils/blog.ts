@@ -6,6 +6,10 @@ export function formatDate(date: Date): string {
   });
 }
 
+export function slugifyTag(tag: string): string {
+  return tag.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
+}
+
 export function estimateReadTime(description?: string): string {
   if (!description) return '5 min read';
   const words = description.split(/\s+/).length;
