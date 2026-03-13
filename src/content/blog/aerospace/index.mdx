@@ -1,0 +1,169 @@
+---
+title: "AeroSpace — Stop swiping, start switching"
+date: 2026-03-13
+heroImage: ./header.png
+path: /blog/aerospace-tiling-window-manager/
+published: true
+tags: [macos, productivity, tooling, window-manager]
+description: "AeroSpace is an i3-style tiling window manager for macOS. One Alt+key press and you're in the right app. No swiping, no Cmd+Tab roulette, no animations."
+---
+
+I have a problem with Cmd+Tab. Not the shortcut itself — the mental overhead. When you're switching between Slack, a browser, Cursor, a terminal, and a second browser profile twenty times an hour, Cmd+Tab becomes a slot machine. You press it, squint at the icons, overshoot, go back, and finally land on the right window. Three seconds, every time.
+
+Multiply that by a full workday and you've spent real minutes just _navigating_.
+
+Swiping between macOS Spaces is worse. The animation is pretty, sure. But it's also slow, non-deterministic (which direction was Slack again?), and breaks the moment you rearrange anything.
+
+So I started using [AeroSpace](https://github.com/nikitabobko/AeroSpace), and switching apps now feels like muscle memory.
+
+## What AeroSpace does differently
+
+AeroSpace is an i3-style tiling window manager for macOS. The two things that matter most:
+
+1. **It ignores macOS Spaces entirely.** It implements its own virtual workspace system. Switching is instant — no animations, no Mission Control, no slide transitions.
+2. **It doesn't need SIP disabled.** Unlike yabai (which needs System Integrity Protection off for full features), AeroSpace works within Apple's public accessibility APIs. It survives macOS updates without drama.
+
+The config is a single TOML file. You version-control it, copy it to a new machine, and you're done.
+
+## My setup: one key per app
+
+Here's the idea. Instead of numbered workspaces, I use **mnemonic workspaces** — each workspace is named after the app that lives there. One keypress, one app. No thinking.
+
+| Binding | App | Workspace |
+|---------|-----|-----------|
+| `Alt+M` | Slack | M |
+| `Alt+B` | Browser (Arc) | B |
+| `Alt+P` | Personal browser profile | P |
+| `Alt+K` | Cursor | K |
+| `Alt+I` | Terminal | I |
+| `Alt+N` | Notes / utility | N |
+| `Alt+V` | Video / utility | V |
+
+I press `Alt+K` and I'm in Cursor. `Alt+M` and I'm in Slack. There's no ambiguity, no hunting, no animation delay. It's instant.
+
+## The config
+
+Install AeroSpace first:
+
+```bash
+brew install --cask nikitabobko/tap/aerospace
+```
+
+Then drop this in `~/.aerospace.toml`:
+
+```toml
+start-at-login = true
+
+[gaps]
+inner.horizontal = 8
+inner.vertical   = 8
+outer.left       = 8
+outer.right      = 8
+outer.top        = 8
+outer.bottom     = 8
+
+[mode.main.binding]
+
+# ── App workspaces (the good stuff) ──
+alt-m = 'workspace M'
+alt-b = 'workspace B'
+alt-p = 'workspace P'
+alt-k = 'workspace K'
+alt-i = 'workspace I'
+alt-n = 'workspace N'
+alt-v = 'workspace V'
+
+# ── Move focused window to a workspace ──
+alt-shift-m = 'move-node-to-workspace M'
+alt-shift-b = 'move-node-to-workspace B'
+alt-shift-p = 'move-node-to-workspace P'
+alt-shift-k = 'move-node-to-workspace K'
+alt-shift-i = 'move-node-to-workspace I'
+alt-shift-n = 'move-node-to-workspace N'
+alt-shift-v = 'move-node-to-workspace V'
+
+# ── Window focus ──
+alt-h = 'focus left'
+alt-j = 'focus down'
+alt-l = 'focus right'
+
+# ── Move windows ──
+alt-shift-h = 'move left'
+alt-shift-j = 'move down'
+alt-shift-l = 'move right'
+
+# ── Layout ──
+alt-f = 'fullscreen'
+alt-comma  = 'layout v_accordion'
+alt-period = 'layout h_accordion'
+alt-slash  = 'layout tiles'
+
+# ── Workspace back-and-forth ──
+alt-tab = 'workspace-back-and-forth'
+
+# ── Auto-route apps to their workspaces ──
+[[on-window-detected]]
+if.app-id = 'com.tinyspeck.slackmacgap'
+run = 'move-node-to-workspace M'
+
+[[on-window-detected]]
+if.app-id = 'company.thebrowser.Browser'
+run = 'move-node-to-workspace B'
+
+[[on-window-detected]]
+if.app-id = 'com.todesktop.230313mzl4w4u92'
+run = 'move-node-to-workspace K'
+
+[[on-window-detected]]
+if.app-id = 'dev.warp.Warp-Stable'
+run = 'move-node-to-workspace I'
+```
+
+The `[[on-window-detected]]` blocks are what make this seamless. When Slack opens, it automatically lands in workspace `M`. When Cursor opens, it goes to `K`. You never have to manually move anything.
+
+<aside class="banner banner-info">
+  Find your app's bundle ID by running <code>aerospace list-apps</code> in your terminal.
+</aside>
+
+## How the workspace model works
+
+AeroSpace doesn't touch macOS Spaces at all. It manages its own set of virtual workspaces by moving windows off-screen when they're not active. That sounds like a hack, but it means:
+
+- **Instant switching.** No animation, no transition. The workspace is just _there_.
+- **Unlimited workspaces.** macOS Spaces caps out. AeroSpace doesn't care — name them whatever you want.
+- **No Mission Control weirdness.** Spaces rearranging themselves, desktops moving around after a reboot — none of that.
+
+One setting I'd recommend changing in macOS:
+
+```bash
+# Prevents multi-monitor focus issues
+defaults write com.apple.spaces spans-displays -bool true
+```
+
+Then log out and back in.
+
+## Why this beats Cmd+Tab
+
+Cmd+Tab is a _sequential_ operation. You cycle through a list. The more apps you have open, the worse it gets.
+
+AeroSpace bindings are _random access_. Each app has a fixed address. `Alt+M` is always Slack, whether you have 3 apps open or 15. Your fingers learn the mapping in a day or two, and after that you stop thinking about window management entirely.
+
+That's the whole point. Window management should be invisible. You think "I need the terminal" and your hand hits `Alt+I` before the thought finishes.
+
+## Compared to the alternatives
+
+If you've looked at macOS tiling managers before, here's where AeroSpace sits:
+
+- **yabai**: More powerful (borders, opacity, custom rules), but requires SIP off and breaks on macOS updates. If you want to live on the edge, yabai is great. I wanted something that just works after every update.
+- **Amethyst**: Good automatic tiling, but uses native macOS Spaces. That means animations and the occasional macOS bug. No mnemonic workspaces.
+- **Rectangle**: Not a tiling manager — it's a window snapping tool. Great for casual use, not the same thing.
+
+AeroSpace hits the sweet spot: i3-level configurability without needing to disable system protections.
+
+## Give it a try
+
+If you spend your day juggling between 5+ apps and you're tired of the Cmd+Tab dance, AeroSpace is worth 10 minutes of setup. Write a config, map your most-used apps to keys that make sense, and see how fast your workflow gets.
+
+The [official guide](https://nikitabobko.github.io/AeroSpace/guide) and [command reference](https://nikitabobko.github.io/AeroSpace/commands) cover everything. The GitHub repo is at [nikitabobko/AeroSpace](https://github.com/nikitabobko/AeroSpace).
+
+My config is up in my [dotfiles](https://github.com/samuellawrentz/dotfiles) if you want to grab the full version.

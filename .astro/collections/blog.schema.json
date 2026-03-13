@@ -43,6 +43,9 @@
           "type": "boolean",
           "default": false
         },
+        "featured": {
+          "type": "boolean"
+        },
         "type": {
           "type": "string",
           "default": "blog"
