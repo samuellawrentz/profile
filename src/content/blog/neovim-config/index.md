@@ -75,6 +75,8 @@ vim.api.nvim_set_hl(0, "CursorLine", { bg = "#1a1a1a" })
 
 This is what makes the Ghostty blur visible through Neovim. Rose Pine provides the syntax colors, but the background is fully transparent. The cursor line gets a subtle dark tint so you don't lose track of where you are.
 
+![Neovim with outline symbols and Rose Pine theme](./nvim-code-outline.png)
+
 ### OSC 52 Clipboard
 
 ```lua
@@ -151,6 +153,8 @@ Space is my leader key. Here are the ones I use most:
 | `H` / `L` | Line start / end |
 
 The `H` and `L` remaps are probably my favorite small change. Way more natural than `^` and `$`.
+
+![My full setup — Neovim + tmux + Claude Code side by side](./nvim-tmux-claude.png)
 
 ## Why Not Use a Distro?
 
