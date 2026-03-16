@@ -1,0 +1,52 @@
+---
+title: Ghostty 1.3 — Scrollback Search and My Updated Config
+date: 2026-03-16
+path: /blog/ghostty-1-3-config/
+published: false
+heroImage: ./header.png
+tags: [ghostty, terminal, config]
+description: Ghostty 1.3 just dropped with scrollback search — the feature people have been asking for since 2023. Here's what changed and what I actually updated in my config.
+---
+
+My [minimal Ghostty config post](/blog/minimal-ghostty-config/) got way more traction than I expected. Apparently, people really care about their terminals. Anyway, Ghostty 1.3 dropped on March 10th, and there's actually stuff worth updating. The headliner is scrollback search — the most requested feature since launch — plus a few other things that quietly make the daily driver experience better.
+
+## Scrollback Search, Finally
+
+If you've been using Ghostty as your main terminal, you've probably had this moment: you ran a command 20 minutes ago, you need the output, and you're either scrolling back with two fingers hoping you'll spot it, or you've gotten comfortable with `tmux copy-mode`.
+
+tmux copy-mode works fine. I used it for years. But it's an extra mental layer — prefix key, `[`, start searching, exit copy mode. Ghostty now has native search: `Cmd+F` on macOS, `Ctrl+Shift+F` on Linux. It highlights all matches in the viewport and you jump between them with `Cmd+G` / `Shift+Cmd+G` (macOS) or `Enter` / `Shift+Enter` on GTK. The search box floats in a corner and you can reposition it. On macOS it hooks into standard system shortcuts for Find Next/Previous, which means muscle memory from every other app just works.
+
+Performance held up too — apparently they tested against 4GB asciinema files and it went from "several minutes" to seconds. For normal scrollback? You won't feel a thing.
+
+## What Else Changed
+
+**Native scrollbar** — 1.3 adds a configurable overlay scrollbar that respects your OS defaults. If you want to keep the clean look:
+
+```bash
+scrollbar = never
+```
+
+Or leave it at `auto` to follow system settings. The overlay style (fades in while scrolling, fades out otherwise) is actually tasteful if you want scroll position context.
+
+**Command completion notifications** — Three new options control when Ghostty notifies you that a long-running command finished. Defaults to triggering for commands over 5 seconds when the window is unfocused — via bell or system notification. If you kick off `npm install` and switch tabs, this is useful.
+
+**Clickable shell prompts** — With shell integration (Fish 4+ and Nushell 0.111+ have it natively), you can click to reposition your cursor within a prompt like it's a text field. Small thing, weirdly nice.
+
+<aside class="banner banner-info">
+There's a security fix in 1.3 for a paste exploit (CVE-2026-26982) that replaces unsafe control characters with spaces on paste. Worth updating sooner rather than later.
+</aside>
+
+## My Updated Config
+
+Everything from [the original post](/blog/minimal-ghostty-config/) still stands — tmux keybindings, opacity, font thickening. I didn't rip anything out. The only addition I've made:
+
+```bash
+# 1.3: explicit scrollbar off
+scrollbar = never
+```
+
+That's it. The scrollback search keybind (`Cmd+F`) works out of the box — no config needed. The notifications I haven't touched yet; I'll enable them when the absence starts annoying me.
+
+I tried `scrollbar = auto` for about a week before reverting. Old habit — if there's no scrollbar, I'm mentally forced to stay near the bottom. With a scrollbar I start drifting up and losing context. Your mileage may vary.
+
+Ghostty keeps shipping features without turning into one of those terminals that needs a YAML novel just to change a color. 1.3 feels like it crossed the line from "really good but missing obvious things" to just done. Worth upgrading.
