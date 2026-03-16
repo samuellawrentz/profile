@@ -178,22 +178,6 @@ const restPosts = latestPosts.filter((p) => p.id !== featured?.id).slice(0, 3);
       </div>
     </section>
 
-    <!-- Hacks -->
-    <section class="ed-section">
-      <div class="ed-section__header">
-        <h2 class="ed-section__title">Hacks</h2>
-      </div>
-      <p class="ed-section__subtitle">Short, practical tips and tricks across frontend topics.</p>
-      <div class="hacks-strip">
-        {hackCategories.map((cat) => (
-          <a href={`/hacks/${cat}/`} class="hack-pill">
-            <span class="hack-pill__label">{cat.replace(/-/g, ' ')}</span>
-            <span class="hack-pill__arrow">&rarr;</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
     <!-- Projects -->
     <section class="ed-section">
       <div class="ed-section__header">
@@ -214,6 +198,22 @@ const restPosts = latestPosts.filter((p) => p.id !== featured?.id).slice(0, 3);
                 <span class="blog-tag">{t}</span>
               ))}
             </div>
+          </a>
+        ))}
+      </div>
+    </section>
+
+    <!-- Hacks -->
+    <section class="ed-section">
+      <div class="ed-section__header">
+        <h2 class="ed-section__title">Hacks</h2>
+      </div>
+      <p class="ed-section__subtitle">Short, practical tips and tricks across frontend topics.</p>
+      <div class="hacks-strip">
+        {hackCategories.map((cat) => (
+          <a href={`/hacks/${cat}/`} class="hack-pill">
+            <span class="hack-pill__label">{cat.replace(/-/g, ' ')}</span>
+            <span class="hack-pill__arrow">&rarr;</span>
           </a>
         ))}
       </div>
