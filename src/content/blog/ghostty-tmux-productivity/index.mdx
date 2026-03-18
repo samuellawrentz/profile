@@ -1,0 +1,78 @@
+---
+title: Ghostty + tmux — The Productivity Setup I Actually Use
+date: 2026-03-17
+path: /blog/ghostty-tmux-productivity/
+published: true
+heroImage: ./header.png
+tags: [ghostty, tmux, terminal, productivity]
+description: "Why I still run tmux inside Ghostty even though Ghostty has native splits — and how to make them actually play nice together."
+---
+
+Every time I share my terminal setup, someone asks why I still use tmux when Ghostty has splits. Here's why.
+
+The short version: Ghostty splits are for *right now*. tmux is for *later*. They solve different problems and pretending otherwise just creates friction.
+
+## What Ghostty Splits Are Actually Good For
+
+Ghostty's native splits are genuinely useful. Fast, they respect your theme and font settings automatically, and you can navigate them without a prefix key. Need a quick side-by-side — a terminal and a log tail while you run something? Ghostty splits are the path of least resistance.
+
+The [replace-tmux-with-Ghostty](https://sterba.dev/posts/replacing-tmux) approach is compelling too — map `ctrl+a` as a Ghostty prefix for the muscle memory, drop the whole tmux layer, done. I get why people do it.
+
+But here's where it breaks for me.
+
+## What tmux Does That Ghostty Can't
+
+Close your Ghostty window. Your splits disappear. Your tmux sessions don't.
+
+That's the core of it. tmux runs as a server process. You `tmux attach` and everything is exactly where you left it — files you had open, commands still running, the pane layout you've been using all week. On a remote server over SSH, tmux is non-negotiable. Connection drops, your session waits.
+
+The other thing: scripted layouts. I have a `work` session that always opens with the same windows — editor pane, git log, dev server. One command and my environment is ready. Ghostty can't do that.
+
+<aside class="banner banner-info">
+If you do SSH work regularly, tmux is genuinely irreplaceable. Ghostty splits exist only as long as your local terminal does.
+</aside>
+
+## The Actual Workflow
+
+Ghostty is the outer shell. Inside Ghostty, I'm almost always in a tmux session.
+
+Named sessions per project — `work`, `blog`, `scripts`. Switching between them is `prefix + s` and picking from a list. No context switch, no losing state.
+
+When I need a quick scratch pane *within* a session, then I use Ghostty splits. Open it, do the thing, close it. The tmux session underneath is unaffected.
+
+## Making Them Play Nice
+
+Two things bite people when they run both layers.
+
+### Copy-paste
+
+Ghostty auto-copies on select by default. Inside tmux, this fights you — you end up selecting in Ghostty's layer when you meant to select in tmux's copy-mode. The fix is simple:
+
+```bash
+# ~/.config/ghostty/config
+copy-on-select = false
+```
+
+Then use explicit keybinds for copy and paste. Deterministic behavior, no surprises. [mwolson's setup](https://mwolson.org/blog/2025-11-12-ghostty-tmux-uniform-copy-paste) goes deeper on this if you want the full breakdown.
+
+### Keybindings that reach tmux
+
+I covered this in [my minimal Ghostty config post](/blog/minimal-ghostty-config/), but the pattern is: Ghostty can send arbitrary key sequences through to tmux. My prefix is `Ctrl-a`, so:
+
+```bash
+# cmd+s sends Ctrl-a s (tmux save-buffer)
+keybind = cmd+s=text:\x01\x73
+
+# cmd+b sends Ctrl-a z (zoom current pane)
+keybind = cmd+b=text:\x01\x7a
+```
+
+This lets me stay in macOS keyboard land for common operations while tmux handles multiplexing underneath. The key is that Ghostty-level bindings fire before tmux sees the input — so there's no prefix collision as long as you're deliberate about which layer owns what.
+
+Mouse passthrough works correctly without any extra config. Ghostty sends mouse events through to tmux's mouse mode (`set -g mouse on`) cleanly.
+
+## The Verdict
+
+If your workflow is purely local and you're okay with sessions being ephemeral, dropping tmux is fine. But if you SSH into anything, want named sessions that survive window closes, or like having scripted layouts — use both. The config to make them cooperate is maybe 10 lines total.
+
+*Layers don't have to mean friction — they just need to know which layer is responsible for what.*
