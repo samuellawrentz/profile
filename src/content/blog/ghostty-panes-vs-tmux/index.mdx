@@ -1,0 +1,71 @@
+---
+title: Ghostty Panes vs tmux Panes — When to Use Which
+date: 2026-03-21
+path: /blog/ghostty-panes-vs-tmux/
+published: true
+heroImage: ./header.png
+tags: [ghostty, tmux, terminal]
+description: Ghostty has splits now. tmux has had them forever. Here's when I reach for each — and why I still use both.
+---
+
+Ghostty has splits now. tmux has had them forever. So which do you use when?
+
+If you're already running both (Ghostty as the terminal, tmux inside it), this question comes up faster than you'd think. I caught myself using Ghostty splits for some things and tmux panes for others, and after a while the pattern got clear enough to write down.
+
+## A Quick Feature Comparison
+
+| Feature | Ghostty panes | tmux panes |
+|---|---|---|
+| Session persistence | No | Yes |
+| Remote SSH access | No | Yes |
+| Scriptable layouts | No | Yes |
+| Visual customization | Native OS rendering | Limited |
+| Mouse support | Native | Needs config |
+| Copy-paste | Native clipboard | tmux buffer (annoying) |
+| Startup speed | Instant | Instant |
+| Works inside SSH | No | Yes |
+
+The copy-paste thing is the most underrated entry in that table. Ghostty panes share the OS clipboard. tmux panes make you learn `prefix + [`, enter copy-mode, visually select, `y`, then paste with `prefix + ]`. Once you've internalized it it's fine, but it's never *not* friction.
+
+## When I Use Ghostty Panes
+
+**Quick visual splits.** I want to watch a log file while running a command next to it. I'm not going to come back to this layout — it's a one-off. `Cmd+D` to split, done in two seconds, closed when I'm done.
+
+**Demoing something.** Screen-sharing or recording? Ghostty splits look clean with no tmux status bar, no box-drawing chars, just crisp splits with native font rendering. Easier to explain to someone who doesn't know tmux.
+
+**Side-by-side file inspection.** Two files, quick diff, close both. Not worth spinning up a tmux session for.
+
+The keybinds in [my Ghostty config](/blog/minimal-ghostty-config/) are minimal by design — I didn't add anything for splits because the defaults work:
+
+```bash
+# Ghostty defaults — no config needed
+# Cmd+D          new split (right)
+# Cmd+Shift+D    new split (down)
+# Cmd+Option+←→  navigate between splits
+```
+
+## When I Use tmux Panes
+
+**Anything I need to come back to.** My dev environment lives in a tmux session. Detach it, close Ghostty, reopen — it's all still there. Ghostty panes evaporate when the window closes. This is the single biggest reason tmux still wins for real work.
+
+**Remote SSH sessions.** You can't split a Ghostty window across machines. tmux runs on the remote host and your splits, windows, and running processes persist even when your connection drops.
+
+**Scripted layouts.** I have a small script that opens a 3-pane layout for a specific project — server, tests, git status. That's a tmux thing. You can't script Ghostty splits.
+
+```bash
+# tmux layout for a project
+tmux new-session -d -s dev
+tmux split-window -h -p 40
+tmux split-window -v
+tmux send-keys -t dev:0.0 'bun run dev' Enter
+tmux send-keys -t dev:0.1 'bun run test --watch' Enter
+tmux attach -t dev
+```
+
+**Anything over SSH.** Just use tmux. There's no debate here.
+
+## So, Both?
+
+Yeah, both. I run Ghostty with one window, usually no splits. Inside it lives a tmux session for real work. When I need a quick scratch split outside of tmux, I use Ghostty's native splits and don't think twice about it.
+
+The mistake is trying to pick one and commit. They solve different problems — Ghostty splits are UI sugar, tmux panes are infrastructure. Use them accordingly.
