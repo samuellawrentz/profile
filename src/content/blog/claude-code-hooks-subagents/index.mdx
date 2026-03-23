@@ -1,0 +1,84 @@
+---
+title: Claude Code Hooks and Subagents — The Advanced Stuff
+date: 2026-03-24
+path: /blog/claude-code-hooks-subagents/
+published: true
+heroImage: ./header.png
+tags: [claude-code, ai, productivity, automation]
+description: "Hooks, subagents, and piping — the parts of Claude Code most guides skip over. Here's what they actually do and how I use them."
+---
+
+Most Claude Code guides stop at CLAUDE.md and slash commands. The real power is in hooks, subagents, and piping — and I haven't seen many people write about actually using them.
+
+## Hooks — Let Claude Run Your Tests
+
+Hooks fire shell commands in response to Claude Code events. Before a tool, after a tool, when a session ends. You configure them in `~/.claude/settings.json`.
+
+The one I use constantly — auto-run tests after any file edit:
+
+```json
+{
+  "hooks": {
+    "PostToolUse": [{
+      "matcher": "Edit|Write",
+      "hooks": [{
+        "type": "command",
+        "command": "cd $CWD && bun test --bail 2>&1 | tail -10"
+      }]
+    }]
+  }
+}
+```
+
+Claude edits a file, hook fires, tests run, output gets injected back as context. Claude sees if it broke something and can fix it *without you asking*. That's the part that felt like a mode switch for me — it stops being reactive and starts being anticipatory.
+
+The other one I use is `PreToolUse` to inject reminders before Claude touches the shell:
+
+```json
+{
+  "hooks": {
+    "PreToolUse": [{
+      "matcher": "Bash",
+      "hooks": [{
+        "type": "command",
+        "command": "echo 'Reminder: does this command modify production state?'"
+      }]
+    }]
+  }
+}
+```
+
+The hook output lands in a `<system-reminder>` that Claude reads before proceeding. Soft guardrail, not a hard block — but it catches things.
+
+<aside class="banner banner-info">
+Hook commands receive JSON on stdin with `tool_name`, `tool_input`, `cwd`, and `session_id`. You can write scripts that behave differently based on which file was edited or what command is about to run.
+</aside>
+
+## Subagents — Two Things at Once
+
+Subagents let Claude Code delegate work to a separate agent instance while the main conversation keeps going. Independent work in parallel, basically.
+
+Where I actually use this: research while planning. "Spin up an agent to read the Astro content collection docs and summarize the relevant API" — while I'm iterating on architecture in the main conversation. The subagent goes off, does the reading, reports back. No context switching from me.
+
+If you're using oh-my-claudecode (which I covered in [the workflow post](/blog/claude-code-efficiency/)), `/team` and `/ultrawork` handle subagent spawning automatically. But you can also just ask Claude directly: "Run a background agent to explore this directory and summarize what it finds."
+
+The rule is independent tasks only. Subagents that share state get messy fast. But for parallel exploration or running a test suite while the main agent keeps writing? The speedup is real.
+
+## Piping — Treating Claude Like an Actual Shell Tool
+
+The `-p` flag runs Claude Code headless — one prompt, stdout, exit. That's all you need to start chaining it with other things.
+
+```bash
+# Pipe a diff, get a Slack message
+git diff HEAD~1 | claude -p "Write a casual Slack update summarizing these changes for my team"
+
+# Chain Claude with Claude
+claude -p "What are the main architectural decisions in this repo?" \
+  | claude -p "Turn this into a 3-bullet onboarding summary"
+```
+
+The git diff → Slack message one I use every few days. Two commands, no copy-paste, no manual writing. It's a small thing, but it's the difference between Claude Code living in a chat window versus fitting into your actual shell workflow.
+
+---
+
+The [MCP integrations post](/blog/claude-code-slack-linear-mcp/) covers the external connections — this is the plumbing that makes those integrations actually do something.
