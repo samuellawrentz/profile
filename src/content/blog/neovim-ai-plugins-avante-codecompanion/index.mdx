@@ -1,0 +1,68 @@
+---
+title: avante.nvim vs CodeCompanion — AI Inside Neovim in 2026
+date: 2026-03-26
+path: /blog/neovim-ai-plugins-avante-codecompanion/
+published: true
+heroImage: ./header.png
+tags: [neovim, ai, vim, productivity]
+description: "I already have a Neovim config I'm happy with. Adding an AI layer shouldn't mean rebuilding it. Here's how avante.nvim and CodeCompanion actually differ — and which one fits a daily Neovim workflow."
+---
+
+I already have a [Neovim config I'm happy with](/blog/neovim-config/). Adding an AI layer shouldn't mean rebuilding it — or learning a new editing paradigm on top.
+
+Two plugins dominate the Neovim AI space in 2026: [avante.nvim](https://github.com/yetone/avante.nvim) (17K+ stars, Cursor-style AI) and [CodeCompanion.nvim](https://github.com/olimorris/codecompanion.nvim) (6K+ stars, buffer-integrated AI). I've been running both. Here's what actually matters.
+
+## What They're Actually Doing
+
+**avante.nvim** is Cursor inside Neovim. You select code, hit a keybind, describe what you want, and it opens a sidebar with a diff — accept or reject. The workflow is explicit and deliberate. You invoke it, review it, apply it. It also supports an `avante.md` file per project: plain markdown that shapes how the AI behaves in that codebase. If you've read [my CLAUDE.md post](/blog/claude-md-that-works/), this will feel immediately familiar. Same idea — behavioral programming for your AI, scoped to the project. Not documentation, instructions.
+
+**CodeCompanion** feels woven into Neovim itself. Chat buffers in splits, inline completions, LSP diagnostic awareness. You can pass `@lsp` directly into the prompt — no copy-pasting error messages. It doesn't try to feel like Cursor. It tries to feel like Neovim.
+
+## Setup, Minimal
+
+**avante** (lazy.nvim):
+```lua
+{
+  "yetone/avante.nvim",
+  opts = {
+    provider = "claude",
+    claude = { model = "claude-sonnet-4-5" },
+  }
+}
+```
+
+**CodeCompanion**:
+```lua
+{
+  "olimorris/codecompanion.nvim",
+  opts = {
+    adapters = {
+      anthropic = require("codecompanion.adapters").extend("anthropic", {
+        schema = { model = { default = "claude-sonnet-4-5" } }
+      })
+    },
+    strategies = {
+      chat = { adapter = "anthropic" },
+      inline = { adapter = "anthropic" }
+    }
+  }
+}
+```
+
+Both work with Claude, OpenAI, Ollama, and most other providers. Neither requires much boilerplate to get going.
+
+## When to Reach for Which
+
+**avante** is the right tool when you're saying "rewrite this function to handle these edge cases" and want to see a diff before touching your buffer. The explicit review step matters when the change is non-trivial — you're not just accepting text into your file, you're reviewing a proposed edit.
+
+**CodeCompanion** is better for in-flow questions. You're debugging, you hit an LSP error, you want context without leaving your buffer. The `@lsp` and `@buffers` context variables are genuinely useful here — it already knows what's broken.
+
+<aside class="banner banner-info">The `avante.md` parallel to `CLAUDE.md` is real — avante injects it into every prompt for that project. If you already think in terms of behavioral instructions for AI, you'll feel at home immediately.</aside>
+
+## My Pick
+
+If you only install one: **CodeCompanion**. It fits the Neovim philosophy — tools that stay out of your way until you need them. The LSP integration alone is worth it if you're working in an actively-typed codebase.
+
+But install avante too. For bigger refactors, the diff-first workflow beats text responses. I keep both, bind them to different keymaps, and they don't conflict. They're solving slightly different problems.
+
+*Pick the one that matches how you already think — explicit and review-first, or inline and contextual.*
