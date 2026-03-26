@@ -1,0 +1,65 @@
+---
+title: Claude Code /loop — Recurring Autonomous Workflows That Actually Work
+date: 2026-03-27
+path: /blog/claude-code-loop-command/
+published: true
+heroImage: ./header.png
+tags: [claude-code, ai, automation, productivity]
+description: "Claude Code's /loop command is the native version of what I've been building manually with cron for months. Here's what it does, when it's great, and when you still need actual cron."
+---
+
+Claude Code just got a `/loop` command. Here are the loops I'm actually running — and one I've been running as a cron job long before `/loop` existed.
+
+For context: Travis, my AI assistant, is a cron-triggered Claude session. Every few hours it checks for GitHub issues, reviews recent commits, summarizes PRs waiting on me, and drops updates into Telegram. I built this manually — shell scripts, crontabs, the works — before any of it was native to Claude Code. So when `/loop` shipped, I recognized it immediately: this is the in-session version of what Travis does.
+
+## What /loop Actually Does
+
+The syntax is simple:
+
+```bash
+/loop 5m "check if the Vite build succeeded and summarize new errors"
+```
+
+It runs the prompt immediately, then repeats on the interval. No delay, no scheduling — the first iteration fires right now. It's session-scoped, capped at 50 tasks per loop, and auto-expires after 3 days.
+
+That last part is the gotcha. I'll come back to it.
+
+## The Loops I'm Running
+
+**Build monitoring:**
+
+```bash
+/loop 5m "check if the Vite build succeeded and summarize new errors"
+```
+
+I keep this going while refactoring. CI runs in the background, Claude gives me a digest every 5 minutes. Better than tab-switching to check the build status.
+
+**Scheduled code reviews:**
+
+```bash
+/loop 15m /review
+```
+
+While I'm heads-down writing code, Claude queues review notes on changed files. Not blocking, just accumulating. Pairs well with the [workflow I wrote about here](/blog/claude-code-efficiency/).
+
+**Issue triage:**
+
+```bash
+/loop 30m "check for new GitHub issues, label them, and add a comment with a proposed resolution"
+```
+
+This is closest to what Travis does. New issues come in, get triaged, labeled, and given a first-pass response — without me touching GitHub. I've been doing this with cron for months. `/loop` makes it one command during an active session.
+
+## The Honest Limitation
+
+Loops die when you close the session.
+
+That's the thing. `/loop` is not cron. It's in-session monitoring — useful while you're actively working, but it doesn't outlive the terminal tab. The 3-day expiry is theoretical; in practice, most loops die within a few hours when you close Claude Code.
+
+For anything that needs to run overnight, on weekends, or across sessions — you need actual cron. That's not a knock on `/loop`; it's just its honest scope. In-session loops are great for "while I'm on this PR, watch CI." They're not great for "send me a morning standup briefing every day at 9am."
+
+<aside class="banner banner-info">
+If you're building persistent Claude automation outside a session — the cron-triggered kind — the patterns in my [building for agents](/blog/building-for-agents/) post apply directly.
+</aside>
+
+For tasks that need to outlive your Claude Code session, you still need cron. But for in-session monitoring, `/loop` is now my default.
