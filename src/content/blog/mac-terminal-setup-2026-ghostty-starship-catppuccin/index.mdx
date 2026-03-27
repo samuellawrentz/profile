@@ -1,0 +1,137 @@
+---
+title: The 2026 Mac Terminal Setup: Ghostty + Starship + Catppuccin
+date: 2026-03-28
+path: /blog/mac-terminal-setup-2026-ghostty-starship-catppuccin/
+published: true
+heroImage: ./header.png
+tags: [ghostty, terminal, macos, config, productivity]
+description: "People keep asking what terminal setup I use. Here's the complete stack — emulator, prompt, and theme — configured so everything feels like one cohesive tool."
+---
+
+People keep asking what terminal setup I use. Here's the complete thing — emulator, prompt, and theme — all configured to feel like one cohesive tool.
+
+## Ghostty
+
+Ghostty 1.3.1 is the current release. Install it:
+
+```bash
+brew install ghostty
+```
+
+Minimal config at `~/.config/ghostty/config`:
+
+```
+font-family = JetBrains Mono
+font-size = 14
+theme = catppuccin-mocha
+background-opacity = 0.95
+scrollbar = never
+copy-on-select = false
+```
+
+That's the base. `theme = catppuccin-mocha` is built into Ghostty — no plugin needed. The deep-dive on config options is in [my Ghostty 1.3 config post](/blog/ghostty-1-3-config/), and the tmux setup is covered in [Ghostty + tmux](/blog/ghostty-tmux-productivity/).
+
+## Starship Prompt
+
+```bash
+brew install starship
+```
+
+Add to `~/.zshrc`:
+
+```bash
+eval "$(starship init zsh)"
+```
+
+Then `~/.config/starship.toml`:
+
+```toml
+palette = "catppuccin_mocha"
+
+[palettes.catppuccin_mocha]
+rosewater = "#f5e0dc"
+flamingo  = "#f2cdcd"
+mauve     = "#cba6f7"
+red       = "#f38ba8"
+peach     = "#fab387"
+yellow    = "#f9e2af"
+green     = "#a6e3a1"
+blue      = "#89b4fa"
+text      = "#cdd6f4"
+surface1  = "#45475a"
+base      = "#1e1e2e"
+
+[git_branch]
+format = "[$symbol$branch]($style) "
+style = "bold mauve"
+
+[git_status]
+format = "([$all_status$ahead_behind]($style) )"
+style = "bold red"
+
+[cmd_duration]
+min_time = 2000
+format = "[$duration]($style) "
+style = "yellow"
+
+[nodejs]
+format = "[$symbol($version )]($style)"
+style = "green"
+
+[python]
+format = "[$symbol($version )]($style)"
+style = "peach"
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol   = "[❯](bold red)"
+```
+
+The `palette = "catppuccin_mocha"` at the top is the key — every color reference in your format strings resolves from the palette block below it. You can trim that palette down to only the colors you actually use.
+
+## tmux — No Jarring Color Switch
+
+If you're running tmux inside Ghostty, the status bar is where the mismatch shows up. The [catppuccin/tmux](https://github.com/catppuccin/tmux) plugin fixes it. With TPM:
+
+```bash
+# ~/.tmux.conf
+set -g @plugin 'catppuccin/tmux'
+set -g @catppuccin_flavor 'mocha'
+```
+
+Then `prefix + I` to install.
+
+<aside class="banner banner-info">
+Without true color support, Catppuccin looks washed out in tmux. Add these to your tmux.conf:
+
+```bash
+set -g default-terminal "tmux-256color"
+set -ga terminal-overrides ",*256col*:Tc"
+```
+</aside>
+
+## Neovim
+
+```lua
+-- lazy.nvim
+{ "catppuccin/nvim", name = "catppuccin", priority = 1000 }
+```
+
+Then in your init:
+
+```lua
+vim.cmd.colorscheme "catppuccin-mocha"
+```
+
+That's the whole chain — Ghostty, Starship, tmux, Neovim, all mocha. Open a terminal and it looks like it was designed together, because it was.
+
+## All the Files
+
+```
+~/.config/ghostty/config     → theme = catppuccin-mocha
+~/.config/starship.toml      → palette = "catppuccin_mocha"
+~/.tmux.conf                 → @catppuccin_flavor 'mocha'
+~/.config/nvim/              → colorscheme catppuccin-mocha
+```
+
+Pick mocha, pick it everywhere, done.
