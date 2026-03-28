@@ -5,10 +5,10 @@ path: /blog/mac-terminal-setup-2026-ghostty-starship-catppuccin/
 published: true
 heroImage: ./header.png
 tags: [ghostty, terminal, macos, config, productivity]
-description: "People keep asking what terminal setup I use. Here's the complete stack — emulator, prompt, and theme — configured so everything feels like one cohesive tool."
+description: "People keep asking what terminal setup I use. Here's the complete stack - emulator, prompt, and theme - configured so everything feels like one cohesive tool."
 ---
 
-People keep asking what terminal setup I use. Here's the complete thing — emulator, prompt, and theme — all configured to feel like one cohesive tool.
+People keep asking what terminal setup I use. Here's the complete thing - emulator, prompt, and theme - all configured to feel like one cohesive tool.
 
 ## Ghostty
 
@@ -29,7 +29,7 @@ scrollbar = never
 copy-on-select = false
 ```
 
-That's the base. `theme = catppuccin-mocha` is built into Ghostty — no plugin needed. The deep-dive on config options is in [my Ghostty 1.3 config post](/blog/ghostty-1-3-config/), and the tmux setup is covered in [Ghostty + tmux](/blog/ghostty-tmux-productivity/).
+That's the base. `theme = catppuccin-mocha` is built into Ghostty - no plugin needed. The deep-dive on config options is in [my Ghostty 1.3 config post](/blog/ghostty-1-3-config/), and the tmux setup is covered in [Ghostty + tmux](/blog/ghostty-tmux-productivity/).
 
 ## Starship Prompt
 
@@ -87,9 +87,9 @@ success_symbol = "[❯](bold green)"
 error_symbol   = "[❯](bold red)"
 ```
 
-The `palette = "catppuccin_mocha"` at the top is the key — every color reference in your format strings resolves from the palette block below it. You can trim that palette down to only the colors you actually use.
+The `palette = "catppuccin_mocha"` at the top is the key - every color reference in your format strings resolves from the palette block below it. You can trim that palette down to only the colors you actually use.
 
-## tmux — No Jarring Color Switch
+## tmux - No Jarring Color Switch
 
 If you're running tmux inside Ghostty, the status bar is where the mismatch shows up. The [catppuccin/tmux](https://github.com/catppuccin/tmux) plugin fixes it. With TPM:
 
@@ -123,7 +123,7 @@ Then in your init:
 vim.cmd.colorscheme "catppuccin-mocha"
 ```
 
-That's the whole chain — Ghostty, Starship, tmux, Neovim, all mocha. Open a terminal and it looks like it was designed together, because it was.
+That's the whole chain - Ghostty, Starship, tmux, Neovim, all mocha. Open a terminal and it looks like it was designed together, because it was.
 
 ## All the Files
 

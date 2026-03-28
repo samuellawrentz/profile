@@ -57,4 +57,4 @@ public/
 - **Hero image workflow**: Generate new blog art with `bun run gen:image "<prompt>" --output ./src/content/blog/<post-dir> --name header`. Keep prompts visual and explicitly ask for **no text** in the image.
 - **Theme**: Dark/light mode via `color-mode` attribute on `<html>`. Inline script in `<head>` prevents flash.
 - **OG images**: Generated at prebuild time via `scripts/generate-og-images.cjs` using node-canvas. Output to `public/og-images/`.
-- **Sass deprecation**: `@import` warnings exist in global.scss — migrate to `@use` when updating styles.
+- **Sass deprecation**: `@import` warnings exist in global.scss - migrate to `@use` when updating styles.

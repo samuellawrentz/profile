@@ -2,7 +2,7 @@ export const systemPrompt = `**Visual Style Guidelines for samuellawrentz.com Po
 
 **Core Aesthetic:**
 - Clean, modern, professional developer blog
-- Minimalist with purposeful detail — no clutter
+- Minimalist with purposeful detail - no clutter
 - Color palette: deep slate blues, cool teals, muted purples, warm accents (amber/coral sparingly)
 - Semi-flat illustration style with subtle depth (soft shadows, gentle gradients)
 - Must look good on both dark and light backgrounds
@@ -17,7 +17,7 @@ export const systemPrompt = `**Visual Style Guidelines for samuellawrentz.com Po
 **Composition:**
 - Strong focal point, visually balanced
 - Readable and recognizable at thumbnail size (blog cards)
-- Leave breathing room — avoid edge-to-edge detail
+- Leave breathing room - avoid edge-to-edge detail
 - Subtle texture or grain for warmth
 
 **Typography Integration:**
@@ -28,8 +28,8 @@ export const systemPrompt = `**Visual Style Guidelines for samuellawrentz.com Po
 - Generic stock imagery (handshakes, people pointing at screens)
 - Overly busy or cluttered compositions
 - Neon/cyberpunk aesthetics
-- Photorealistic style — keep it illustrative
+- Photorealistic style - keep it illustrative
 - AI-generated artifacts, extra fingers, distorted elements
 - Bright saturated colors that clash with a muted palette
 
-**Mood:** Thoughtful, expert, approachable. Like a well-designed conference talk slide — technical depth presented with visual elegance.`;
+**Mood:** Thoughtful, expert, approachable. Like a well-designed conference talk slide - technical depth presented with visual elegance.`;

@@ -1,5 +1,5 @@
 ---
-title: "AeroSpace — Stop swiping, start switching"
+title: "AeroSpace - Stop swiping, start switching"
 date: 2026-03-13
 heroImage: ./header.png
 path: /blog/aerospace-tiling-window-manager/
@@ -8,7 +8,7 @@ tags: [macos, productivity, tooling, window-manager]
 description: "AeroSpace is an i3-style tiling window manager for macOS. One Alt+key press and you're in the right app. No swiping, no Cmd+Tab roulette, no animations."
 ---
 
-I have a problem with Cmd+Tab. Not the shortcut itself — the mental overhead. When you're switching between Slack, a browser, Cursor, a terminal, and a second browser profile twenty times an hour, Cmd+Tab becomes a slot machine. You press it, squint at the icons, overshoot, go back, and finally land on the right window. Three seconds, every time.
+I have a problem with Cmd+Tab. Not the shortcut itself - the mental overhead. When you're switching between Slack, a browser, Cursor, a terminal, and a second browser profile twenty times an hour, Cmd+Tab becomes a slot machine. You press it, squint at the icons, overshoot, go back, and finally land on the right window. Three seconds, every time.
 
 Multiply that by a full workday and you've spent real minutes just _navigating_.
 
@@ -20,14 +20,14 @@ So I started using [AeroSpace](https://github.com/nikitabobko/AeroSpace), and sw
 
 AeroSpace is an i3-style tiling window manager for macOS. The two things that matter most:
 
-1. **It ignores macOS Spaces entirely.** It implements its own virtual workspace system. Switching is instant — no animations, no Mission Control, no slide transitions.
+1. **It ignores macOS Spaces entirely.** It implements its own virtual workspace system. Switching is instant - no animations, no Mission Control, no slide transitions.
 2. **It doesn't need SIP disabled.** Unlike yabai (which needs System Integrity Protection off for full features), AeroSpace works within Apple's public accessibility APIs. It survives macOS updates without drama.
 
 The config is a single TOML file. You version-control it, copy it to a new machine, and you're done.
 
 ## My setup: one key per app
 
-Here's the idea. Instead of numbered workspaces, I use **mnemonic workspaces** — each workspace is named after the app that lives there. One keypress, one app. No thinking.
+Here's the idea. Instead of numbered workspaces, I use **mnemonic workspaces** - each workspace is named after the app that lives there. One keypress, one app. No thinking.
 
 | Binding | App | Workspace |
 |---------|-----|-----------|
@@ -130,8 +130,8 @@ The `[[on-window-detected]]` blocks are what make this seamless. When Slack open
 AeroSpace doesn't touch macOS Spaces at all. It manages its own set of virtual workspaces by moving windows off-screen when they're not active. That sounds like a hack, but it means:
 
 - **Instant switching.** No animation, no transition. The workspace is just _there_.
-- **Unlimited workspaces.** macOS Spaces caps out. AeroSpace doesn't care — name them whatever you want.
-- **No Mission Control weirdness.** Spaces rearranging themselves, desktops moving around after a reboot — none of that.
+- **Unlimited workspaces.** macOS Spaces caps out. AeroSpace doesn't care - name them whatever you want.
+- **No Mission Control weirdness.** Spaces rearranging themselves, desktops moving around after a reboot - none of that.
 
 One setting I'd recommend changing in macOS:
 
@@ -156,7 +156,7 @@ If you've looked at macOS tiling managers before, here's where AeroSpace sits:
 
 - **yabai**: More powerful (borders, opacity, custom rules), but requires SIP off and breaks on macOS updates. If you want to live on the edge, yabai is great. I wanted something that just works after every update.
 - **Amethyst**: Good automatic tiling, but uses native macOS Spaces. That means animations and the occasional macOS bug. No mnemonic workspaces.
-- **Rectangle**: Not a tiling manager — it's a window snapping tool. Great for casual use, not the same thing.
+- **Rectangle**: Not a tiling manager - it's a window snapping tool. Great for casual use, not the same thing.
 
 AeroSpace hits the sweet spot: i3-level configurability without needing to disable system protections.
 

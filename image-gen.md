@@ -38,12 +38,12 @@ bun run gen:image "Wide banner" --aspect 21:9 --name banner
 
 ## System Prompt
 
-The portfolio's visual style is defined in `scripts/image-prompt.ts`. Edit this file to adjust the aesthetic. The prompt is passed directly to `generateImage()` via the `systemPrompt` option — no preset registration needed in the image-gen module.
+The portfolio's visual style is defined in `scripts/image-prompt.ts`. Edit this file to adjust the aesthetic. The prompt is passed directly to `generateImage()` via the `systemPrompt` option - no preset registration needed in the image-gen module.
 
 ## Other Presets
 
 The image-gen CLI also supports `--preset` for other projects:
-- `tech-blog` — generic tech blog style
-- `christianai` — biblical/reverent imagery
+- `tech-blog` - generic tech blog style
+- `christianai` - biblical/reverent imagery
 
 These can be used directly via `bunx image-gen "prompt" --preset tech-blog`.

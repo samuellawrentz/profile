@@ -1,22 +1,22 @@
 ---
-title: "Building Reusable Bun Modules — Why Bun Makes It Stupidly Easy"
+title: "Building Reusable Bun Modules - Why Bun Makes It Stupidly Easy"
 date: 2026-02-21
 heroImage: ./header.png
 path: /blog/reusable-bun-modules/
 published: true
 tags: [bun, typescript, tooling, node, dx]
-description: "How I built a reusable AI image generation module with Bun in under 100 lines — and why Bun's module system, speed, and DX make Node feel like a relic."
+description: "How I built a reusable AI image generation module with Bun in under 100 lines - and why Bun's module system, speed, and DX make Node feel like a relic."
 ---
 
-I've been a Node.js developer for years. I've written hundreds of `npm init`, wrestled with `tsconfig.json`, configured Webpack, Rollup, esbuild — you name it. And every single time I wanted to create a small, reusable utility module, the setup ceremony felt like planning a wedding when all I wanted was a coffee.
+I've been a Node.js developer for years. I've written hundreds of `npm init`, wrestled with `tsconfig.json`, configured Webpack, Rollup, esbuild - you name it. And every single time I wanted to create a small, reusable utility module, the setup ceremony felt like planning a wedding when all I wanted was a coffee.
 
 Then I switched to [Bun](https://bun.sh). And honestly? I'm not going back.
 
-Here's a real module I built — `image-gen`, a reusable AI image generation CLI and library powered by Google Gemini. The whole thing is under 100 lines of actual logic.
+Here's a real module I built - `image-gen`, a reusable AI image generation CLI and library powered by Google Gemini. The whole thing is under 100 lines of actual logic.
 
 ## The Module: `image-gen`
 
-Here's what it does — you give it a text prompt, it generates an image using Gemini's image model, saves it to disk, and returns the result. It works both as a **CLI tool** and a **programmatic library**.
+Here's what it does - you give it a text prompt, it generates an image using Gemini's image model, saves it to disk, and returns the result. It works both as a **CLI tool** and a **programmatic library**.
 
 ```bash
 # As a CLI
@@ -31,9 +31,9 @@ That's it. One module, two interfaces, zero build step.
 
 ## Why Bun Makes This Stupidly Easy
 
-### 1. Native TypeScript — No Build Step, No Config
+### 1. Native TypeScript - No Build Step, No Config
 
-With Node, creating a reusable TypeScript module means setting up `tsconfig.json`, a build tool (tsc, esbuild, tsup, unbuild — pick your poison), output directories, source maps, declaration files... the list goes on.
+With Node, creating a reusable TypeScript module means setting up `tsconfig.json`, a build tool (tsc, esbuild, tsup, unbuild - pick your poison), output directories, source maps, declaration files... the list goes on.
 
 With Bun? You just write `.ts` files and ship them.
 
@@ -50,7 +50,7 @@ With Bun? You just write `.ts` files and ship them.
 
 Notice anything? The `module` and `bin` fields point directly at `.ts` files. No `dist/` folder. No compilation. Bun runs TypeScript natively, so your source IS your distribution. This alone eliminates half the files in a typical Node module.
 
-### 2. `bun link` — Local Modules Without the Pain
+### 2. `bun link` - Local Modules Without the Pain
 
 Node's approach to local module development is... rough. You've got `npm link` (which is famously unreliable), `file:` dependencies (which copy instead of symlink), or workspace setups with Lerna/Turborepo/Nx for what should be a simple operation.
 
@@ -64,7 +64,7 @@ cd ~/src/tasks/image-gen && bun link
 cd ~/src/personal/profile && bun link image-gen
 ```
 
-Done. It just works. The symlink is instant, changes are reflected immediately, and there's no phantom dependency hell. I use this across multiple projects — my portfolio, a Christian AI project, a tech blog — all sharing the same `image-gen` module with different style presets.
+Done. It just works. The symlink is instant, changes are reflected immediately, and there's no phantom dependency hell. I use this across multiple projects - my portfolio, a Christian AI project, a tech blog - all sharing the same `image-gen` module with different style presets.
 
 ### 3. First-Class `Bun.write()` and Native APIs
 
@@ -81,7 +81,7 @@ import { writeFile } from "node:fs/promises";
 await writeFile(filepath, imageBuffer);
 ```
 
-Okay, that's not *dramatically* different in this case — but `Bun.write()` is optimized under the hood. It uses the fastest system calls available (like `sendfile` on Linux), and it handles `Buffer`, `Blob`, `Response`, `string`, and even `Bun.file()` references natively. The API is designed for the common case, not the lowest common denominator.
+Okay, that's not *dramatically* different in this case - but `Bun.write()` is optimized under the hood. It uses the fastest system calls available (like `sendfile` on Linux), and it handles `Buffer`, `Blob`, `Response`, `string`, and even `Bun.file()` references natively. The API is designed for the common case, not the lowest common denominator.
 
 ### 4. The CLI Just Works
 
@@ -141,7 +141,7 @@ import { systemPrompt } from "./image-prompt";
 await generateImage({ prompt: "...", systemPrompt });
 ```
 
-Each project defines its own visual style in a local `image-prompt.ts` file, while the core generation logic stays in the shared module. The module doesn't need to know about every project's aesthetic preferences — it just provides the hooks.
+Each project defines its own visual style in a local `image-prompt.ts` file, while the core generation logic stays in the shared module. The module doesn't need to know about every project's aesthetic preferences - it just provides the hooks.
 
 This is the kind of clean separation that Bun's module linking makes trivial. Change the prompt in one project, the module doesn't care. Update the Gemini API logic in the module, all projects benefit immediately.
 
@@ -163,6 +163,6 @@ image-gen/
 
 No build step, dual interface (CLI + library), full TypeScript types for consumers, and exactly ONE dependency (`@google/genai`). That's it.
 
-If you're still on Node for your internal tools and CLIs — just try `bun init` on your next module. No `tsconfig.json` tweaking, no `type: "module"` vs `"commonjs"` saga, no waiting 10 seconds for a script to start. The whole `image-gen` module is 90 lines across 4 files, works as both a CLI and a library, and took about 20 minutes to write.
+If you're still on Node for your internal tools and CLIs - just try `bun init` on your next module. No `tsconfig.json` tweaking, no `type: "module"` vs `"commonjs"` saga, no waiting 10 seconds for a script to start. The whole `image-gen` module is 90 lines across 4 files, works as both a CLI and a library, and took about 20 minutes to write.
 
 Stop wasting time on build tooling that should've been solved a decade ago.

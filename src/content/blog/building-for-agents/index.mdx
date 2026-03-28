@@ -1,5 +1,5 @@
 ---
-title: "Building for Agents — When AI Becomes Your Primary User"
+title: "Building for Agents - When AI Becomes Your Primary User"
 date: 2026-03-03
 heroImage: ./header.png
 path: /blog/building-for-agents/
@@ -8,13 +8,13 @@ tags: [ai, agents, api, cli, architecture, saas]
 description: "Your next user won't have a browser. Software is shifting from UI-first to API-first as AI agents become the primary clients. Here's how to build for them."
 ---
 
-Your next user won't have a browser. They won't click buttons, scroll through dashboards, or squint at loading spinners. They'll call your API, parse the JSON, and move on — in milliseconds.
+Your next user won't have a browser. They won't click buttons, scroll through dashboards, or squint at loading spinners. They'll call your API, parse the JSON, and move on - in milliseconds.
 
 AI agents are becoming the primary consumers of software. Not as an edge case. Not as an integration. As the **default client**. And most software isn't ready for them.
 
 ## The Great Inversion
 
-For decades, we've built software around a simple assumption: a human is sitting at a screen. Every pixel, every animation, every loading state — designed for human eyes and human patience.
+For decades, we've built software around a simple assumption: a human is sitting at a screen. Every pixel, every animation, every loading state - designed for human eyes and human patience.
 
 That assumption is crumbling.
 
@@ -24,17 +24,17 @@ The inversion is simple: **APIs and CLIs are now the front door. The UI is the s
 
 ## APIs Are the New Front Door
 
-Stripe gets this. Their Agentic Commerce Suite isn't a dashboard — it's an API and SDK suite designed for AI agents to complete purchases autonomously. They co-developed the Agentic Commerce Protocol with OpenAI so agents can handle entire checkout flows without a human touching a screen.
+Stripe gets this. Their Agentic Commerce Suite isn't a dashboard - it's an API and SDK suite designed for AI agents to complete purchases autonomously. They co-developed the Agentic Commerce Protocol with OpenAI so agents can handle entire checkout flows without a human touching a screen.
 
 Salesforce re-engineered their applications to be *"headless capabilities for agents, evolving from monolithic UIs to back-end services that agents can dynamically call via APIs and events."* They signed over 5,000 Agentforce deals in a single quarter.
 
 When you're building for agents, your API design principles shift:
 
-- **Structured, machine-readable responses** — JSON schemas, not HTML templates
-- **Context preservation** — agents work in multi-step loops and need state
-- **Reduced round-trips** — every extra call costs tokens and latency
-- **Composability** — small, stateless endpoints that chain together
-- **Discoverability** — describe your tools so agents can find and use them
+- **Structured, machine-readable responses** - JSON schemas, not HTML templates
+- **Context preservation** - agents work in multi-step loops and need state
+- **Reduced round-trips** - every extra call costs tokens and latency
+- **Composability** - small, stateless endpoints that chain together
+- **Discoverability** - describe your tools so agents can find and use them
 
 Your API isn't plumbing anymore. **It is the product.**
 
@@ -47,7 +47,7 @@ GitHub's MCP server alone eats ~55,000 tokens of context before any work begins.
 Why are CLIs so agent-friendly?
 
 1. **Models were trained on them.** Billions of lines of terminal interactions in the training data. CLI is their native language.
-2. **Unix composability works.** Pipes, flags, `--help`, `--output json` — these aren't legacy patterns, they're agent primitives.
+2. **Unix composability works.** Pipes, flags, `--help`, `--output json` - these aren't legacy patterns, they're agent primitives.
 3. **They're self-documenting.** A `--help` flag tells the agent everything it needs to know. No SDK installation, no auth dance, no token negotiation.
 4. **They're token-efficient.** Plain text in, structured text out. No protocol overhead.
 
@@ -59,13 +59,13 @@ Companies like Sentry are already shipping CLI-first agent tooling. Not because 
 
 This doesn't mean all UI dies. But its role changes fundamentally.
 
-The mundane work — data entry, status updates, routine approvals, report generation, ticket creation, basic CRUD — agents will handle all of it. No human in the loop means no UI required.
+The mundane work - data entry, status updates, routine approvals, report generation, ticket creation, basic CRUD - agents will handle all of it. No human in the loop means no UI required.
 
 What survives is narrow and specific:
 
-**Audit dashboards.** The new dashboard *"looks less like Salesforce and more like Datadog"* — logs of decisions made, money spent, confidence intervals. You're not doing the work; you're watching the agents do it.
+**Audit dashboards.** The new dashboard *"looks less like Salesforce and more like Datadog"* - logs of decisions made, money spent, confidence intervals. You're not doing the work; you're watching the agents do it.
 
-**Human-in-the-loop screens.** When an agent hits a decision that exceeds its confidence threshold — a large purchase, a policy exception, a customer escalation — it surfaces a focused approval screen. Not a full application. A single decision point.
+**Human-in-the-loop screens.** When an agent hits a decision that exceeds its confidence threshold - a large purchase, a policy exception, a customer escalation - it surfaces a focused approval screen. Not a full application. A single decision point.
 
 **Reporting and analytics.** Humans still need to understand trends, set strategy, and make judgment calls. The reporting layer survives because it serves human cognition, not human labor.
 
@@ -83,13 +83,13 @@ This isn't a future prediction. You can start now:
 
 4. **Design for composability.** Small, stateless, pipeable operations. An agent should be able to chain `list-users | filter-active | export-csv` without reading your docs.
 
-5. **Expose tool descriptions.** Whether it's MCP-compatible schemas, OpenAPI specs, or just good `--help` text — make your tools discoverable by agents.
+5. **Expose tool descriptions.** Whether it's MCP-compatible schemas, OpenAPI specs, or just good `--help` text - make your tools discoverable by agents.
 
 6. **Keep decision screens for humans.** Don't eliminate UI. Eliminate *unnecessary* UI. If a screen exists to automate a routine task, the agent should handle it. If it exists for judgment, keep it.
 
 ## The Market Has Already Voted
 
-The AI agents market hit $5.4 billion in 2024 with a projected 45.8% CAGR through 2030. Stripe, Salesforce, OpenAI, and Microsoft are all shipping agent-first interfaces. The per-seat SaaS pricing model is dying — agents don't buy seats.
+The AI agents market hit $5.4 billion in 2024 with a projected 45.8% CAGR through 2030. Stripe, Salesforce, OpenAI, and Microsoft are all shipping agent-first interfaces. The per-seat SaaS pricing model is dying - agents don't buy seats.
 
 The companies that win the next decade won't be the ones with the prettiest dashboards. They'll be the ones whose APIs are so clean, so composable, and so well-documented that an agent can integrate with them in seconds.
 

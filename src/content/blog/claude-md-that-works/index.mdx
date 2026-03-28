@@ -5,12 +5,12 @@ path: /blog/claude-md-that-works/
 published: true
 heroImage: ./header.png
 tags: [claude-code, ai, productivity]
-description: "Everyone's writing about CLAUDE.md files. Most guides are generic. Here's a real one — with actual snippets — that I've been running for months."
+description: "Everyone's writing about CLAUDE.md files. Most guides are generic. Here's a real one - with actual snippets - that I've been running for months."
 ---
 
-Everyone's writing about CLAUDE.md files. Most of the guides are generic — "add your tech stack, list your code style preferences, done." Here's one that actually works, because I've been using it for months and it runs on every project I touch.
+Everyone's writing about CLAUDE.md files. Most of the guides are generic - "add your tech stack, list your code style preferences, done." Here's one that actually works, because I've been using it for months and it runs on every project I touch.
 
-The thing that took me too long to figure out: CLAUDE.md isn't project documentation. It's behavioral programming. You're not writing facts *about* your codebase — you're shaping *how an AI collaborator decides things*. That distinction changes everything about how you write it.
+The thing that took me too long to figure out: CLAUDE.md isn't project documentation. It's behavioral programming. You're not writing facts *about* your codebase - you're shaping *how an AI collaborator decides things*. That distinction changes everything about how you write it.
 
 ## It Starts With Identity
 
@@ -22,7 +22,7 @@ Your role is to coordinate specialized agents, tools, and skills so work is
 completed accurately and efficiently.
 ```
 
-Sounds obvious. It isn't. Claude will happily do whatever you ask — unless you give it a frame. Once it knows it's orchestrating rather than just coding, the quality of its decisions about *when to delegate* vs *when to do the work itself* improves noticeably.
+Sounds obvious. It isn't. Claude will happily do whatever you ask - unless you give it a frame. Once it knows it's orchestrating rather than just coding, the quality of its decisions about *when to delegate* vs *when to do the work itself* improves noticeably.
 
 ## Memory That Persists Across Sessions
 
@@ -31,7 +31,7 @@ I have a whole memory system defined in my CLAUDE.md. Four types: `user`, `feedb
 ```markdown
 ## When to save memories
 - When the user corrects your approach in a way that's applicable to future
-  conversations — especially if it's not obvious from the code.
+  conversations - especially if it's not obvious from the code.
 - Lead with the rule, then a **Why:** line, then a **How to apply:** line.
 ```
 
@@ -65,16 +65,16 @@ Without this, everything runs on the most expensive model by default. With it, C
 
 ## Anti-Patterns That Kill It
 
-**Vague instructions** — "Be helpful and concise" does nothing. Claude already tries to be helpful. Specifics: "For file edits under 50 lines, use the Edit tool. For larger rewrites, spawn an executor agent."
+**Vague instructions** - "Be helpful and concise" does nothing. Claude already tries to be helpful. Specifics: "For file edits under 50 lines, use the Edit tool. For larger rewrites, spawn an executor agent."
 
-**Too many rules** — If your CLAUDE.md is 2000 lines of constraints, Claude starts deprioritizing them. Every section should earn its place. Mine is dense but short.
+**Too many rules** - If your CLAUDE.md is 2000 lines of constraints, Claude starts deprioritizing them. Every section should earn its place. Mine is dense but short.
 
-**Contradictory constraints** — "Always ask before writing code" + "work autonomously" creates unpredictable behavior. If some constraints are mode-specific, say so: *when in ultrawork mode, skip confirmations.*
+**Contradictory constraints** - "Always ask before writing code" + "work autonomously" creates unpredictable behavior. If some constraints are mode-specific, say so: *when in ultrawork mode, skip confirmations.*
 
 ## What I Left Out
 
-No tech stack overview. No ESLint config. No preferred import order. The codebase is right there — Claude can read it. The global CLAUDE.md is for *behavior*, not facts. Facts go in a project-level CLAUDE.md or just... in the code itself.
+No tech stack overview. No ESLint config. No preferred import order. The codebase is right there - Claude can read it. The global CLAUDE.md is for *behavior*, not facts. Facts go in a project-level CLAUDE.md or just... in the code itself.
 
-If you want to see how this connects to actual day-to-day workflows — the MCP integrations, parallel agents, the whole thing — I covered the broader system in [my Claude Code workflow post](/blog/claude-code-efficiency/) and [the Slack-to-Linear MCP post](/blog/claude-code-slack-linear-mcp/).
+If you want to see how this connects to actual day-to-day workflows - the MCP integrations, parallel agents, the whole thing - I covered the broader system in [my Claude Code workflow post](/blog/claude-code-efficiency/) and [the Slack-to-Linear MCP post](/blog/claude-code-slack-linear-mcp/).
 
 *The one file Claude will always read. Treat it accordingly.*
