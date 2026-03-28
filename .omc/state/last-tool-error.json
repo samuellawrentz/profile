@@ -1,7 +1,0 @@
-{
-  "tool_name": "Read",
-  "tool_input_preview": "{\"file_path\":\"/home/samm/src/personal/profile/src/content/blog\"}",
-  "error": "EISDIR: illegal operation on a directory, read '/home/samm/src/personal/profile/src/content/blog'",
-  "timestamp": "2026-02-25T12:18:12.202Z",
-  "retry_count": 2
-}

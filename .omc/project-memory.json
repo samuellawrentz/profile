@@ -1,6 +1,6 @@
 {
   "version": "1.0.0",
-  "lastScanned": 1772021653150,
+  "lastScanned": 1773631403397,
   "projectRoot": "/home/samm/src/personal/profile",
   "techStack": {
     "languages": [
@@ -86,24 +86,14 @@
       "path": "_templates",
       "purpose": null,
       "fileCount": 0,
-      "lastAccessed": 1772021653065,
+      "lastAccessed": 1773631403371,
       "keyFiles": []
-    },
-    "blog": {
-      "path": "blog",
-      "purpose": null,
-      "fileCount": 2,
-      "lastAccessed": 1772021653066,
-      "keyFiles": [
-        "default.png",
-        "scratchpad.txt"
-      ]
     },
     "dist": {
       "path": "dist",
       "purpose": "Distribution/build output",
-      "fileCount": 11,
-      "lastAccessed": 1772021653103,
+      "fileCount": 12,
+      "lastAccessed": 1773631403373,
       "keyFiles": [
         "404.html",
         "CNAME",
@@ -116,36 +106,29 @@
       "path": "hacks",
       "purpose": null,
       "fileCount": 1,
-      "lastAccessed": 1772021653127,
+      "lastAccessed": 1773631403383,
       "keyFiles": [
         "logs.txt"
       ]
     },
-    "plugins": {
-      "path": "plugins",
-      "purpose": null,
-      "fileCount": 0,
-      "lastAccessed": 1772021653127,
-      "keyFiles": []
-    },
     "public": {
       "path": "public",
       "purpose": "Public files",
-      "fileCount": 6,
-      "lastAccessed": 1772021653127,
+      "fileCount": 7,
+      "lastAccessed": 1773631403388,
       "keyFiles": [
         "CNAME",
         "Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf",
         "favicon.ico",
         "favicon.svg",
-        "ogimage.png"
+        "llms.txt"
       ]
     },
     "scripts": {
       "path": "scripts",
       "purpose": "Build/utility scripts",
       "fileCount": 4,
-      "lastAccessed": 1772021653127,
+      "lastAccessed": 1773631403388,
       "keyFiles": [
         "canvas-fallback.js",
         "generate-image.ts",
@@ -157,7 +140,7 @@
       "path": "src",
       "purpose": "Source code",
       "fileCount": 7,
-      "lastAccessed": 1772021653128,
+      "lastAccessed": 1773631403389,
       "keyFiles": [
         "content.config.ts",
         "custom.d.ts",
@@ -170,7 +153,7 @@
       "path": "static",
       "purpose": "Static files",
       "fileCount": 4,
-      "lastAccessed": 1772021653129,
+      "lastAccessed": 1773631403389,
       "keyFiles": [
         "CNAME",
         "Samuel_Lawerence_-_LeadSenior_Frontend_Engineer.pdf",
@@ -182,7 +165,7 @@
       "path": "dist/assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1772021653134,
+      "lastAccessed": 1773631403391,
       "keyFiles": [
         "logo.jpg"
       ]
@@ -191,7 +174,7 @@
       "path": "public/assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1772021653141,
+      "lastAccessed": 1773631403391,
       "keyFiles": [
         "logo.jpg"
       ]
@@ -200,7 +183,7 @@
       "path": "src/assets",
       "purpose": "Static assets",
       "fileCount": 1,
-      "lastAccessed": 1772021653145,
+      "lastAccessed": 1773631403392,
       "keyFiles": [
         "logo.jpg"
       ]
@@ -209,7 +192,7 @@
       "path": "src/components",
       "purpose": "UI components",
       "fileCount": 7,
-      "lastAccessed": 1772021653145,
+      "lastAccessed": 1773631403393,
       "keyFiles": [
         "Banner.astro",
         "Footer.astro",
@@ -219,50 +202,92 @@
     "src/pages": {
       "path": "src/pages",
       "purpose": "Page components",
-      "fileCount": 3,
-      "lastAccessed": 1772021653147,
+      "fileCount": 4,
+      "lastAccessed": 1773631403394,
       "keyFiles": [
         "404.astro",
-        "index.astro",
-        "rss.xml.ts"
+        "about.astro",
+        "index.astro"
       ]
     }
   },
   "hotPaths": [
     {
-      "path": "src/content/blog/you-dont-need-openclaw/index.mdx",
-      "accessCount": 6,
-      "lastAccessed": 1772027751733,
+      "path": "src/content/blog/.CLAUDE.md",
+      "accessCount": 7,
+      "lastAccessed": 1773632056710,
       "type": "file"
     },
     {
-      "path": "src/content/blog/claude-code-slack-linear-mcp/index.mdx",
-      "accessCount": 2,
-      "lastAccessed": 1772021901263,
-      "type": "file"
-    },
-    {
-      "path": "src/content.config.ts",
-      "accessCount": 2,
-      "lastAccessed": 1772021905400,
-      "type": "file"
-    },
-    {
-      "path": "",
-      "accessCount": 1,
-      "lastAccessed": 1772021897071,
+      "path": "src/pages/index.astro",
+      "accessCount": 7,
+      "lastAccessed": 1773667559626,
       "type": "directory"
     },
     {
-      "path": "src/content/blog/claude-code-efficiency/index.mdx",
-      "accessCount": 1,
-      "lastAccessed": 1772021901772,
+      "path": "src/content/blog/ghostty-1-3-config/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1773631439342,
       "type": "file"
     },
     {
-      "path": "src/content/blog/you-dont-need-openclaw/header.png",
+      "path": "src/content/blog/bookmarklets/2022-06-19.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1773631975152,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/random-array/2022-06-27.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1773631976036,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/gatsby-og-image/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1773631976532,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/blog-about-blog/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1773631976613,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/you-don-t-need-these-many-state-variables/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1773631978230,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/coding-standards-husky-typescript-lint-staged/index.md",
+      "accessCount": 2,
+      "lastAccessed": 1773631978376,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog/online-presence/index.mdx",
+      "accessCount": 2,
+      "lastAccessed": 1773631978489,
+      "type": "file"
+    },
+    {
+      "path": "src/content/blog",
       "accessCount": 1,
-      "lastAccessed": 1772022662194,
+      "lastAccessed": 1773632001611,
+      "type": "directory"
+    },
+    {
+      "path": "src/pages/projects/pasttenser/index.astro",
+      "accessCount": 1,
+      "lastAccessed": 1773667004374,
+      "type": "file"
+    },
+    {
+      "path": "src/pages/projects/quotes-generator/index.astro",
+      "accessCount": 1,
+      "lastAccessed": 1773667005685,
       "type": "file"
     }
   ],
