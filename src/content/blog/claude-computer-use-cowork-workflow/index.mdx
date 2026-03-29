@@ -1,0 +1,49 @@
+---
+title: Claude Can Now Control Your Mac — Here's How I'm Using It
+date: 2026-03-30
+path: /blog/claude-computer-use-cowork-workflow/
+published: true
+heroImage: ./header.png
+tags: [claude-code, ai, automation, macos, productivity]
+description: "Anthropic shipped computer use for Claude on March 23rd. I've been building AI automations for months — here's what this actually changes vs. what's still rough."
+---
+
+Anthropic just gave Claude the ability to actually use your Mac — click things, open apps, navigate your browser. I've had a few days with it. Here's what's genuinely useful vs. what's still rough.
+
+## What it actually is
+
+Claude sees your screen and can click, type, scroll, and open apps. That's the whole thing. The design decision I find interesting: it tries *connectors* first. If you have Slack or Google Calendar linked, it uses those APIs directly. Mouse and keyboard are the fallback when no connector exists.
+
+That fallback is exactly why this matters. [I've been building structured MCP workflows](/blog/claude-code-slack-linear-mcp/) for months — Slack reads, Linear ticket creation, the works. Computer use isn't a replacement for those. It's what you reach for when no connector exists.
+
+## The Dispatch workflow
+
+This is the piece that changes my daily routine. Dispatch lets you send a task from your phone, Claude works on your Mac, and results are waiting when you return.
+
+"Check the Vercel deploy, Slack me the URL if it's green." I send that before walking into a meeting. By the time I'm back at my desk, it's done.
+
+I've been building something similar manually — a cron-based Claude assistant I call Travis, which I covered in [how I actually use Claude Code](/blog/claude-code-efficiency/). Dispatch does a version of this without the glue code.
+
+To enable it: Desktop app → Settings → Computer Use. Keep the app running and awake.
+
+<aside class="banner banner-info">Computer use is macOS only, research preview, Pro and Max plans only.</aside>
+
+## Use cases I'd actually reach for
+
+**Deploy check without a script** — "Open Safari, go to vercel.com, find the latest deploy for my-project, Slack the URL to #dev." I could write an MCP connector for this. I haven't. Now I don't have to.
+
+**Async Figma review** — "Open Figma, screenshot the Button component, describe what's changed." My design team moves faster than I check Figma. This gets me a diff without switching apps.
+
+**One-off admin tasks** — anything too niche to justify a script but too annoying to do manually.
+
+## Where it still struggles
+
+Complex multi-step workflows still derail mid-task more often than not. It's noticeably slower than a targeted MCP connector — screen interaction has overhead that an API call doesn't. And since it's UI-based, any layout change can break a workflow.
+
+## The mental model that makes it click
+
+MCP connectors are still the right tool for structured, repeatable tasks. [As the shift toward agent-first software shows](/blog/building-for-agents/), proper integrations give Claude clean, token-efficient access to data. Computer use is the fallback layer — slower, less reliable, but more flexible because it works anywhere a human can click.
+
+Think of it as: connector = precision tool, computer use = duct tape. Both useful. Not interchangeable.
+
+*It's not magic yet. But it's the first time I've watched Claude do something I couldn't have automated myself without writing a full script.*
