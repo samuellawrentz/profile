@@ -1,0 +1,89 @@
+---
+title: Neovim 0.12's Built-in Plugin Manager — Should You Ditch lazy.nvim?
+date: 2026-03-31
+path: /blog/neovim-vim-pack-vs-lazy-nvim/
+published: true
+heroImage: ./header.png
+tags: [neovim, vim, config, productivity]
+description: "Neovim 0.12 shipped vim.pack, a built-in plugin manager. I've been running lazy.nvim for two years — here's whether it's actually worth migrating."
+---
+
+Neovim 0.12 shipped a built-in plugin manager. I've been running lazy.nvim for two years. Here's my honest take on whether it's worth switching.
+
+## What vim.pack Actually Is
+
+`vim.pack` is part of Neovim core — written in Lua, maintained by the Neovim team, zero external dependencies. The API is minimal:
+
+```lua
+-- shorthand (GitHub)
+vim.pack.add("nvim-lua/plenary.nvim")
+
+-- table spec
+vim.pack.add({
+  "nvim-treesitter/nvim-treesitter",
+  type = "opt",  -- load manually with :packadd
+})
+```
+
+Versions are locked in `$XDG_CONFIG_HOME/nvim/nvim-pack-lock.json`. `:Pack install` syncs, `:Pack update` pulls new versions. That's basically the full API surface.
+
+## The start/opt Thing
+
+Plugins are either `start` (loaded at startup automatically) or `opt` (you call `:packadd pluginname` yourself). This distinction isn't new — it's the same `packpath` split Vim has had forever. `vim.pack` just wraps it with a cleaner Lua API and an actual lockfile.
+
+`opt` plugins are the closest thing to lazy loading you get here. But that's the problem.
+
+## The Deal-Breaker
+
+`vim.pack` has no event/filetype/command-based lazy loading. None. You either load at startup or you manually call `:packadd` in your config yourself.
+
+lazy.nvim's `event = "BufReadPost"`, `ft = "typescript"`, `cmd = "Telescope"` — that whole system is what keeps a 30+ plugin config snappy. My config loads in ~60ms. Without lazy loading, it'd be pushing 200ms+.
+
+| Approach | Startup (~30 plugins) |
+|---|---|
+| lazy.nvim (event/ft/cmd) | ~55–70ms |
+| vim.pack (start only) | ~180–250ms |
+
+If startup time matters to you — and if you've spent any time optimizing your config, it does — this is the blocker.
+
+## What It IS Good For
+
+That said, I'll give it credit where it's due. vim.pack makes sense if you're:
+
+- Starting a fresh config and don't want to think about plugin manager churn (Packer → lazy.nvim → now vim.pack?)
+- Running a minimal config, fewer than 15 plugins
+- Distributing a config that should bootstrap with zero setup code
+
+The lockfile works, the API is clean, and `vim.pack.add("user/repo")` reads like a real dependency declaration — not boilerplate.
+
+<aside class="banner banner-info">If you want remove/disable/bulk operations on top of vim.pack, check out [pack-manager.nvim](https://github.com/mplusp/pack-manager.nvim). Adds the missing management commands without pulling in full plugin manager complexity.</aside>
+
+## Before/After
+
+Three plugins converted from lazy.nvim to vim.pack:
+
+```lua
+-- lazy.nvim
+{ "nvim-treesitter/nvim-treesitter", event = "BufReadPost" },
+{ "nvim-telescope/telescope.nvim", cmd = "Telescope",
+  dependencies = { "nvim-lua/plenary.nvim" } },
+{ "tpope/vim-surround" },
+```
+
+```lua
+-- vim.pack
+vim.pack.add("nvim-lua/plenary.nvim")
+vim.pack.add("nvim-treesitter/nvim-treesitter")
+vim.pack.add("nvim-telescope/telescope.nvim")
+vim.pack.add("tpope/vim-surround")
+```
+
+Cleaner, kinda. But notice what's gone — `event = "BufReadPost"` and `cmd = "Telescope"` just disappear. Everything loads at startup now.
+
+## My Take
+
+Don't migrate. If you've got a working [lazy.nvim config](/blog/minimal-neovim-config/) — even a messy one — the only thing you'd gain is removing a bootstrapping dependency in exchange for slower startups and less control. That's a bad trade.
+
+I'd try vim.pack if I were starting fresh today, purely to avoid the migration fatigue saga. But mid-config? Not worth it. The lazy loading alone earns lazy.nvim its keep. And if you're wiring in [AI plugins on top of all this](/blog/neovim-ai-plugins-avante-codecompanion/), you really don't want the startup hit.
+
+*Maybe revisit when vim.pack gets lazy loading — which feels inevitable — but that's not today.*
