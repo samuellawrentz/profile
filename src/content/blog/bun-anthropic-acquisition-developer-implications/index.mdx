@@ -1,0 +1,58 @@
+---
+title: Bun Is Now Part of Anthropic — What That Actually Means for You
+date: 2026-04-01
+path: /blog/bun-anthropic-acquisition-developer-implications/
+published: true
+heroImage: ./header.png
+tags: [bun, javascript, ai, anthropic]
+description: "Anthropic bought Bun in December 2025. I use both daily. Here's what's actually shipped since, why the tension is real but probably fine, and what to watch."
+---
+
+Anthropic bought Bun. I use both daily. Here's what's actually changed — and what I think happens next.
+
+Bun joined Anthropic in December 2025. Some people reacted like this was an acqui-hire death notice — startup gets absorbed, product gets folded into the mothership, open source withers. That's not what happened. Bun is at v1.3.11 and the pace of shipping has *increased*.
+
+## What actually shipped
+
+Bun 1.3 is a meaningful release. Not just "faster installs" — actual new capabilities:
+
+- **HTML files run directly** — `bun index.html` starts a dev server with HMR and React Fast Refresh. Zero config.
+- **Bun.SQL** — unified MySQL, PostgreSQL, and SQLite client. Zero dependencies. Tagged template syntax.
+- **Bun.Terminal** — an API for building interactive CLI tools without reaching for `blessed` or `ink`
+- **Compile-time feature flags** — strip dead code paths at build time
+
+Performance improvements kept coming too. `Buffer.from(array)` is 50% faster. `array.flat()` is 3x faster. These aren't flashy benchmarks — they're the kind of quiet wins that compound across a real codebase.
+
+## The obvious tension
+
+Bun is now an Anthropic product. Anthropic's core business is building AI systems. So: does the roadmap start drifting toward AI infrastructure at the expense of general JavaScript developers?
+
+My honest take: probably net positive, at least for now. Bun's value to Anthropic is *because* it's a credible Node.js alternative with real adoption. A narrowly AI-focused runtime would be worth much less. The funding that came with the acquisition seems to have accelerated shipping across the board, not redirected it.
+
+That said — watch the roadmap. If Node.js compatibility starts slipping or features start appearing that only make sense for agent workloads, that's your signal.
+
+## You're already using it
+
+Here's the thing most people miss: if you write Claude Code hooks or agent scripts, you're already running on Bun. Claude Code's internals are built on it. The Claude Agent SDK uses it. [My work building agent-first tooling](/blog/building-for-agents/) increasingly runs on Bun scripts — and my Travis assistant (the Telegram bot that handles my daily briefings) has been a Bun script since before the acquisition.
+
+The `Bun.SQL` API is a good taste of what's shipping. No driver to install, no connection pool config:
+
+```typescript
+import { sql } from "bun";
+
+const users = await sql`
+  SELECT * FROM users WHERE active = true
+`;
+```
+
+Same interface for PostgreSQL, MySQL, and SQLite. [In my reusable modules setup](/blog/reusable-bun-modules/), adding database access to an existing script would take about 10 minutes with this. Previously it meant choosing a driver, installing it, writing the connection boilerplate — the kind of friction that makes you put things off.
+
+<aside class="banner banner-info">
+If you're using Claude Code hooks and want to write them well, check out my post on [Claude Code efficiency patterns](/blog/claude-code-efficiency/). Hooks are Bun scripts whether you think of them that way or not.
+</aside>
+
+## My actual verdict
+
+I'm more bullish on Bun now than before the acquisition. It's not a side project anymore — it's infrastructure for Anthropic's entire AI coding stack. That's a different level of commitment than VC runway.
+
+The one thing worth watching: does Bun's Node.js compatibility stay solid as the AI use cases pile on, or does it gradually drift into something more specialized? So far the evidence points toward the former. But that's what I'll be checking when the next few releases land.
