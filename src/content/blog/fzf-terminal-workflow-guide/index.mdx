@@ -1,0 +1,93 @@
+---
+title: fzf — The One CLI Tool I Recommend to Everyone
+date: 2026-04-02
+path: /blog/fzf-terminal-workflow-guide/
+published: true
+heroImage: ./header.png
+tags: [cli, terminal, productivity, zsh, neovim]
+description: "fzf is the CLI tool I've been asked about more than any other. Here's how I actually use it — and the integrations that make it irreplaceable."
+---
+
+fzf is the CLI tool I've been asked about more than any other. Here's how I actually use it — and the integrations that make it irreplaceable.
+
+## The mental model
+
+fzf isn't a file finder. That's what throws people off. It's a filter. Pipe anything into it, get an interactive fuzzy search, pipe the selected result out. That's the whole thing.
+
+```bash
+echo "foo\nbar\nbaz" | fzf
+# → interactive list, pick one, output goes to stdout
+```
+
+Once that clicks, everything else follows.
+
+## Install and shell integration
+
+```bash
+brew install fzf
+```
+
+Then one line in your `~/.zshrc`:
+
+```bash
+source <(fzf --zsh)
+```
+
+What you get immediately:
+- **CTRL+R** — fuzzy search your entire shell history (this alone is worth the install)
+- **CTRL+T** — fuzzy file finder, pastes selected path into your current command
+- **ALT+C** — fuzzy `cd`, jumps to any directory
+
+I covered the [full terminal stack](/blog/mac-terminal-setup-2026-ghostty-starship-catppuccin/) separately — Ghostty, Starship, Catppuccin. fzf is the piece that makes the shell itself feel interactive.
+
+## Four workflows I use daily
+
+**Interactive branch switch:**
+```bash
+git checkout $(git branch | fzf)
+```
+
+**Kill a process without knowing its PID:**
+```bash
+kill $(ps aux | fzf | awk '{print $2}')
+```
+
+**Browse git commits with a live diff preview:**
+```bash
+git log --oneline | fzf --preview 'git show --stat {1}'
+```
+
+**Open any TypeScript file:**
+```bash
+open $(find . -name '*.ts' | fzf)
+```
+
+Same shape every time: pipe a list in, pick something, pipe it somewhere useful. Once you know the pattern, you start seeing it everywhere.
+
+## Ghostty makes previews better
+
+fzf's `--preview` flag renders noticeably better in [Ghostty](/blog/ghostty-config/) — the GPU-accelerated rendering means the preview pane updates instantly as you type. Pair it with `bat` for syntax highlighting:
+
+```bash
+fzf --preview 'bat --color=always {}'
+```
+
+<aside class="banner banner-info">
+`bat` is `cat` with syntax highlighting and Git integration. Install it with `brew install bat`. fzf + bat is the combination I reach for when browsing unfamiliar codebases.
+</aside>
+
+## In Neovim
+
+[fzf-lua](https://github.com/ibhagwan/fzf-lua) brings everything into Neovim and supports Ghostty's kitty graphics protocol — image previews in file search, inside your editor. It's the integration I've settled on in [my Neovim config](/blog/neovim-config/).
+
+```lua
+{ "ibhagwan/fzf-lua", opts = {} }
+```
+
+One line via lazy.nvim. Fuzzy files, buffers, git status, LSP references — all wired up.
+
+## Why it's composable
+
+fzf does one thing and does it well enough that it plugs into everything else. It doesn't care what you pipe in — branches, processes, commit hashes, grep results. If it's text, fzf can filter it. That composability is exactly what makes it fit [CLI-first workflows](/blog/year-of-clis-skills-apis/) as the connective tissue between commands.
+
+Five minutes to install, weeks to fully explore. Start with CTRL+R and go from there.
