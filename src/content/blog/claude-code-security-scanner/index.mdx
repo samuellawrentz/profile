@@ -1,0 +1,80 @@
+---
+title: Claude Code Security: AI That Scans Your Codebase Like a Security Researcher
+date: 2026-04-06
+path: /blog/claude-code-security-scanner/
+published: true
+heroImage: ./header.png
+tags: [claude-code, security, ai, developer-tools]
+description: "Claude Code Security found a Linux vulnerability hiding for 23 years. Here's what separates it from your linter — and how to run your own security audit right now."
+---
+
+Claude Code just found a Linux vulnerability that had been hiding for 23 years. Here's what that means for your codebase — and how to actually use Claude Code Security today.
+
+Anthropic announced [Claude Code Security](https://www.anthropic.com/news/claude-code-security) on February 20, 2026. Claude Opus 4.6 has found over 500 previously undetected vulnerabilities in production codebases. The headline is dramatic, but the part worth paying attention to is the *method*.
+
+## The difference isn't speed — it's understanding
+
+ESLint, Snyk, Semgrep. I use all of them. They're fast, they catch real stuff, and I'm not throwing them out. But they work by pattern matching. They know what SQL injection looks like. They don't know what *your* checkout function looks like.
+
+Claude Code Security doesn't scan for known patterns. It reads and reasons about your code the way a human security researcher would — tracing data flows across files, understanding how components interact, catching bugs that only exist in context.
+
+That 23-year Linux vulnerability? The kind of thing a regex-based scanner would never find, because it required understanding a multi-step interaction between components written years apart.
+
+## How it actually works
+
+When Claude scans your repo, it runs multi-stage verification on each finding before surfacing it. Every result gets a confidence rating and severity level. Nothing auto-patches. You get a dashboard, and you manually approve or reject each proposed fix.
+
+That last part matters. It's not a bot that rewrites your code overnight. It's a queue of findings that require a human decision. Given [how I think about AI code quality loops](/blog/ai-code-needs-a-quality-loop/), this is exactly the right design — AI finds, human decides.
+
+## What it catches that your linter won't
+
+Three classes of bugs that traditional tools miss:
+
+**Business logic flaws.** A checkout function that's exploitable only if you understand the full auth flow — that a guest user can set a discount code flag that persists into an authenticated session. No regex knows your domain model well enough to catch that.
+
+**IDOR vulnerabilities.** Insecure Direct Object References require knowing your data model. If your API lets users fetch `/invoices/:id` and Claude understands that `id` is sequential and not access-controlled, it flags it. Semgrep doesn't know what `id` means in your context.
+
+**Insecure multi-step workflows.** Password reset flows, email verification, multi-factor enrollment — these vulnerabilities only appear when you reason about the entire flow, not individual lines.
+
+## Getting access
+
+Currently in limited research preview for Enterprise and Team customers. If you're on one of those plans, you can apply directly through Anthropic. Open-source maintainers get expedited access, which is a nice touch.
+
+The workflow once you're in: connect your repo, Claude scans, review findings in the dashboard, approve or reject each fix. Straightforward.
+
+## What you can do right now
+
+No enterprise plan? You can still run targeted security audits today with any Claude Code setup. Create a custom slash command in `.claude/commands/security-audit.md`:
+
+```md
+Review $ARGUMENTS for security vulnerabilities. Trace data flows end-to-end
+across related files — not just this file in isolation.
+
+Check for:
+- Injection risks (SQL, command, path traversal)
+- Auth and authorization gaps
+- Sensitive data exposure
+- Business logic flaws specific to this codebase's context
+
+Report each finding with severity, location, and why it's exploitable.
+```
+
+Then run it in your terminal:
+
+```bash
+/project:security-audit src/api/checkout.ts
+```
+
+It's not the same as a full repo scan, but it's the same reasoning model — understanding context, tracing flows. I've used this on [my hooks-heavy Claude Code setup](/blog/claude-code-hooks-subagents/) and it surfaces things ESLint never would.
+
+<aside class="banner banner-info">
+The targeted audit works best when you give it a specific concern: "check this file for auth issues" beats "check this file for security." The more context you provide in the prompt, the better the reasoning.
+</aside>
+
+## Honest scope check
+
+This is a research preview, not a penetration test. It's additive security, not a replacement for a dedicated security audit or a red team. Don't treat a clean Claude scan as a green light.
+
+That said — [I've been using Claude Code for months](/blog/claude-code-efficiency/) across real projects, and the quality of its context-aware analysis is genuinely different from anything else in the category.
+
+Traditional scanners catch known patterns. Claude catches unknown ones — because it understands what your code is trying to do.
