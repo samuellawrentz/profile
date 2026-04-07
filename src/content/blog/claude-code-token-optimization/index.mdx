@@ -1,0 +1,62 @@
+---
+title: Stop Burning Tokens: How I Cut My Claude Code Costs in Half
+date: 2026-04-08
+path: /blog/claude-code-token-optimization/
+published: true
+heroImage: ./header.png
+tags: [claude-code, productivity, ai, optimization]
+description: "Claude Code bills by token. A few careless habits were eating most of my budget — here's what I actually changed."
+---
+
+Claude Code is the best coding tool I've used. It's also the most expensive one. Here's what I changed to cut my monthly spend roughly in half.
+
+## The cost reality
+
+Claude Code bills by token — input *and* output. One careless "explain this whole repo" request can cost more than 20 focused edits. Most devs don't notice until the first big bill lands. I didn't.
+
+The thing is, token usage isn't random. It clusters around a handful of specific habits. Fix those habits, and the numbers drop fast.
+
+## The five biggest sinks
+
+**Bloated CLAUDE.md.** This file loads on *every* context window. If yours is 400 lines, those 400 lines are prepended to every single request in every session. Mine had a section explaining what React is. I wrote about cutting it down to something that actually works in [My CLAUDE.md That Actually Works](/blog/claude-md-that-works/) — the short version: under 150 lines, behavior only, no facts Claude already knows.
+
+```diff
+- ## React Best Practices
+- React is a JavaScript library for building UIs.
+- Always use functional components with hooks.
+- Never use class components.
+- Use useState for local state management.
++ ## Code Style
++ Functional components only. No useEffect.
+```
+
+**Reading whole files for 3-line answers.** I'd ask "what does this function return?" and Claude would read a 400-line file. Now I include line ranges in my prompts: "check lines 45-60 in `auth.ts`." Same answer, fraction of the tokens.
+
+**Clarification loops.** Three rounds of back-and-forth to nail down a spec means three full context reloads. Front-load the details instead: "Before writing any code, confirm your understanding of X, Y, and Z and tell me if anything's ambiguous." One round trip instead of three. [The workflow post](/blog/claude-code-efficiency/) covers this prompting structure in more depth.
+
+**Running Opus on cheap tasks.** I was using `claude-opus-4-6` to rename variables, reformat JSON, and write changelogs. Haiku handles all of that just fine. Save Opus for architecture decisions and deep analysis.
+
+**No-op subagent spawns.** An agent that runs, finds nothing, and reports back still burns tokens. Give agents tight briefs: "read only `src/api/` and summarize the auth endpoints" — not "explore the codebase and find anything auth-related." Vague scope means expensive exploration.
+
+## Model routing — the highest-leverage fix
+
+One change to CLAUDE.md pays off every single session:
+
+```markdown
+## Model Routing
+- haiku: lookups, summaries, simple edits, renaming, formatting
+- sonnet: standard implementation, debugging, code review
+- opus: architecture, deep analysis, complex refactors only
+```
+
+Claude follows this. Tasks that don't need Opus stop using Opus. I saw the difference in my usage dashboard within a week of adding it. Without this, everything defaults to the most capable — and most expensive — model.
+
+## Subagent scoping
+
+Subagents get isolated context, which is good — they don't inherit your full conversation history. The mistake is giving them vague briefs that force them to explore wide. Tight scope means fewer tokens per task. I covered how I structure these in [the hooks and subagents post](/blog/claude-code-hooks-subagents/).
+
+## Track it
+
+The Claude usage dashboard shows consumption by session. Check it weekly. Spikes almost always trace back to two or three specific habits — for me it was the CLAUDE.md bloat and exploratory subagent spawns. Once you know your personal expensive patterns, fixing them is straightforward.
+
+Every token you save is a token available for the work that actually matters.
