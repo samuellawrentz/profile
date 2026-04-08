@@ -10,21 +10,21 @@ description: "Everyone is listing 15+ MCP servers. Most of them are toys. Here a
 
 Everyone is listing 15+ MCP servers. Most of them are toys. Here are the ones I actually kept installed after a month of testing.
 
-Quick context if you missed it: MCP (Model Context Protocol) is how Claude connects to real tools in real systems. You install a server, Claude gains a superpower — it can read your issues, query your errors, check your repos. It's not a plugin system. It's Claude becoming an agent that operates in your actual stack.
+Quick context if you missed it: MCP (Model Context Protocol) is how Claude connects to real tools in real systems. You install a server, Claude gains a superpower - it can read your issues, query your errors, check your repos. It's not a plugin system. It's Claude becoming an agent that operates in your actual stack.
 
 ## The ones I kept
 
-**GitHub MCP** — reads PRs, issues, CI status, code search. I ask "what's blocking this PR?" and it reads the review comments and CI logs without me copy-pasting anything. [Full setup here](/blog/github-mcp-server-launch/). *Verdict: keep.*
+**GitHub MCP** - reads PRs, issues, CI status, code search. I ask "what's blocking this PR?" and it reads the review comments and CI logs without me copy-pasting anything. [Full setup here](/blog/github-mcp-server-launch/). *Verdict: keep.*
 
-**Linear MCP** — creates, updates, and queries issues. I use it as part of a Slack-to-Linear workflow where Claude reads my week of messages and files the tickets automatically — [that whole workflow is here](/blog/claude-code-slack-linear-mcp/). Saves me 30 minutes every Monday. [Setup guide here](/blog/linear-mcp-server/). *Verdict: keep.*
+**Linear MCP** - creates, updates, and queries issues. I use it as part of a Slack-to-Linear workflow where Claude reads my week of messages and files the tickets automatically. [That whole workflow is here](/blog/claude-code-slack-linear-mcp/). Saves me 30 minutes every Monday. [Setup guide here](/blog/linear-mcp-server/). *Verdict: keep.*
 
-**Sentry MCP** — queries production errors by project, timeframe, or affected users. "What broke in the last hour?" is a real question I now ask in plain English instead of opening five tabs. [How to connect it](/blog/sentry-mcp-connection/). *Verdict: keep.*
+**Sentry MCP** - queries production errors by project, timeframe, or affected users. "What broke in the last hour?" is a real question I now ask in plain English instead of opening five tabs. [How to connect it](/blog/sentry-mcp-connection/). *Verdict: keep.*
 
-**Playwright MCP** — Claude writes and runs E2E tests in a real browser. I use it for regression checks after feature work. Ask it to "verify the login flow still works," it opens a browser, clicks through, and tells you exactly where it broke. *Verdict: keep — especially if you've been putting off writing E2E tests.*
+**Playwright MCP** - Claude writes and runs E2E tests in a real browser. I use it for regression checks after feature work. Ask it to "verify the login flow still works," it opens a browser, clicks through, and tells you exactly where it broke. *Verdict: keep, especially if you've been putting off writing E2E tests.*
 
-**Context7 MCP** — live documentation lookup. Instead of relying on training data from 18 months ago, Claude fetches current docs when it hits something unfamiliar. Crucial for anything in the Astro/Bun ecosystem that moves fast. *Verdict: keep.*
+**Context7 MCP** - live documentation lookup. Instead of relying on training data from 18 months ago, Claude fetches current docs when it hits something unfamiliar. Crucial for anything in the Astro/Bun ecosystem that moves fast. *Verdict: keep.*
 
-**Figma MCP** — reads your Figma file: design tokens, component properties, layer names. Useful when you're building from a design and want Claude to pull the exact spacing and color values instead of eyeballing screenshots. *Verdict: situational — only worth it if you work from Figma regularly.*
+**Figma MCP** - reads your Figma file: design tokens, component properties, layer names. Useful when you're building from a design and want Claude to pull the exact spacing and color values instead of eyeballing screenshots. *Verdict: situational, only worth it if you work from Figma regularly.*
 
 ## The 5-minute rule
 
@@ -40,11 +40,11 @@ To disable without uninstalling, remove the entry from the config file. You'll k
 
 ## What I removed
 
-**Notion MCP** — too slow. Every query added 3–5 seconds of latency. Not worth it for occasional doc lookups.
+**Notion MCP** - too slow. Every query added 3-5 seconds of latency. Not worth it for occasional doc lookups.
 
-**Postgres MCP** — useful in theory, not in practice. Claude writing raw SQL against a production database is something I don't want to babysit. Hard no.
+**Postgres MCP** - useful in theory, not in practice. Claude writing raw SQL against a production database is something I don't want to babysit. Hard no.
 
-**Google Drive MCP** — too broad. It gave Claude access to everything, which felt wrong. I look up specific docs manually when I actually need them.
+**Google Drive MCP** - too broad. It gave Claude access to everything, which felt wrong. I look up specific docs manually when I actually need them.
 
 ---
 

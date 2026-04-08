@@ -1,5 +1,5 @@
 ---
-title: Bun's Terminal API — Write CLI Tools Without the Boilerplate
+title: "Bun's Terminal API - Write CLI Tools Without the Boilerplate"
 date: 2026-04-03
 path: /blog/bun-terminal-api/
 published: true
@@ -10,7 +10,7 @@ description: "Bun v1.3.5 shipped a native PTY API. If you've ever had fzf, vim, 
 
 I write a lot of small CLI tools in Bun. The Terminal API just removed the last thing that was still annoying about it.
 
-That last annoyance: spawning interactive programs. Any tool that checks `isTTY` — `fzf`, `vim`, `git add -p` — would either crash or silently refuse to work when called from a Bun script. No real terminal, no party. The usual workaround was `stdio: 'inherit'`, which technically works, but you lose all control over I/O. Can't capture output. Can't pipe programmatically. Can't do anything clever.
+That last annoyance: spawning interactive programs. Any tool that checks `isTTY` (`fzf`, `vim`, `git add -p`) would either crash or silently refuse to work when called from a Bun script. No real terminal, no party. The usual workaround was `stdio: 'inherit'`, which technically works, but you lose all control over I/O. Can't capture output. Can't pipe programmatically. Can't do anything clever.
 
 The proper solution was `node-pty`. Now it's just an option on `Bun.spawn`.
 
@@ -22,7 +22,7 @@ const proc = Bun.spawn(["fzf"], { stdout: "pipe" });
 // Error: fzf requires a terminal
 ```
 
-`Bun.Terminal`, shipped in v1.3.5 (December 2025), is a native PTY wrapper. The subprocess gets a real pseudo-terminal — `process.stdout.isTTY === true`, colors work, cursor movement works, arrow keys work. The subprocess has no idea it's not in a real terminal.
+`Bun.Terminal`, shipped in v1.3.5 (December 2025), is a native PTY wrapper. The subprocess gets a real pseudo-terminal: `process.stdout.isTTY === true`, colors work, cursor movement works, arrow keys work. The subprocess has no idea it's not in a real terminal.
 
 ## How to use it
 
@@ -44,10 +44,10 @@ await proc.exited;
 process.stdin.setRawMode(false);
 ```
 
-`await using` handles PTY cleanup automatically — no manual `.close()` calls. The subprocess gets a real PTY and does whatever it wants with the terminal. You stay in control of what happens before and after.
+`await using` handles PTY cleanup automatically. No manual `.close()` calls. The subprocess gets a real PTY and does whatever it wants with the terminal. You stay in control of what happens before and after.
 
 <aside class="banner banner-info">
-POSIX only for now — Linux and macOS. Windows support is tracked in <a href="https://github.com/oven-sh/bun/issues/25593">bun#25593</a>.
+POSIX only for now: Linux and macOS. Windows support is tracked in <a href="https://github.com/oven-sh/bun/issues/25593">bun#25593</a>.
 </aside>
 
 ## A real use case: interactive commit picker
@@ -89,13 +89,13 @@ if (selected) {
 
 Spawns `fzf` with a real TTY. You get the full interactive UI. Select a commit, press Enter, and the hash goes straight into `git commit --fixup`. Zero external dependencies beyond Bun itself.
 
-This is the kind of glue script I write constantly — and it pairs really well with the [reusable module pattern](/blog/reusable-bun-modules/) I wrote about earlier. Wrap this in a `bun link`-able module and it's available in every project.
+This is the kind of glue script I write constantly, and it pairs really well with the [reusable module pattern](/blog/reusable-bun-modules/) I wrote about earlier. Wrap this in a `bun link`-able module and it's available in every project.
 
 ## What it replaces (and what it doesn't)
 
 `Bun.Terminal` replaces `node-pty` and the `stdio: 'inherit'` hack for the specific case of running interactive subprocesses that need a TTY.
 
-It does **not** replace `ink`, `blessed`, or `@clack/prompts`. If you're building your own TUI from scratch — components, layouts, styled prompts — those libraries still make sense. `Bun.Terminal` is for delegating I/O to a subprocess, not for building a UI out of primitives. The distinction matters: if you're wrapping `fzf`, `gum`, `lazygit`, or any other interactive tool, this is exactly what you needed. If you want to build the next `htop` in TypeScript, you need something heavier.
+It does **not** replace `ink`, `blessed`, or `@clack/prompts`. If you're building your own TUI from scratch (components, layouts, styled prompts), those libraries still make sense. `Bun.Terminal` is for delegating I/O to a subprocess, not for building a UI out of primitives. The distinction matters: if you're wrapping `fzf`, `gum`, `lazygit`, or any other interactive tool, this is exactly what you needed. If you want to build the next `htop` in TypeScript, you need something heavier.
 
 With [2026 being the year of CLIs](/blog/year-of-clis-skills-apis/) and agents consuming tools directly, getting your CLI scripts to feel polished without a dependency pile matters more than it used to. And if you're curious where Bun is heading more broadly, the [Anthropic acquisition post](/blog/bun-anthropic-acquisition-developer-implications/) has some thoughts on what that means for the runtime's direction.
 
