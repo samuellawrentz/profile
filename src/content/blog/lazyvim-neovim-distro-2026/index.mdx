@@ -1,0 +1,64 @@
+---
+title: "LazyVim: The Neovim Distro I Wish I'd Started With"
+date: 2026-04-09
+path: /blog/lazyvim-neovim-distro-2026/
+published: true
+heroImage: ./header.png
+tags: [neovim, vim, config, productivity]
+description: "I've been hand-rolling my Neovim config for years. Last month I tried LazyVim. Here's what I actually think - not as a beginner, but as someone who already knows what they're doing."
+---
+
+I've been maintaining my own Neovim config for years. Last month I tried LazyVim. Here's what I actually think.
+
+## The Landscape in 2026
+
+Three paths into Neovim: roll your own (what I did and [documented here](/blog/minimal-neovim-config/)), use [kickstart.nvim](https://github.com/nvim-lua/kickstart.nvim) (~30k stars, a single-file starting point you own and modify), or use [LazyVim](https://github.com/LazyVim/LazyVim) (~25k stars, a full distro that ships already working).
+
+I've been in the first camp. But I wanted to understand what I was comparing against.
+
+## What LazyVim Actually Is
+
+LazyVim is built on [lazy.nvim](https://github.com/folke/lazy.nvim) - the same plugin manager [I already use](/blog/neovim-vim-pack-vs-lazy-nvim/). The difference is it ships a complete, opinionated config on top: LSP, treesitter, formatters, keymaps - all pre-wired, all working on first launch.
+
+It's not just installed. It ships working.
+
+## What It Gets Right That I Got Wrong
+
+**The extras system.** This is the thing I didn't expect to be impressed by. Want TypeScript support? Add `lang.typescript` to your extras. That one line pulls in the right LSP, the right formatter, the right linter - already configured to work together. My config has this scattered across multiple files, assembled over years of hunting for the right combination. LazyVim just has it.
+
+```lua
+-- lazyvim.json
+{
+  "extras": [
+    "lazyvim.plugins.extras.lang.typescript",
+    "lazyvim.plugins.extras.lang.json",
+    "lazyvim.plugins.extras.formatting.prettier"
+  ]
+}
+```
+
+**Keymaps are consistent and documented.** My hand-rolled config has keymaps I added at different points in my life and haven't touched since. Some conflict, some do nothing, some I genuinely don't remember mapping. LazyVim's keymaps follow a logical pattern and are documented at [lazyvim.org](https://www.lazyvim.org). `<leader>` + category + action. That's it.
+
+**The update story.** When I update plugins in my config, I'm flying blind on compatibility. LazyVim manages the dependency graph - plugin versions are tested together before a release. Less "why did this break today."
+
+## What Hand-Rolled Gets Right
+
+You know every line. When something breaks in my config, I know exactly where to look. When something breaks in LazyVim - and it will - you're debugging someone else's abstractions. That's a real cost.
+
+Muscle memory is also real. LazyVim's opinionated keymaps will fight years of habits. My `H`/`L` remaps, my `jk` escape, my whole mental model of what `<leader>f` does - none of that transfers cleanly.
+
+## Who Should Use LazyVim
+
+Start with LazyVim if you're new to Neovim, or if you're spending more than 30 minutes a month debugging your config. The extras system alone will save hours of LSP archaeology.
+
+Stick with your own if you're productive and actually understand what you've built. The "knowing every line" thing isn't nothing - it compounds over time.
+
+## What I Actually Did
+
+I installed LazyVim fresh (back up `~/.config/nvim`, then `git clone https://github.com/LazyVim/starter ~/.config/nvim`). First 30 minutes: everything worked. LSP, treesitter, formatting - no setup. I enabled `lang.typescript`, `lazygit`, and `formatting.prettier` first.
+
+Then I spent two days slowly missing my own keymaps. The extras were great. The muscle memory fights were exhausting. I went back to my config.
+
+That's not a knock on LazyVim - it's genuinely good. If I were starting fresh today, I'd start there. But migrating mid-career costs more than it saves.
+
+*If you want AI on top of any of this, check out [what I found with avante.nvim and CodeCompanion](/blog/neovim-ai-plugins-avante-codecompanion/).*
