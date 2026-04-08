@@ -58,3 +58,5 @@ public/
 - **Theme**: Dark/light mode via `color-mode` attribute on `<html>`. Inline script in `<head>` prevents flash.
 - **OG images**: Generated at prebuild time via `scripts/generate-og-images.cjs` using node-canvas. Output to `public/og-images/`.
 - **Sass deprecation**: `@import` warnings exist in global.scss - migrate to `@use` when updating styles.
+- **Frontmatter titles**: Always use double quotes around `title:` values in frontmatter (colons break YAML parsing).
+- **No em-dashes**: Do not use em-dashes (`---` or `—`) in blog content. Use regular dashes or rewrite the sentence.
