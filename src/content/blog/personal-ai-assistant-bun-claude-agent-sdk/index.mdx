@@ -1,0 +1,91 @@
+---
+title: "How I Built My Personal AI Assistant with Bun and the Claude Agent SDK"
+date: 2026-04-10
+path: /blog/personal-ai-assistant-bun-claude-agent-sdk/
+published: true
+heroImage: ./header.png
+tags: [bun, claude-code, ai, automation, javascript]
+description: "Travis wakes up every Sunday, researches trending topics, checks my analytics, generates blog ideas, and texts me a summary. Here's how I built it with Bun and the Claude Agent SDK."
+---
+
+I've been running a personal AI assistant called Travis for months. It wakes up every Sunday, researches trending topics, checks my website analytics, generates blog ideas, and texts me a summary. Here's how it's built.
+
+If you caught [my post on the Bun/Anthropic acquisition](/blog/bun-anthropic-acquisition-developer-implications/), Travis got a brief mention there. This is the full story.
+
+## This Isn't a Chatbot
+
+Most AI assistant tutorials build a chatbot: you type, it responds, loop. Travis is nothing like that. There's no UI. No waiting. It runs on a schedule, produces files and Telegram messages, reads its own past outputs to avoid repeating itself, and shuts down. You interact with it by reading what it sent you Sunday morning.
+
+That mental model shift matters. Travis is a background process that produces artifacts, not a conversation partner.
+
+## The Stack
+
+- **Bun** — runtime, scripting, file I/O, zero config
+- **Claude Agent SDK** (`@anthropic-ai/claude-code`) — orchestration
+- **cron** — scheduling
+- **Telegram bot** — notifications
+
+Why Bun specifically? Native TypeScript, ~10x faster startup than Node, `Bun.file()` and `Bun.write()` built in. For scripts that wake up, do work, and exit, startup time compounds across a week. [I covered Bun's module system in detail here](/blog/reusable-bun-modules/).
+
+## The Core Agent Loop
+
+The Agent SDK is what makes this different from just calling the Anthropic API directly. You define tools, Claude decides when to call them, results feed back in automatically. You don't write the retry/loop logic yourself.
+
+```typescript
+import { query } from "@anthropic-ai/claude-code";
+
+for await (const message of query({
+  prompt: `Research trending dev topics this week.
+           Save a summary to ./reports/weekly.md.`,
+  options: {
+    maxTurns: 15,
+    tools: [readFileTool, writeFileTool, webSearchTool],
+  },
+})) {
+  if (message.type === "result") console.log("Done:", message.result);
+}
+```
+
+That's the whole loop. Claude decides when to search, when to write, when it's finished. [The building-for-agents pattern](/blog/building-for-agents/) covers why this tool-first abstraction is the right one. Travis is what it looks like running unsupervised.
+
+## Context Between Runs
+
+Travis reads its own previous report before starting each week. This keeps it from covering the same topics twice.
+
+```typescript
+const lastReport = await Bun.file("./reports/weekly.md").text().catch(() => "");
+const prompt = `Last week's report:\n${lastReport}\n\nResearch new topics. Don't repeat last week.`;
+```
+
+Simple. But it's what makes Travis feel like it has memory instead of goldfish syndrome.
+
+## The Scheduling Layer
+
+```bash
+# crontab -e
+0 8 * * 0  cd /home/samm/src/travis && bun run index.ts >> logs/travis.log 2>&1
+```
+
+The entry point runs the agent loop, then fires the Telegram notification:
+
+```typescript
+await runAgent();
+await fetch(`https://api.telegram.org/bot${TOKEN}/sendMessage`, {
+  method: "POST",
+  body: JSON.stringify({ chat_id: CHAT_ID, text: report, parse_mode: "Markdown" }),
+});
+```
+
+## Three Things That Surprised Me
+
+**It researches better than I would manually.** Not because it's smarter, but because it's thorough. It'll check eight sources for a topic I'd have Googled once and moved on from. The depth compounds in ways I didn't expect.
+
+**It fails in dumb ways that reveal my assumptions.** Sometimes it produces a technically correct report that completely misses the point: summarizing a framework release without mentioning why anyone cares. "Research" and "useful research" are not the same instruction.
+
+**The hooks/subagents pattern from [Claude Code](/blog/claude-code-hooks-subagents/) translates directly.** Travis orchestrates parallel sub-searches the same way Claude Code orchestrates parallel file reads. Once you see the pattern, you start seeing it everywhere.
+
+<aside class="banner banner-info">
+The Claude Agent SDK handles the tool-call loop automatically. If you've been manually writing `while (needsToolCall)` retry logic against the raw API, the SDK is the thing that makes that go away.
+</aside>
+
+Travis isn't perfect. But it's the first time I've had a coworker who works while I sleep.
