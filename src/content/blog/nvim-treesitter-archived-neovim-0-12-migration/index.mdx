@@ -1,0 +1,74 @@
+---
+title: "nvim-treesitter Was Archived. Here's What You Actually Need to Do."
+date: 2026-04-13
+path: /blog/nvim-treesitter-archived-neovim-0-12-migration/
+published: true
+heroImage: ./header.png
+tags: [neovim, vim, config, treesitter, developer-tools]
+description: "nvim-treesitter got archived on April 3. If you're on Neovim 0.12, here's the exact config changes to make - and what you can safely ignore."
+---
+
+nvim-treesitter - the plugin in nearly every Neovim config - was archived on April 3. If you haven't touched your config since, here's exactly what to do.
+
+Quick context: Neovim 0.12 (released March 29) ships built-in treesitter support, a native plugin manager, and native LSP completion. The nvim-treesitter maintainer had been rewriting the plugin to require 0.12 - and documented this clearly. Users kept demanding backward compat with 0.11. Maintainer burned out and archived it. The Hacker News thread sided overwhelmingly with the maintainer. Hard to disagree.
+
+## What actually broke
+
+If you're on **Neovim 0.11.x**: nothing. The archived plugin still exists, pinned versions in lazy.nvim keep working, no action needed.
+
+If you're on **Neovim 0.12**: the `require('nvim-treesitter.configs').setup()` API is what needs replacing. Not because it broke today - because the archived repo won't get parser updates going forward.
+
+## The treesitter config change
+
+Neovim 0.12 ships built-in parsers for common languages. Highlighting works without any plugin. Here's the diff:
+
+```lua
+-- Before (nvim-treesitter plugin)
+require('nvim-treesitter.configs').setup({
+  ensure_installed = { "lua", "typescript", "javascript" },
+  highlight = { enable = true },
+  indent = { enable = true },
+})
+```
+
+```lua
+-- After (0.12 native)
+-- Delete the block above. Highlighting is on by default.
+-- For languages not bundled, install tree-sitter-cli and run :TSInstall <lang>
+```
+
+That's mostly it. `highlight = { enable = true }` is default behavior now. The whole config block just goes away.
+
+## The bigger change: LSP config
+
+While you're in there, the more worthwhile update is migrating from `nvim-lspconfig` to the native `vim.lsp.config()` API - it's the new standard in 0.12 and `nvim-lspconfig` is explicitly deprecated:
+
+```lua
+-- Old (nvim-lspconfig)
+require('lspconfig').lua_ls.setup({
+  settings = { Lua = { diagnostics = { globals = { "vim" } } } }
+})
+
+-- New (0.12 native)
+vim.lsp.config['lua_ls'] = {
+  cmd = { 'lua-language-server' },
+  filetypes = { 'lua' },
+  root_markers = { '.luarc.json', '.git' },
+  settings = { Lua = { diagnostics = { globals = { "vim" } } } }
+}
+vim.lsp.enable('lua_ls')
+```
+
+No plugin dependency, direct config, explicit enable. Cleaner. If you've been tweaking hover popup styles like [I covered here](/blog/vim-lsp-hover-borders/), those settings stay the same - just the setup pattern changes.
+
+<aside class="banner banner-info">Two more 0.12 additions worth knowing: `vim.o.autocomplete = true` for native insert-mode completion (nvim-cmp optional now), and `vim.net.request()` for HTTP calls from Lua without curl wrappers. Neither is urgent to adopt today.</aside>
+
+## vim.pack (brief take)
+
+Neovim 0.12 has a built-in plugin manager. I already wrote up [whether it's worth switching from lazy.nvim](/blog/neovim-vim-pack-vs-lazy-nvim/) - short answer: don't migrate an existing config. For fresh installs it's simpler. If you're running a full [config with AI plugins](/blog/neovim-ai-plugins-avante-codecompanion/), lazy loading still matters too much to give up.
+
+## If your config works today
+
+Do nothing urgent. Pinned plugins don't break overnight. If you're starting fresh or already on 0.12, skip nvim-treesitter entirely and build on native support - that's the call. For a baseline setup to start from, [my Neovim config post](/blog/neovim-config/) covers the full structure.
+
+The archival isn't a disaster. It's Neovim finally absorbing what nvim-treesitter pioneered. The plugin did its job.
