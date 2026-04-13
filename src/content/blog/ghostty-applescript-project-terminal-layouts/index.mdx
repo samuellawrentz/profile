@@ -1,0 +1,194 @@
+---
+title: "Ghostty AppleScript: Auto-Build Your Project Terminal Layout on Startup"
+date: 2026-04-14
+path: /blog/ghostty-applescript-project-terminal-layouts/
+published: true
+heroImage: ./header.png
+tags: [ghostty, terminal, applescript, automation, productivity]
+description: "Ghostty 1.3 added AppleScript support. Here's how I use it to spin up a full 3-pane project layout automatically -- no manual splits, no typing the same commands every morning."
+---
+
+Every time I start a new project I do the same thing: open three splits, cd each into the right directory, start the dev server, open a test watcher, leave a scratch pane. I automated it. Here's how.
+
+## The ritual nobody talks about
+
+In [my Ghostty panes vs tmux post](/blog/ghostty-panes-vs-tmux/), I wrote that scripted layouts were "a tmux thing" - you couldn't script Ghostty splits. That was true until March 2026. [Ghostty 1.3](/blog/ghostty-1-3-config/) shipped AppleScript support and now it's not.
+
+The target layout:
+
+```
+┌─────────────────────┬────────────────────┐
+│                     │                    │
+│   bun dev           │  bun test --watch  │
+│   (dev server)      │  (test watcher)    │
+│                     │                    │
+│                     ├────────────────────┤
+│                     │                    │
+│                     │  ~/Projects/myapp  │
+│                     │  (scratch pane)    │
+│                     │                    │
+└─────────────────────┴────────────────────┘
+```
+
+One command. That's what we're building.
+
+## How Ghostty's AppleScript works
+
+Ghostty 1.3 added a scripting dictionary, so you can drive it from AppleScript like any macOS app. The practical approach for splits: control Ghostty via System Events, sending keystrokes that match Ghostty's own shortcuts.
+
+Minimal proof of concept:
+
+```applescript
+tell application "Ghostty"
+  activate
+end tell
+
+delay 0.5
+
+tell application "System Events"
+  tell process "Ghostty"
+    keystroke "cd ~/Projects/myapp && bun dev"
+    keystroke return
+    keystroke "d" using command down -- Cmd+D: new vertical split
+    keystroke "cd ~/Projects/myapp"
+    keystroke return
+  end tell
+end tell
+```
+
+Run it with `osascript yourscript.applescript`. The `delay 0.5` gives Ghostty time to focus before System Events starts typing. Skip it and you'll lose the first few characters.
+
+## The full layout script
+
+Save this as `~/scripts/project-layout.applescript`:
+
+```applescript
+-- Set your project path
+set projectPath to "~/Projects/myapp"
+
+-- Focus Ghostty
+tell application "Ghostty"
+  activate
+end tell
+
+delay 0.5
+
+tell application "System Events"
+  tell process "Ghostty"
+
+    -- Pane 1: dev server (active pane on open)
+    keystroke "cd " & projectPath
+    keystroke return
+    delay 0.2
+    keystroke "bun dev"
+    keystroke return
+
+    -- Create right split (Ghostty default: Cmd+D)
+    keystroke "d" using command down
+    delay 0.3
+
+    -- Pane 2: test watcher
+    keystroke "cd " & projectPath
+    keystroke return
+    delay 0.2
+    keystroke "bun test --watch"
+    keystroke return
+
+    -- Create bottom split below pane 2 (Cmd+Shift+D)
+    keystroke "D" using {command down, shift down}
+    delay 0.3
+
+    -- Pane 3: scratch shell, just cd in
+    keystroke "cd " & projectPath
+    keystroke return
+
+    -- Navigate back to pane 1 (Cmd+Option+Left)
+    key code 123 using {command down, option down}
+
+  end tell
+end tell
+```
+
+The `delay` calls are load-bearing. Ghostty needs a beat between creating a split and accepting input in it. If commands keep landing in the wrong pane, bump the delays up slightly.
+
+## How to trigger it
+
+**Shell alias** - the obvious approach:
+
+```bash
+# ~/.zshrc
+alias devstart='osascript ~/scripts/project-layout.applescript'
+```
+
+Type `devstart` from anywhere and your layout builds itself.
+
+**Raycast script command** - if you want a hotkey:
+
+```bash
+#!/bin/bash
+# @raycast.schemaVersion 1
+# @raycast.title Dev Layout
+# @raycast.mode silent
+
+osascript ~/scripts/project-layout.applescript
+```
+
+Save as `dev-layout.sh`, `chmod +x` it, add to Raycast, assign a shortcut. Done.
+
+## Per-project layouts
+
+The script above hardcodes one project. Here's a version that reads a `.ghostty-layout` file from whichever directory you're in.
+
+`.ghostty-layout` in your project root:
+
+```
+pane1=bun dev
+pane2=bun test --watch
+pane3=
+```
+
+Loader script (`~/scripts/layout-loader.applescript`):
+
+```applescript
+set layoutFile to (do shell script "pwd") & "/.ghostty-layout"
+set pane1cmd to do shell script "grep '^pane1=' " & quoted form of layoutFile & " | cut -d= -f2"
+set pane2cmd to do shell script "grep '^pane2=' " & quoted form of layoutFile & " | cut -d= -f2"
+
+tell application "Ghostty"
+  activate
+end tell
+delay 0.5
+
+tell application "System Events"
+  tell process "Ghostty"
+    if pane1cmd is not "" then
+      keystroke pane1cmd
+      keystroke return
+    end if
+
+    keystroke "d" using command down
+    delay 0.3
+
+    if pane2cmd is not "" then
+      keystroke pane2cmd
+      keystroke return
+    end if
+  end tell
+end tell
+```
+
+Run it with `osascript ~/scripts/layout-loader.applescript` from inside the project. Each project owns its own layout, no script edits needed.
+
+## A few real limitations
+
+**macOS only.** System Events is Apple-specific. If you're on Linux, tmux scripting is still the move - I wrote about that in [my tmux productivity setup](/blog/ghostty-tmux-productivity/).
+
+**Ghostty should already be running.** The script activates it if it isn't, but the fresh window might not be where you want it. Easiest fix: set Ghostty to open at login.
+
+**Split ordering matters more than you'd think.** Complex layouts with 4+ panes need careful sequencing and delays. Start with a simple 2-pane script, verify it works, then add panes one at a time.
+
+<aside class="banner banner-info">
+If your commands keep missing the target pane, try increasing `delay 0.3` to `delay 0.6`. Slower machines need more breathing room between splits.
+</aside>
+
+You spend 2 minutes on setup every morning. Automate it once.
