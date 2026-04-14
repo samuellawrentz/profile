@@ -1,0 +1,124 @@
+---
+title: "Bun.SQL: I Stopped Fighting Node.js and Finally Built a Backend"
+date: 2026-04-15
+path: /blog/bun-sql-backend-for-frontend-devs/
+published: true
+heroImage: ./header.png
+tags: [bun, backend, sql, database, javascript]
+description: "Bun 1.3 ships a built-in SQL client. No ORM debate, no driver config, no setup ceremony. This is how I finally shipped a backend without copying a boilerplate I didn't understand."
+---
+
+I've been a frontend developer for years. Every time I tried to build a backend, I got lost in Node.js boilerplate, picking an ORM, configuring database adapters. Bun.SQL removed every one of those excuses.
+
+## The Wall Every Frontend Dev Hits
+
+You want to store something. Simple. But then: which ORM? Prisma is heavy and has its own migration language. Drizzle is newer but needs setup. Sequelize is old. And before any of that - which driver? `pg`? `mysql2`? Then migrations. Then connection pooling. Then TypeScript types for all of it.
+
+I've closed that tab at least four times over three years and gone back to writing localStorage hacks.
+
+## What Bun.SQL Is
+
+Bun 1.3 shipped `Bun.sql` - a built-in SQL client. No install. No driver. It auto-detects your database from the connection string. Works with PostgreSQL, MySQL, MariaDB, and SQLite.
+
+```typescript
+import { sql } from "bun";
+
+const users = await sql`SELECT * FROM users WHERE active = ${true}`;
+```
+
+That's the whole import story. Tagged template literals handle parameterization, so SQL injection isn't something you can forget to handle - it's structurally prevented.
+
+## The Four Patterns I Actually Needed
+
+**Select:**
+```typescript
+const [user] = await sql`SELECT * FROM users WHERE id = ${userId}`;
+```
+
+**Insert with returning:**
+```typescript
+const [created] = await sql`
+  INSERT INTO users (name, email) VALUES (${name}, ${email}) RETURNING *
+`;
+```
+
+**Transaction:**
+```typescript
+await sql.transaction(async (tx) => {
+  await tx`UPDATE accounts SET balance = balance - ${amount} WHERE id = ${from}`;
+  await tx`UPDATE accounts SET balance = balance + ${amount} WHERE id = ${to}`;
+});
+```
+
+**SQLite in-process for local dev:**
+```typescript
+import { Database } from "bun:sqlite";
+const db = new Database("local.db");
+const users = db.query("SELECT * FROM users").all();
+```
+
+That last one is what finally made local development feel frictionless.
+
+## What's Missing
+
+No migrations built in. You write SQL files yourself or pull in `drizzle-kit` just for the migration runner. No query builder either - you write SQL directly. I actually like this. SQL is not that hard once you stop avoiding it.
+
+Type safety is manual. Annotate return types yourself:
+
+```typescript
+type User = { id: number; name: string; email: string };
+const users = await sql<User[]>`SELECT * FROM users`;
+```
+
+If you want inference and a schema layer, pair it with Zod at your API boundary. Bun won't do that for you.
+
+## Three Files, No Framework
+
+```
+src/
+  db.ts               # sql instance
+  queries/users.ts    # typed queries
+  index.ts            # Bun.serve routes
+```
+
+```typescript
+// src/db.ts
+import { sql } from "bun";
+export { sql };
+
+// src/queries/users.ts
+import { sql } from "../db";
+type User = { id: number; name: string; email: string };
+
+export const getUser = (id: number) =>
+  sql<User[]>`SELECT * FROM users WHERE id = ${id}`;
+
+export const createUser = (name: string, email: string) =>
+  sql<User[]>`INSERT INTO users (name, email) VALUES (${name}, ${email}) RETURNING *`;
+
+// src/index.ts
+import { getUser } from "./queries/users";
+
+Bun.serve({
+  port: 3000,
+  async fetch(req) {
+    const id = new URL(req.url).searchParams.get("id");
+    const [user] = await getUser(Number(id));
+    return Response.json(user);
+  },
+});
+```
+
+About 60 lines total. Not a framework. Just files. [Same pattern I use for Bun modules](/blog/reusable-bun-modules/) - one entry point, typed exports, nothing fancy.
+
+## The SQLite Local Dev Pattern
+
+`bun:sqlite` runs in-process. No Docker, no local Postgres install, no "wait, which port is it on" moment. For local dev I use SQLite, swap to a real `DATABASE_URL` in production. Same queries, different driver.
+
+<aside class="banner banner-info">
+Set `DATABASE_URL=file:local.db` locally and a Postgres URL in prod. `Bun.sql` auto-detects the database type from the URL scheme - `postgres://` vs `file:` vs `mysql://`.
+</aside>
+
+I use this exact setup as the database layer for [Travis, my personal AI assistant](/blog/personal-ai-assistant-bun-claude-agent-sdk/). Three files, SQLite in dev, Postgres in prod - it's the backend an agent actually needs. If you're [building for agents](/blog/building-for-agents/) anyway, a thin SQL layer beats a heavy ORM every time.
+
+I finally understand what's in my backend. It's 3 files and Bun.SQL. I should have started here.
