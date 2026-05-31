@@ -8,26 +8,26 @@ description: "How I automated SSH key management, VPN connection with 1Password 
 heroImage: "./header.png"
 ---
 
-I have a Rocky Linux 9 box sitting in the corner of my home office that I have been slowly turning into a proper automation server. The idea was simple: I wanted a machine that could pull every repo I care about, run scheduled jobs, and generally act as my second brain for code, without me babysitting it. The brain of that machine is Hermes Agent, which handles webhooks, cron-style scheduling, and config-driven task execution.
+I have a Linux box sitting in the corner of my home office that I have been slowly turning into a proper automation server. The idea was simple: I wanted a machine that could pull every repo I care about, run scheduled jobs, and generally act as my second brain for code, without me babysitting it. The brain of that machine is Hermes Agent, which handles webhooks, cron-style scheduling, and config-driven task execution.
 
 The problem with "set it and forget it" is that you cannot forget it until every single piece runs without a human in the loop. And the moment you try to access work resources from home, you hit a wall of authentication: SSH keys, IP whitelists, VPN with MFA. Every one of those is designed to stop exactly the kind of unattended automation I was trying to build. This post is the honest story of getting all of it working, including the parts where I went down the wrong path for an embarrassingly long time.
 
 ## The Setup
 
-The server runs Rocky Linux 9, headless, accessed over SSH from my laptop. Hermes Agent runs as a systemd service and reads a single `config.yaml` for everything: what webhooks to expose, what jobs to schedule, what scanners to run. My personal repos live on my own GitHub account. My work repos live on a separate work GitHub account, and they sit behind an IP whitelist that only lets office or VPN traffic through.
+The server is a headless Linux box, accessed over SSH from my laptop. Hermes Agent runs as a systemd service and reads a single `config.yaml` for everything: what webhooks to expose, what jobs to schedule, what scanners to run. My personal repos live on my own GitHub account. My work repos live on a separate work GitHub account, and they sit behind an IP whitelist that only lets office or VPN traffic through.
 
 So the goal had three moving parts. One, the server needed to authenticate to two different GitHub accounts. Two, it needed to be on the office VPN, which requires MFA. Three, it needed to sync sixteen repos across both profiles without me typing a single passphrase or OTP. Let me walk through each wall I hit.
 
 ## Problem 1: SSH Key Management
 
-This is the one I assumed would be trivial. I have two keys: one for my personal GitHub, one for work. On my laptop this is a solved problem, the macOS keychain holds everything and `ssh-agent` just works. On a headless Rocky box, it is not solved at all.
+This is the one I assumed would be trivial. I have two keys: one for my personal GitHub, one for work. On my laptop this is a solved problem, the macOS keychain holds everything and `ssh-agent` just works. On a headless Linux box, it is not solved at all.
 
 The core issue is that `ssh-agent` does not survive logins. Every time Hermes spawned a shell, or a cron job kicked off, or I reconnected over SSH, there was either no agent running or a fresh one with no keys loaded. That meant a passphrase prompt, and a passphrase prompt in an unattended job is a hung job. I could have stripped the passphrases off the keys, but putting naked private keys on a server that talks to my employer's code felt wrong.
 
-The fix was `keychain`. Not the macOS thing, the [keychain](https://www.funtoo.org/Keychain) utility by Daniel Robbins. It manages a single long-lived `ssh-agent` per user and re-attaches every new shell to that same agent. You unlock your keys once, and every login after that, interactive or not, finds the keys already cached. I put one line in `.zshenv` so it runs for every shell, login or not:
+The fix was `keychain`. Not the macOS thing, the [keychain](https://www.funtoo.org/Keychain) utility by Daniel Robbins. It manages a single long-lived `ssh-agent` per user and re-attaches every new shell to that same agent. You unlock your keys once, and every login after that, interactive or not, finds the keys already cached. I put one line in a shell profile file that runs for every shell, login or not:
 
 ```bash
-# ~/.zshenv
+# in a shell profile file (sourced for every shell)
 # Re-use a single ssh-agent across all logins, load both GitHub keys once.
 eval "$(keychain --eval --quiet --agents ssh id_ed25519_personal id_ed25519_work)"
 ```
@@ -74,17 +74,17 @@ Here is the condensed `connect-vpn.sh`. The interesting part is building the SCR
 #!/usr/bin/env bash
 set -euo pipefail
 
-PROFILE_SRC="$HOME/vpn/office.ovpn"
+PROFILE_SRC="/path/to/profile.ovpn"
 PROFILE_CLEAN="$(mktemp)"
 AUTH_FILE="$(mktemp)"
 trap 'rm -f "$PROFILE_CLEAN" "$AUTH_FILE"' EXIT
 
 # 1Password CLI session. op signin caches a short-lived token.
-eval "$(op signin --account my.1password.com)"
+eval "$(op signin)"
 
 # Pull username, password, and a fresh TOTP in one call.
 read -r VPN_USER VPN_PASS VPN_OTP < <(
-  op item get "VPN" --fields username,password --otp --format json \
+  op item get "$VPN_ITEM" --fields username,password --otp --format json \
     | jq -r '[.username, .password, .otp] | @tsv'
 )
 
@@ -98,11 +98,11 @@ SCRV1_BLOB="SCRV1:$(printf '%s' "$VPN_PASS" | base64):$(printf '%s' "$VPN_OTP" |
   printf '%s\n' "$SCRV1_BLOB"
 } > "$AUTH_FILE"
 
-# Non-interactive sudo for OpenVPN itself.
-echo "$SUDO_PASSWORD" | sudo -S openvpn \
+# Non-interactive sudo for OpenVPN itself; password comes from a managed secret.
+get_sudo_password | sudo -S openvpn \
   --config "$PROFILE_CLEAN" \
   --auth-user-pass "$AUTH_FILE" \
-  --daemon --log "$HOME/vpn/openvpn.log"
+  --daemon --log "/path/to/openvpn.log"
 
 echo "VPN up."
 ```
@@ -115,7 +115,7 @@ With auth and VPN solved, the sync itself was almost anticlimactic. I use Grove 
 
 With the work SSH key loaded by keychain and the VPN tunnel up, Grove sees all sixteen and pulls them in parallel. The whole sync finishes in a few seconds because Grove fans the work out across the repos rather than going one at a time.
 
-The one wrinkle worth calling out is sudo. The VPN script needs root to bring up the tunnel device, and an unattended job has no one to type a sudo password. I keep a `SUDO_PASSWORD` in a `.env` file that the script sources, and pipe it to `sudo -S`. That file is `chmod 600` and owned by my user, which is the same trust boundary as the SSH keys it sits next to. It is not perfect, but on a single-user box where the alternative is a broad NOPASSWD sudoers entry, scoping the password to one script felt like the tighter option.
+The one wrinkle worth calling out is sudo. The VPN script needs root to bring up the tunnel device, and an unattended job has no one to type a sudo password. I keep the password in a managed secret that the script reads at runtime and pipes to `sudo -S`. That secret lives behind the same trust boundary as the SSH keys, locked down to my user only. It is not perfect, but on a single-user box where the alternative is a broad NOPASSWD sudoers entry, scoping the password to one script felt like the tighter option.
 
 ## Security Hardening
 
