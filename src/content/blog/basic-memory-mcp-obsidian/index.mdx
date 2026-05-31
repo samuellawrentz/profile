@@ -1,0 +1,98 @@
+---
+title: "Give Claude Permanent Memory with Basic Memory MCP + Obsidian"
+date: 2026-06-01
+published: true
+tags: ["claude", "mcp", "obsidian", "knowledge-management", "ai-tools"]
+path: "/blog/basic-memory-mcp-obsidian/"
+description: "How to give Claude a persistent memory using Basic Memory MCP, with full Obsidian integration for browsing and editing your AI knowledge graph."
+heroImage: "./header.png"
+---
+
+Every conversation with Claude starts from zero. You spend twenty minutes explaining your project, the conventions you care about, the decision you made last week and why, and by the next session all of it is gone. The model is brilliant and completely amnesiac. You become the memory, re-typing the same context over and over, and the quality of every answer depends on how well you remember to brief it this time.
+
+I lived with that for a long time and assumed it was just the deal. Then I set up Basic Memory, and the relationship changed. Claude now writes down what it learns, reads it back next time, and the notes it keeps live as plain Markdown files I can open, edit, and link in Obsidian. The result is a shared brain that neither of us has to rebuild from scratch.
+
+## The Memory Problem
+
+The blank slate is not a bug, it is how stateless chat works. Each session is an isolated context window. Anything outside that window does not exist as far as the model is concerned. You can paste in a giant block of background, but that burns tokens, ages out as the conversation grows, and still vanishes the moment you close the tab.
+
+The usual workarounds are all variations of "be your own database." You keep a scratch file of project notes and paste the relevant bits in. You maintain a long system prompt. You copy decisions into a doc. It works, barely, but you are doing the filing by hand and the model never contributes to its own memory. What you actually want is for the assistant to remember, not for you to remember on its behalf.
+
+## What Basic Memory Is
+
+[Basic Memory](https://memory.basicmachines.co/) is an open-source MCP server that gives Claude a persistent, local knowledge base. MCP, the Model Context Protocol, is the standard that lets Claude call out to external tools, and Basic Memory shows up as a set of memory tools the model can use mid-conversation.
+
+The design is refreshingly boring in the best way. Everything is stored as plain Markdown files on your disk, by default under `~/basic-memory/`. There is no cloud account, no proprietary database, no vendor lock-in. A local SQLite index sits alongside the files to make search and traversal fast, but the files are the source of truth. If you deleted the index tomorrow, Basic Memory would rebuild it from the Markdown.
+
+The important word is bidirectional. Claude can write notes and read them back, and so can you. Because the storage is just files, anything that edits Markdown can participate, which is exactly where Obsidian comes in later. The knowledge is not trapped inside a chat history you cannot reach.
+
+## How It Works
+
+Basic Memory exposes a handful of tools that Claude calls on its own once it understands they exist:
+
+- `write_note` creates or updates a note, complete with a title, content, and tags. This is how Claude records a decision, a fact, or a summary.
+- `read_note` pulls a specific note back into context by title or permalink.
+- `search_notes` runs a full-text search across the whole knowledge base, so the model can find what is relevant without you naming the exact file.
+- `build_context` is the clever one. It follows links between notes to assemble a related cluster of context, so a single lookup can pull in a topic and everything connected to it.
+
+Notes reference each other with `memory://` URLs. A link like `memory://projects/portfolio-site` resolves to a specific note, and Basic Memory treats these as real edges in a graph. When Claude writes a note about a deploy issue and links it to the project note, it is building structure, not just dumping text. Over time those links turn a pile of notes into a navigable web, which is what makes `build_context` genuinely useful instead of a glorified grep.
+
+## Installation
+
+Basic Memory installs as a Python tool. The cleanest path is [uv](https://docs.astral.sh/uv/):
+
+```bash
+uv tool install basic-memory
+```
+
+Then point Claude Desktop at it. Open `claude_desktop_config.json` (on macOS that is `~/Library/Application Support/Claude/claude_desktop_config.json`) and add the server:
+
+```json
+{
+  "mcpServers": {
+    "basic-memory": {
+      "command": "uvx",
+      "args": ["basic-memory", "mcp"]
+    }
+  }
+}
+```
+
+Using `uvx` means the server runs in an isolated environment and you never fight with system Python. Restart Claude Desktop, and the memory tools show up in the session. The first time Claude writes a note, the `~/basic-memory/` directory appears with your first Markdown file inside it. That is the entire setup. No API keys, no account, no server to keep running, the MCP host launches it on demand.
+
+## Obsidian Integration
+
+This is the part that turned a useful feature into something I rely on daily. Because Basic Memory stores everything as Markdown in one folder, you can open `~/basic-memory/` directly as an [Obsidian](https://obsidian.md/) vault. Point Obsidian at the directory and your AI knowledge base becomes a fully browsable, editable vault with no conversion step.
+
+Once it is a vault, everything Obsidian does for free starts working on Claude's memory:
+
+- The graph view renders every note as a node and every `memory://` link as an edge, so you can literally see the shape of what Claude knows and how topics connect.
+- Backlinks show you, for any note, every other note that references it. You discover relationships the model built without having to ask it.
+- Live updates mean a note Claude writes during a conversation appears in Obsidian within seconds, no refresh needed.
+- Canvas lets you arrange notes spatially on an infinite whiteboard, which is a great way to plan a project and then let Claude read the structure you laid out.
+
+The first time I watched the graph view light up a new node while Claude was mid-response, the whole thing clicked. I was not reading a transcript, I was watching a knowledge base grow.
+
+## The Practical Workflow
+
+What makes this worth setting up is that the loop runs in both directions.
+
+Going one way, Claude writes and you edit. During a session I might ask it to record how the deploy pipeline works. It calls `write_note`, the file lands in the vault, and later in Obsidian I open that note, fix a detail it got slightly wrong, add a link to a related note, and tidy the tags. Next session, Claude reads the corrected version. My edits become its truth.
+
+Going the other way, you write and Claude reads. I keep my own project notes in the same vault, written by hand in Obsidian the way I always have. When I start a session and ask about that project, Claude runs `search_notes`, finds my notes, and uses `build_context` to pull in everything linked to them. I never paste anything. The context it needs is already sitting in the vault, and it goes and gets it.
+
+In practice the two directions blur together. The vault becomes a single shared space where it is genuinely hard to remember whether I wrote a given note or Claude did, which is exactly the point.
+
+## Why It Matters
+
+A few things make this more than a convenience.
+
+It closes the loop. The assistant maintains its own memory instead of making you do the filing. You stop being the database and go back to being the person asking the questions.
+
+It is local-first. Your knowledge base is a folder of Markdown files on your own disk. It works offline, it is trivial to back up, and it is yours in a way that a chat history on someone else's server never is.
+
+It is not proprietary. Markdown and SQLite are about as open and durable as formats get. If you walk away from Basic Memory, you walk away with every note intact and readable in any text editor. Nothing is held hostage in a format you cannot open.
+
+The blank slate was never going away on its own. Basic Memory plus Obsidian is the closest I have found to giving Claude a real memory, and the fact that I can open that memory, read it, and edit it in a tool I already trust is what makes me actually use it. Set it up once, and every session after starts a little less from zero.
+
+❤️❤️❤️
