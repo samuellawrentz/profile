@@ -1,0 +1,166 @@
+---
+title: "Building a Homelab Automation Stack with Hermes Agent"
+date: 2026-05-31
+published: true
+tags: ["Hermes", "DevOps", "Automation", "Security", "SSH", "VPN", "1Password"]
+path: "/blog/building-homelab-automation-with-hermes-agent/"
+description: "How I automated SSH key management, VPN connection with 1Password MFA, and multi-repo sync on my Linux homelab server using Hermes Agent."
+heroImage: "./header.png"
+---
+
+I have a Rocky Linux 9 box sitting in the corner of my home office that I have been slowly turning into a proper automation server. The idea was simple: I wanted a machine that could pull every repo I care about, run scheduled jobs, and generally act as my second brain for code, without me babysitting it. The brain of that machine is Hermes Agent, which handles webhooks, cron-style scheduling, and config-driven task execution.
+
+The problem with "set it and forget it" is that you cannot forget it until every single piece runs without a human in the loop. And the moment you try to access work resources from home, you hit a wall of authentication: SSH keys, IP whitelists, VPN with MFA. Every one of those is designed to stop exactly the kind of unattended automation I was trying to build. This post is the honest story of getting all of it working, including the parts where I went down the wrong path for an embarrassingly long time.
+
+## The Setup
+
+The server runs Rocky Linux 9, headless, accessed over SSH from my laptop. Hermes Agent runs as a systemd service and reads a single `config.yaml` for everything: what webhooks to expose, what jobs to schedule, what scanners to run. My personal repos live on my own GitHub account. My work repos live on a separate work GitHub account, and they sit behind an IP whitelist that only lets office or VPN traffic through.
+
+So the goal had three moving parts. One, the server needed to authenticate to two different GitHub accounts. Two, it needed to be on the office VPN, which requires MFA. Three, it needed to sync sixteen repos across both profiles without me typing a single passphrase or OTP. Let me walk through each wall I hit.
+
+## Problem 1: SSH Key Management
+
+This is the one I assumed would be trivial. I have two keys: one for my personal GitHub, one for work. On my laptop this is a solved problem, the macOS keychain holds everything and `ssh-agent` just works. On a headless Rocky box, it is not solved at all.
+
+The core issue is that `ssh-agent` does not survive logins. Every time Hermes spawned a shell, or a cron job kicked off, or I reconnected over SSH, there was either no agent running or a fresh one with no keys loaded. That meant a passphrase prompt, and a passphrase prompt in an unattended job is a hung job. I could have stripped the passphrases off the keys, but putting naked private keys on a server that talks to my employer's code felt wrong.
+
+The fix was `keychain`. Not the macOS thing, the [keychain](https://www.funtoo.org/Keychain) utility by Daniel Robbins. It manages a single long-lived `ssh-agent` per user and re-attaches every new shell to that same agent. You unlock your keys once, and every login after that, interactive or not, finds the keys already cached. I put one line in `.zshenv` so it runs for every shell, login or not:
+
+```bash
+# ~/.zshenv
+# Re-use a single ssh-agent across all logins, load both GitHub keys once.
+eval "$(keychain --eval --quiet --agents ssh id_ed25519_personal id_ed25519_work)"
+```
+
+The `--quiet` keeps it from spamming output into non-interactive shells, which matters because a stray line of stdout can corrupt the output of a scripted SSH command. After the first unlock following a reboot, both keys stay live in one agent for as long as the machine is up.
+
+There was a landmine waiting in my own dotfiles. I have an old script called `gsw`, a git profile switcher I wrote years ago to flip between personal and work identities. It worked by wiping the agent and re-adding only the relevant key. That made sense back when I switched contexts manually on my laptop. On the automation server it was actively hostile, because it ran `ssh-add -D` in a loop and nuked the keys `keychain` had just loaded. Half my sync jobs were failing intermittently and it took me a while to realize my own helper was the saboteur.
+
+The fix was to stop the agent wipe entirely. Keychain holds both keys at once, so there is no reason to swap. Here is the diff:
+
+```diff
+ gsw() {
+   local profile="$1"
+-  # Old approach: wipe the agent, re-add only this profile's key
+-  ssh-add -D
+-  for key in ~/.ssh/id_ed25519_*; do
+-    [[ "$key" == *"$profile"* ]] && ssh-add "$key"
+-  done
++  # Keychain already holds both keys. Just switch git identity.
+   git config user.name "$(git config profile.$profile.name)"
+   git config user.email "$(git config profile.$profile.email)"
+ }
+```
+
+Both keys stay loaded permanently. The host alias in `~/.ssh/config` decides which key talks to which GitHub account, so `git@github.com-work` uses the work key and `git@github.com` uses the personal one. The profile switcher now only touches the commit identity, which is all it should ever have done.
+
+## Problem 2: VPN with 1Password MFA
+
+This is the problem that ate two evenings. The office repos are IP-whitelisted, so the only way in from home is the company OpenVPN. And the VPN requires MFA: a username, a password, and a time-based OTP. Doing that by hand is fifteen seconds. Doing it unattended, from a script, with no human to read the authenticator, is a different sport.
+
+My first instinct was `expect`. Spawn OpenVPN, watch for the prompts, type the answers. It worked exactly once and then broke the moment a prompt string changed by a single character. `expect` scripts that drive interactive auth are fragile by nature, and I do not want my repo sync depending on the exact wording of a password prompt.
+
+Next I looked at OpenVPN's management interface. You start the client with `--management 127.0.0.1 7505` and feed credentials over a socket. This actually works and is the "correct" answer for programmatic control, but for my use case it was overkill. I did not want a daemon listening on a socket and a second script poking it. I just wanted to bring a tunnel up and tear it down.
+
+Then I found the SCRV1 mechanism. OpenVPN supports static-challenge responses encoded in an auth file using the `SCRV1:` format. The auth file is three lines: username, then a base64-encoded `SCRV1:password:otp` blob on the password line, and OpenVPN sends both the password and the challenge response in one shot. No interaction. This was exactly what I wanted.
+
+Except it did not work, and the reason is a genuinely nasty gotcha. My `.ovpn` profile contained a `static-challenge` directive. That directive tells OpenVPN to issue an interactive challenge prompt, and it does so even when you have supplied an SCRV1 auth file. The auth file gets silently ignored for the challenge portion and OpenVPN sits there waiting for someone to type the OTP. There is no error, no warning, it just hangs. I spent a good hour convinced my base64 encoding was wrong before I realized the directive in the config was overriding the file.
+
+The fix is to copy the `.ovpn`, strip the `static-challenge` line out of the copy, and feed OpenVPN the cleaned profile plus the SCRV1 auth file. With the directive gone, OpenVPN reads the challenge response straight from the file. The credentials and OTP come from 1Password via its CLI, so nothing is ever written to disk in plaintext beyond the moment the tunnel comes up.
+
+Here is the condensed `connect-vpn.sh`. The interesting part is building the SCRV1 auth file from `op`:
+
+```bash
+#!/usr/bin/env bash
+set -euo pipefail
+
+PROFILE_SRC="$HOME/vpn/office.ovpn"
+PROFILE_CLEAN="$(mktemp)"
+AUTH_FILE="$(mktemp)"
+trap 'rm -f "$PROFILE_CLEAN" "$AUTH_FILE"' EXIT
+
+# 1Password CLI session. op signin caches a short-lived token.
+eval "$(op signin --account my.1password.com)"
+
+# Pull username, password, and a fresh TOTP in one call.
+read -r VPN_USER VPN_PASS VPN_OTP < <(
+  op item get "VPN" --fields username,password --otp --format json \
+    | jq -r '[.username, .password, .otp] | @tsv'
+)
+
+# Strip the static-challenge directive that silently breaks SCRV1.
+grep -v '^static-challenge' "$PROFILE_SRC" > "$PROFILE_CLEAN"
+
+# Build the SCRV1 auth file: line 1 username, line 2 the encoded response.
+SCRV1_BLOB="SCRV1:$(printf '%s' "$VPN_PASS" | base64):$(printf '%s' "$VPN_OTP" | base64)"
+{
+  printf '%s\n' "$VPN_USER"
+  printf '%s\n' "$SCRV1_BLOB"
+} > "$AUTH_FILE"
+
+# Non-interactive sudo for OpenVPN itself.
+echo "$SUDO_PASSWORD" | sudo -S openvpn \
+  --config "$PROFILE_CLEAN" \
+  --auth-user-pass "$AUTH_FILE" \
+  --daemon --log "$HOME/vpn/openvpn.log"
+
+echo "VPN up."
+```
+
+One command, `./connect-vpn.sh`, and the tunnel comes up. No typing, no authenticator app, no `expect` praying that the prompt string has not changed. The OTP is fetched fresh on every run, so there is no window where a stale code is sitting around.
+
+## Problem 3: Repo Sync
+
+With auth and VPN solved, the sync itself was almost anticlimactic. I use Grove CLI to manage repos across profiles. It reads a manifest of sixteen repos, eleven work and five personal, and clones or pulls each one. Before I had any of this working, running Grove from the server synced exactly two repos: the two public personal ones that need no auth and no VPN. Everything else failed silently or hung on a prompt.
+
+With the work SSH key loaded by keychain and the VPN tunnel up, Grove sees all sixteen and pulls them in parallel. The whole sync finishes in a few seconds because Grove fans the work out across the repos rather than going one at a time.
+
+The one wrinkle worth calling out is sudo. The VPN script needs root to bring up the tunnel device, and an unattended job has no one to type a sudo password. I keep a `SUDO_PASSWORD` in a `.env` file that the script sources, and pipe it to `sudo -S`. That file is `chmod 600` and owned by my user, which is the same trust boundary as the SSH keys it sits next to. It is not perfect, but on a single-user box where the alternative is a broad NOPASSWD sudoers entry, scoping the password to one script felt like the tighter option.
+
+## Security Hardening
+
+Once everything ran, I made myself stop and think about what I had actually built: a machine that holds two GitHub identities, an office VPN credential path, and a 1Password session, all wired to run unattended. That is a juicy target, so Hermes Agent's config got locked down.
+
+```yaml
+# config.yaml
+server:
+  webhook:
+    # Only accept webhook calls from the box itself. No external surface.
+    bind: 127.0.0.1
+    port: 8787
+
+scanner:
+  tirith:
+    enabled: true          # config drift detection
+    watch:
+      - config.yaml
+      - ~/.ssh/config
+    on_drift: alert         # notify, do not auto-revert
+
+scheduler:
+  cron:
+    mode: manual_approval   # dangerous ops never auto-schedule
+    auto_allow:
+      - repo_sync           # safe, idempotent jobs run freely
+
+permissions:
+  files:
+    log_mode: "0640"
+    config_mode: "0600"
+```
+
+The webhook listener is bound to `127.0.0.1` so there is no external attack surface; anything that needs to trigger Hermes does it through an SSH tunnel. I enabled Tirith, Hermes Agent's config scanner, to watch `config.yaml` and `~/.ssh/config` for drift and alert me if either changes unexpectedly. The cron scheduler runs in manual approval mode, so anything classed as dangerous waits for my explicit yes, while idempotent jobs like the repo sync are on an auto-allow list and run freely. Log files are `640` and the config is `600`, because the config references credential paths and I do not want it world-readable.
+
+## Takeaways
+
+A few things I would tell myself before I started.
+
+Keychain is the right SSH agent solution for a server. The single persistent agent across logins is exactly what unattended jobs need, and it removes the whole class of "no agent running" failures. If you are running `ssh-add` in a loop anywhere, go check that it is not fighting your agent.
+
+SCRV1 auth files genuinely work for MFA VPN automation, but `static-challenge` will silently override them. If your auth file is being ignored and OpenVPN just hangs with no error, that directive in your `.ovpn` is the first thing to check. Strip it from a copy of the profile rather than editing the original.
+
+The 1Password CLI plus `op signin` is a clean way to automate MFA-based credentials. Fetching the OTP fresh on every run means you never deal with stale codes, and nothing sensitive lives on disk longer than the moment it is used.
+
+Gating dangerous operations behind manual approval is what lets the rest of the automation run with confidence. Once I knew nothing destructive could schedule itself, I stopped worrying about leaving the box alone. The safe, idempotent jobs run freely, and the scary ones wait for me.
+
+And finally, VPNs add real complexity and I would avoid one if I could. But when the resource is IP-whitelisted, the VPN is the only door, and the right move is to automate it carefully rather than pretend it is not there. Two evenings of fighting OpenVPN later, I have a server that pulls all sixteen repos on its own, and that is worth it.
