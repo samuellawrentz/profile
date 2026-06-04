@@ -1,0 +1,94 @@
+---
+title: "Distill Your Codebase to Its Essence"
+date: 2026-06-05
+published: true
+tags: ["engineering", "productivity", "claude"]
+path: "/blog/codebase-distillation/"
+description: "When facing a massive codebase, skip the manual archaeology. Ask an LLM to strip it down to its bare skeleton or turn it into a proof of concept. This technique reveals the core architecture in minutes, not days."
+heroImage: "./header.png"
+---
+
+You clone the repo. Two hundred services stare back at you. Or it is one monorepo with half a million lines and a folder structure that looks like it was designed by a committee that never met. Or worse, it is the legacy system that pays the bills, the one nobody on the team actually understands, the one where every question gets the same answer: "ask Dave, but Dave left in 2021."
+
+That sinking feeling is real, and the standard advice makes it worse.
+
+## The Problem
+
+The conventional approach to a strange codebase is archaeology. You read the entry point. You trace a request through the call stack. You open the dependency graph, you draw boxes and arrows on a whiteboard, you bookmark forty files you swear you will come back to. A week later you have a diagram that is already out of date and a head full of details that do not matter.
+
+The reason this fails is not effort. It is signal-to-noise. A mature codebase is mostly noise. Config loaders, dependency injection wiring, retry logic, logging middleware, feature flags, three layers of abstraction that exist because someone read a blog post in 2018. None of that is the system. The system is the 10 to 20 percent that does the actual work, and it is buried under the other 80 percent that exists to keep the lights on in production. Read everything and you drown. Read nothing and you are guessing.
+
+You do not need to read everything. You need to find the part that matters and ignore the rest. That is a compression problem, and compression is exactly what an LLM is good at.
+
+## The Core Insight: Ask for the Skeleton
+
+Here is the mistake almost everyone makes. They open Claude or GPT, point it at the repo, and ask "explain this codebase." The model, eager to please, dumps everything. You get a wall of text describing every directory, every service, every config file, weighted as if they were all equally important. You have replaced reading the code with reading a worse description of the code.
+
+Flip the prompt. Do not ask what the codebase does. Ask what it would be without the cruft:
+
+> "What is the absolute smallest working version of this service? What can I delete and still have something that compiles and does the core job?"
+
+This is a different question and it forces a different kind of thinking. Now the model has to make decisions. It has to decide that the circuit breaker is not essential, that the metrics emitter can go, that nine of the eleven config options are never set to anything but the default. What survives the cut is the skeleton. And the skeleton is the thing you actually wanted to understand all along.
+
+The constraint does the work. "Explain this" has no constraint, so you get everything. "What is the minimum" has a hard constraint, so you get the essence.
+
+## The POC Technique
+
+You can push this further. Instead of asking what to delete, ask the model to rebuild:
+
+> "Rewrite the core logic of this service as a single-file proof of concept. No error handling, no config, no Docker, no framework. Just the essence, in as few lines as possible."
+
+This is the strongest version of the technique, because rebuilding is a harder test than describing. To collapse a 2000-line NestJS service into thirty lines, the model has to actually understand what the service is for. It cannot hide behind summary language. It has to commit to "this is the load-bearing logic and everything else is scaffolding."
+
+Say you inherit a payments service. Controllers, guards, interceptors, a dozen injected providers, DTOs validated three times on the way in. Ask for the POC and you get back something like this:
+
+```js
+import express from "express";
+const app = express();
+app.use(express.json());
+
+const ledger = new Map();
+
+app.post("/charge", (req, res) => {
+  const { account, amount } = req.body;
+  const balance = ledger.get(account) ?? 0;
+  if (balance < amount) return res.status(402).json({ error: "insufficient" });
+  ledger.set(account, balance - amount);
+  res.json({ charged: amount, remaining: balance - amount });
+});
+
+app.listen(3000);
+```
+
+That is the service. The real one has authentication, idempotency keys, a database, audit logs, and a message queue. But the thing it does, the reason it exists, is "check the balance, move the money, refuse if there is not enough." Thirty seconds with this snippet and you understand more about the domain than an hour of clicking through the real repo would have given you.
+
+## Why It Works
+
+LLMs are summarization engines at heart. Compressing a large body of text into a smaller one that preserves meaning is the thing they are best at, and code is just text with stricter rules. When you constrain the output, single file, no dependencies, no error handling, you are not limiting the model. You are forcing its latent understanding into a compact shape that you can hold in your head.
+
+It is the "explain it to a five-year-old" trick. The reason that works on humans is that the constraint strips away the jargon you were hiding behind and exposes whether you actually understand the thing. Same mechanism here. A model that can collapse a service to its core has demonstrably located the core. The compact output is not a dumbed-down version of the truth. It is a higher-resolution view of the part that matters.
+
+## Practical Workflow
+
+Here is how I run it in practice:
+
+1. Point the LLM at the repo. Claude Code, a context-aware setup, whatever loads the whole thing into reach.
+2. Ask for the map: "Strip this to its bare skeleton. What are the 3 to 5 files that define this system? Ignore config, tests, and infrastructure."
+3. Follow up with the rebuild: "Turn the core logic from those files into a single-file POC. Minimal, no error handling."
+4. Read the POC. This is your mental model. It takes minutes, not days.
+5. Use the skeleton as a map. Now that you know which 5 files matter, dive into the real ones with purpose instead of wandering.
+6. Throw the POC away. Its job was to teach you the shape of the system, not to be kept. Once the architecture is in your head, the artifact is disposable.
+
+The POC is scaffolding for your own understanding. Build it, climb it, take it down.
+
+## When It Does Not Work
+
+This is a shortcut, not a silver bullet, and pretending otherwise will burn you.
+
+It struggles when the complexity is the point. Trading engines, game physics, video codecs, anything where the gnarly math in the middle is the whole reason the code exists. There is no smaller version of a matching engine that is still a matching engine. The detail is not noise, it is the product.
+
+It struggles with business logic that is genuinely spread thin. Some systems encode a thousand tiny rules accumulated over a decade of edge cases, and no single file holds the truth because the truth is the accumulation. Strip it down and you have thrown away the actual value, which lived in the special cases.
+
+And it struggles with codebases so tightly coupled that nothing can be removed without everything else falling over. Sometimes the tangle is real and irreducible. The model will still hand you a clean POC, but it will be a polite fiction that quietly dropped the dependencies that make the real thing hard.
+
+The tell is when the POC feels too easy. If the distilled version looks trivial and the real system is famously painful, the gap between them is exactly the complexity you need to go study. Treat that gap as a signal, not a failure. The technique pointed you straight at the hard part, which is more than the whiteboard ever did.
