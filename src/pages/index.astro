@@ -3,15 +3,23 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
 import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
-import bookImg from '../assets/home/book.webp';
 import friendsLogoImg from '../assets/home/friends_logo.png';
 
 const allBlogPosts = await getCollection('blog', ({ data }) => data.published === true);
 const latestPosts = allBlogPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
-  .slice(0, 4);
+  .slice(0, 5);
 
+const featuredPost = allBlogPosts.find((p) => p.data.featured === true);
+const featured = featuredPost ?? latestPosts[0];
+const commits = [featured, ...latestPosts.filter((p) => p.id !== featured?.id)].slice(0, 5);
+
+const allHacks = await getCollection('hacks', ({ data }) => data.published === true);
 const hackCategories = ['react', 'neovim', 'philosophy', 'microfrontend', 'software-philosophy'];
+const hackCounts = Object.fromEntries(
+  hackCategories.map((c) => [c, allHacks.filter((h) => h.data.path?.startsWith(`/hacks/${c}/`)).length])
+);
+const totalHacks = allHacks.length;
 
 const projects = [
   {
@@ -64,12 +72,23 @@ const projects = [
   },
 ];
 
-const featuredPost = allBlogPosts.find((p) => p.data.featured === true);
-const featured = featuredPost ?? latestPosts[0];
-const restPosts = latestPosts.filter((p) => p.id !== featured?.id).slice(0, 3);
-
 const formatDate = (d: Date | string) =>
   new Date(d).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+
+// deterministic fake commit hash from a string
+const hashOf = (s: string) => {
+  let h = 0;
+  for (const c of s) h = (h * 31 + c.charCodeAt(0)) | 0;
+  return (h >>> 0).toString(16).padStart(7, '0').slice(0, 7);
+};
+
+const tabs = [
+  { id: 'readme', label: 'README.md' },
+  { id: 'blog', label: 'blog.log' },
+  { id: 'projects', label: 'projects.json' },
+  { id: 'hacks', label: 'hacks/' },
+  { id: 'socials', label: 'socials.yml' },
+];
 ---
 
 <BaseLayout
@@ -82,194 +101,211 @@ const formatDate = (d: Date | string) =>
     description="Samuel Lawrentz - Engineer and team lead building pixel-perfect UIs and end-to-end systems. Writing about React, TypeScript, CSS, and the craft of software."
   />
   <div class="page-grain" aria-hidden="true"></div>
-  <div class="dev-home">
 
-    <!-- Hero -->
-    <section class="hero">
-      <div class="hero__layout">
-        <div class="hero__text">
-          <p class="hero__prompt reveal" style="--r:0">
-            <span class="p-path">~/samuellawrentz</span> <span class="p-dollar">$</span> whoami
+  <div class="ide-wrap">
+    <div class="ide">
+
+      <!-- Window chrome + tab nav -->
+      <div class="ide__chrome">
+        <div class="ide__dots" aria-hidden="true">
+          <span class="ide__dot ide__dot--r"></span>
+          <span class="ide__dot ide__dot--y"></span>
+          <span class="ide__dot ide__dot--g"></span>
+        </div>
+        <nav class="ide__tabs" aria-label="Page sections">
+          {tabs.map((t, i) => (
+            <a href={`#${t.id}`} class:list={['tab', { 'is-active': i === 0 }]} data-tab={t.id}>
+              <span class="tab__icon" aria-hidden="true">{t.label.endsWith('/') ? '▸' : '≡'}</span>
+              {t.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <div class="ide__body">
+
+        <!-- README.md -->
+        <section id="readme" class="sec sec--readme">
+          <p class="readme__crumb reveal" style="--r:0">
+            <span class="y-key">samuellawrentz</span> / <b>README.md</b>
           </p>
-          <h1 class="hero__heading reveal" style="--r:1">
-            Samuel<br /><span class="hero__nowrap">Lawrentz<span class="hero__caret" aria-hidden="true"></span></span>
-          </h1>
-          <p class="hero__tagline reveal" style="--r:2"><span id="tagline"></span></p>
-          <p class="hero__bio reveal" style="--r:3">
+          <h1 class="readme__title reveal" style="--r:1">Samuel<br />Lawrentz</h1>
+
+          <div class="badges reveal" style="--r:2">
+            <span class="badge"><span class="badge__k">role</span><span class="badge__v badge__v--red">engineer · team lead</span></span>
+            <span class="badge"><span class="badge__k">stack</span><span class="badge__v badge__v--cyan">react · ts · node</span></span>
+            <span class="badge"><span class="badge__k">exp</span><span class="badge__v badge__v--green">9+ years</span></span>
+            <span class="badge"><span class="badge__k">status</span><span class="badge__v badge__v--amber">always building</span></span>
+          </div>
+
+          <p class="readme__type reveal" style="--r:3">
+            <span class="t-green">$</span> <span id="tagline"></span><span class="type-caret" aria-hidden="true"></span>
+          </p>
+
+          <p class="readme__bio reveal" style="--r:4">
             <b>Engineer</b> who builds - pixel-perfect UIs, end-to-end systems, and design systems that scale.
             Turning complex problems into elegant, maintainable solutions.
           </p>
-          <p class="hero__philosophy reveal" style="--r:4">
-            <span class="t-comment">// "Simplicity is the ultimate sophistication in code."</span>
+
+          <blockquote class="readme__quote reveal" style="--r:5">
+            "Simplicity is the ultimate sophistication in code."
+          </blockquote>
+        </section>
+
+        <!-- blog.log -->
+        <section id="blog" class="sec" data-file="blog.log">
+          <header class="sec__head">
+            <div>
+              <p class="cmd"><span class="t-green">$</span> git log --oneline ./blog</p>
+              <h2 class="sec__title">Blog</h2>
+            </div>
+            <a href="/blog/" class="sec__link">cd /blog →</a>
+          </header>
+
+          <ol class="gitlog">
+            {commits.map((post, i) => (
+              <li class:list={['commit', { 'commit--head': i === 0 }]}>
+                <span class="commit__graph" aria-hidden="true"><i class="commit__node"></i></span>
+                <a href={post.data.path} class="commit__card">
+                  <div class="commit__main">
+                    <p class="commit__line1">
+                      <code class="commit__hash">{hashOf(post.data.title)}</code>
+                      {i === 0 && <span class="commit__ref">(HEAD → latest)</span>}
+                      <span class="commit__title">{post.data.title}</span>
+                    </p>
+                    <p class="commit__meta">
+                      <span>{formatDate(post.data.date)}</span>
+                      {post.data.tags.slice(0, 3).map((tag: string) => (
+                        <span class="commit__tag">tag: {tag}</span>
+                      ))}
+                    </p>
+                    {i === 0 && post.data.description && (
+                      <p class="commit__desc">{post.data.description}</p>
+                    )}
+                  </div>
+                  {post.data.heroImage && (
+                    <div class="commit__thumb">
+                      <Image src={post.data.heroImage} alt={post.data.title} width={280} height={168} />
+                    </div>
+                  )}
+                </a>
+              </li>
+            ))}
+          </ol>
+
+          <p class="sec__foot">
+            <span class="t-green">$</span> echo "new post every month" · <a href="/blog/">all posts →</a> · <a href="/rss.xml">rss ↗</a>
           </p>
-        </div>
+        </section>
 
-        <div class="hero__visual reveal" style="--r:2">
-          <div class="term" role="img" aria-label="Terminal session introducing Samuel Lawrentz">
-            <div class="term__bar">
-              <span class="term__dot term__dot--r"></span>
-              <span class="term__dot term__dot--y"></span>
-              <span class="term__dot term__dot--g"></span>
-              <span class="term__title">sam@web — zsh</span>
+        <!-- projects.json -->
+        <section id="projects" class="sec" data-file="projects.json">
+          <header class="sec__head">
+            <div>
+              <p class="cmd"><span class="t-green">$</span> cat projects.json | jq '.'</p>
+              <h2 class="sec__title">Projects</h2>
             </div>
-            <div class="term__body">
-              <p class="term__line" style="--i:0"><span class="t-dollar">$</span> whoami</p>
-              <p class="term__line term__out" style="--i:1">engineer · team lead · frontend at heart</p>
-              <p class="term__line" style="--i:2"><span class="t-dollar">$</span> ls ./expertise</p>
-              <p class="term__line term__out" style="--i:3">
-                <span class="t-dir">react/</span> <span class="t-dir">typescript/</span>
-                <span class="t-dir">node/</span> <span class="t-dir">design-systems/</span>
-              </p>
-              <p class="term__line" style="--i:4"><span class="t-dollar">$</span> uptime</p>
-              <p class="term__line term__out" style="--i:5">9+ years building for the web</p>
-              <p class="term__line" style="--i:6"><span class="t-dollar">$</span> <span class="term__cursor"></span></p>
+          </header>
+
+          <div class="jgrid">
+            {projects.map((project) => (
+              <a
+                href={project.link}
+                target={project.link.startsWith('http') ? '_blank' : '_self'}
+                rel="noreferrer"
+                class="jcard"
+              >
+                <span class="jcard__brace" aria-hidden="true">&#123;</span>
+                <div class="jcard__fields">
+                  <p class="jcard__row">
+                    <span class="j-key">"name"</span><span class="j-punc">:</span>
+                    <span class="jcard__name">"{project.title}"</span><span class="j-punc">,</span>
+                  </p>
+                  <p class="jcard__row">
+                    <span class="j-key">"what"</span><span class="j-punc">:</span>
+                    <span class="j-str">"{project.description}"</span><span class="j-punc">,</span>
+                  </p>
+                  <p class="jcard__row">
+                    <span class="j-key">"stack"</span><span class="j-punc">: [</span>
+                    {project.tech.map((t, ti) => (
+                      <><span class="j-val">"{t}"</span>{ti < project.tech.length - 1 && <span class="j-punc">, </span>}</>
+                    ))}
+                    <span class="j-punc">]</span>
+                  </p>
+                </div>
+                <span class="jcard__brace" aria-hidden="true">&#125;</span>
+                <span class="jcard__arrow" aria-hidden="true">{project.link.startsWith('http') ? '↗' : '→'}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <!-- hacks/ -->
+        <section id="hacks" class="sec" data-file="hacks/">
+          <header class="sec__head">
+            <div>
+              <p class="cmd"><span class="t-green">$</span> ls -la ./hacks</p>
+              <h2 class="sec__title">Hacks</h2>
+            </div>
+            <a href="/hacks/" class="sec__link">cd /hacks →</a>
+          </header>
+          <p class="sec__sub">Short, practical tips and tricks across frontend topics.</p>
+
+          <div class="ls">
+            <p class="ls__total">total {totalHacks}</p>
+            {hackCategories.map((cat) => (
+              <a href={`/hacks/${cat}/`} class="ls__row">
+                <span class="ls__perm">drwxr-xr-x</span>
+                <span class="ls__owner">sam</span>
+                <span class="ls__count">{hackCounts[cat]} {hackCounts[cat] === 1 ? 'item' : 'items'}</span>
+                <span class="ls__name">{cat}/</span>
+                <span class="ls__arrow" aria-hidden="true">→</span>
+              </a>
+            ))}
+          </div>
+        </section>
+
+        <!-- socials.yml -->
+        <section id="socials" class="sec" data-file="socials.yml">
+          <header class="sec__head">
+            <div>
+              <p class="cmd"><span class="t-green">$</span> cat socials.yml</p>
+              <h2 class="sec__title">Connect</h2>
+            </div>
+          </header>
+
+          <div class="socials">
+            <div class="yml">
+              <p class="yml__row"><span class="y-key">name</span><span class="j-punc">:</span> Samuel Lawrentz</p>
+              <p class="yml__row"><span class="y-key">role</span><span class="j-punc">:</span> Software Development Manager @ <a href="https://plivo.com" target="_blank" rel="noreferrer">plivo ↗</a></p>
+              <p class="yml__row"><span class="y-key">github</span><span class="j-punc">:</span> <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer">@samuellawrentz ↗</a></p>
+              <p class="yml__row"><span class="y-key">linkedin</span><span class="j-punc">:</span> <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer">samuel-lawrentz ↗</a></p>
+              <p class="yml__row"><span class="y-key">twitter</span><span class="j-punc">:</span> <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer">@samuellawrentz ↗</a></p>
+              <p class="yml__row"><span class="y-key">codepen</span><span class="j-punc">:</span> <a href="https://codepen.io/samuellawrentz" target="_blank" rel="noreferrer">samuellawrentz ↗</a></p>
+              <p class="yml__row"><span class="y-key">about</span><span class="j-punc">:</span> <a href="/about/">/about/ →</a></p>
+              <p class="yml__row"><span class="y-key">search</span><span class="j-punc">:</span> <a href="https://www.google.com/search?q=samuel+lawrentz" target="_blank" rel="noreferrer">google me ↗</a></p>
+            </div>
+            <div class="socials__friends">
+              <span class="socials__tagline">Let us be</span>
+              <Image src={friendsLogoImg} alt="Friends" class="socials__logo" width={180} height={45} />
             </div>
           </div>
-        </div>
-      </div>
-    </section>
 
-    <!-- Blog -->
-    <section class="ed-section" data-num="01">
-      <div class="ed-section__header">
-        <div>
-          <p class="cmd"><span class="p-dollar">$</span> ls ./blog --sort=latest</p>
-          <h2 class="ed-section__title">Blog</h2>
-        </div>
-        <a href="/blog/" class="section__link">cd /blog →</a>
+          <p class="eof"><span class="t-comment">// EOF — thanks for scrolling</span> <span class="t-green">✓ exit 0</span></p>
+        </section>
       </div>
 
-      <div class="blog-editorial">
-        {featured && (
-          <a href={featured.data.path} class="blog-featured">
-            {featured.data.heroImage && (
-              <div class="blog-featured__img">
-                <Image src={featured.data.heroImage} alt={featured.data.title} width={720} height={400} />
-              </div>
-            )}
-            <div class="blog-featured__body">
-              <time class="blog-date">{formatDate(featured.data.date)}</time>
-              <h3 class="blog-featured__title">{featured.data.title}</h3>
-              {featured.data.description && <p class="blog-featured__desc">{featured.data.description}</p>}
-              <div class="blog-tags">
-                {featured.data.tags.map((tag: string) => (
-                  <span class="blog-tag">{tag}</span>
-                ))}
-              </div>
-            </div>
-          </a>
-        )}
-
-        <div class="blog-rest">
-          {restPosts.map((post, i) => (
-            <a href={post.data.path} class="blog-card">
-              {post.data.heroImage && (
-                <div class="blog-card__img">
-                  <Image src={post.data.heroImage} alt={post.data.title} width={360} height={200} />
-                </div>
-              )}
-              <div class="blog-card__body">
-                <time class="blog-date"><span class="blog-card__index">0{i + 2}</span>{formatDate(post.data.date)}</time>
-                <h4 class="blog-card__title">{post.data.title}</h4>
-                <div class="blog-tags">
-                  {post.data.tags.map((tag: string) => (
-                    <span class="blog-tag">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </a>
-          ))}
-        </div>
+      <!-- Status bar -->
+      <div class="ide__status" aria-hidden="true">
+        <span class="ide__status-item t-green"> main</span>
+        <span class="ide__status-item">✓ 0 problems</span>
+        <span class="ide__status-spacer"></span>
+        <span class="ide__status-item">UTF-8</span>
+        <span class="ide__status-item">LF</span>
+        <span class="ide__status-item">astro 5</span>
+        <span class="ide__status-item t-red">♥ 2026</span>
       </div>
-
-      <div class="blog-cta">
-        <div class="blog-cta__img">
-          <Image src={bookImg} alt="Blog book" height={280} />
-        </div>
-        <div class="blog-cta__body">
-          <h3>I write about Javascript, CSS, and all things web.</h3>
-          <p>New content <b>every month</b> covering ReactJS, Typescript, NodeJS, CSS, and developer productivity.</p>
-          <div class="blog-cta__links">
-            <a href="/blog/" class="cta-link">All posts →</a>
-            <a href="/rss.xml" class="cta-link">Subscribe via RSS →</a>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- Projects -->
-    <section class="ed-section" data-num="02">
-      <div class="ed-section__header">
-        <div>
-          <p class="cmd"><span class="p-dollar">$</span> cat projects.json</p>
-          <h2 class="ed-section__title">Projects</h2>
-        </div>
-      </div>
-      <div class="bento">
-        {projects.map((project, i) => (
-          <a
-            href={project.link}
-            target={project.link.startsWith('http') ? '_blank' : '_self'}
-            rel="noreferrer"
-            class:list={['bento__card', { 'bento__card--wide': i === 0 || i === 3 }]}
-          >
-            <span class="bento__index">[{i}]</span>
-            <h3 class="bento__title">{project.title}</h3>
-            <p class="bento__desc">{project.description}</p>
-            <div class="blog-tags">
-              {project.tech.map((t) => (
-                <span class="blog-tag">{t}</span>
-              ))}
-            </div>
-            <span class="bento__arrow" aria-hidden="true">{project.link.startsWith('http') ? '↗' : '→'}</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- Hacks -->
-    <section class="ed-section" data-num="03">
-      <div class="ed-section__header">
-        <div>
-          <p class="cmd"><span class="p-dollar">$</span> man hacks</p>
-          <h2 class="ed-section__title">Hacks</h2>
-        </div>
-      </div>
-      <p class="ed-section__subtitle">Short, practical tips and tricks across frontend topics. Pass a flag:</p>
-      <div class="hacks-strip">
-        {hackCategories.map((cat) => (
-          <a href={`/hacks/${cat}/`} class="hack-pill">
-            <span class="hack-pill__flag">--</span><span class="hack-pill__label">{cat}</span>
-            <span class="hack-pill__arrow">→</span>
-          </a>
-        ))}
-      </div>
-    </section>
-
-    <!-- Social -->
-    <section class="ed-section ed-social" data-num="04">
-      <p class="cmd"><span class="p-dollar">$</span> ping samuel --all-channels</p>
-      <div class="social__inner">
-        <div class="social__info">
-          <span class="social__logo-row">
-            <span class="social__tagline">Let us be</span>
-            <Image src={friendsLogoImg} alt="Friends" class="social__logo" width={180} height={45} />
-          </span>
-          <p class="social__name">Samuel Lawrentz</p>
-          <p class="social__role">Software Development Manager — <a href="https://plivo.com" target="_blank" rel="noreferrer">Plivo</a></p>
-        </div>
-        <nav class="social__links">
-          <a href="/about/">./about</a>
-          <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer">github ↗</a>
-          <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer">linkedin ↗</a>
-          <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer">twitter ↗</a>
-          <a href="https://codepen.io/samuellawrentz" target="_blank" rel="noreferrer">codepen ↗</a>
-          <a href="https://www.google.com/search?q=samuel+lawrentz" target="_blank" rel="noreferrer">google me ↗</a>
-        </nav>
-      </div>
-      <p class="eof"><span class="t-comment">// EOF — thanks for scrolling</span> <span class="eof__exit">✓ exit 0</span></p>
-    </section>
-
+    </div>
   </div>
 </BaseLayout>
 
@@ -310,30 +346,69 @@ const formatDate = (d: Date | string) =>
     }
     tick();
   }
+
+  // Tab scroll-spy
+  const tabLinks = [...document.querySelectorAll('.ide__tabs a')] as HTMLAnchorElement[];
+  const sections = tabLinks
+    .map((t) => document.querySelector(t.hash))
+    .filter(Boolean) as Element[];
+  const spy = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          tabLinks.forEach((t) => t.classList.toggle('is-active', t.hash === `#${e.target.id}`));
+        }
+      });
+    },
+    { rootMargin: '-15% 0px -75% 0px' }
+  );
+  sections.forEach((s) => spy.observe(s));
 </script>
 
 <style lang="scss">
-  /* ───────── Scoped syntax palette ───────── */
-  .dev-home {
-    --syn-green: hsl(150, 55%, 28%);
-    --syn-cyan: hsl(192, 75%, 26%);
-    --syn-amber: hsl(32, 90%, 32%);
-    max-width: 960px;
+  /* ───────── Editor theme tokens ───────── */
+  .ide-wrap {
+    --ide-bg: hsl(42, 30%, 97%);
+    --ide-chrome: hsl(42, 14%, 91%);
+    --ide-border: hsl(42, 10%, 80%);
+    --ide-text: hsl(0, 0%, 12%);
+    --ide-dim: hsl(0, 0%, 42%);
+    --ide-faint: hsl(42, 8%, 88%);
+    --syn-green: hsl(150, 60%, 26%);
+    --syn-cyan: hsl(195, 85%, 26%);
+    --syn-amber: hsl(30, 95%, 33%);
+    --syn-red: hsl(349, 85%, 38%);
+    max-width: 1080px;
     margin: 0 auto;
-    padding: 0 24px;
+    padding: 0 24px 56px;
   }
 
-  :global([color-mode='dark']) .dev-home {
+  :global([color-mode='dark']) .ide-wrap {
+    --ide-bg: hsl(224, 16%, 11%);
+    --ide-chrome: hsl(224, 14%, 15%);
+    --ide-border: hsl(224, 10%, 24%);
+    --ide-text: hsl(220, 14%, 88%);
+    --ide-dim: hsl(222, 9%, 60%);
+    --ide-faint: hsl(224, 12%, 17%);
     --syn-green: hsl(150, 50%, 58%);
-    --syn-cyan: hsl(192, 65%, 60%);
+    --syn-cyan: hsl(192, 65%, 62%);
     --syn-amber: hsl(38, 90%, 62%);
+    --syn-red: hsl(350, 85%, 64%);
   }
 
-  .p-dollar { color: var(--syn-green); }
-  .p-path { color: var(--syn-cyan); }
-  .t-comment { color: var(--element3); font-style: italic; }
+  .t-green { color: var(--syn-green); }
+  .t-red { color: var(--syn-red); }
+  .t-comment { color: var(--ide-dim); font-style: italic; }
+  .j-key, .y-key { color: var(--syn-cyan); }
+  .j-str { color: var(--syn-green); }
+  .j-val { color: var(--syn-amber); }
+  .j-punc { color: var(--ide-dim); }
 
-  /* ───────── Grain overlay ───────── */
+  :global(html) {
+    scroll-behavior: smooth;
+  }
+
+  /* ───────── Grain ───────── */
   .page-grain {
     position: fixed;
     inset: 0;
@@ -345,6 +420,195 @@ const formatDate = (d: Date | string) =>
     background-size: 180px;
   }
 
+  /* ───────── The window ───────── */
+  .ide {
+    position: relative;
+    background: var(--ide-bg);
+    color: var(--ide-text);
+    border: 1px solid var(--ide-border);
+    border-radius: 14px;
+    box-shadow:
+      0 40px 80px -32px rgba(0, 0, 0, 0.35),
+      0 0 0 1px rgba(255, 255, 255, 0.02) inset;
+    overflow: clip;
+  }
+
+  :global([color-mode='dark']) .ide {
+    box-shadow:
+      0 40px 80px -32px rgba(0, 0, 0, 0.7),
+      0 0 90px -40px hsla(349, 98%, 40%, 0.3);
+  }
+
+  /* ───────── Chrome / tabs ───────── */
+  .ide__chrome {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    display: flex;
+    align-items: stretch;
+    gap: 8px;
+    background: var(--ide-chrome);
+    border-bottom: 1px solid var(--ide-border);
+    padding: 0 14px;
+  }
+
+  .ide__dots {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding-right: 8px;
+  }
+
+  .ide__dot {
+    width: 11px;
+    height: 11px;
+    border-radius: 50%;
+  }
+
+  .ide__dot--r { background: hsl(2, 80%, 62%); }
+  .ide__dot--y { background: hsl(42, 92%, 58%); }
+  .ide__dot--g { background: hsl(140, 55%, 50%); }
+
+  .ide__tabs {
+    display: flex;
+    align-items: stretch;
+    overflow-x: auto;
+    scrollbar-width: none;
+
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  .tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 13px 16px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    white-space: nowrap;
+    color: var(--ide-dim);
+    text-decoration: none;
+    border-right: 1px solid var(--ide-border);
+    border-top: 2px solid transparent;
+    transition: color 0.2s, background 0.2s;
+
+    &:first-of-type { border-left: 1px solid var(--ide-border); }
+
+    &:hover { color: var(--ide-text); background: var(--ide-faint); }
+
+    &.is-active {
+      color: var(--ide-text);
+      background: var(--ide-bg);
+      border-top-color: var(--syn-red);
+    }
+  }
+
+  .tab__icon {
+    font-size: 10px;
+    opacity: 0.55;
+  }
+
+  /* ───────── Body / sections ───────── */
+  .ide__body {
+    padding: 0 clamp(20px, 5vw, 64px);
+  }
+
+  .sec {
+    padding: 56px 0;
+    scroll-margin-top: 64px;
+  }
+
+  .sec + .sec,
+  .sec:not(.sec--readme) {
+    border-top: 1px dashed var(--ide-border);
+  }
+
+  .sec[data-file]::before {
+    content: '▸ ' attr(data-file);
+    display: inline-block;
+    transform: translateY(-56px);
+    margin-bottom: -1.4em;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    color: var(--ide-dim);
+    background: var(--ide-bg);
+    padding: 2px 10px 2px 0;
+    position: relative;
+    top: 0.7em;
+  }
+
+  .sec__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+
+  .cmd {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ide-dim);
+    letter-spacing: 0.02em;
+    margin: 0 0 6px;
+  }
+
+  .sec__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 700;
+    font-size: clamp(28px, 4vw, 40px);
+    letter-spacing: -0.02em;
+    line-height: 1.1;
+    margin: 0;
+
+    &::before {
+      content: '## ';
+      color: var(--syn-red);
+      font-weight: 600;
+      opacity: 0.85;
+    }
+  }
+
+  .sec__link {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13.5px;
+    color: var(--ide-dim);
+    text-decoration: none;
+    border-bottom: 1px solid var(--ide-border);
+    padding-bottom: 2px;
+    white-space: nowrap;
+    transition: color 0.2s, border-color 0.2s;
+
+    &:hover {
+      color: var(--ide-text);
+      border-bottom-color: var(--ide-text);
+    }
+  }
+
+  .sec__sub {
+    color: var(--ide-dim);
+    font-size: var(--caption);
+    margin: -12px 0 24px;
+  }
+
+  .sec__foot {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--ide-dim);
+    margin: 28px 0 0;
+
+    a {
+      color: var(--ide-text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ide-border);
+      padding-bottom: 1px;
+      transition: border-color 0.2s;
+
+      &:hover { border-bottom-color: var(--syn-red); }
+    }
+  }
+
   /* ───────── Load reveal ───────── */
   .reveal {
     opacity: 0;
@@ -353,78 +617,74 @@ const formatDate = (d: Date | string) =>
   }
 
   @keyframes rise {
-    from { opacity: 0; transform: translateY(16px); }
+    from { opacity: 0; transform: translateY(14px); }
     to { opacity: 1; transform: translateY(0); }
   }
 
-  /* ───────── Hero ───────── */
-  .hero {
-    position: relative;
-    padding: 72px 0 56px;
+  /* ───────── README ───────── */
+  .sec--readme {
+    padding-top: 48px;
   }
 
-  /* dot-grid atmosphere */
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: -20px -80px 0;
-    background-image: radial-gradient(var(--element4) 1px, transparent 1.5px);
-    background-size: 26px 26px;
-    -webkit-mask-image: radial-gradient(ellipse 75% 85% at 72% 30%, black 0%, transparent 68%);
-    mask-image: radial-gradient(ellipse 75% 85% at 72% 30%, black 0%, transparent 68%);
-    opacity: 0.55;
-    pointer-events: none;
-  }
-
-  .hero__layout {
-    position: relative;
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-    gap: 56px;
-    align-items: start;
-  }
-
-  .hero__text {
-    max-width: 520px;
-    min-width: 0;
-  }
-
-  .hero__nowrap {
-    white-space: nowrap;
-  }
-
-  .hero__prompt {
+  .readme__crumb {
     font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--element2);
-    margin: 0 0 16px;
-    letter-spacing: 0.02em;
+    font-size: 13px;
+    color: var(--ide-dim);
+    margin: 0 0 28px;
+
+    b { color: var(--ide-text); font-weight: 500; }
   }
 
-  .hero__heading {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-weight: 700;
-    font-size: clamp(48px, 7vw, 82px);
-    line-height: 0.98;
-    letter-spacing: -0.035em;
-    margin: 0 0 24px;
+  .readme__title {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    font-size: clamp(44px, 8vw, 88px);
+    line-height: 1.02;
+    letter-spacing: -0.05em;
+    margin: 0 0 28px;
     text-shadow: none;
+
+    &::before {
+      content: '# ';
+      color: var(--syn-red);
+      font-weight: 700;
+    }
   }
 
-  .hero__caret {
-    display: inline-block;
-    width: 0.14em;
-    height: 0.82em;
-    margin-left: 0.08em;
-    background: var(--primary-color);
-    animation: blink 1.1s step-end infinite;
+  .badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 0 0 28px;
   }
 
-  @keyframes blink {
-    50% { opacity: 0; }
+  .badge {
+    display: inline-flex;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    line-height: 1;
+    border-radius: 4px;
+    overflow: hidden;
   }
 
-  .hero__tagline {
+  .badge__k {
+    padding: 6px 8px;
+    background: hsl(220, 10%, 24%);
+    color: hsl(0, 0%, 92%);
+  }
+
+  .badge__v {
+    padding: 6px 8px;
+    color: hsl(0, 0%, 8%);
+    font-weight: 700;
+  }
+
+  .badge__v--red { background: hsl(349, 75%, 72%); }
+  .badge__v--cyan { background: hsl(192, 60%, 68%); }
+  .badge__v--green { background: hsl(150, 50%, 62%); }
+  .badge__v--amber { background: hsl(40, 90%, 65%); }
+
+  .readme__type {
     font-family: 'JetBrains Mono', monospace;
     font-size: clamp(15px, 2.5vw, 18px);
     color: var(--syn-amber);
@@ -432,535 +692,316 @@ const formatDate = (d: Date | string) =>
     margin: 0 0 20px;
   }
 
-  .hero__tagline span {
-    border-right: 2px solid var(--primary-color);
-    padding-right: 4px;
-    animation: blink 0.8s step-end infinite;
-  }
-
-  .hero__bio {
-    font-size: var(--body);
-    line-height: 1.7;
-    color: var(--element2);
-    margin: 0 0 16px;
-  }
-
-  .hero__philosophy {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    margin: 0;
-  }
-
-  /* ───────── Terminal window ───────── */
-  .hero__visual {
-    width: 350px;
-    max-width: 100%;
-    margin-top: 34px;
-  }
-
-  .term {
-    background: hsl(222, 18%, 9%);
-    border: 1px solid hsl(222, 10%, 24%);
-    border-radius: 10px;
-    overflow: hidden;
-    box-shadow:
-      0 24px 48px -16px rgba(0, 0, 0, 0.5),
-      0 0 0 1px rgba(255, 255, 255, 0.03) inset,
-      0 0 60px -20px hsla(349, 98%, 34%, 0.25);
-    animation: termFloat 7s ease-in-out infinite;
-  }
-
-  @keyframes termFloat {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(-8px); }
-  }
-
-  .term__bar {
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    padding: 10px 14px;
-    background: hsl(222, 14%, 14%);
-    border-bottom: 1px solid hsl(222, 10%, 22%);
-  }
-
-  .term__dot {
-    width: 11px;
-    height: 11px;
-    border-radius: 50%;
-  }
-
-  .term__dot--r { background: hsl(2, 80%, 62%); }
-  .term__dot--y { background: hsl(42, 92%, 60%); }
-  .term__dot--g { background: hsl(140, 60%, 52%); }
-
-  .term__title {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    color: hsl(222, 8%, 55%);
-    margin-left: auto;
-    letter-spacing: 0.04em;
-  }
-
-  .term__body {
-    padding: 18px 18px 20px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    line-height: 1.75;
-  }
-
-  .term__line {
-    margin: 0;
-    color: hsl(220, 14%, 88%);
-    opacity: 0;
-    animation: termIn 0.35s ease forwards;
-    animation-delay: calc(var(--i) * 0.4s + 0.6s);
-    white-space: nowrap;
-  }
-
-  .term__out {
-    color: hsl(222, 8%, 62%);
-  }
-
-  .term__line .t-dollar {
-    color: hsl(150, 55%, 55%);
-  }
-
-  .t-dir {
-    color: hsl(192, 70%, 62%);
-  }
-
-  @keyframes termIn {
-    from { opacity: 0; transform: translateX(-6px); }
-    to { opacity: 1; transform: translateX(0); }
-  }
-
-  .term__cursor {
+  .type-caret {
     display: inline-block;
-    width: 8px;
-    height: 15px;
-    vertical-align: -2px;
-    background: hsl(150, 55%, 55%);
+    width: 9px;
+    height: 1.05em;
+    vertical-align: -0.15em;
+    margin-left: 3px;
+    background: var(--syn-red);
     animation: blink 0.9s step-end infinite;
   }
 
-  /* ───────── Section shared ───────── */
-  .ed-section {
-    padding: 56px 0;
-    border-top: 1px solid var(--element4);
-    margin: 0;
-    position: relative;
+  @keyframes blink {
+    50% { opacity: 0; }
   }
 
-  /* section number sitting on the divider */
-  .ed-section::before {
-    content: attr(data-num);
-    position: absolute;
-    top: -0.7em;
-    right: 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    letter-spacing: 0.1em;
-    color: var(--element3);
-    background: var(--surface1);
-    padding: 0 10px;
-  }
-
-  .ed-section__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    margin-bottom: 32px;
-    gap: 16px;
-  }
-
-  .cmd {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--element3);
-    letter-spacing: 0.02em;
-    margin: 0 0 4px;
-  }
-
-  .ed-section__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 0;
-  }
-
-  .section__link {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--element2);
-    text-decoration: none;
-    border-bottom: 1px solid var(--element4);
-    padding-bottom: 2px;
-    white-space: nowrap;
-    transition: border-color 0.2s, color 0.2s;
-  }
-
-  .section__link:hover {
-    color: var(--element1);
-    border-bottom-color: var(--element1);
-  }
-
-  .ed-section__subtitle {
-    color: var(--element2);
-    margin: -16px 0 28px;
+  .readme__bio {
     font-size: var(--body);
-  }
-
-  /* ───────── Blog editorial grid ───────── */
-  .blog-editorial {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    gap: 24px;
-    margin-bottom: 40px;
-  }
-
-  .blog-featured {
-    grid-row: 1 / 2;
-    grid-column: 1 / 2;
-    display: flex;
-    flex-direction: column;
-    text-decoration: none;
-    color: inherit;
-    border-radius: 10px;
-    overflow: hidden;
-    min-width: 0;
-    border: 1px solid var(--element4);
-    background: var(--surface2);
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.2s;
-  }
-
-  .blog-featured:hover {
-    transform: translateY(-4px);
-    border-color: var(--element3);
-    box-shadow: 0 12px 32px -8px var(--card-shadow-color);
-  }
-
-  .blog-featured__img {
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-  }
-
-  .blog-featured__img :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .blog-featured:hover .blog-featured__img :global(img) {
-    transform: scale(1.04);
-  }
-
-  .blog-featured__body {
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .blog-featured__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-size: clamp(18px, 2.5vw, 24px);
-    font-weight: 600;
-    line-height: 1.3;
-    margin: 0;
-  }
-
-  .blog-featured__desc {
-    font-size: var(--caption);
-    color: var(--element2);
-    line-height: 1.5;
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  .blog-rest {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    min-width: 0;
-  }
-
-  .blog-card {
-    display: grid;
-    grid-template-columns: 120px 1fr;
-    gap: 16px;
-    text-decoration: none;
-    color: inherit;
-    padding: 12px;
-    border-radius: 10px;
-    border: 1px solid transparent;
-    min-width: 0;
-    transition: border-color 0.2s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
-  }
-
-  .blog-card:hover {
-    border-color: var(--element4);
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px -6px var(--card-shadow-color);
-  }
-
-  .blog-card__img {
-    border-radius: 6px;
-    overflow: hidden;
-    aspect-ratio: 3 / 2;
-  }
-
-  .blog-card__img :global(img) {
-    display: block;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .blog-card__body {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    gap: 6px;
-  }
-
-  .blog-card__index {
-    color: var(--syn-amber);
-    margin-right: 10px;
-  }
-
-  .blog-card__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-size: clamp(15px, 2vw, 17px);
-    font-weight: 600;
-    line-height: 1.35;
-    margin: 0;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-  }
-
-  /* ───────── Shared tag / date atoms ───────── */
-  .blog-date {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--element3);
-    letter-spacing: 0.03em;
-    text-transform: uppercase;
-  }
-
-  .blog-tags {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 6px;
-    margin-top: 4px;
-  }
-
-  .blog-tag {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11px;
-    padding: 2px 8px;
-    border-radius: 4px;
-    border: 1px solid var(--element4);
-    color: var(--syn-cyan);
-    white-space: nowrap;
-  }
-
-  .blog-tag::before {
-    content: '#';
-    opacity: 0.6;
-  }
-
-  /* ───────── Blog CTA ───────── */
-  .blog-cta {
-    display: grid;
-    grid-template-columns: auto 1fr;
-    gap: 32px;
-    align-items: center;
-    padding: 32px;
-    border-radius: 12px;
-    background: var(--surface2);
-    border: 1px solid var(--element4);
-    overflow: hidden;
-  }
-
-  .blog-cta__img :global(img) {
-    border-radius: 8px;
-    max-height: 200px;
-    width: auto;
-  }
-
-  .blog-cta__body :global(h3) {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-size: var(--h4);
-    font-weight: 600;
-    margin: 0 0 12px;
-  }
-
-  .blog-cta__body :global(p) {
-    color: var(--element2);
+    line-height: 1.7;
+    color: var(--ide-dim);
+    max-width: 640px;
     margin: 0 0 20px;
-    line-height: 1.6;
+
+    b { color: var(--ide-text); }
   }
 
-  .blog-cta__links {
-    display: flex;
-    gap: 24px;
-  }
-
-  .cta-link {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--element1);
-    text-decoration: none;
-    border-bottom: 1px solid var(--element4);
-    padding-bottom: 2px;
-    transition: border-color 0.2s;
-  }
-
-  .cta-link:hover {
-    border-bottom-color: var(--primary-color);
-  }
-
-  /* ───────── Hacks strip (CLI flags) ───────── */
-  .hacks-strip {
-    display: flex;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .hack-pill {
-    display: inline-flex;
-    align-items: center;
-    gap: 2px;
-    white-space: nowrap;
-    padding: 10px 18px;
-    border-radius: 8px;
-    border: 1px solid var(--element4);
-    background: var(--surface2);
-    text-decoration: none;
-    color: var(--element1);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 500;
-    font-size: 14px;
-    transition: background 0.25s, border-color 0.25s, color 0.25s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-
-  .hack-pill__flag {
-    color: var(--syn-green);
-    transition: color 0.25s;
-  }
-
-  .hack-pill__arrow {
-    display: inline-block;
-    font-size: 13px;
-    opacity: 0;
-    max-width: 0;
-    overflow: hidden;
-    transition: opacity 0.25s, max-width 0.3s cubic-bezier(0.22, 1, 0.36, 1), margin 0.3s;
-  }
-
-  .hack-pill:hover {
-    background: var(--element1);
-    color: var(--surface1);
-    border-color: var(--element1);
-    transform: translateY(-2px);
-  }
-
-  .hack-pill:hover .hack-pill__flag {
-    color: var(--surface1);
-  }
-
-  .hack-pill:hover .hack-pill__arrow {
-    opacity: 1;
-    max-width: 20px;
-    margin-left: 8px;
-  }
-
-  /* ───────── Bento grid ───────── */
-  .bento {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
-  }
-
-  .bento__card {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    padding: 24px;
-    border-radius: 12px;
-    border: 1px solid var(--element4);
-    background: var(--surface2);
-    text-decoration: none;
-    color: inherit;
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.2s;
-  }
-
-  .bento__card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px -8px var(--card-shadow-color);
-    border-color: var(--element3);
-  }
-
-  .bento__card--wide {
-    grid-column: span 2;
-  }
-
-  .bento__index {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 12px;
-    color: var(--syn-amber);
-  }
-
-  .bento__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-size: var(--h4);
-    font-weight: 600;
+  .readme__quote {
+    border-left: 3px solid var(--syn-red);
     margin: 0;
-  }
-
-  .bento__desc {
+    padding: 6px 0 6px 20px;
+    color: var(--ide-dim);
+    font-style: italic;
     font-size: var(--caption);
-    color: var(--element2);
-    line-height: 1.55;
+  }
+
+  /* ───────── git log ───────── */
+  .gitlog {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .commit {
+    display: grid;
+    grid-template-columns: 28px 1fr;
     margin: 0;
   }
 
-  .bento__arrow {
+  .commit__graph {
+    position: relative;
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: 5px;
+      top: 0;
+      bottom: 0;
+      width: 2px;
+      background: var(--ide-border);
+    }
+  }
+
+  .commit:first-child .commit__graph::before { top: 26px; }
+  .commit:last-child .commit__graph::before { bottom: calc(100% - 26px); }
+
+  .commit__node {
     position: absolute;
     top: 20px;
-    right: 20px;
+    left: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ide-bg);
+    border: 2.5px solid var(--syn-cyan);
+  }
+
+  .commit--head .commit__node {
+    border-color: var(--syn-red);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--syn-red) 18%, transparent);
+  }
+
+  .commit__card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 20px;
+    align-items: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 14px 16px;
+    margin: 2px 0;
+    border-radius: 10px;
+    border: 1px solid transparent;
+    transition: background 0.2s, border-color 0.2s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+
+    &:hover {
+      background: var(--ide-faint);
+      border-color: var(--ide-border);
+      transform: translateX(4px);
+    }
+  }
+
+  .commit--head .commit__card {
+    background: var(--ide-faint);
+    border-color: var(--ide-border);
+
+    &:hover { border-color: var(--syn-red); }
+  }
+
+  .commit__line1 {
+    margin: 0 0 6px;
+    line-height: 1.45;
+  }
+
+  .commit__hash {
     font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--syn-amber);
+    background: none;
+    padding: 0;
+    margin-right: 8px;
+  }
+
+  .commit__ref {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12.5px;
+    color: var(--syn-red);
+    margin-right: 8px;
+  }
+
+  .commit__title {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 600;
+    font-size: clamp(16px, 2.2vw, 19px);
+  }
+
+  .commit__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    margin: 0;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    color: var(--ide-dim);
+  }
+
+  .commit__tag {
+    color: var(--syn-cyan);
+    text-transform: none;
+  }
+
+  .commit__desc {
+    margin: 8px 0 0;
+    font-size: var(--caption);
+    color: var(--ide-dim);
+    line-height: 1.55;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .commit__thumb {
+    width: 140px;
+    border-radius: 8px;
+    overflow: hidden;
+    border: 1px solid var(--ide-border);
+
+    :global(img) {
+      display: block;
+      width: 100%;
+      height: auto;
+      aspect-ratio: 5 / 3;
+      object-fit: cover;
+      transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+  }
+
+  .commit--head .commit__thumb {
+    width: 200px;
+  }
+
+  .commit__card:hover .commit__thumb :global(img) {
+    transform: scale(1.05);
+  }
+
+  /* ───────── projects.json ───────── */
+  .jgrid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+  }
+
+  .jcard {
+    position: relative;
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.65;
+    padding: 16px 18px;
+    border-radius: 10px;
+    border: 1px solid var(--ide-border);
+    background: var(--ide-faint);
+    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s, box-shadow 0.3s;
+
+    &:hover {
+      transform: translateY(-3px);
+      border-color: var(--syn-cyan);
+      box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.35);
+    }
+  }
+
+  .jcard__brace {
+    color: var(--ide-dim);
+    font-weight: 700;
+  }
+
+  .jcard__fields {
+    padding: 2px 0 2px 20px;
+  }
+
+  .jcard__row {
+    margin: 0;
+  }
+
+  .jcard__name {
+    color: var(--ide-text);
+    font-weight: 700;
     font-size: 15px;
-    color: var(--element3);
+  }
+
+  .jcard .j-str {
+    color: var(--syn-green);
+  }
+
+  .jcard__arrow {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    font-size: 14px;
+    color: var(--ide-dim);
     opacity: 0;
     transform: translate(-4px, 4px);
     transition: opacity 0.25s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .bento__card:hover .bento__arrow {
+  .jcard:hover .jcard__arrow {
     opacity: 1;
     transform: translate(0, 0);
+    color: var(--syn-cyan);
   }
 
-  /* ───────── Social ───────── */
-  .ed-social {
-    border-bottom: none;
+  /* ───────── ls -la ───────── */
+  .ls {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14px;
+    border: 1px solid var(--ide-border);
+    border-radius: 10px;
+    overflow: hidden;
   }
 
-  .ed-social .cmd {
-    margin-bottom: 24px;
+  .ls__total {
+    margin: 0;
+    padding: 10px 18px;
+    font-size: 12px;
+    color: var(--ide-dim);
+    background: var(--ide-faint);
+    border-bottom: 1px solid var(--ide-border);
   }
 
-  .social__inner {
+  .ls__row {
+    display: grid;
+    grid-template-columns: 110px 60px 90px 1fr auto;
+    gap: 18px;
+    align-items: center;
+    padding: 12px 18px;
+    text-decoration: none;
+    color: var(--ide-dim);
+    transition: background 0.15s, color 0.15s;
+
+    & + .ls__row { border-top: 1px solid var(--ide-border); }
+
+    &:hover {
+      background: var(--ide-faint);
+      color: var(--ide-text);
+
+      .ls__arrow { opacity: 1; transform: translateX(0); }
+      .ls__name { color: var(--syn-cyan); }
+    }
+  }
+
+  .ls__perm { color: var(--syn-amber); opacity: 0.85; }
+  .ls__owner { opacity: 0.8; }
+  .ls__count { opacity: 0.8; }
+
+  .ls__name {
+    color: var(--ide-text);
+    font-weight: 700;
+    transition: color 0.15s;
+  }
+
+  .ls__arrow {
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: opacity 0.2s, transform 0.25s;
+  }
+
+  /* ───────── socials.yml ───────── */
+  .socials {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
@@ -968,72 +1009,52 @@ const formatDate = (d: Date | string) =>
     flex-wrap: wrap;
   }
 
-  .social__logo-row {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    margin-bottom: 16px;
+  .yml {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 14.5px;
+    line-height: 2.1;
   }
 
-  .social__logo {
+  .yml__row {
     margin: 0;
-    margin-left: -12px;
+
+    a {
+      color: var(--ide-text);
+      text-decoration: none;
+      border-bottom: 1px solid var(--ide-border);
+      padding-bottom: 1px;
+      transition: color 0.2s, border-color 0.2s;
+
+      &:hover {
+        color: var(--syn-cyan);
+        border-bottom-color: var(--syn-cyan);
+      }
+    }
   }
 
-  :global([color-mode='light']) .social__logo {
+  .socials__friends {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    padding-top: 8px;
+  }
+
+  .socials__tagline {
+    font-size: var(--caption);
+    color: var(--ide-dim);
+  }
+
+  .socials__logo {
+    margin: 0 0 0 -12px;
+  }
+
+  :global([color-mode='light']) .socials__logo {
     filter: invert(1);
   }
 
-  .social__tagline {
-    font-size: var(--caption);
-    color: var(--element2);
-    white-space: nowrap;
-  }
-
-  .social__name {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-size: var(--h4);
-    font-weight: 600;
-    margin: 0 0 4px;
-  }
-
-  .social__role {
-    color: var(--element2);
-    font-size: var(--caption);
-    margin: 0;
-  }
-
-  .social__role a {
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  .social__links {
-    display: flex;
-    gap: 24px;
-    flex-wrap: wrap;
-    align-items: center;
-    padding-top: 4px;
-  }
-
-  .social__links a {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--element2);
-    text-decoration: none;
-    border-bottom: 1px solid var(--element4);
-    padding-bottom: 2px;
-    transition: color 0.2s, border-color 0.2s;
-  }
-
-  .social__links a:hover {
-    color: var(--element1);
-    border-bottom-color: var(--element1);
-  }
-
   .eof {
-    margin: 56px 0 0;
+    margin: 48px 0 0;
     font-family: 'JetBrains Mono', monospace;
     font-size: 13px;
     display: flex;
@@ -1042,132 +1063,68 @@ const formatDate = (d: Date | string) =>
     flex-wrap: wrap;
   }
 
-  .eof__exit {
-    color: var(--syn-green);
+  /* ───────── Status bar ───────── */
+  .ide__status {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    padding: 8px 18px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11.5px;
+    color: var(--ide-dim);
+    background: var(--ide-chrome);
+    border-top: 1px solid var(--ide-border);
   }
 
-  /* ───────── Motion preferences ───────── */
+  .ide__status-spacer { flex: 1; }
+
+  /* ───────── Motion prefs ───────── */
   @media (prefers-reduced-motion: reduce) {
-    .reveal,
-    .term__line {
+    .reveal {
       animation: none;
       opacity: 1;
-    }
-
-    .term {
-      animation: none;
     }
   }
 
   /* ───────── Responsive ───────── */
   @media (max-width: 860px) {
-    .hero__layout {
-      grid-template-columns: 1fr;
-      gap: 40px;
-    }
-
-    .hero__visual {
-      justify-self: center;
-      width: 100%;
-      max-width: 420px;
-      margin-top: 0;
-    }
+    .commit--head .commit__thumb { width: 140px; }
   }
 
   @media (max-width: 768px) {
-    .hero {
-      padding: 40px 0 32px;
-    }
+    .ide-wrap { padding: 0 10px 40px; }
 
-    .blog-editorial {
+    .ide__body { padding: 0 18px; }
+
+    .sec { padding: 40px 0; }
+
+    .sec[data-file]::before { transform: translateY(-40px); }
+
+    .jgrid { grid-template-columns: 1fr; }
+
+    .commit__card {
       grid-template-columns: 1fr;
-    }
-
-    .blog-rest {
       gap: 12px;
     }
 
-    .blog-card {
-      grid-template-columns: 90px 1fr;
-      gap: 12px;
-      padding: 8px;
-    }
+    .commit__thumb,
+    .commit--head .commit__thumb { width: 100%; max-width: 300px; }
 
-    .blog-cta {
-      grid-template-columns: 1fr;
-      text-align: center;
-    }
+    .ls__row { grid-template-columns: 1fr auto; gap: 10px; }
+    .ls__perm, .ls__owner, .ls__count { display: none; }
 
-    .blog-cta__img {
-      justify-self: center;
-    }
+    .socials { flex-direction: column; gap: 24px; }
 
-    .blog-cta__links {
-      justify-content: center;
-    }
-
-    .bento {
-      grid-template-columns: 1fr 1fr;
-    }
-
-    .bento__card--wide {
-      grid-column: span 2;
-    }
-
-    .social__inner {
-      flex-direction: column;
-      gap: 24px;
-    }
-
-    .social__links {
-      gap: 16px;
-    }
+    .ide__status { gap: 12px; flex-wrap: wrap; }
   }
 
   @media (max-width: 480px) {
-    .dev-home {
-      padding: 0 16px;
-    }
+    .readme__title { font-size: clamp(38px, 12vw, 56px); }
 
-    .hero__heading {
-      font-size: clamp(44px, 13vw, 64px);
-    }
+    .badges { gap: 6px; }
 
-    .ed-section {
-      padding: 40px 0;
-    }
+    .commit { grid-template-columns: 20px 1fr; }
 
-    .bento {
-      grid-template-columns: 1fr;
-    }
-
-    .bento__card--wide {
-      grid-column: span 1;
-    }
-
-    .blog-card {
-      grid-template-columns: 1fr;
-    }
-
-    .blog-card__img {
-      aspect-ratio: 16 / 9;
-    }
-
-    .hacks-strip {
-      gap: 8px;
-    }
-
-    .hack-pill {
-      padding: 8px 14px;
-      font-size: 13px;
-    }
-
-    .blog-cta {
-      padding: 20px;
-    }
-
-    .term__body {
-      font-size: 12px;
-    }
+    .yml { font-size: 13px; }
   }
 </style>
