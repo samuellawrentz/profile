@@ -1,7 +1,7 @@
 #!/usr/bin/env bun
 import { generateImage } from "image-gen";
 import type { AspectRatio, ImageType } from "image-gen";
-import { systemPrompt } from "./image-prompt";
+import { systemPrompt, hardConstraints } from "./image-prompt";
 
 const args = process.argv.slice(2);
 
@@ -82,7 +82,7 @@ console.log(`Prompt: ${prompt}\n`);
 
 try {
   const result = await generateImage({
-    prompt,
+    prompt: `${prompt}. ${hardConstraints}`,
     type,
     aspectRatio,
     outputName,

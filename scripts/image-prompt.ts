@@ -1,17 +1,25 @@
+// Enforceable non-negotiables. gemini-2.5-flash-image follows systemInstruction
+// only weakly, so these are appended to every PROMPT (the channel it actually
+// obeys) by scripts/generate-image.ts. Keep them short and absolute.
+export const hardConstraints =
+  "DARK MODE ONLY: deep near-black slate background, never light or white. " +
+  "Flat or semi-flat vector illustration only, never photorealistic, never a 3D render, never neon or cyberpunk glow. " +
+  "ABSOLUTELY NO TEXT anywhere: no letters, words, numbers, labels, captions, UI text, or code characters. Shapes must be blank.";
+
 export const systemPrompt = `**Visual Style Guidelines for samuellawrentz.com Portfolio:**
 
 **Core Aesthetic:**
 - Clean, modern, professional developer blog
 - Minimalist with purposeful detail - no clutter
-- Color palette: deep slate blues, cool teals, muted purples, warm accents (amber/coral sparingly)
-- Semi-flat illustration style with subtle depth (soft shadows, gentle gradients)
-- Must look good on both dark and light backgrounds
+- Dark mode only: always a deep, near-black slate background (never light or white)
+- Color palette: cool teals, muted purples, slate blues, warm accents (amber/coral sparingly) against the dark background
+- Flat/semi-flat illustration with subtle depth only (soft shadows, gentle gradients) - shapes, not renders
 
 **Subject Matter:**
-- Abstract representations of technical concepts (not literal screenshots)
-- Geometric patterns, flowing data streams, node graphs
-- Code fragments as decorative elements (not readable code)
-- Developer workspace motifs: terminals, editors, component trees
+- Abstract representations of technical concepts (not literal screenshots, dashboards, or editors)
+- Geometric shapes, flowing lines, node graphs, interconnected systems
+- Suggest code or UI through blank rectangles, bars, and shapes only - never actual characters or letters
+- Developer workspace motifs as simple silhouettes: terminals, editors, component trees
 - Conceptual metaphors: building blocks, interconnected systems, flow diagrams
 
 **Composition:**
@@ -20,16 +28,13 @@ export const systemPrompt = `**Visual Style Guidelines for samuellawrentz.com Po
 - Leave breathing room - avoid edge-to-edge detail
 - Subtle texture or grain for warmth
 
-**Typography Integration:**
-- Do NOT include any text, labels, or typography in the image
-- The image should work as a pure visual without words
-
 **Avoid:**
+- Any text, lettering, or symbols that read as writing
+- Literal UI (dashboards, code editors, screenshots) that tempt the model into rendering text
 - Generic stock imagery (handshakes, people pointing at screens)
+- Photorealism, 3D renders, glossy neon, cyberpunk aesthetics
 - Overly busy or cluttered compositions
-- Neon/cyberpunk aesthetics
-- Photorealistic style - keep it illustrative
 - AI-generated artifacts, extra fingers, distorted elements
 - Bright saturated colors that clash with a muted palette
 
-**Mood:** Thoughtful, expert, approachable. Like a well-designed conference talk slide - technical depth presented with visual elegance.`;
+**Mood:** Thoughtful, expert, approachable. Like a well-designed dark conference talk slide - technical depth presented with visual elegance.`;
