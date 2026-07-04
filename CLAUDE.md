@@ -2,6 +2,15 @@
 
 Personal portfolio and blog site built with Astro 5.
 
+## Writing Blog Posts
+
+Before writing or editing any blog post, read **BOTH**:
+
+1. This file (structure, routing, frontmatter, hero-image workflow).
+2. **[`src/content/blog/.CLAUDE.md`](src/content/blog/.CLAUDE.md)** - the authoritative voice/style guide derived from all 30+ posts. It defines the conversational, self-deprecating voice, the 300-700 word target (900 hard max), banned AI-tell words (leverage, utilize, delve, "game changer", etc.), and the structure/punctuation rules.
+
+Do not write from the top-level conventions alone - the voice guide is where posts actually pass or fail. (A stale `.cursor/rules/blog-creation-rule.mdc` also exists but contradicts the voice guide in places; prefer `blog/.CLAUDE.md`.)
+
 ## Tech Stack
 
 - **Framework**: Astro 5 with MDX
