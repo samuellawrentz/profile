@@ -476,61 +476,6 @@ const tabs = [
     color: var(--syn-cyan);
   }
 
-  /* ───────── ls -la ───────── */
-  .ls {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    border: 1px solid var(--ide-border);
-    border-radius: 10px;
-    overflow: hidden;
-  }
-
-  .ls__total {
-    margin: 0;
-    padding: 10px 18px;
-    font-size: 12px;
-    color: var(--ide-dim);
-    background: var(--ide-faint);
-    border-bottom: 1px solid var(--ide-border);
-  }
-
-  .ls__row {
-    display: grid;
-    grid-template-columns: 110px 60px 90px 1fr auto;
-    gap: 18px;
-    align-items: center;
-    padding: 12px 18px;
-    text-decoration: none;
-    color: var(--ide-dim);
-    transition: background 0.15s, color 0.15s;
-
-    & + .ls__row { border-top: 1px solid var(--ide-border); }
-
-    &:hover {
-      background: var(--ide-faint);
-      color: var(--ide-text);
-
-      .ls__arrow { opacity: 1; transform: translateX(0); }
-      .ls__name { color: var(--syn-cyan); }
-    }
-  }
-
-  .ls__perm { color: var(--syn-amber); opacity: 0.85; }
-  .ls__owner { opacity: 0.8; }
-  .ls__count { opacity: 0.8; }
-
-  .ls__name {
-    color: var(--ide-text);
-    font-weight: 700;
-    transition: color 0.15s;
-  }
-
-  .ls__arrow {
-    opacity: 0;
-    transform: translateX(-6px);
-    transition: opacity 0.2s, transform 0.25s;
-  }
-
   /* ───────── socials.yml ───────── */
   .socials {
     display: flex;
@@ -597,9 +542,6 @@ const tabs = [
   /* ───────── Responsive ───────── */
   @media (max-width: 768px) {
     .jgrid { grid-template-columns: 1fr; }
-
-    .ls__row { grid-template-columns: 1fr auto; gap: 10px; }
-    .ls__perm, .ls__owner, .ls__count { display: none; }
 
     .socials { flex-direction: column; gap: 24px; }
   }
