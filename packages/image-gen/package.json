@@ -1,0 +1,15 @@
+{
+  "name": "image-gen",
+  "version": "1.0.0",
+  "module": "src/index.ts",
+  "types": "src/index.ts",
+  "bin": {
+    "image-gen": "bin/cli.ts"
+  },
+  "dependencies": {
+    "@google/genai": "^1.0.0"
+  },
+  "devDependencies": {
+    "@types/bun": "^1.3.9"
+  }
+}

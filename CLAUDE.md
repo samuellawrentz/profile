@@ -18,7 +18,7 @@ bun install          # Install dependencies
 bun run dev          # Start dev server (localhost:4321)
 bun run build        # Build (runs OG image generation first via prebuild)
 bun run preview      # Preview production build
-bun run gen:image    # Generate a blog/figure image with the linked image-gen tool
+bun run gen:image    # Generate a blog/figure image (packages/image-gen, needs GOOGLE_AI_API_KEY)
 ```
 
 ## Project Structure
@@ -42,7 +42,7 @@ src/
   components/         # Banner, Footer, GiscusComments, SEO, SessionTimer, ThemeToggle
   styles/             # global.scss, variables.scss, heart.scss, typography.scss, responsive.scss
 scripts/
-  generate-image.ts      # Wrapper around linked image-gen module for blog/figure art
+  generate-image.ts      # Wrapper around packages/image-gen for blog/figure art
   generate-og-images.cjs  # Node-canvas OG image generator (prebuild)
 public/
   og-images/          # Generated OG images (PNG, not in src/ to avoid WebP conversion)
