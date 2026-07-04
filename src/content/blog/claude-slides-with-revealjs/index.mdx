@@ -1,0 +1,79 @@
+---
+title: "Make Claude Build Your Slides with reveal.js, Not a Design Tool"
+date: 2026-07-04
+path: /blog/claude-slides-with-revealjs/
+published: true
+heroImage: ./header.png
+tags: [claude-code, ai, revealjs, slides, productivity]
+description: "Claude's slide feature makes pretty decks you can't edit or diff. Have it write reveal.js and markdown instead, and your slides become a text file you version control."
+---
+
+As a team lead I make a stupid number of slide decks. Sprint reviews, planning, status updates, the occasional tech talk. So when Claude got good at generating slides, I was thrilled for about a day.
+
+Then reality set in. The decks looked great and were completely rigid. I couldn't diff them, couldn't tweak one bullet without regenerating the whole thing, couldn't keep them next to the code they were about. Pretty, and stuck.
+
+Then I saw [a tip from Rhys Sullivan](https://x.com/RhysSullivan/status/2060962833857470851): don't use Claude's design feature for slides, have it write reveal.js with markdown instead. I tried it that afternoon and it fixed every complaint I had. A reveal.js deck is nothing but HTML and markdown, and markdown is the one thing Claude is genuinely great at.
+
+## Why markdown slides win
+
+- **They're a text file.** I keep the deck in the repo next to the thing it's about, diff it in the PR, and it lives in git like everything else.
+- **Editing is typing.** No dragging boxes around a canvas. Change a line, done.
+- **Claude is better at it.** It writes clean markdown all day. Pixel-perfect layout is where it flails.
+- **Batteries included.** reveal.js gives you speaker notes, code highlighting, fragments, and export to PDF for free.
+
+## The whole setup
+
+One self-contained HTML file. This is the entire thing:
+
+````html
+<!doctype html>
+<html>
+  <head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.css" />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js/dist/theme/black.css" />
+  </head>
+  <body>
+    <div class="reveal"><div class="slides">
+      <section data-markdown>
+        <textarea data-template>
+          ## Q3 Review
+          Sam, Platform team
+          ---
+          ## What shipped
+          - Auth rewrite, 40% fewer errors
+          - New billing flow
+          ---
+          ## The one graph that matters
+          ```js
+          errorRate.drop(0.4)
+          ```
+        </textarea>
+      </section>
+    </div></div>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/dist/reveal.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/reveal.js/plugin/markdown/markdown.js"></script>
+    <script>Reveal.initialize({ plugins: [RevealMarkdown] });</script>
+  </body>
+</html>
+````
+
+The format is the easy part. `---` starts a new slide, `--` nests one below it, and everything between is plain markdown. Bullets, code blocks, images, all of it.
+
+## The prompt that does the work
+
+I don't hand-write the slides. I hand Claude the template and let it fill the `textarea`:
+
+```text
+Here's my reveal.js template. Fill the <textarea> with a deck for my Q3
+platform review. Slides split by ---. Keep bullets to three max. Add a
+code slide showing the error-rate drop, and a closing slide with next
+quarter's bets. Don't touch anything outside the textarea.
+```
+
+It nails it, because you've handed it a markdown-shaped problem instead of a design one. I skim the output, rewrite the two slides I care about by asking it to redo just those, and I'm presenting in minutes.
+
+<aside class="banner banner-info">
+For a polished external or marketing deck where the design is the point, a real design tool still wins. This is for internal decks, reviews, and talks, where speed and version control beat pixel-perfect.
+</aside>
+
+My decks are text files now. They diff, they live in the repo, and Claude does the boring part. I'm not going back to dragging boxes.
