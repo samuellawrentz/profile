@@ -4,13 +4,13 @@ date: 2026-07-05
 heroImage: ./header.png
 path: /blog/being-cheap-with-your-tools/
 published: true
-tags: [productivity, developer-life, tools, mindset]
-description: "I wore never paying for software like a badge of honor. It was actually the most expensive habit I had. A developer's case against being cheap with your own tools."
+tags: [productivity, developer-tools, developer-life, mindset, career]
+description: "I wore never paying for software like a badge of honor. It was actually the most expensive habit I had. A developer's case against the false economy of being cheap with your own tools."
 ---
 
 For years I wore it like a badge. I never paid for software. Free tier of everything, the trial I kept resetting with a new email, the fifteen tabs of the paid feature I refused to unlock for nine dollars a month. I thought I was being clever. I was being broke in the one currency I could not get back, which is time.
 
-I read a piece by [Tim Denning](https://x.com/Tim_Denning/) about how being cheap keeps you broke, and it read like a personal attack. So here is my version, aimed squarely at us developers, because we are some of the worst offenders.
+And nobody falls into this trap harder than developers. We are some of the worst offenders, so here is the case, aimed squarely at us.
 
 ## The price you see is not the cost
 
