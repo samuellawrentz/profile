@@ -4,13 +4,13 @@ date: 2026-07-05
 heroImage: ./header.png
 path: /blog/local-ci-with-gh-signoff/
 published: true
-tags: [ci, github, cli, workflow, productivity]
-description: "A GitHub CLI extension from Basecamp that lets you run tests on your own fast laptop and sign off with a green commit status, instead of waiting on slow cloud CI."
+tags: [ci, local-ci, github, cli, testing, workflow, productivity]
+description: "Local CI with gh-signoff, a GitHub CLI extension from Basecamp. Run your tests on your own fast laptop and sign off with a green commit status instead of waiting on slow, rented cloud CI."
 ---
 
 I have spent more of my life than I want to admit staring at a spinning yellow dot on a pull request. Push, wait, go make coffee, come back, it failed on a lint rule, push again, wait again. The whole time my laptop, the same machine that ran those exact tests in eight seconds locally, is sitting there doing absolutely nothing.
 
-Then I bookmarked a tweet from Cory House and it pointed me to `gh-signoff`, a tiny thing from the Basecamp folks. The idea is almost rude in how simple it is.
+Then I found `gh-signoff`, a tiny thing from the Basecamp folks. The idea is almost rude in how simple it is.
 
 ## The whole pitch in one line
 

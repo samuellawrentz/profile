@@ -1,18 +1,18 @@
 ---
-title: "The Part of the Job AI Can't Grade"
+title: "The Part of the Job AI Can't Grade - A Developer's Edge in the Age of AI"
 date: 2026-07-06
 heroImage: ./header.png
 path: /blog/the-part-of-the-job-ai-cant-grade/
 published: true
-tags: [career, developer-life, ai, mindset]
-description: "School graded us on solving well-defined problems. Then the machines got great at exactly that. Here is what I think actually matters for a developer's career now."
+tags: [career, developer-life, ai, software-engineering, mindset]
+description: "School graded us on solving well-defined problems, then AI got great at exactly that. Here is what actually matters for a developer's career now: finding the right problems, the last mile, and taste."
 ---
 
 I used to quietly believe that being a good engineer meant being the fastest one to solve the ticket. Hand me a well-defined problem and I would race you to the green checkmark. That was my whole identity for a while.
 
 Then the machines got really, really good at solving well-defined problems. I watched Claude close a bug in about the time it took me to finish reading the description. Small existential wobble. If the thing I was proud of is now a commodity, what exactly am I bringing?
 
-Then I read a piece by [Phil Chen](https://x.com/philhchen/) on career advice in the age of AI, and one line reorganized my head. The work that stays valuable is the work that cannot be graded by a loss function.
+Then something clicked, and it reorganized my head. The work that stays valuable is the work that cannot be graded by a loss function.
 
 ## School optimized us for the wrong thing
 
@@ -30,6 +30,6 @@ Here is the uncomfortable part. AI hands you a competent, slightly soulless medi
 
 ## What's actually scarce
 
-Not code. Not compute. Those got cheap. What stayed scarce is your time, the trust of the people you work with, and your reputation. I spent years guarding my code like it was precious and treating relationships as a nice-to-have. I had it exactly backwards.
+Not code. Not compute. Those got cheap. What stayed scarce is your time, the trust of the people you work with, and your reputation. I spent years guarding my code like it was precious and treating relationships as a nice-to-have. I had it exactly backwards. I wrote before about how [being cheap with your tools is a tax on that same time](/blog/being-cheap-with-your-tools/), and this is the bigger version of that idea.
 
 The machines took the part of the job that had an answer key. Honestly, good riddance. What they left behind is the interesting part, the part that was always the actual job.
