@@ -20,9 +20,9 @@ Containers boot in milliseconds and cost almost nothing, but they share a kernel
 
 ## MicroVMs quietly deleted the tradeoff
 
-A microVM is a virtual machine on a diet. Minimal virtual hardware, a lean guest kernel, KVM doing the real work underneath. AWS started this with Firecracker to run Lambda. The payoff is a genuine hardware-backed kernel boundary that boots in tens of milliseconds instead of seconds.
+A microVM is a virtual machine on a diet. Minimal virtual hardware, a lean guest kernel, KVM doing the real work underneath. AWS started this with [Firecracker](https://firecracker-microvm.github.io/) to run Lambda. The payoff is a genuine hardware-backed kernel boundary that boots in tens of milliseconds instead of seconds.
 
-The one that made me sit up is CubeSandbox, which Tencent just open-sourced under Apache 2.0, built on RustVMM and KVM. Cold start under 60ms, versus roughly 200ms for Docker. Around 5MB of memory overhead per instance, so a single box runs thousands of them. Every sandbox gets its own guest kernel, so the whole category of container-escape bugs simply does not apply. Network isolation between sandboxes is handled with eBPF.
+The one that made me sit up is [CubeSandbox](https://github.com/TencentCloud/CubeSandbox), which Tencent just open-sourced under Apache 2.0, built on RustVMM and KVM. Cold start under 60ms, versus roughly 200ms for Docker. Around 5MB of memory overhead per instance, so a single box runs thousands of them. Every sandbox gets its own guest kernel, so the whole category of container-escape bugs simply does not apply. Network isolation between sandboxes is handled with eBPF.
 
 ## Why this is bigger than the AI hype
 
