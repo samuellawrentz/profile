@@ -10,7 +10,7 @@ description: "Local CI with gh-signoff, a GitHub CLI extension from Basecamp. Ru
 
 I have spent more of my life than I want to admit staring at a spinning yellow dot on a pull request. Push, wait, go make coffee, come back, it failed on a lint rule, push again, wait again. The whole time my laptop, the same machine that ran those exact tests in eight seconds locally, is sitting there doing absolutely nothing.
 
-Then I found `gh-signoff`, a tiny thing from the Basecamp folks. The idea is almost rude in how simple it is.
+Then I found [`gh-signoff`](https://github.com/basecamp/gh-signoff), a tiny thing from the Basecamp folks. The idea is almost rude in how simple it is.
 
 ## The whole pitch in one line
 

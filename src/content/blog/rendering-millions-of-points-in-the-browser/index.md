@@ -37,7 +37,7 @@ When you truly have millions of points, you hand the work to the GPU with WebGL.
 
 Here is the thing I wish someone had smacked me with years earlier. Your chart is maybe a thousand pixels wide. If you are plotting fifteen million points into a thousand pixels, you are stacking fifteen thousand points onto every single column of pixels. The screen physically cannot show them. You are burning a GPU to draw things no human will ever see.
 
-So do not. Downsample before you draw. The algorithm to know is LTTB, short for Largest Triangle Three Buckets. It walks your data in buckets and keeps the one point per bucket that best preserves the shape of the line, tossing the visually redundant rest. In one common benchmark it takes 130,000 points down to 750 and the chart looks identical, while the payload drops from 1.5MB to 13KB.
+So do not. Downsample before you draw. The algorithm to know is [LTTB](https://github.com/sveinn-steinarsson/flot-downsample), short for Largest Triangle Three Buckets. It walks your data in buckets and keeps the one point per bucket that best preserves the shape of the line, tossing the visually redundant rest. In one common benchmark it takes 130,000 points down to 750 and the chart looks identical, while the payload drops from 1.5MB to 13KB.
 
 Most of the time you do not need canvas or WebGL at all. You need to stop shipping a million points to a chart that can only ever show a thousand. This is the same lesson as most [frontend performance work](/blog/frontend-performance-optimisation-enhancement/), which is that the fastest work is the work you talked yourself out of doing.
 
