@@ -100,7 +100,7 @@ const tabs = [
       <p class="readme__crumb reveal" style="--r:0">
         <span class="y-key">samuellawrentz</span> / <b>README.md</b>
       </p>
-      <h1 class="readme__title reveal" style="--r:1">Samuel<br />Lawrentz</h1>
+      <h1 class="readme__title reveal" style="--r:1">Samuel<br />Lawrentz<span class="readme__title-reveal" aria-hidden="true">Samuel<br />Lawrentz</span></h1>
 
       <div class="badges reveal" style="--r:2">
         <span class="badge"><span class="badge__k">role</span><span class="badge__v badge__v--red">engineer · team lead</span></span>
@@ -305,6 +305,53 @@ const tabs = [
     }
     tick();
   }
+
+  // Spotlight / flashlight cursor reveal on the hero title
+  const heroSection = document.getElementById('readme');
+  const heroTitle = heroSection?.querySelector<HTMLElement>('.readme__title');
+  const heroReveal = heroTitle?.querySelector<HTMLElement>('.readme__title-reveal');
+  const finePointer = window.matchMedia('(pointer: fine)').matches;
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  if (heroSection && heroTitle && heroReveal && finePointer && !reducedMotion) {
+    heroSection.classList.add('spotlight-on');
+
+    let raf = 0;
+    let secX = 0;
+    let secY = 0;
+    let titleX = -9999;
+    let titleY = -9999;
+
+    const apply = () => {
+      raf = 0;
+      heroSection.style.setProperty('--mx', `${secX}px`);
+      heroSection.style.setProperty('--my', `${secY}px`);
+      heroTitle.style.setProperty('--mx', `${titleX}px`);
+      heroTitle.style.setProperty('--my', `${titleY}px`);
+    };
+    const schedule = () => {
+      if (!raf) raf = requestAnimationFrame(apply);
+    };
+
+    heroSection.addEventListener('pointermove', (e) => {
+      const sr = heroSection.getBoundingClientRect();
+      secX = e.clientX - sr.left;
+      secY = e.clientY - sr.top;
+      const tr = heroTitle.getBoundingClientRect();
+      titleX = e.clientX - tr.left;
+      titleY = e.clientY - tr.top;
+      heroReveal.style.opacity = '1';
+      schedule();
+    });
+
+    heroSection.addEventListener('pointerleave', () => {
+      // gently park the spotlight: fade the bright layer out, move it off-screen
+      heroReveal.style.opacity = '0';
+      titleX = -9999;
+      titleY = -9999;
+      schedule();
+    });
+  }
 </script>
 
 <style lang="scss">
@@ -335,6 +382,60 @@ const tabs = [
       content: '# ';
       color: var(--syn-red);
       font-weight: 700;
+    }
+  }
+
+  /* ── Spotlight hero reveal (only active when JS adds .spotlight-on) ── */
+  .readme__title-reveal {
+    display: none; /* fallback: no overlay unless the effect is on */
+  }
+
+  .sec--readme.spotlight-on {
+    position: relative;
+
+    /* subtle cursor-following background glow, behind the text */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      background: radial-gradient(
+        circle 320px at var(--mx, 50%) var(--my, 50%),
+        color-mix(in srgb, var(--syn-cyan) 8%, transparent),
+        color-mix(in srgb, var(--syn-amber) 6%, transparent) 45%,
+        transparent 70%
+      );
+    }
+
+    .readme__title {
+      position: relative;
+      color: color-mix(in srgb, var(--ide-text) 35%, transparent); /* barely lit base */
+
+      &::before {
+        color: color-mix(in srgb, var(--syn-red) 35%, transparent);
+      }
+    }
+
+    .readme__title-reveal {
+      display: block;
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(120deg, var(--syn-red), var(--syn-amber), var(--syn-cyan));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      -webkit-text-fill-color: transparent;
+      filter: drop-shadow(0 0 14px color-mix(in srgb, var(--syn-amber) 40%, transparent));
+      -webkit-mask-image: radial-gradient(circle 140px at var(--mx, -9999px) var(--my, -9999px), #000 0%, #000 40%, transparent 75%);
+      mask-image: radial-gradient(circle 140px at var(--mx, -9999px) var(--my, -9999px), #000 0%, #000 40%, transparent 75%);
+      transition: opacity 0.45s ease;
+
+      &::before {
+        content: '# ';
+        font-weight: 700;
+      }
     }
   }
 
