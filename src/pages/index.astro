@@ -1,20 +1,13 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
-import IdeWindow from '../components/IdeWindow.astro';
 import { getCollection } from 'astro:content';
-import { Image } from 'astro:assets';
-import friendsLogoImg from '../assets/home/friends_logo.png';
-import { formatDate, hashOf } from '../utils/blog';
+import { formatDate } from '../utils/blog';
 
 const allBlogPosts = await getCollection('blog', ({ data }) => data.published === true);
 const latestPosts = allBlogPosts
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime())
   .slice(0, 5);
-
-const featuredPost = allBlogPosts.find((p) => p.data.featured === true);
-const featured = featuredPost ?? latestPosts[0];
-const commits = [featured, ...latestPosts.filter((p) => p.id !== featured?.id)].slice(0, 5);
 
 const allHacks = await getCollection('hacks', ({ data }) => data.published === true);
 const hackCategories = ['react', 'neovim', 'philosophy', 'microfrontend', 'software-philosophy'];
@@ -24,63 +17,21 @@ const hackCounts = Object.fromEntries(
 const totalHacks = allHacks.length;
 
 const projects = [
-  {
-    title: 'clipssh',
-    description: 'Send clipboard screenshots to remote SSH hosts. Perfect for Claude Code over SSH.',
-    tech: ['CLI', 'SSH', 'Clipboard'],
-    link: 'https://github.com/samuellawrentz/clipssh',
-  },
-  {
-    title: 'kron',
-    description: 'krontab.xyz - Cron, but it actually tells you what happened. A smarter cron runner with logging and notifications.',
-    tech: ['CLI', 'Cron', 'Rust'],
-    link: 'https://krontab.xyz/',
-  },
-  {
-    title: 'JIRA Commit Helper',
-    description: 'A VSCode extension that supercharges your Git workflow by integrating JIRA ticket IDs into commit messages automatically.',
-    tech: ['VSCode Extension', 'TypeScript', 'JIRA API'],
-    link: 'https://marketplace.visualstudio.com/items?itemName=samuellawrentz.jira-commit-helper',
-  },
-  {
-    title: 'Quotes Generator',
-    description: 'A browser-based image quote generator that creates beautiful quote images with Unsplash backgrounds. No login required.',
-    tech: ['React', 'Canvas API', 'Unsplash'],
-    link: '/projects/quotes-generator/',
-  },
-  {
-    title: 'React Highlight Textbox',
-    description: 'A React component that highlights specific words or patterns inside a text input in real-time.',
-    tech: ['React', 'CSS', 'npm'],
-    link: 'https://www.npmjs.com/package/react-highlight-textbox',
-  },
-  {
-    title: 'rc-json-editor',
-    description: 'A lightweight, dependency-free JSON editor component for React with syntax highlighting and validation.',
-    tech: ['React', 'TypeScript', 'npm'],
-    link: 'https://www.npmjs.com/package/rc-json-editor',
-  },
-  {
-    title: 'commit-helper',
-    description: 'A CLI tool to streamline git commit message generation with JIRA integration and conventional commits support.',
-    tech: ['Node.js', 'CLI', 'Git'],
-    link: 'https://github.com/samuellawrentz/commit-helper',
-  },
-  {
-    title: 'PastTenser',
-    description: 'A fun API that returns the past tense of any English verb. Built with NodeJS and hosted as a public endpoint.',
-    tech: ['Node.js', 'Express', 'REST API'],
-    link: '/projects/pasttenser/',
-  },
+  { title: 'clipssh', what: 'Send clipboard screenshots to remote SSH hosts.', link: 'https://github.com/samuellawrentz/clipssh' },
+  { title: 'kron', what: 'Cron, but it actually tells you what happened.', link: 'https://krontab.xyz/' },
+  { title: 'jira-commit-helper', what: 'VSCode extension that puts JIRA ids into commits automatically.', link: 'https://marketplace.visualstudio.com/items?itemName=samuellawrentz.jira-commit-helper' },
+  { title: 'quotes-generator', what: 'Browser image quote generator with Unsplash backgrounds.', link: '/projects/quotes-generator/' },
+  { title: 'react-highlight-textbox', what: 'Highlight words or patterns inside a text input in real time.', link: 'https://www.npmjs.com/package/react-highlight-textbox' },
+  { title: 'rc-json-editor', what: 'Lightweight, dependency-free JSON editor for React.', link: 'https://www.npmjs.com/package/rc-json-editor' },
+  { title: 'pasttenser', what: 'A tiny API that returns the past tense of any English verb.', link: '/projects/pasttenser/' },
 ];
 
-const tabs = [
-  { label: 'README.md', href: '#readme', active: true },
-  { label: 'blog.log', href: '#blog' },
-  { label: 'projects.json', href: '#projects' },
-  { label: 'hacks/', href: '#hacks' },
-  { label: 'socials.yml', href: '#socials' },
-];
+// Derive a terminal-style file name from a post path, e.g. /blog/foo/ -> foo.md
+const fileName = (p?: string) => `${(p ?? '').replace(/\/+$/, '').split('/').filter(Boolean).pop() ?? 'post'}.md`;
+
+// staggered reveal helper
+let r = 0;
+const next = () => r++;
 ---
 
 <BaseLayout
@@ -93,183 +44,109 @@ const tabs = [
     description="Samuel Lawrentz - Engineer and team lead building pixel-perfect UIs and end-to-end systems. Writing about React, TypeScript, CSS, and the craft of software."
   />
 
-  <IdeWindow tabs={tabs}>
+  <div class="home">
+    <p class="home__path reveal" style={`--r:${next()}`}>
+      <span class="g">~/samuellawrentz</span> <span class="home__branch">on</span> <span class="b">main</span>
+    </p>
 
-    <!-- README.md -->
-    <section id="readme" class="sec sec--readme">
-      <p class="readme__crumb reveal" style="--r:0">
-        <span class="y-key">samuellawrentz</span> / <b>README.md</b>
+    <!-- $ whoami -->
+    <section class="hero">
+      <p class="cmd reveal" style={`--r:${next()}`}><span class="g">$</span> whoami</p>
+      <h1 class="hero__name reveal" style={`--r:${next()}`}>Samuel Lawrentz</h1>
+      <p class="hero__role reveal" style={`--r:${next()}`}>engineer · team lead · 9+ years</p>
+      <p class="hero__type reveal" style={`--r:${next()}`}>
+        <span class="g">→</span> <span id="tagline"></span><span class="caret" aria-hidden="true"></span>
       </p>
-      <h1 class="readme__title reveal" style="--r:1">Samuel<br />Lawrentz<span class="readme__title-reveal" aria-hidden="true">Samuel<br />Lawrentz</span></h1>
-
-      <div class="badges reveal" style="--r:2">
-        <span class="badge"><span class="badge__k">role</span><span class="badge__v badge__v--red">engineer · team lead</span></span>
-        <span class="badge"><span class="badge__k">stack</span><span class="badge__v badge__v--cyan">react · ts · node</span></span>
-        <span class="badge"><span class="badge__k">exp</span><span class="badge__v badge__v--green">9+ years</span></span>
-        <span class="badge"><span class="badge__k">status</span><span class="badge__v badge__v--amber">always building</span></span>
-      </div>
-
-      <p class="readme__type reveal" style="--r:3">
-        <span class="t-green">$</span> <span id="tagline"></span><span class="type-caret" aria-hidden="true"></span>
-      </p>
-
-      <p class="readme__bio reveal" style="--r:4">
-        <b>Engineer</b> who builds - pixel-perfect UIs, end-to-end systems, and design systems that scale.
+      <p class="hero__bio reveal" style={`--r:${next()}`}>
+        Engineer who builds - pixel-perfect UIs, end-to-end systems, and design systems that scale.
         Turning complex problems into elegant, maintainable solutions.
       </p>
-
-      <blockquote class="readme__quote reveal" style="--r:5">
-        "Simplicity is the ultimate sophistication in code."
-      </blockquote>
     </section>
 
-    <!-- blog.log -->
-    <section id="blog" class="sec" data-file="blog.log">
-      <header class="sec__head">
-        <div>
-          <p class="cmd"><span class="t-green">$</span> git log --oneline ./blog</p>
-          <h2 class="sec__title">Blog</h2>
-        </div>
-        <a href="/blog/" class="sec__link">cd /blog →</a>
+    <!-- $ ls ./writing -->
+    <section class="blk">
+      <header class="blk__head">
+        <p class="cmd"><span class="g">$</span> ls ./writing</p>
+        <a href="/blog/" class="blk__link">cd ./blog →</a>
       </header>
-
-      <ol class="gitlog">
-        {commits.map((post, i) => (
-          <li class:list={['commit', { 'commit--head': i === 0 }]}>
-            <span class="commit__graph" aria-hidden="true"><i class="commit__node"></i></span>
-            <a href={post.data.path} class="commit__card">
-              <div class="commit__main">
-                <p class="commit__line1">
-                  <code class="commit__hash">{hashOf(post.data.title)}</code>
-                  {i === 0 && <span class="commit__ref">(HEAD → latest)</span>}
-                  <span class="commit__title">{post.data.title}</span>
-                </p>
-                <p class="commit__meta">
-                  <span>{formatDate(post.data.date)}</span>
-                  {post.data.tags.slice(0, 3).map((tag: string) => (
-                    <span class="commit__tag">tag: {tag}</span>
-                  ))}
-                </p>
-                {i === 0 && post.data.description && (
-                  <p class="commit__desc">{post.data.description}</p>
-                )}
-              </div>
-              {post.data.heroImage && (
-                <div class="commit__thumb">
-                  <Image src={post.data.heroImage} alt={post.data.title} width={280} height={168} />
-                </div>
-              )}
+      <ul class="rows">
+        {latestPosts.map((post) => (
+          <li class="row">
+            <a href={post.data.path} class="row__link">
+              <span class="row__name">{fileName(post.data.path)}</span>
+              <span class="row__mid">{post.data.title}</span>
+              <span class="row__meta">{formatDate(post.data.date)}</span>
+              <span class="row__arrow" aria-hidden="true">→</span>
             </a>
           </li>
         ))}
-      </ol>
-
-      <p class="sec__foot">
-        <span class="t-green">$</span> echo "new post every month" · <a href="/blog/">all posts →</a> · <a href="/rss.xml">rss ↗</a>
-      </p>
+      </ul>
+      <p class="blk__foot"><span class="g">$</span> echo "new post every month" · <a href="/rss.xml">rss ↗</a></p>
     </section>
 
-    <!-- projects.json -->
-    <section id="projects" class="sec" data-file="projects.json">
-      <header class="sec__head">
-        <div>
-          <p class="cmd"><span class="t-green">$</span> cat projects.json | jq '.'</p>
-          <h2 class="sec__title">Projects</h2>
-        </div>
+    <!-- $ ls ./projects -->
+    <section class="blk">
+      <header class="blk__head">
+        <p class="cmd"><span class="g">$</span> ls ./projects</p>
+        <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer" class="blk__link">github ↗</a>
       </header>
-
-      <div class="jgrid">
-        {projects.map((project) => (
-          <a
-            href={project.link}
-            target={project.link.startsWith('http') ? '_blank' : '_self'}
-            rel="noreferrer"
-            class="jcard"
-          >
-            <span class="jcard__brace" aria-hidden="true">&#123;</span>
-            <div class="jcard__fields">
-              <p class="jcard__row">
-                <span class="j-key">"name"</span><span class="j-punc">:</span>
-                <span class="jcard__name">"{project.title}"</span><span class="j-punc">,</span>
-              </p>
-              <p class="jcard__row">
-                <span class="j-key">"what"</span><span class="j-punc">:</span>
-                <span class="j-str">"{project.description}"</span><span class="j-punc">,</span>
-              </p>
-              <p class="jcard__row">
-                <span class="j-key">"stack"</span><span class="j-punc">: [</span>
-                {project.tech.map((t, ti) => (
-                  <><span class="j-val">"{t}"</span>{ti < project.tech.length - 1 && <span class="j-punc">, </span>}</>
-                ))}
-                <span class="j-punc">]</span>
-              </p>
-            </div>
-            <span class="jcard__brace" aria-hidden="true">&#125;</span>
-            <span class="jcard__arrow" aria-hidden="true">{project.link.startsWith('http') ? '↗' : '→'}</span>
-          </a>
+      <ul class="rows">
+        {projects.map((p) => (
+          <li class="row">
+            <a
+              href={p.link}
+              target={p.link.startsWith('http') ? '_blank' : '_self'}
+              rel="noreferrer"
+              class="row__link"
+            >
+              <span class="row__name">{p.title}</span>
+              <span class="row__mid row__mid--dim">{p.what}</span>
+              <span class="row__arrow" aria-hidden="true">{p.link.startsWith('http') ? '↗' : '→'}</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
 
-    <!-- hacks/ -->
-    <section id="hacks" class="sec" data-file="hacks/">
-      <header class="sec__head">
-        <div>
-          <p class="cmd"><span class="t-green">$</span> ls -la ./hacks</p>
-          <h2 class="sec__title">Hacks</h2>
-        </div>
-        <a href="/hacks/" class="sec__link">cd /hacks →</a>
+    <!-- $ ls ./hacks -->
+    <section class="blk">
+      <header class="blk__head">
+        <p class="cmd"><span class="g">$</span> ls ./hacks <span class="cmd__dim">// {totalHacks} total</span></p>
+        <a href="/hacks/" class="blk__link">cd ./hacks →</a>
       </header>
-      <p class="sec__sub">Short, practical tips and tricks across frontend topics.</p>
-
-      <div class="ls">
-        <p class="ls__total">total {totalHacks}</p>
+      <ul class="rows">
         {hackCategories.map((cat) => (
-          <a href={`/hacks/${cat}/`} class="ls__row">
-            <span class="ls__perm">drwxr-xr-x</span>
-            <span class="ls__owner">sam</span>
-            <span class="ls__count">{hackCounts[cat]} {hackCounts[cat] === 1 ? 'item' : 'items'}</span>
-            <span class="ls__name">{cat}/</span>
-            <span class="ls__arrow" aria-hidden="true">→</span>
-          </a>
+          <li class="row">
+            <a href={`/hacks/${cat}/`} class="row__link">
+              <span class="row__name">{cat}/</span>
+              <span class="row__mid row__mid--dim">{hackCounts[cat]} {hackCounts[cat] === 1 ? 'entry' : 'entries'}</span>
+              <span class="row__arrow" aria-hidden="true">→</span>
+            </a>
+          </li>
         ))}
-      </div>
+      </ul>
     </section>
 
-    <!-- socials.yml -->
-    <section id="socials" class="sec" data-file="socials.yml">
-      <header class="sec__head">
-        <div>
-          <p class="cmd"><span class="t-green">$</span> cat socials.yml</p>
-          <h2 class="sec__title">Connect</h2>
-        </div>
+    <!-- $ cat socials.yml -->
+    <section class="blk">
+      <header class="blk__head">
+        <p class="cmd"><span class="g">$</span> cat socials.yml</p>
       </header>
-
-      <div class="socials">
-        <div class="yml">
-          <p class="yml__row"><span class="y-key">name</span><span class="j-punc">:</span> Samuel Lawrentz</p>
-          <p class="yml__row"><span class="y-key">role</span><span class="j-punc">:</span> Software Development Manager @ <a href="https://plivo.com" target="_blank" rel="noreferrer">plivo ↗</a></p>
-          <p class="yml__row"><span class="y-key">github</span><span class="j-punc">:</span> <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer">@samuellawrentz ↗</a></p>
-          <p class="yml__row"><span class="y-key">linkedin</span><span class="j-punc">:</span> <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer">samuel-lawrentz ↗</a></p>
-          <p class="yml__row"><span class="y-key">twitter</span><span class="j-punc">:</span> <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer">@samuellawrentz ↗</a></p>
-          <p class="yml__row"><span class="y-key">codepen</span><span class="j-punc">:</span> <a href="https://codepen.io/samuellawrentz" target="_blank" rel="noreferrer">samuellawrentz ↗</a></p>
-          <p class="yml__row"><span class="y-key">about</span><span class="j-punc">:</span> <a href="/about/">/about/ →</a></p>
-          <p class="yml__row"><span class="y-key">search</span><span class="j-punc">:</span> <a href="https://www.google.com/search?q=samuel+lawrentz" target="_blank" rel="noreferrer">google me ↗</a></p>
-        </div>
-        <div class="socials__friends">
-          <span class="socials__tagline">Let us be</span>
-          <Image src={friendsLogoImg} alt="Friends" class="socials__logo" width={180} height={45} />
-        </div>
+      <div class="yml">
+        <p class="yml__row"><span class="k">github</span><span class="p">:</span> <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer">@samuellawrentz ↗</a></p>
+        <p class="yml__row"><span class="k">linkedin</span><span class="p">:</span> <a href="https://in.linkedin.com/in/samuel-lawrentz" target="_blank" rel="noreferrer">samuel-lawrentz ↗</a></p>
+        <p class="yml__row"><span class="k">twitter</span><span class="p">:</span> <a href="https://twitter.com/samuellawrentz" target="_blank" rel="noreferrer">@samuellawrentz ↗</a></p>
+        <p class="yml__row"><span class="k">codepen</span><span class="p">:</span> <a href="https://codepen.io/samuellawrentz" target="_blank" rel="noreferrer">samuellawrentz ↗</a></p>
+        <p class="yml__row"><span class="k">about</span><span class="p">:</span> <a href="/about/">/about/ →</a></p>
       </div>
-
-      <p class="eof"><span class="t-comment">// EOF — thanks for scrolling</span> <span class="t-green">✓ exit 0</span></p>
     </section>
 
-  </IdeWindow>
+    <p class="eof"><span class="dim">// EOF - thanks for scrolling</span> <span class="g">✓ exit 0</span></p>
+  </div>
 </BaseLayout>
 
 <script>
-  // Typing tagline
+  // Typing tagline (the one motion we keep)
   const phrases = [
     'I craft pixel-perfect interfaces.',
     'I architect scalable frontends.',
@@ -305,353 +182,275 @@ const tabs = [
     }
     tick();
   }
-
-  // Spotlight / flashlight cursor reveal on the hero title
-  const heroSection = document.getElementById('readme');
-  const heroTitle = heroSection?.querySelector<HTMLElement>('.readme__title');
-  const heroReveal = heroTitle?.querySelector<HTMLElement>('.readme__title-reveal');
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
-  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-  if (heroSection && heroTitle && heroReveal && finePointer && !reducedMotion) {
-    heroSection.classList.add('spotlight-on');
-
-    let raf = 0;
-    let secX = 0;
-    let secY = 0;
-    let titleX = -9999;
-    let titleY = -9999;
-
-    const apply = () => {
-      raf = 0;
-      heroSection.style.setProperty('--mx', `${secX}px`);
-      heroSection.style.setProperty('--my', `${secY}px`);
-      heroTitle.style.setProperty('--mx', `${titleX}px`);
-      heroTitle.style.setProperty('--my', `${titleY}px`);
-    };
-    const schedule = () => {
-      if (!raf) raf = requestAnimationFrame(apply);
-    };
-
-    heroSection.addEventListener('pointermove', (e) => {
-      const sr = heroSection.getBoundingClientRect();
-      secX = e.clientX - sr.left;
-      secY = e.clientY - sr.top;
-      const tr = heroTitle.getBoundingClientRect();
-      titleX = e.clientX - tr.left;
-      titleY = e.clientY - tr.top;
-      heroReveal.style.opacity = '1';
-      schedule();
-    });
-
-    heroSection.addEventListener('pointerleave', () => {
-      // gently park the spotlight: fade the bright layer out, move it off-screen
-      heroReveal.style.opacity = '0';
-      titleX = -9999;
-      titleY = -9999;
-      schedule();
-    });
-  }
 </script>
 
 <style lang="scss">
-  /* ───────── README ───────── */
-  .sec--readme {
-    padding-top: 48px;
-  }
+  /* ───────── Minimal IDE homepage ───────── */
+  .home {
+    /* tokens mirror the site's editor theme so it matches blog/hacks pages */
+    --ide-text: hsl(0, 0%, 12%);
+    --ide-dim: hsl(0, 0%, 42%);
+    --ide-faint: hsl(42, 10%, 90%);
+    --ide-line: hsl(42, 10%, 82%);
+    --green: hsl(150, 60%, 30%);
+    --accent: hsl(349, 85%, 42%);
 
-  .readme__crumb {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    color: var(--ide-dim);
-    margin: 0 0 28px;
-
-    b { color: var(--ide-text); font-weight: 500; }
-  }
-
-  .readme__title {
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 800;
-    font-size: clamp(44px, 8vw, 88px);
-    line-height: 1.02;
-    letter-spacing: -0.05em;
-    margin: 0 0 28px;
-    text-shadow: none;
-
-    &::before {
-      content: '# ';
-      color: var(--syn-red);
-      font-weight: 700;
-    }
-  }
-
-  /* ── Spotlight hero reveal (only active when JS adds .spotlight-on) ── */
-  .readme__title-reveal {
-    display: none; /* fallback: no overlay unless the effect is on */
-  }
-
-  .sec--readme.spotlight-on {
-    position: relative;
-
-    /* subtle cursor-following background glow, behind the text */
-    &::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      z-index: -1;
-      pointer-events: none;
-      background: radial-gradient(
-        circle 320px at var(--mx, 50%) var(--my, 50%),
-        color-mix(in srgb, var(--syn-cyan) 8%, transparent),
-        color-mix(in srgb, var(--syn-amber) 6%, transparent) 45%,
-        transparent 70%
-      );
-    }
-
-    .readme__title {
-      position: relative;
-      color: color-mix(in srgb, var(--ide-text) 35%, transparent); /* barely lit base */
-
-      &::before {
-        color: color-mix(in srgb, var(--syn-red) 35%, transparent);
-      }
-    }
-
-    .readme__title-reveal {
-      display: block;
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      background: linear-gradient(120deg, var(--syn-red), var(--syn-amber), var(--syn-cyan));
-      -webkit-background-clip: text;
-      background-clip: text;
-      color: transparent;
-      -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 14px color-mix(in srgb, var(--syn-amber) 40%, transparent));
-      -webkit-mask-image: radial-gradient(circle 140px at var(--mx, -9999px) var(--my, -9999px), #000 0%, #000 40%, transparent 75%);
-      mask-image: radial-gradient(circle 140px at var(--mx, -9999px) var(--my, -9999px), #000 0%, #000 40%, transparent 75%);
-      transition: opacity 0.45s ease;
-
-      &::before {
-        content: '# ';
-        font-weight: 700;
-      }
-    }
-  }
-
-  .badges {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-    margin: 0 0 28px;
-  }
-
-  .badge {
-    display: inline-flex;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 11.5px;
-    line-height: 1;
-    border-radius: 4px;
-    overflow: hidden;
-  }
-
-  .badge__k {
-    padding: 6px 8px;
-    background: hsl(220, 10%, 24%);
-    color: hsl(0, 0%, 92%);
-  }
-
-  .badge__v {
-    padding: 6px 8px;
-    color: hsl(0, 0%, 8%);
-    font-weight: 700;
-  }
-
-  .badge__v--red { background: hsl(349, 75%, 72%); }
-  .badge__v--cyan { background: hsl(192, 60%, 68%); }
-  .badge__v--green { background: hsl(150, 50%, 62%); }
-  .badge__v--amber { background: hsl(40, 90%, 65%); }
-
-  .readme__type {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: clamp(15px, 2.5vw, 18px);
-    color: var(--syn-amber);
-    min-height: 1.6em;
-    margin: 0 0 20px;
-  }
-
-  .type-caret {
-    display: inline-block;
-    width: 9px;
-    height: 1.05em;
-    vertical-align: -0.15em;
-    margin-left: 3px;
-    background: var(--syn-red);
-    animation: blink 0.9s step-end infinite;
-  }
-
-  .readme__bio {
-    font-size: var(--body);
-    line-height: 1.7;
-    color: var(--ide-dim);
-    max-width: 640px;
-    margin: 0 0 20px;
-
-    b { color: var(--ide-text); }
-  }
-
-  .readme__quote {
-    border-left: 3px solid var(--syn-red);
-    margin: 0;
-    padding: 6px 0 6px 20px;
-    color: var(--ide-dim);
-    font-style: italic;
-    font-size: var(--caption);
-  }
-
-  /* ───────── projects.json ───────── */
-  .jgrid {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 14px;
-  }
-
-  .jcard {
-    position: relative;
-    display: block;
-    text-decoration: none;
-    color: inherit;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
-    line-height: 1.65;
-    padding: 16px 18px;
-    border-radius: 10px;
-    border: 1px solid var(--ide-border);
-    background: var(--ide-faint);
-    transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), border-color 0.2s, box-shadow 0.3s;
-
-    &:hover {
-      transform: translateY(-3px);
-      border-color: var(--syn-cyan);
-      box-shadow: 0 14px 30px -14px rgba(0, 0, 0, 0.35);
-    }
-  }
-
-  .jcard__brace {
-    color: var(--ide-dim);
-    font-weight: 700;
-  }
-
-  .jcard__fields {
-    padding: 2px 0 2px 20px;
-  }
-
-  .jcard__row {
-    margin: 0;
-  }
-
-  .jcard__name {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 8px 24px 40px;
     color: var(--ide-text);
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  :global([color-mode='dark']) .home {
+    --ide-text: hsl(220, 14%, 88%);
+    --ide-dim: hsl(222, 9%, 58%);
+    --ide-faint: hsl(224, 12%, 15%);
+    --ide-line: hsl(224, 10%, 22%);
+    --green: hsl(150, 50%, 60%);
+    --accent: hsl(350, 85%, 66%);
+  }
+
+  .g { color: var(--green); }
+  .dim { color: var(--ide-dim); }
+
+  /* ── prompt path ── */
+  .home__path {
+    font-size: 12.5px;
+    letter-spacing: 0.02em;
+    color: var(--ide-dim);
+    margin: 0 0 56px;
+
+    .home__branch { color: var(--ide-dim); opacity: 0.7; }
+    .b { color: var(--accent); }
+  }
+
+  /* ── shared command line ── */
+  .cmd {
+    font-size: 13px;
+    color: var(--ide-dim);
+    letter-spacing: 0.02em;
+    margin: 0 0 14px;
+  }
+
+  .cmd__dim { color: var(--ide-dim); opacity: 0.6; }
+
+  /* ── hero ── */
+  .hero {
+    padding: 0 0 20px;
+  }
+
+  .hero__name {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
     font-weight: 700;
-    font-size: 15px;
+    font-size: clamp(40px, 8vw, 74px);
+    line-height: 1.0;
+    letter-spacing: -0.045em;
+    margin: 0 0 18px;
+    text-shadow: none; /* override the global h1 emboss for a flat, minimal name */
   }
 
-  .jcard .j-str {
-    color: var(--syn-green);
-  }
-
-  .jcard__arrow {
-    position: absolute;
-    top: 14px;
-    right: 16px;
+  .hero__role {
     font-size: 14px;
     color: var(--ide-dim);
-    opacity: 0;
-    transform: translate(-4px, 4px);
-    transition: opacity 0.25s, transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+    margin: 0 0 26px;
+    letter-spacing: 0.01em;
   }
 
-  .jcard:hover .jcard__arrow {
-    opacity: 1;
-    transform: translate(0, 0);
-    color: var(--syn-cyan);
+  .hero__type {
+    font-size: clamp(14px, 2.4vw, 16px);
+    color: var(--accent);
+    min-height: 1.5em;
+    margin: 0 0 26px;
   }
 
-  /* ───────── socials.yml ───────── */
-  .socials {
+  .caret {
+    display: inline-block;
+    width: 8px;
+    height: 1.05em;
+    vertical-align: -0.16em;
+    margin-left: 2px;
+    background: var(--accent);
+    animation: caret-blink 1s step-end infinite;
+  }
+
+  @keyframes caret-blink { 50% { opacity: 0; } }
+
+  .hero__bio {
+    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--ide-dim);
+    max-width: 58ch;
+    margin: 0;
+  }
+
+  /* ── content blocks ── */
+  .blk {
+    padding: 44px 0;
+    border-top: 1px solid var(--ide-line);
+  }
+
+  .blk__head {
     display: flex;
+    align-items: baseline;
     justify-content: space-between;
-    align-items: flex-start;
-    gap: 40px;
-    flex-wrap: wrap;
+    gap: 16px;
+    margin-bottom: 18px;
   }
 
+  .blk__head .cmd { margin: 0; }
+
+  .blk__link {
+    font-size: 12.5px;
+    color: var(--ide-dim);
+    text-decoration: none;
+    white-space: nowrap;
+    border-bottom: 1px solid transparent;
+    transition: color 0.18s, border-color 0.18s;
+
+    &:hover { color: var(--accent); border-bottom-color: var(--accent); }
+  }
+
+  .blk__foot {
+    font-size: 12.5px;
+    color: var(--ide-dim);
+    margin: 18px 0 0;
+
+    a { color: var(--ide-text); text-decoration: none; border-bottom: 1px solid var(--ide-line); }
+    a:hover { border-bottom-color: var(--accent); color: var(--accent); }
+  }
+
+  /* ── row list ── */
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .row__link {
+    display: grid;
+    grid-template-columns: minmax(0, auto) minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    gap: 16px;
+    padding: 12px 8px 12px 0;
+    text-decoration: none;
+    color: var(--ide-text);
+    border-radius: 4px;
+    transition: background 0.16s, padding-left 0.18s ease;
+  }
+
+  .row + .row .row__link { border-top: 1px solid var(--ide-line); }
+
+  .row__link:hover {
+    background: var(--ide-faint);
+    padding-left: 12px;
+  }
+
+  .row__name {
+    color: var(--ide-text);
+    font-size: 13.5px;
+    white-space: nowrap;
+  }
+
+  .row__link:hover .row__name { color: var(--accent); }
+
+  .row__mid {
+    font-size: 13px;
+    color: var(--ide-text);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-width: 0;
+  }
+
+  .row__mid--dim { color: var(--ide-dim); }
+
+  .row__meta {
+    font-size: 11.5px;
+    color: var(--ide-dim);
+    white-space: nowrap;
+  }
+
+  .row__arrow {
+    color: var(--ide-dim);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.18s, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), color 0.18s;
+  }
+
+  .row__link:hover .row__arrow {
+    opacity: 1;
+    transform: translateX(0);
+    color: var(--accent);
+  }
+
+  /* ── socials.yml ── */
   .yml {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14.5px;
+    font-size: 14px;
     line-height: 2.1;
   }
 
   .yml__row {
     margin: 0;
 
-    a {
-      color: var(--ide-text);
-      text-decoration: none;
-      border-bottom: 1px solid var(--ide-border);
-      padding-bottom: 1px;
-      transition: color 0.2s, border-color 0.2s;
+    .k { color: var(--ide-text); }
+    .p { color: var(--ide-dim); }
 
-      &:hover {
-        color: var(--syn-cyan);
-        border-bottom-color: var(--syn-cyan);
-      }
+    a {
+      color: var(--ide-dim);
+      text-decoration: none;
+      border-bottom: 1px solid transparent;
+      transition: color 0.18s, border-color 0.18s;
+
+      &:hover { color: var(--accent); border-bottom-color: var(--accent); }
     }
   }
 
-  .socials__friends {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 4px;
-    padding-top: 8px;
-  }
-
-  .socials__tagline {
-    font-size: var(--caption);
-    color: var(--ide-dim);
-  }
-
-  .socials__logo {
-    margin: 0 0 0 -12px;
-  }
-
-  :global([color-mode='light']) .socials__logo {
-    filter: invert(1);
-  }
-
+  /* ── eof ── */
   .eof {
     margin: 48px 0 0;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 13px;
+    font-size: 12.5px;
     display: flex;
     justify-content: space-between;
     gap: 16px;
     flex-wrap: wrap;
+    border-top: 1px solid var(--ide-line);
+    padding-top: 24px;
   }
 
-  /* ───────── Responsive ───────── */
-  @media (max-width: 768px) {
-    .jgrid { grid-template-columns: 1fr; }
-
-    .socials { flex-direction: column; gap: 24px; }
+  /* ── staggered load reveal ── */
+  .reveal {
+    opacity: 0;
+    animation: rise 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--r, 0) * 0.09s);
   }
 
-  @media (max-width: 480px) {
-    .readme__title { font-size: clamp(38px, 12vw, 56px); }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(12px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 
-    .badges { gap: 6px; }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal { animation: none; opacity: 1; }
+    .caret { animation: none; }
+  }
 
-    .yml { font-size: 13px; }
+  /* ── responsive ── */
+  @media (max-width: 620px) {
+    .home { padding-top: 4px; }
+
+    .home__path { margin-bottom: 40px; }
+
+    .row__link {
+      grid-template-columns: 1fr auto;
+      gap: 4px 12px;
+    }
+
+    .row__name { grid-column: 1; }
+    .row__meta { grid-column: 2; grid-row: 1; text-align: right; }
+    .row__mid { grid-column: 1 / -1; grid-row: 2; white-space: normal; }
+    .row__arrow { display: none; }
   }
 </style>
