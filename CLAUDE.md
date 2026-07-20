@@ -64,7 +64,9 @@ public/
 - **Content frontmatter**: `path` field is the URL path (e.g., `/hacks/react/how-to-use-computed-state-in-react/`). Blog paths start with `/blog/`, hack paths with `/hacks/<category>/`.
 - **Images**: Images in `src/` are auto-optimized to WebP. OG images go in `public/og-images/` to stay as PNG for social crawlers.
 - **Hero image workflow**: Generate new blog art with `bun run gen:image "<prompt>" --output ./src/content/blog/<post-dir> --name header`. Keep prompts visual and explicitly ask for **no text** in the image.
-- **Theme**: Dark/light mode via `color-mode` attribute on `<html>`. Inline script in `<head>` prevents flash.
+- **Theme**: Dark/light mode via `color-mode` attribute on `<html>`. Inline script in `<head>` prevents flash. No forced default - respects stored/system preference. Pages render in either theme, so verify both.
+- **IdeWindow shell + design tokens**: `src/components/IdeWindow.astro` is the shared "IDE window" shell (chrome dots, tabs, status bar) used by `blog/index`, `hacks/index`, `blog/tag/[tag]`. It ALSO defines the editor tokens (`--ide-text/-dim/-faint/-border`, `--syn-red/-cyan/-green/-amber`) and helper classes (`.t-green`, `.y-key`, `.j-punc`, etc.) in an `is:global` block - which only load on pages that render the component. A page NOT using IdeWindow must self-contain its own tokens. The **homepage (`src/pages/index.astro`) no longer uses IdeWindow** - it is a self-contained "minimal IDE" design (chromeless, own light/dark tokens mirroring the shell's palette). Restyling the homepage never touches the other pages, and vice-versa.
+- **Global `h1` emboss**: `global.scss` sets `h1 { text-shadow: 2px 4px ... }` sitewide. For flat/minimal headings, override with `text-shadow: none` on the specific element.
 - **OG images**: Generated at prebuild time via `scripts/generate-og-images.cjs` using node-canvas. Output to `public/og-images/`.
 - **Sass deprecation**: `@import` warnings exist in global.scss - migrate to `@use` when updating styles.
 - **Frontmatter titles**: Always use double quotes around `title:` values in frontmatter (colons break YAML parsing).
