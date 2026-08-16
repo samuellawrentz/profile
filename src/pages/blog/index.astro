@@ -3,8 +3,7 @@ import { getCollection } from 'astro:content';
 import { Image } from 'astro:assets';
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import SEO from '../../components/SEO.astro';
-import IdeWindow from '../../components/IdeWindow.astro';
-import { formatDate, readTimeFromBody, hashOf } from '../../utils/blog';
+import { formatDate, readTimeFromBody } from '../../utils/blog';
 
 const posts = (await getCollection('blog', ({ data }) => data.published === true))
   .sort((a, b) => new Date(b.data.date).getTime() - new Date(a.data.date).getTime());
@@ -18,173 +17,313 @@ const byYear = rest.reduce<Record<number, typeof rest>>((acc, post) => {
 }, {});
 const years = Object.keys(byYear).map(Number).sort((a, b) => b - a);
 
-const tabs = [
-  { label: 'README.md', href: '/' },
-  { label: 'blog.log', href: '/blog/', active: true },
-  { label: 'projects.json', href: '/#projects' },
-  { label: 'hacks/', href: '/hacks/' },
-  { label: 'socials.yml', href: '/#socials' },
-];
+// staggered reveal counter for the header
+let r = 0;
+const next = () => r++;
 ---
 <BaseLayout title="Blog - Samuel Lawrentz">
   <SEO slot="head" title="Blog - Samuel Lawrentz" description="Tech blog about frontend development, React, TypeScript, and web technologies" />
 
-  <IdeWindow tabs={tabs}>
-    <Fragment slot="status-right">
-      <span class="ide__status-item">{posts.length} commits</span>
-      <span class="ide__status-item">UTF-8</span>
-      <span class="ide__status-item">astro 5</span>
-      <span class="ide__status-item t-red">♥ 2026</span>
-    </Fragment>
+  <div class="lp" data-lp-canvas>
+    <div class="lp__glow" aria-hidden="true"></div>
 
-    <section class="sec sec--log">
-      <header class="sec__head reveal" style="--r:0">
-        <div>
-          <p class="cmd"><span class="t-green">$</span> git log --oneline ./blog</p>
-          <h1 class="sec__title">Blog</h1>
-        </div>
-        <span class="log-count">{posts.length} commits</span>
-      </header>
-      <p class="sec__sub reveal" style="--r:1">
-        Writing about frontend craft, developer tooling, and the things I learn along the way.
+    <header class="head">
+      <p class="head__eyebrow rv" style={`--r:${next()}`}>
+        Writing · {posts.length} posts · new post every month
       </p>
+      <h1 class="head__title rv rv--lcp" style={`--r:${next()}`}>The blog.</h1>
+      <p class="head__sub rv" style={`--r:${next()}`}>
+        Frontend craft, developer tooling, and the things I learn along the way.
+      </p>
+    </header>
 
-      {posts.length === 0 && (
-        <p class="log-empty">fatal: your current branch 'main' does not have any commits yet</p>
-      )}
+    {posts.length === 0 && <p class="empty">Nothing here yet.</p>}
 
-      {head && (
-        <a href={head.data.path} class="feat reveal" style="--r:2">
-          <div class="feat__body">
-            <p class="feat__ref">
-              <code class="commit__hash">{hashOf(head.data.title)}</code>
-              <span class="commit__ref">(HEAD → latest)</span>
-            </p>
-            <h2 class="feat__title">{head.data.title}</h2>
-            {head.data.description && <p class="feat__desc">{head.data.description}</p>}
-            <p class="commit__meta">
-              <span>{formatDate(head.data.date)}</span>
-              <span>{readTimeFromBody(head.body)}</span>
-              {head.data.tags.slice(0, 2).map((tag) => (
-                <span class="commit__tag">tag: {tag}</span>
-              ))}
-            </p>
+    {head && (
+      <a href={head.data.path} class="card feat rv rv--lcp" style={`--r:${next()}`}>
+        <div class="feat__body">
+          <p class="feat__meta">
+            <span class="feat__badge">latest</span>
+            <span>{formatDate(head.data.date)}</span>
+            <span>{readTimeFromBody(head.body)}</span>
+          </p>
+          <h2 class="feat__title">{head.data.title}</h2>
+          {head.data.description && <p class="feat__desc">{head.data.description}</p>}
+          <p class="feat__read">Read post<span aria-hidden="true"> →</span></p>
+        </div>
+        {head.data.heroImage && (
+          <div class="feat__media">
+            <Image src={head.data.heroImage} alt={head.data.title} width={720} height={432} loading="eager" fetchpriority="high" />
           </div>
-          {head.data.heroImage && (
-            <div class="feat__media">
-              <Image src={head.data.heroImage} alt={head.data.title} width={720} height={432} />
-            </div>
-          )}
-        </a>
-      )}
+        )}
+      </a>
+    )}
 
-      {years.map((year, yi) => (
-        <div class="loggroup reveal" style={`--r:${yi + 3}`}>
-          <h3 class="loggroup__label">
-            <span class="t-amber">(tag: v{year})</span>
-            <span class="loggroup__count">{byYear[year].length} {byYear[year].length === 1 ? 'commit' : 'commits'}</span>
-            <span class="loggroup__rule" aria-hidden="true"></span>
-          </h3>
-          <ol class="oneline">
-            {byYear[year].map((post) => (
-              <li>
-                <a href={post.data.path} class="oneline__row" title={post.data.description}>
-                  <code class="oneline__hash">{hashOf(post.data.title)}</code>
-                  <span class="oneline__title">{post.data.title}</span>
-                  <span class="oneline__meta">
-                    <span>{formatDate(post.data.date)}</span>
-                    <span>{readTimeFromBody(post.body)}</span>
-                  </span>
-                </a>
-              </li>
-            ))}
-          </ol>
-        </div>
-      ))}
+    {years.map((year) => (
+      <section class="yr" data-reveal>
+        <header class="yr__head">
+          <h2 class="yr__label">{year}</h2>
+          <span class="yr__count">{byYear[year].length} {byYear[year].length === 1 ? 'post' : 'posts'}</span>
+        </header>
+        <ul class="posts">
+          {byYear[year].map((post) => (
+            <li>
+              <a href={post.data.path} class="post" title={post.data.description}>
+                <span class="post__date">{formatDate(post.data.date)}</span>
+                <span class="post__title">{post.data.title}</span>
+                <span class="post__time">{readTimeFromBody(post.body)}</span>
+                <span class="post__arrow" aria-hidden="true">→</span>
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
 
-      <p class="sec__foot">
-        <span class="t-green">$</span> echo "new post every month" · <a href="/rss.xml">subscribe via rss ↗</a>
-      </p>
-    </section>
-  </IdeWindow>
+    <footer class="strip" data-reveal>
+      <nav class="strip__links" aria-label="Site links">
+        <a href="/">home<span aria-hidden="true"> →</span></a>
+        <a href="/hacks/">hacks<span aria-hidden="true"> →</span></a>
+        <a href="/rss.xml">rss<span aria-hidden="true"> ↗</span></a>
+      </nav>
+      <p class="strip__sig">new post every month</p>
+    </footer>
+  </div>
 </BaseLayout>
 
+<script>
+  // Spotlight-follows-cursor on cards (single listener, CSS vars)
+  const cards = [...document.querySelectorAll<HTMLElement>('.card')];
+  if (cards.length && matchMedia('(pointer: fine)').matches) {
+    addEventListener(
+      'pointermove',
+      (e) => {
+        for (const c of cards) {
+          const rect = c.getBoundingClientRect();
+          c.style.setProperty('--mx', `${e.clientX - rect.left}px`);
+          c.style.setProperty('--my', `${e.clientY - rect.top}px`);
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  // Below-the-fold sections: fade-up once when they enter.
+  // Visible by default; the hidden state is only applied when JS will animate.
+  const sections = [...document.querySelectorAll('[data-reveal]')];
+  if ('IntersectionObserver' in window && !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const en of entries) {
+          if (en.isIntersecting) {
+            en.target.classList.add('in');
+            io.unobserve(en.target);
+          }
+        }
+      },
+      { rootMargin: '0px 0px -10% 0px' }
+    );
+    sections.forEach((s) => {
+      s.classList.add('pre');
+      io.observe(s);
+    });
+  }
+</script>
+
+<style is:global>
+  /* Blog listing owns its canvas, mirroring the homepage treatment. */
+  [color-mode='dark'] body:has([data-lp-canvas]) {
+    background-color: hsl(240, 8%, 5%);
+  }
+  [color-mode='light'] body:has([data-lp-canvas]) {
+    background-color: hsl(42, 30%, 97%);
+  }
+</style>
+
 <style lang="scss">
-  .sec--log {
-    padding-top: 48px;
+  /* ───────── Linear-grade listing ─────────
+     Tokens mirror src/pages/index.astro (self-contained per convention). */
+  .lp {
+    --canvas: hsl(42, 30%, 97%);
+    --s1: hsl(40, 30%, 99%);
+    --s2: hsl(42, 25%, 96%);
+    --line: hsla(30, 25%, 12%, 0.1);
+    --line-strong: hsla(30, 25%, 12%, 0.18);
+    --text: hsl(30, 10%, 10%);
+    --text-2: hsla(30, 10%, 10%, 0.64);
+    --text-3: hsla(30, 10%, 10%, 0.42);
+    --accent: hsl(349, 85%, 40%);
+    --accent-text: hsl(349, 85%, 38%);
+    --glow-a: hsla(349, 90%, 45%, 0.09);
+    --spot: hsla(349, 85%, 45%, 0.05);
+    --top-light: hsla(0, 0%, 100%, 0.9);
+    --card-shadow: 0 1px 2px hsla(345, 40%, 15%, 0.05), 0 8px 24px hsla(345, 40%, 15%, 0.05);
+
+    position: relative;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 40px 24px 64px;
+    font-family: 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
+    color: var(--text);
   }
 
-  .log-count {
-    font-family: 'JetBrains Mono', monospace;
+  :global([color-mode='dark']) .lp {
+    --canvas: hsl(240, 8%, 5%);
+    --s1: hsl(240, 7%, 8%);
+    --s2: hsl(240, 6%, 11%);
+    --line: hsla(0, 0%, 100%, 0.08);
+    --line-strong: hsla(0, 0%, 100%, 0.16);
+    --text: hsla(228, 20%, 95%, 0.92);
+    --text-2: hsla(228, 15%, 90%, 0.6);
+    --text-3: hsla(228, 15%, 90%, 0.38);
+    --accent: hsl(349, 80%, 48%);
+    --accent-text: hsl(350, 90%, 68%);
+    --glow-a: hsla(349, 90%, 50%, 0.13);
+    --spot: hsla(350, 90%, 60%, 0.07);
+    --top-light: hsla(0, 0%, 100%, 0.1);
+    --card-shadow: none;
+  }
+
+  .lp__glow {
+    position: absolute;
+    top: -160px;
+    left: 50%;
+    width: min(760px, 100vw);
+    height: 520px;
+    transform: translateX(-50%);
+    background: radial-gradient(closest-side, var(--glow-a), transparent);
+    pointer-events: none;
+  }
+
+  /* ── header ── */
+  .head {
+    position: relative;
+    padding: 40px 0 48px;
+  }
+
+  .head__eyebrow {
+    margin: 0 0 18px;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ide-dim);
-    border: 1px solid var(--ide-border);
-    border-radius: 100px;
-    padding: 5px 12px;
-    white-space: nowrap;
+    letter-spacing: 0.02em;
+    color: var(--text-3);
   }
 
-  .log-empty {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    color: var(--syn-red);
-    padding: 32px 0;
+  .head__title {
+    margin: 0 0 16px;
+    font-family: 'Sora', 'Sora Fallback', sans-serif;
+    font-weight: 700;
+    font-size: clamp(40px, 6.4vw, 64px);
+    line-height: 1.03;
+    letter-spacing: -0.045em;
+    text-shadow: none; /* override global h1 emboss */
   }
 
-  /* featured HEAD post */
-  .feat {
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(280px, 380px);
-    gap: 32px;
-    align-items: center;
-    padding: 28px 32px;
-    border: 1px solid var(--ide-border);
+  .head__sub {
+    max-width: 52ch;
+    margin: 0;
+    font-size: 17px;
+    line-height: 1.65;
+    color: var(--text-2);
+  }
+
+  .empty {
+    font-size: 15px;
+    color: var(--text-2);
+    padding: 24px 0;
+  }
+
+  /* ── shared card: hairline border, top light line, cursor spotlight ── */
+  .card {
+    position: relative;
+    display: block;
+    background: var(--s1);
+    border: 1px solid var(--line);
     border-radius: 12px;
-    background: var(--ide-faint);
+    box-shadow: inset 0 1px 0 var(--top-light), var(--card-shadow);
     text-decoration: none;
-    color: inherit;
-    margin-bottom: 48px;
+    color: var(--text);
+    overflow: hidden;
     transition: border-color 0.2s;
 
-    &:hover {
-      border-color: var(--syn-red);
+    &::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(280px circle at var(--mx, 50%) var(--my, 50%), var(--spot), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
 
-      .feat__media :global(img) { transform: scale(1.04); }
+    &:hover {
+      border-color: var(--line-strong);
+      &::before { opacity: 1; }
     }
   }
 
-  .feat__ref {
-    margin: 0 0 10px;
-    font-size: 13px;
+  /* ── featured latest post ── */
+  .feat {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(240px, 320px);
+    gap: 28px;
+    align-items: center;
+    padding: 28px 32px;
+    border-radius: 16px;
+    margin-bottom: 72px;
+  }
+
+  .feat__meta {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin: 0 0 12px;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
+    font-size: 12px;
+    color: var(--text-3);
+  }
+
+  .feat__badge {
+    font-size: 10.5px;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    color: var(--accent-text);
+    border: 1px solid color-mix(in srgb, var(--accent-text) 35%, transparent);
+    border-radius: 999px;
+    padding: 3px 10px;
   }
 
   .feat__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
-    font-weight: 700;
-    font-size: clamp(20px, 3vw, 28px);
-    letter-spacing: -0.02em;
-    line-height: 1.2;
     margin: 0 0 12px;
-    text-shadow: none;
+    font-family: 'Sora', 'Sora Fallback', sans-serif;
+    font-weight: 600;
+    font-size: clamp(21px, 3vw, 27px);
+    line-height: 1.22;
+    letter-spacing: -0.02em;
   }
 
   .feat__desc {
-    margin: 0 0 16px;
-    font-size: var(--caption);
-    color: var(--ide-dim);
-    line-height: 1.6;
+    margin: 0 0 18px;
+    font-size: 14.5px;
+    line-height: 1.65;
+    color: var(--text-2);
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
 
+  .feat__read {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--accent-text);
+  }
+
   .feat__media {
     border-radius: 10px;
     overflow: hidden;
-    border: 1px solid var(--ide-border);
+    border: 1px solid var(--line);
 
     :global(img) {
       display: block;
@@ -196,45 +335,190 @@ const tabs = [
     }
   }
 
-  /* year groups */
-  .loggroup:not(:first-of-type) {
-    margin-top: 36px;
-  }
+  .feat:hover .feat__media :global(img) { transform: scale(1.04); }
 
-  .loggroup__label {
+  /* ── year groups ── */
+  .yr { margin-bottom: 56px; }
+
+  .yr__head {
     display: flex;
-    align-items: center;
-    gap: 12px;
-    margin: 0 0 8px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    font-weight: 700;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    padding-bottom: 12px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--line);
   }
 
-  .loggroup__count {
+  .yr__label {
+    margin: 0;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
+    font-weight: 500;
+    font-size: 13px;
+    letter-spacing: 0.16em;
+    color: var(--text-3);
+  }
+
+  .yr__count {
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 11.5px;
-    font-weight: 400;
-    color: var(--ide-dim);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
+    color: var(--text-3);
+  }
+
+  /* ── post rows ── */
+  .posts {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .post {
+    display: grid;
+    grid-template-columns: 110px minmax(0, 1fr) auto auto;
+    align-items: baseline;
+    gap: 20px;
+    padding: 13px 10px;
+    border-radius: 8px;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.16s;
+
+    &:hover {
+      background: var(--s2);
+
+      .post__title { color: var(--accent-text); }
+      .post__arrow { opacity: 1; transform: translateX(0); }
+    }
+  }
+
+  li + li .post { border-top: 1px solid var(--line); }
+
+  .post__date {
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
+    font-size: 12px;
+    color: var(--text-3);
     white-space: nowrap;
   }
 
-  .loggroup__rule {
-    flex: 1;
-    border-top: 1px dashed var(--ide-border);
+  .post__title {
+    font-size: 15.5px;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color 0.18s;
   }
 
-  @media (max-width: 768px) {
+  .post__time {
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
+    font-size: 11.5px;
+    color: var(--text-3);
+    white-space: nowrap;
+  }
+
+  .post__arrow {
+    color: var(--accent-text);
+    opacity: 0;
+    transform: translateX(-4px);
+    transition: opacity 0.18s, transform 0.2s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  /* ── footer strip ── */
+  .strip {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 16px;
+    flex-wrap: wrap;
+    padding-top: 28px;
+    border-top: 1px solid var(--line);
+  }
+
+  .strip__links {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    a {
+      font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
+      font-size: 12.5px;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.18s;
+
+      &:hover { color: var(--accent-text); }
+    }
+  }
+
+  .strip__sig {
+    margin: 0;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
+    font-size: 12px;
+    color: var(--text-3);
+  }
+
+  /* ── motion ── */
+  .rv {
+    opacity: 0;
+    animation: rise 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    animation-delay: calc(var(--r, 0) * 0.1s);
+  }
+
+  /* LCP candidates (title, featured card): never opacity-hidden or LCP is
+     delayed until the fade ends. Motion via transform+blur only, no delay. */
+  .rv--lcp {
+    opacity: 1;
+    animation-name: rise-lcp;
+    animation-delay: 0s;
+  }
+
+  @keyframes rise-lcp {
+    from { transform: translateY(16px); filter: blur(6px); }
+    to { transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(16px); filter: blur(6px); }
+    to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  [data-reveal]:global(.pre) {
+    opacity: 0;
+    transform: translateY(18px);
+    transition: opacity 0.7s cubic-bezier(0.22, 1, 0.36, 1), transform 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  [data-reveal]:global(.pre.in) { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    .rv { animation: none; opacity: 1; }
+    [data-reveal]:global(.pre) { opacity: 1; transform: none; transition: none; }
+    .card::before { display: none; }
+  }
+
+  /* ── responsive ── */
+  @media (max-width: 760px) {
+    .head { padding: 24px 0 40px; }
+
     .feat {
       grid-template-columns: 1fr;
       gap: 20px;
-      padding: 20px;
-      margin-bottom: 36px;
+      padding: 22px;
+      margin-bottom: 56px;
     }
 
-    .feat__media {
-      order: -1;
+    .feat__media { order: -1; }
+  }
+
+  @media (max-width: 540px) {
+    .post {
+      grid-template-columns: minmax(0, 1fr) auto;
+      gap: 4px 12px;
     }
+
+    .post__date { grid-column: 1; grid-row: 2; }
+    .post__time { grid-column: 2; grid-row: 2; text-align: right; }
+    .post__title { grid-column: 1 / -1; white-space: normal; }
+    .post__arrow { display: none; }
   }
 </style>
