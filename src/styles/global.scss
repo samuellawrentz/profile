@@ -1,5 +1,30 @@
-@import url("https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;400;600;700&display=swap");
-@import url("https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block");
+/* Metric-matched local fallbacks: text renders in these instantly, then swaps
+   to the webfont with ~zero layout shift (size-adjust from measured widths). */
+@font-face {
+  font-family: 'IBM Plex Sans Fallback';
+  src: local('Arial');
+  size-adjust: 102.25%;
+  ascent-override: 100.24%;
+  descent-override: 26.89%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'Sora Fallback';
+  src: local('Arial');
+  size-adjust: 109.04%;
+  ascent-override: 88.96%;
+  descent-override: 26.6%;
+  line-gap-override: 0%;
+}
+@font-face {
+  font-family: 'JetBrains Mono Fallback';
+  src: local('Courier New');
+  size-adjust: 100%;
+  ascent-override: 102%;
+  descent-override: 30%;
+  line-gap-override: 0%;
+}
+
 @import "./variables.scss";
 @import "./heart.scss";
 @import "./animations.scss";
@@ -7,7 +32,7 @@
 html {
   box-sizing: border-box;
   font-size: 16px;
-  font-family: "IBM Plex Sans", sans-serif;
+  font-family: "IBM Plex Sans", "IBM Plex Sans Fallback", sans-serif;
 }
 
 *,
@@ -30,6 +55,16 @@ body {
 img {
   max-width: 100%;
   height: auto;
+}
+
+/* Icon-font spans: fixed 1em box so the ligature text ("rss_feed") never
+   widens the layout before the icon font loads (CLS). */
+.material-icons-round {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  line-height: 1;
+  overflow: hidden;
 }
 
 main,
@@ -79,7 +114,18 @@ h4 {
   justify-content: space-between;
   align-items: center;
   gap: 24px;
-  flex-wrap: wrap;
+  /* nowrap + shrinkable name: wrapping to a second row during the font-swap
+     window shifts the whole page down (CLS). Ellipsize instead of wrap. */
+  flex-wrap: nowrap;
+
+  .gradient { min-width: 0; }
+
+  .text-body,
+  .text-caption {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .site-header__actions {

@@ -15,6 +15,9 @@ export default defineConfig({
     '/blog/leverage-ai-to-understand-complete-repo/': '/blog/how-to-understand-complex-code-with-ai/',
     '/blog/vim-is-a-blackhole/': '/blog/vim-experience-nvim-dev-experience/',
   },
+  build: {
+    inlineStylesheets: 'always',
+  },
   vite: {
     plugins: [tailwindcss()],
     server: {

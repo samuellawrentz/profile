@@ -26,19 +26,34 @@ const {
     <script src="https://analytics.ahrefs.com/analytics.js" data-key="rMO053bV6tJQSyh3NrQxiw" async></script>
     <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
 
-    <!-- Google Fonts: IBM Plex Sans + Material Icons Round -->
+    <!-- Google Fonts: one consolidated, non-render-blocking request (print→all swap) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <!-- Preload above-fold latin subsets so text first-paints in the webfont (no swap CLS).
+         URLs are version-pinned; if Google bumps them the preload is wasted but fonts still load. -->
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/ibmplexsans/v23/zYXzKVElMYYaJe8bpLHnCwDKr932-G7dytD-Dmu1syxeKYbSB4Zh.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/jetbrainsmono/v24/tDbv2o-flEEny0FZhsfKu5WU4zr3E_BX0PnT8RD8yKwBNntkaToggR7BYRbKPxDcwgknk-4.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/sora/v17/xMQbuFFYT72XzQUpDqW1KX4.woff2" />
+    <link rel="preload" as="font" type="font/woff2" crossorigin href="https://fonts.gstatic.com/s/materialiconsround/v109/LDItaoyNOAY6Uewc665JcIzCKsKc_M9flwmPq_HTTw.woff2" />
     <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;400;600;700&display=swap"
+      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;400;600;700&family=Sora:wght@300;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
     <link
-      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
-    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;600;700&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet" />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@100;400;600;700&family=Sora:wght@300;600;700&family=JetBrains+Mono:wght@400;500;700;800&display=swap"
+        rel="stylesheet"
+      />
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round&display=block" rel="stylesheet" />
+    </noscript>
 
     <!-- Google Tag Manager -->
     <script is:inline>
@@ -79,7 +94,7 @@ const {
     <div class="logo site-header">
       <a class="gradient" href="/" style="text-decoration:none;font-size:0;">
         <span style="display:inline-flex;gap:16px;align-items:center;">
-          <img src="/assets/logo.jpg" alt="Samuel Lawrentz Logo" width="60" height="60" style="border-radius:50%;" />
+          <img src="/assets/logo.jpg" alt="Samuel Lawrentz Logo" width="60" height="60" style="border-radius:50%;width:60px;height:60px;" />
           <span>
             <div class="text-body" style="font-size:20px;">Samuel Lawrentz</div>
             <div class="text-caption">Design × Code × Systems</div>
@@ -99,7 +114,7 @@ const {
       <slot />
     </main>
 
-    <div class="time"><SessionTimer client:load /></div>
+    <div class="time"><SessionTimer client:idle /></div>
     <Footer />
   </body>
 </html>

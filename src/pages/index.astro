@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
-import LiquidEther from '../components/LiquidEther.jsx';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../utils/blog';
 
@@ -53,30 +52,18 @@ const next = () => r++;
   />
 
   <div class="lp" data-home-canvas>
-    <!-- ── Hero: liquid-ether fluid sim behind the copy ── -->
+    <!-- ── Hero: CSS aurora behind the copy ── -->
     <section class="hero">
-      <div class="hero__fluid" aria-hidden="true">
-        <LiquidEther
-          client:media="(prefers-reduced-motion: no-preference)"
-          colors={['#E11D48', '#FF9FBC', '#B497CF']}
-          mouseForce={18}
-          cursorSize={110}
-          resolution={0.5}
-          autoDemo={true}
-          autoSpeed={0.5}
-          autoIntensity={2.0}
-          autoResumeDelay={3000}
-        />
-      </div>
+      <div class="hero__aurora" aria-hidden="true"></div>
       <div class="hero__inner">
         <p class="hero__eyebrow rv" style={`--r:${next()}`}>
           <span class="hero__pulse" aria-hidden="true"></span>
           Samuel Lawrentz · engineer &amp; team lead · 9+ years
         </p>
-        <h1 class="hero__title rv" style={`--r:${next()}`}>
+        <h1 class="hero__title rv rv--lcp" style={`--r:${next()}`}>
           I build interfaces,<br />systems, and teams.
         </h1>
-        <p class="hero__sub rv" style={`--r:${next()}`}>
+        <p class="hero__sub rv rv--lcp" style={`--r:${next()}`}>
           Nine years of shipping pixel-perfect UIs and the systems behind them.
           I write monthly about the craft - code, tools, and leading engineers.
         </p>
@@ -254,7 +241,7 @@ const next = () => r++;
     max-width: 1080px;
     margin: 0 auto;
     padding: 40px 24px 64px;
-    font-family: 'IBM Plex Sans', sans-serif;
+    font-family: 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     color: var(--text);
   }
 
@@ -286,7 +273,7 @@ const next = () => r++;
     text-align: center;
   }
 
-  .hero__fluid {
+  .hero__aurora {
     position: absolute;
     top: -40px; /* cover the .lp top padding, up to the header */
     bottom: -32px;
@@ -294,18 +281,47 @@ const next = () => r++;
     width: 100vw;
     transform: translateX(-50%);
     z-index: 0;
+    overflow: hidden;
+    /* fade the blobs out at both edges (under the header, before the featured panel) */
+    mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 55%, transparent 97%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent, #000 20%, #000 55%, transparent 97%);
 
-    /* dissolve into the canvas at both edges (under the header, before the featured panel) */
+    /* soft radial blobs; gradients do the blurring, transforms do the motion (composited) */
+    &::before,
     &::after {
       content: '';
       position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, var(--canvas), transparent 22%, transparent 55%, var(--canvas) 97%);
-      pointer-events: none;
+      width: 60vmax;
+      height: 60vmax;
+      border-radius: 50%;
+    }
+
+    &::before {
+      top: -22%;
+      left: 4%;
+      background: radial-gradient(closest-side, hsla(349, 90%, 55%, 0.28), transparent);
+      animation: drift-a 26s ease-in-out infinite alternate;
+    }
+
+    &::after {
+      bottom: -30%;
+      right: 0%;
+      background: radial-gradient(closest-side, hsla(262, 80%, 62%, 0.22), transparent);
+      animation: drift-b 34s ease-in-out infinite alternate;
     }
   }
 
-  :global([color-mode='light']) .hero__fluid { opacity: 0.55; }
+  @keyframes drift-a {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to { transform: translate3d(18vw, 10vh, 0) scale(1.25); }
+  }
+
+  @keyframes drift-b {
+    from { transform: translate3d(0, 0, 0) scale(1.2); }
+    to { transform: translate3d(-16vw, -12vh, 0) scale(0.95); }
+  }
+
+  :global([color-mode='light']) .hero__aurora { opacity: 0.5; }
 
   .hero__inner {
     position: relative;
@@ -318,7 +334,7 @@ const next = () => r++;
     gap: 8px;
     margin: 0 0 28px;
     padding: 6px 14px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
     letter-spacing: 0.02em;
     color: var(--text-2);
@@ -337,9 +353,12 @@ const next = () => r++;
 
   .hero__title {
     margin: 0 0 24px;
-    font-family: 'Sora', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', sans-serif;
     font-weight: 700;
-    font-size: clamp(44px, 7.6vw, 84px);
+    /* second term: longest <br> segment ("systems, and teams." ≈ 10.4px width
+       per 1px font-size) must fit the container in BOTH Sora and its fallback,
+       or the line count differs during font swap → CLS. */
+    font-size: min(clamp(44px, 7.6vw, 84px), calc((100vw - 60px) / 10.4));
     line-height: 1.03;
     letter-spacing: -0.045em;
     text-shadow: none; /* override global h1 emboss */
@@ -449,7 +468,7 @@ const next = () => r++;
   }
 
   .feat__file {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
     color: var(--text-3);
     min-width: 0;
@@ -460,7 +479,7 @@ const next = () => r++;
 
   .feat__badge {
     margin-left: auto;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 10.5px;
     text-transform: uppercase;
     letter-spacing: 0.12em;
@@ -474,14 +493,14 @@ const next = () => r++;
 
   .feat__meta {
     margin: 0 0 10px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
     color: var(--text-3);
   }
 
   .feat__title {
     margin: 0 0 12px;
-    font-family: 'Sora', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', sans-serif;
     font-weight: 600;
     font-size: clamp(22px, 3.4vw, 30px);
     line-height: 1.2;
@@ -517,7 +536,7 @@ const next = () => r++;
 
   .sec__label {
     margin: 0;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-weight: 500;
     font-size: 12px;
     text-transform: uppercase;
@@ -563,7 +582,7 @@ const next = () => r++;
   li + li .post { border-top: 1px solid var(--line); }
 
   .post__date {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
     color: var(--text-3);
     white-space: nowrap;
@@ -600,7 +619,7 @@ const next = () => r++;
 
   .proj__name {
     margin: 0 0 8px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-weight: 700;
     font-size: 14.5px;
     letter-spacing: -0.01em;
@@ -640,13 +659,13 @@ const next = () => r++;
   }
 
   .chip__name {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13.5px;
     font-weight: 500;
   }
 
   .chip__count {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
     color: var(--text-3);
   }
@@ -668,7 +687,7 @@ const next = () => r++;
     flex-wrap: wrap;
 
     a {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
       font-size: 12.5px;
       color: var(--text-2);
       text-decoration: none;
@@ -680,7 +699,7 @@ const next = () => r++;
 
   .strip__sig {
     margin: 0;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
     color: var(--text-3);
   }
@@ -694,9 +713,22 @@ const next = () => r++;
     animation-delay: calc(var(--r, 0) * 0.1s);
   }
 
+  /* LCP element (hero title): never opacity-hidden, or LCP is delayed
+     until the fade ends. Motion via transform+blur only, no delay. */
+  .rv--lcp {
+    opacity: 1;
+    animation-name: rise-lcp;
+    animation-delay: 0s;
+  }
+
   @keyframes rise {
     from { opacity: 0; transform: translateY(16px); filter: blur(6px); }
     to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  }
+
+  @keyframes rise-lcp {
+    from { transform: translateY(16px); filter: blur(6px); }
+    to { transform: translateY(0); filter: blur(0); }
   }
 
   [data-reveal]:global(.pre) {
@@ -709,6 +741,8 @@ const next = () => r++;
 
   @media (prefers-reduced-motion: reduce) {
     .rv { animation: none; opacity: 1; }
+    .hero__aurora::before,
+    .hero__aurora::after { animation: none; }
     [data-reveal] { opacity: 1; transform: none; transition: none; }
     .card::before { display: none; }
   }
