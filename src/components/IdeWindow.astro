@@ -208,7 +208,7 @@ const { tabs } = Astro.props;
     align-items: center;
     gap: 7px;
     padding: 13px 16px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12.5px;
     white-space: nowrap;
     color: var(--ide-dim);
@@ -252,7 +252,7 @@ const { tabs } = Astro.props;
     display: inline-block;
     transform: translateY(-56px);
     margin-bottom: -1.4em;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 11px;
     letter-spacing: 0.06em;
     color: var(--ide-dim);
@@ -271,7 +271,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .cmd {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13px;
     color: var(--ide-dim);
     letter-spacing: 0.02em;
@@ -279,7 +279,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .sec__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-weight: 700;
     font-size: clamp(28px, 4vw, 40px);
     letter-spacing: -0.02em;
@@ -296,7 +296,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .sec__link {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13.5px;
     color: var(--ide-dim);
     text-decoration: none;
@@ -318,7 +318,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .sec__foot {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13px;
     color: var(--ide-dim);
     margin: 28px 0 0;
@@ -429,7 +429,7 @@ const { tabs } = Astro.props;
   }
 
   .commit__hash {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13px;
     color: var(--syn-amber);
     background: none;
@@ -438,14 +438,14 @@ const { tabs } = Astro.props;
   }
 
   .commit__ref {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12.5px;
     color: var(--syn-red);
     margin-right: 8px;
   }
 
   .commit__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-weight: 600;
     font-size: clamp(16px, 2.2vw, 19px);
   }
@@ -455,7 +455,7 @@ const { tabs } = Astro.props;
     flex-wrap: wrap;
     gap: 6px 14px;
     margin: 0;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 11.5px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -528,7 +528,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .oneline__hash {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13px;
     color: var(--syn-amber);
     background: none;
@@ -539,7 +539,7 @@ const { tabs } = Astro.props;
   .ide .oneline__title {
     flex: 1;
     min-width: 0;
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-weight: 600;
     font-size: 16px;
     line-height: 1.45;
@@ -550,7 +550,7 @@ const { tabs } = Astro.props;
     display: flex;
     gap: 14px;
     flex-shrink: 0;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 11.5px;
     text-transform: uppercase;
     letter-spacing: 0.03em;
@@ -578,7 +578,7 @@ const { tabs } = Astro.props;
     align-items: baseline;
     gap: 20px;
     flex-wrap: wrap;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13px;
     color: var(--ide-dim);
     margin: 0 0 32px;
@@ -604,7 +604,7 @@ const { tabs } = Astro.props;
     align-items: baseline;
     gap: 16px;
     flex-wrap: wrap;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 12px;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -613,7 +613,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .post__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-size: clamp(1.75rem, 5vw, 3rem);
     font-weight: 800;
     color: var(--ide-text);
@@ -639,7 +639,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .post__tags {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 13px;
     margin: 0 0 2.5rem;
   }
@@ -677,7 +677,7 @@ const { tabs } = Astro.props;
     color: var(--element2);
 
     h1, h2, h3, h4 {
-      font-family: 'Sora', sans-serif;
+      font-family: 'Sora', 'Sora Fallback', sans-serif;
       font-weight: 700;
       color: var(--element1);
       letter-spacing: -0.02em;
@@ -719,7 +719,7 @@ const { tabs } = Astro.props;
     pre {
       border-radius: 8px;
       border: 1px solid var(--element4);
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
       font-size: 0.875rem;
       overflow-x: auto;
       margin: 1.75em 0;
@@ -737,7 +737,7 @@ const { tabs } = Astro.props;
     }
 
     code:not(pre code) {
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
       font-size: 0.875em;
       background: var(--surface2);
       border: 1px solid var(--element4);
@@ -787,7 +787,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .sig__thanks {
-    font-family: 'Sora', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', sans-serif;
     font-size: 1.15rem;
     font-weight: 700;
     color: var(--ide-text);
@@ -804,7 +804,7 @@ const { tabs } = Astro.props;
   }
 
   .ide .sig__cta {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 0.8rem;
     letter-spacing: 0.04em;
     color: var(--ide-text);
@@ -826,7 +826,7 @@ const { tabs } = Astro.props;
 
   /* ───────── ls listing ───────── */
   .ide .ls {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 14px;
     border: 1px solid var(--ide-border);
     border-radius: 10px;
@@ -885,7 +885,7 @@ const { tabs } = Astro.props;
     align-items: center;
     gap: 20px;
     padding: 8px 18px;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 11.5px;
     color: var(--ide-dim);
     background: var(--ide-chrome);

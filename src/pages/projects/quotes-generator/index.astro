@@ -66,8 +66,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
           <label class="qg-ctrl-label">Font</label>
           <div class="qg-font-options" id="qg-font-options">
             <button class="qg-pill qg-pill--active" data-font="serif" style="font-family:'Playfair Display',serif;">Serif</button>
-            <button class="qg-pill" data-font="sans" style="font-family:'Sora',sans-serif;">Sans</button>
-            <button class="qg-pill" data-font="mono" style="font-family:'JetBrains Mono',monospace;">Mono</button>
+            <button class="qg-pill" data-font="sans" style="font-family:'Sora','Sora Fallback',sans-serif;">Sans</button>
+            <button class="qg-pill" data-font="mono" style="font-family:'JetBrains Mono','JetBrains Mono Fallback',monospace;">Mono</button>
           </div>
         </div>
 
@@ -182,8 +182,8 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
 
   const fontMap = {
     serif: "'Playfair Display', Georgia, serif",
-    sans: "'Sora', 'IBM Plex Sans', sans-serif",
-    mono: "'JetBrains Mono', monospace",
+    sans: "'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif",
+    mono: "'JetBrains Mono', 'JetBrains Mono Fallback', monospace",
   };
 
   let state = {
@@ -468,7 +468,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   }
 
   .qg-hero__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-weight: 700;
     font-size: clamp(40px, 8vw, 72px);
     line-height: 1;
@@ -626,7 +626,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   }
 
   .qg-preview__author {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-size: clamp(12px, 2vw, 15px);
     font-weight: 300;
     color: var(--qg-text-sub);
@@ -657,7 +657,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   }
 
   .qg-ctrl-label {
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
@@ -700,7 +700,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
     border-radius: 6px;
     background: transparent;
     color: var(--element3);
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'JetBrains Mono', 'JetBrains Mono Fallback', monospace;
     font-size: 11px;
     cursor: pointer;
     transition: all 0.2s;
@@ -768,7 +768,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
     border-radius: 8px;
     border: none;
     cursor: pointer;
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-size: 14px;
     font-weight: 600;
     transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
@@ -807,7 +807,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   }
 
   .qg-samples__title {
-    font-family: 'Sora', 'IBM Plex Sans', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', 'IBM Plex Sans', 'IBM Plex Sans Fallback', sans-serif;
     font-size: var(--h2);
     font-weight: 100;
     text-transform: uppercase;
@@ -862,7 +862,7 @@ import BaseLayout from '../../../layouts/BaseLayout.astro';
   }
 
   .qg-sample__text span {
-    font-family: 'Sora', sans-serif;
+    font-family: 'Sora', 'Sora Fallback', sans-serif;
     font-size: 11px;
     text-transform: uppercase;
     letter-spacing: 0.1em;
