@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SEO from '../components/SEO.astro';
+import LiquidEther from '../components/LiquidEther.jsx';
 import { getCollection } from 'astro:content';
 import { formatDate } from '../utils/blog';
 
@@ -52,24 +53,37 @@ const next = () => r++;
   />
 
   <div class="lp" data-home-canvas>
-    <div class="lp__glow" aria-hidden="true"></div>
-
-    <!-- ── Hero ── -->
+    <!-- ── Hero: liquid-ether fluid sim behind the copy ── -->
     <section class="hero">
-      <p class="hero__eyebrow rv" style={`--r:${next()}`}>
-        <span class="hero__pulse" aria-hidden="true"></span>
-        Samuel Lawrentz · engineer &amp; team lead · 9+ years
-      </p>
-      <h1 class="hero__title rv" style={`--r:${next()}`}>
-        I build interfaces,<br />systems, and teams.
-      </h1>
-      <p class="hero__sub rv" style={`--r:${next()}`}>
-        Nine years of shipping pixel-perfect UIs and the systems behind them.
-        I write monthly about the craft - code, tools, and leading engineers.
-      </p>
-      <div class="hero__cta rv" style={`--r:${next()}`}>
-        <a href="/blog/" class="btn btn--fill">Read the writing<span aria-hidden="true"> →</span></a>
-        <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer" class="btn btn--ghost">GitHub<span aria-hidden="true"> ↗</span></a>
+      <div class="hero__fluid" aria-hidden="true">
+        <LiquidEther
+          client:media="(prefers-reduced-motion: no-preference)"
+          colors={['#E11D48', '#FF9FBC', '#B497CF']}
+          mouseForce={18}
+          cursorSize={110}
+          resolution={0.5}
+          autoDemo={true}
+          autoSpeed={0.5}
+          autoIntensity={2.0}
+          autoResumeDelay={3000}
+        />
+      </div>
+      <div class="hero__inner">
+        <p class="hero__eyebrow rv" style={`--r:${next()}`}>
+          <span class="hero__pulse" aria-hidden="true"></span>
+          Samuel Lawrentz · engineer &amp; team lead · 9+ years
+        </p>
+        <h1 class="hero__title rv" style={`--r:${next()}`}>
+          I build interfaces,<br />systems, and teams.
+        </h1>
+        <p class="hero__sub rv" style={`--r:${next()}`}>
+          Nine years of shipping pixel-perfect UIs and the systems behind them.
+          I write monthly about the craft - code, tools, and leading engineers.
+        </p>
+        <div class="hero__cta rv" style={`--r:${next()}`}>
+          <a href="/blog/" class="btn btn--fill">Read the writing<span aria-hidden="true"> →</span></a>
+          <a href="https://github.com/samuellawrentz" target="_blank" rel="noreferrer" class="btn btn--ghost">GitHub<span aria-hidden="true"> ↗</span></a>
+        </div>
       </div>
     </section>
 
@@ -211,6 +225,10 @@ const next = () => r++;
   [color-mode='light'] body:has([data-home-canvas]) {
     background-color: hsl(42, 30%, 97%);
   }
+  /* the full-bleed fluid layer is 100vw wide; don't let it cause h-scroll */
+  body:has([data-home-canvas]) {
+    overflow-x: hidden;
+  }
 </style>
 
 <style lang="scss">
@@ -228,7 +246,6 @@ const next = () => r++;
     --text-3: hsla(30, 10%, 10%, 0.42);
     --accent: hsl(349, 85%, 40%);
     --accent-text: hsl(349, 85%, 38%);
-    --glow-a: hsla(349, 90%, 45%, 0.09);
     --spot: hsla(349, 85%, 45%, 0.05);
     --top-light: hsla(0, 0%, 100%, 0.9);
     --card-shadow: 0 1px 2px hsla(345, 40%, 15%, 0.05), 0 8px 24px hsla(345, 40%, 15%, 0.05);
@@ -253,29 +270,46 @@ const next = () => r++;
     --text-3: hsla(228, 15%, 90%, 0.38);
     --accent: hsl(349, 80%, 48%);
     --accent-text: hsl(350, 90%, 68%);
-    --glow-a: hsla(349, 90%, 50%, 0.13);
     --spot: hsla(350, 90%, 60%, 0.07);
     --top-light: hsla(0, 0%, 100%, 0.1);
     --card-shadow: none;
   }
 
-  /* one radial glow, anchored top-center behind the hero */
-  .lp__glow {
-    position: absolute;
-    top: -180px;
-    left: 50%;
-    width: min(900px, 100vw);
-    height: 640px;
-    transform: translateX(-50%);
-    background: radial-gradient(closest-side, var(--glow-a), transparent);
-    pointer-events: none;
-  }
-
-  /* ── hero ── */
+  /* ── hero: fluid sim full-bleed behind centered copy ── */
   .hero {
     position: relative;
-    padding: 72px 0 88px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: clamp(520px, 76vh, 860px);
+    padding: 48px 0 88px;
     text-align: center;
+  }
+
+  .hero__fluid {
+    position: absolute;
+    top: -40px; /* cover the .lp top padding, up to the header */
+    bottom: -32px;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    z-index: 0;
+
+    /* dissolve into the canvas at both edges (under the header, before the featured panel) */
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, var(--canvas), transparent 22%, transparent 55%, var(--canvas) 97%);
+      pointer-events: none;
+    }
+  }
+
+  :global([color-mode='light']) .hero__fluid { opacity: 0.55; }
+
+  .hero__inner {
+    position: relative;
+    z-index: 1;
   }
 
   .hero__eyebrow {
@@ -681,7 +715,7 @@ const next = () => r++;
 
   /* ── responsive ── */
   @media (max-width: 760px) {
-    .hero { padding: 40px 0 64px; }
+    .hero { padding: 40px 0 64px; min-height: clamp(420px, 68svh, 700px); }
     .feat { margin-bottom: 72px; }
     .sec { margin-bottom: 72px; }
     .feat__body { padding: 24px 22px 26px; }
