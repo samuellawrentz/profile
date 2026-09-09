@@ -3,6 +3,7 @@ title: "Herdr Raised $6M. Why Would Anyone Fund a Terminal Multiplexer?"
 date: 2026-09-09
 path: /blog/herdr-6m-seed-why-agent-runtimes-get-funded/
 published: true
+heroImage: ./header.png
 tags: [ai, cli, tools, herdr]
 description: A tmux-for-agents just raised a seed round from Bessemer and YC. I have been building on top of it for months, so here is why the process layer under your coding agents is suddenly worth money.
 ---
