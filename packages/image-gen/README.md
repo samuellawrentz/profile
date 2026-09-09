@@ -9,7 +9,7 @@ bun install
 bun link
 ```
 
-Requires `GEMINI_API_KEY` (or legacy `GOOGLE_AI_API_KEY`) environment variable.
+Requires `GOOGLE_AI_API_KEY` environment variable.
 
 ## CLI
 
