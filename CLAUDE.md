@@ -27,7 +27,7 @@ bun install          # Install dependencies
 bun run dev          # Start dev server (localhost:4321)
 bun run build        # Build (runs OG image generation first via prebuild)
 bun run preview      # Preview production build
-bun run gen:image    # Generate a blog/figure image (packages/image-gen, needs GOOGLE_AI_API_KEY)
+bun run gen:image    # Generate a blog/figure image (packages/image-gen, needs GEMINI_API_KEY)
 ```
 
 ## Project Structure

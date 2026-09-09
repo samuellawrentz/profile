@@ -14,10 +14,11 @@ export async function generateImage(
   const { prompt, type = "blog", outputName } = options;
   const aspectRatio = options.aspectRatio ?? ASPECT_PRESETS[type];
 
-  const apiKey = options.apiKey ?? process.env.GOOGLE_AI_API_KEY;
+  const apiKey =
+    options.apiKey ?? process.env.GEMINI_API_KEY ?? process.env.GOOGLE_AI_API_KEY;
   if (!apiKey) {
     throw new Error(
-      "API key required: pass apiKey option or set GOOGLE_AI_API_KEY env var",
+      "API key required: pass apiKey option or set GEMINI_API_KEY (or GOOGLE_AI_API_KEY) env var",
     );
   }
 
