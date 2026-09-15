@@ -27,6 +27,10 @@ What is new is everything one map cannot do on its own:
 - **Extract.** `Ctrl-E` on a node moves the whole subtree into its own map and leaves a link behind. This is the one I wanted most. Big maps stay small.
 - **Bodies.** A node can carry a few lines of notes. `E` opens them in `$EDITOR`, they show in a pane at the bottom.
 
+![The list screen: every map in the folder, nested under whoever links to it](./list.png)
+
+![A map with a breadcrumb, a [[deep]] link and a node with a body](./link.png)
+
 Here is the whole file format. This is `backend.hmm`, with tabs shown as arrows:
 
 ```
@@ -54,6 +58,10 @@ backend › infra [1]
    infra ──────┤
                ╰── postgres
 ```
+
+A node with notes shows `…` after its title, and the notes sit in a pane at the bottom while it is selected:
+
+![A node body shown in the bottom pane](./body.png)
 
 No ids. No index. No database. The backlink engine is `grep`. If you rename a map, hmx rewrites `[[old` to `[[new` across the folder and tells you how many files it touched. Sync is `git`, hmx never talks to a network.
 
