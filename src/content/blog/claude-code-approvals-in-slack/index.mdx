@@ -1,0 +1,69 @@
+---
+title: "Approve Claude Code Permission Prompts From Slack With One Hook"
+date: 2026-09-18
+path: /blog/claude-code-approvals-in-slack/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, slack, hooks, bun]
+description: A PermissionRequest hook that DMs every "Claude wants to run X" to Slack and waits for a thumbs up. 36 lines of Bun, approve from your phone, and the agent never blocks on a terminal you are not looking at.
+---
+
+Here is the dumbest part of running agents on a server. Claude Code is halfway through a task on my Linux box, it needs permission to run something, and the prompt sits there in a tmux pane I am not looking at. I find it forty minutes later, press `y`, and it carries on like nothing happened. The agent was not slow. I was.
+
+So I moved the prompt to the place I actually look at all day. Slack.
+
+## The hook that does it
+
+Claude Code has a [`PermissionRequest` hook](https://code.claude.com/docs/en/hooks#permissionrequest). It fires the moment Claude is about to ask you for permission, gets the tool name and input on stdin, and if it prints a `decision`, that decision is the answer. No prompt shown. The whole thing is nothing but a script that posts a message and polls for a reaction:
+
+```ts
+// slack-approve.ts
+const req = await Bun.stdin.json();
+const i = req.tool_input ?? {};
+const what = i.command ?? i.file_path ?? JSON.stringify(i).slice(0, 300);
+const { ts } = await api("chat.postMessage", {
+  channel: CHANNEL,
+  text: `*${req.tool_name}* wants to run in \`${req.cwd}\`:\n\`\`\`${what}\`\`\`\nReact :white_check_mark: allow, :x: deny, :repeat: allow and remember.`,
+});
+
+let verdict;
+for (const end = Date.now() + WAIT_S * 1000; !verdict && Date.now() < end; await Bun.sleep(3000)) {
+  const r = await api("conversations.history", { channel: CHANNEL, latest: ts, oldest: ts, inclusive: "true", limit: "1" }, READ_TOKEN);
+  const hit = (r.messages?.[0]?.reactions ?? []).find((x) => VERDICT[x.name] && x.users.includes(APPROVER));
+  verdict = hit && VERDICT[hit.name];
+}
+if (!verdict) process.exit(0); // no output = Claude Code carries on as if the hook did not exist
+```
+
+`VERDICT` maps `white_check_mark` and `+1` to allow, `x` and `-1` to deny, and `repeat` to "allow and remember". The last one is free: the hook input carries a `permission_suggestions` array with the exact allow rule Claude Code would have offered you in the terminal, so you just echo the first one back:
+
+```ts
+const decision = verdict === "deny"
+  ? { behavior: "deny", message: "Denied from Slack" }
+  : { behavior: "allow", updatedPermissions: verdict === "always" ? req.permission_suggestions?.slice(0, 1) : undefined };
+console.log(JSON.stringify({ hookSpecificOutput: { hookEventName: "PermissionRequest", decision } }));
+```
+
+Wire it up in `.claude/settings.json` with `"matcher": "Bash"` and a `timeout` above your wait window. Command hooks default to 600 seconds, which is plenty.
+
+## What actually happened
+
+I tested it with a headless `claude -p` run asking for `mkdir -p out && date +%s > out/stamp.txt`. Three runs, three different outcomes:
+
+1. First attempt I only asked for `date +%s`. It never prompted at all, read-only commands do not need permission, so the hook never fired. Pick a command that writes.
+2. No reaction for 240 seconds. The hook exits without a decision, and in a `-p` session that means deny. Claude came back with "The command didn't run. It needs your approval". Honest, and nothing got executed.
+3. Thumbs up from my phone. Reaction landed 5 seconds after the DM, the hook printed `allow`, Claude ran the command and printed the stamp. 21 seconds end to end, most of it Claude thinking.
+
+In an interactive terminal the timeout case is even nicer. A hook that returns nothing leaves the permission flow unchanged, so you get the normal prompt, just later. Slack first, terminal as the fallback.
+
+<aside class="banner banner-info">
+My first version waited for a text reply ("y" or "n") in the thread. Slack said no. The bot's DM had "Sending messages to this app has been turned off", and neither of my tokens had <code>chat:write</code> as the user anyway. Reactions turned out to be the right design, one tap on a phone beats typing, and <code>conversations.history</code> returns them for free with a user token even when <code>reactions.get</code> throws <code>missing_scope</code>.
+</aside>
+
+## Why not auto mode?
+
+Claude Code 2.1.272 greeted me with "Auto mode is now the default permission mode", where a classifier runs the low risk calls and blocks the rest. Good. This hook is for the rest. The classifier decides what is safe, I decide what is not, and I decide it from wherever I am instead of from a pane I forgot about.
+
+I wrote about the hook system in general in [hooks and subagents](/blog/claude-code-hooks-subagents/). This is the first hook I have written that made me *faster* rather than just safer. The agent does not wait for me anymore, it pings me, and I approve between meetings.
+
+Deny is one emoji away too, which is more than I can say for my old workflow.
