@@ -1,0 +1,83 @@
+---
+title: "Claude Code Reads AGENTS.md Now - Here Is Exactly When It Does"
+date: 2026-09-19
+path: /blog/claude-code-agents-md/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, agents, tooling]
+description: Claude Code 2.1.277 reads AGENTS.md as a fallback when there is no CLAUDE.md. I ran seven codeword tests to find out what "fallback" really means, and one gotcha silently turns it off.
+---
+
+I run four coding agents on the same repos. Claude Code most of the time, Codex and opencode for second opinions, Cursor when I am feeling nostalgic. Every one of them wanted its own instructions file, so every repo ended up with a `CLAUDE.md` and an `AGENTS.md` that were 90% the same and slowly drifting apart. I would fix a rule in one and forget the other. Classic.
+
+Claude Code 2.1.277 finally reads [AGENTS.md](https://agents.md/), the format Codex, Cursor, Jules, opencode, Zed and a bunch of others already agreed on. But "reads it" comes with a rule, and the rule is the whole story.
+
+## The rule is fallback, not merge
+
+By default Claude Code loads `AGENTS.md` only when it finds no `CLAUDE.md` of your own. The moment a `CLAUDE.md` exists in your working directory or anywhere above it, every `AGENTS.md` in the project is ignored. Not merged, not appended. Ignored.
+
+I did not want to trust the docs on this, so I made a throwaway repo with a codeword in each file and asked `claude -p` what the codeword was. Seven runs later:
+
+```
+# AGENTS.md
+- The codeword is PUMPKIN-42. Always answer in ALL CAPS.
+
+# sub/AGENTS.md
+- In this subdirectory the codeword is TURNIP-7 instead.
+```
+
+```bash
+claude -p "What is the codeword? One line."
+```
+
+| Setup | Answer |
+|---|---|
+| `AGENTS.md` only | `PUMPKIN-42` |
+| Ask about `sub/` | `TURNIP-7` (root one still known) |
+| `@rules.md` import inside `AGENTS.md` | Imported file was read |
+| Add a `CLAUDE.md` with `MANGO-1` | `mango-1`, PUMPKIN gone |
+| Add `.claude/CLAUDE.md` instead | Same, AGENTS.md gone |
+| Mode set to `claude-md` | `NONE` |
+| Mode set to both files | Both codewords, and it noticed they conflicted |
+
+So nested files work like they do for `CLAUDE.md`, `@imports` work, and the fallback is strict. The interesting rows are the two in the middle.
+
+## The gotcha that turns it off silently
+
+A `.claude/CLAUDE.md` counts as "your own" `CLAUDE.md`. So does a `CLAUDE.local.md`. If either exists anywhere up the tree, `AGENTS.md` is out, and nothing tells you. You just get an agent that ignores the rules your other three agents follow.
+
+The one that does NOT count is `~/.claude/CLAUDE.md`. Your personal global file can stay, the project still falls back to `AGENTS.md`. Same for `.claude/rules/` files. Only project-level `CLAUDE.md` variants trigger the switch.
+
+And a `CLAUDE.md` that says "please read AGENTS.md" in plain English is nothing but a suggestion. Claude reads it only if it decides to open the file. Use the import syntax or delete the file.
+
+## If you want both files loaded
+
+There is a `/config` row called "Project instructions" with four values. Or drop this in `~/.claude/settings.json`:
+
+```json
+{
+  "pluginConfigs": {
+    "agents-md@builtin": {
+      "options": { "instructionFiles": "claude-md-and-agents-md" }
+    }
+  }
+}
+```
+
+Note the location. This is a plugin option, so a project's `.claude/settings.json` is ignored for it. It has to be user settings, managed settings, or a `--settings` file. I found this out the annoying way.
+
+<aside class="banner banner-info">
+On Amazon Bedrock, or with telemetry disabled, the built-in mod does not load at all and Claude reads only <code>CLAUDE.md</code>. For those setups keep a one-line <code>CLAUDE.md</code> containing <code>@AGENTS.md</code>. The import never loads the file twice, whichever mode you pick.
+</aside>
+
+## What I am doing with my repos
+
+Three cases, three moves:
+
+1. `CLAUDE.md` was a copy of `AGENTS.md`. Delete `CLAUDE.md`. One file, four agents, done.
+2. `CLAUDE.md` has Claude-only stuff (hooks, plan mode habits, the [rules I actually keep](/blog/claude-md-that-works/)). Make its first line `@AGENTS.md` and keep the Claude bits under it. Claude reads the shared file first, then the extras.
+3. Monorepo packages. One `AGENTS.md` per package, and it gets attached the first time Claude reads a file in there, same as nested `CLAUDE.md` always did.
+
+The mod itself is [open source](https://github.com/anthropics/claude-code/tree/main/mods/agents-md) and reads like a spec, which is how I confirmed the `.claude/CLAUDE.md` thing before I believed my own test. It is also the first of the "mods" for customizing the harness, so expect more of these.
+
+One instructions file for every agent. Took long enough.
