@@ -1,0 +1,73 @@
+---
+title: "An AI If-Statement You Can Run on a 4-Core VM - Trying Kev"
+date: 2026-09-20
+path: /blog/kev-tiny-decision-model/
+published: true
+heroImage: ./header.png
+tags: [ai, llm, self-hosted, python, cx]
+description: Kev is a 0.5B open model that takes typed questions and returns probabilities instead of prose, in one forward pass. I ran it on a cheap Linux VM against real-looking support tickets. It nailed routing and got code review wrong, which is exactly the point.
+---
+
+I run a contact center product for a living, so half of what our backend does with an LLM is not "write me something". It is "which queue does this go to", "is this customer about to explode", "should a human look at this now". Yes-or-no, pick-one, rate-this. We were paying frontier model prices and a full second of decoding to get a JSON blob back, then parsing that blob and hoping the model did not add a friendly sentence around it.
+
+The decision-model idea has been everywhere this week because of Jev. Typed questions in, calibrated probabilities out, no text generation at all. I wanted to see if the idea holds up when the model is tiny and free. [Kev](https://github.com/jaredpalmer/kev) is nothing but that: a LoRA adapter plus a small readout head on top of a Qwen 0.5B base, Apache-2.0, weights on Hugging Face, and an API that is a copy of the TypeSafe System One contract so the same request body works against both.
+
+## Running it on a box with no GPU
+
+My Linux box is a 4 vCPU VM with 15GB RAM and no GPU. The README says serving is tested on Apple Silicon. It falls back to CPU fine:
+
+```bash
+git clone https://github.com/jaredpalmer/kev.git && cd kev
+uv sync --extra serve
+uv run --extra serve python -m kev.serve --run jaredpalmer/kev-0.5b --port 8009
+```
+
+The first line pulls a 6.9GB venv (torch, the usual), the adapter is 51MB and the Qwen base is 954MB. The server was answering 20 seconds after start.
+
+## The request is the whole product
+
+Here is what I threw at it. A ticket that looks like a Monday morning at Plivo, and four questions about it:
+
+```json
+{
+  "state": "Our outbound campaign to India numbers keeps failing with error 403 since yesterday morning and we have a product launch tomorrow. This is the third ticket I have opened.",
+  "questions": {
+    "queue":    { "type": "choice", "instructions": "Which team should handle this?",
+                  "criteria": { "billing": "Charges, invoices, refunds", "telephony": "Call or SMS delivery failures, carrier errors", "account": "Login, user access", "sales": "Pricing, upgrades" } },
+    "escalate": { "type": "noul",   "instructions": "Does this need urgent human attention right now?" },
+    "mood":     { "type": "score",  "instructions": "How frustrated is the customer?", "criteria": ["Calm", "Annoyed", "Angry", "Furious"] },
+    "churn":    { "type": "noul",   "instructions": "Is the customer likely to cancel their account?" }
+  }
+}
+```
+
+And the answer, 1.6 seconds later on CPU, all four questions in one pass:
+
+| Question | Answer |
+|---|---|
+| queue | `telephony` at 0.98 |
+| escalate | 0.88 |
+| mood | 1.63 on a 0-3 scale, probability spread across Annoyed and Furious |
+| churn | 0.05 |
+
+Three out of four I would sign off on. Routing is right, escalation is right, the mood spread is honest about being unsure. Churn at 0.05 is wrong, a third ticket before a launch is a churn signal, but the model has never seen a telecom ticket in its life. A calm "can I get last month's invoice" went to billing at 0.95 with escalate at 0.03, and "my cat sits on my keyboard" went to `other` at 1.0. Repeat calls came back around 1.0 to 1.3 seconds.
+
+Notice what is not there. No "respond only in JSON", no regex over the reply. The numbers are the output. The model reads the state once, every question gets its own branch under a mask so they cannot leak into each other, and a pointer head scores the options. That is why four questions cost roughly the same as one.
+
+## Where it fell over
+
+Then I asked it to review a pull request. State: a 340-line diff touching payment webhooks, a new migration, no tests, description "quick fix for flaky webhooks". Questions: how risky, should we ask for tests, who reviews.
+
+It said risk `Trivial` at 0.63 and tests-needed at 0.07. Reviewer went to the payments team at 0.95, so it can match words, but it has no idea what a migration with no tests means. The README is upfront about this: the 0.5B checkpoint is a research prototype trained on six public datasets (news categories, banking intents, reviews, NLI) and out-of-domain accuracy is 0.575. It is an if-statement that learned what it was shown.
+
+<aside class="banner banner-info">
+The rule I took away: a decision model is for cheap, high-volume, in-domain decisions where you own the outcome data and can fine-tune. It is not a small brain. Keep the <a href="/blog/orchestrating-ai-models-like-a-tech-lead/">frontier models</a> for anything that needs reasoning or a paragraph.
+</aside>
+
+## Why I still like it
+
+Because the shape is right even if the 0.5B weights are not ready. A support tool that fires forty classification questions per ticket cannot afford forty LLM calls. Probabilities let you threshold: auto-route above 0.9, queue for a human below, log the rest as training data. The 4B checkpoint trains in under an hour on one H100 and the repo ships the whole recipe, so fine-tuning on your own tickets is a weekend, not a quarter.
+
+I stopped the server and deleted the venv after this, the box has better things to do with 7GB. The request body is staying in my notes.
+
+The AI if-statement is real. Just train it on your own ifs.
