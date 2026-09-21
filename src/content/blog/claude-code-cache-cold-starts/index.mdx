@@ -1,0 +1,77 @@
+---
+title: "Your Claude Code Bill Is 94% Cache Hits. The Rest Is Coffee Breaks."
+date: 2026-09-21
+path: /blog/claude-code-cache-cold-starts/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, prompt-caching, cost, bun]
+description: I parsed a month of my own Claude Code transcripts to see where the prompt cache actually misses. 1448 requests, 17 misses, and 16 of them were me walking away for more than an hour. Here is what a cold turn costs and the short list of things that cause one.
+---
+
+Someone on my timeline wanted Claude Code to show cold versus warm cache cost per turn, because "cold costs ten times more". I nodded, then realised I had no idea what my own cache hit rate was. I run Claude Code on a Linux box all day, sometimes as cron jobs, sometimes in a tmux pane I forget about. Every transcript is sitting in `~/.claude/projects` as JSONL with the usage numbers on every assistant message. So I counted.
+
+## The numbers from a month of transcripts
+
+30 days, 134 sessions, 1448 API requests. Prompt tokens split like this:
+
+| Kind | Tokens | Share |
+|---|---|---|
+| Cache read | 144.1M | 93.9% |
+| Cache write | 9.3M | 6.1% |
+| Uncached | ~0 | 0% |
+
+Caching is not a nice-to-have, it is the whole bill. At Opus list prices that month would be around $2400 with no cache and $590 with it. The interesting part is the 6%. A normal turn writes about 4k tokens, the new exchange. So where do 9.3M tokens of writes come from?
+
+Group every request by how long it had been since the previous one:
+
+| Gap since last request | Requests | Writes as share of prompt | Avg write |
+|---|---|---|---|
+| under 5 min | 1282 | 3.3% | 4k |
+| 5 to 60 min | 16 | 3.9% | 4k |
+| 1 to 4 hours | 4 | 89% | 114k |
+| over 4 hours | 12 | 93% | 186k |
+
+Sixteen requests. Every one of them was me coming back to a session after more than an hour. Between them they re-wrote 2.7M tokens, 29% of every cache write for the month. Using the same definition Claude Code uses for a miss (re-processed more than 5% and at least 2k tokens of what it could have read), those 16 were 98% of all miss tokens. The 17th miss was a 47k rebuild I still cannot explain, and at that point I stopped caring.
+
+## What one coffee break costs
+
+A cached read is 0.1x the input price. A one-hour cache write is 2x. So a 170k-token session that goes cold and comes back is paying 20x more for that turn than the turn before it. At Opus rates that is nothing but $5 for pressing enter on "continue", versus 26 cents warm. Do that twice a day for a month and it is the price of a Max plan.
+
+If you want to see your own, this is the whole script minus the pretty printing:
+
+```ts
+import { readFileSync } from "fs";
+const seen = new Set(); let read = 0, write = 0;
+for (const f of Bun.argv.slice(2)) for (const line of readFileSync(f, "utf8").split("\n")) {
+  let j; try { j = JSON.parse(line); } catch { continue; }
+  const u = j.message?.usage; if (j.type !== "assistant" || !u || seen.has(j.requestId)) continue;
+  seen.add(j.requestId); read += u.cache_read_input_tokens ?? 0; write += u.cache_creation_input_tokens ?? 0;
+}
+console.log({ read, write, hitRate: (read / (read + write)).toFixed(3) });
+```
+
+```bash
+bun cache.ts ~/.claude/projects/*/*.jsonl
+```
+
+The `seen` set matters. Claude Code writes one JSONL row per content block, and every row of the same response carries the same usage. My first version counted 3650 "turns" and 954 misses and I nearly published that.
+
+## The list of things that actually go cold
+
+I went in expecting the usual suspects and most of them turned out to be fine. From the [Claude Code caching docs](https://code.claude.com/docs/en/prompt-caching) plus my own data:
+
+**Keeps the cache:** editing files, editing `CLAUDE.md` mid-session (it does not reach the session until `/clear` anyway), changing permission mode, invoking skills, spawning subagents (they get their own cache, the parent's prefix is untouched), and loading deferred tools through tool search. That last one surprised me. I had 87 requests right after a `ToolSearch` call and zero of them missed.
+
+**Invalidates it:** switching model, changing effort, turning fast mode on, adding a bare tool name to deny rules, compaction, accumulating enough images that old ones get dropped, and upgrading Claude Code between sessions. All one-time hits, all visible as a slow turn.
+
+**And the big one:** idling past the TTL. My main conversation writes were tagged as one-hour (8.8M of 9.3M), which is why the 5-to-60 minute bucket above looks identical to the under-5 bucket. Subagents and compaction requests get five minutes. `ENABLE_PROMPT_CACHING_1H=1` forces the hour for everything, `FORCE_PROMPT_CACHING_5M=1` forces five for everything. To check yours, `claude -p hello --output-format json` and look for `ephemeral_1h_input_tokens` under `cache_creation`.
+
+<aside class="banner banner-info">
+On 2.1.251+ you do not need my script. <code>/usage</code> shows a <code>Prompt cache (main)</code> line with hit ratio, miss count, and whether the cache is warm right now. From 2.1.260 it also names the likely cause of the last miss.
+</aside>
+
+## What I changed
+
+Nothing clever, and none of the [usual token diet](/blog/claude-code-token-optimization/) applies here. If I am about to leave a big session for lunch, I either finish the task or I `/clear` and let it start fresh later, because a 6k-token new session is cheaper than a 175k-token warm-up. On Pro and Max, Claude Code already offers to resume from a summary after a long break for exactly this reason. Say yes to that.
+
+The cache is doing 94% of the work for free. Stop making it cold.
