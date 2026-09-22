@@ -1,0 +1,71 @@
+---
+title: "Google's AX Is kubectl for Agents. Its Four Manifests Are a Checklist for the Rest of Us."
+date: 2026-09-22
+path: /blog/google-ax-kubectl-for-agents/
+published: true
+heroImage: ./header.png
+tags: [ai, agents, kubernetes, infrastructure, devops]
+description: Google open-sourced AX, a declarative orchestrator that runs coding agents as sandboxed tasks with a Task, Workspace, Gateway and Model manifest each. I will never run it on my one VM, but the four kinds name every thing I currently do to agents by hand.
+---
+
+I run my coding agents the artisanal way. A git worktree per task, a tmux pane per agent, MCP servers configured in a JSON file I copy between projects, API keys in `.zshenv`, and absolutely nothing stopping an agent from `curl`-ing wherever it likes. It works. It also means every "set up a new agent" is twenty minutes of me doing the same six things.
+
+So when Google put [AX](https://github.com/google/ax) on GitHub this week (Go, Apache-2.0, 6k stars in a few days, a warning at the top that everything may break before stable), I did not read it as "should I deploy this". I read it as "what did a team that runs agents at Google scale decide were the primitives". The answer is four YAML kinds, and they are a pretty good checklist.
+
+## The four kinds
+
+AX is kubectl-shaped on purpose. `ax apply -f`, `ax get tasks`, `ax describe`, `ax watch`, plus agent-specific verbs. Everything is an `ax.io/v1alpha1` manifest:
+
+```yaml
+apiVersion: ax.io/v1alpha1
+kind: Workspace
+metadata:
+  name: profile
+spec:
+  git:
+    - repo: https://github.com/samuellawrentz/profile.git
+      branch: main
+  mcp:
+    servers:
+      - name: linear
+        endpoint: http://linear-mcp.default.svc:8080
+  skills:
+    path: /.agents/skills
+---
+apiVersion: ax.io/v1alpha1
+kind: Task
+metadata:
+  name: fix-124
+spec:
+  workspaces:
+    - name: profile
+      goal: "bun install and make sure the build passes"
+  gatewayRef: strict
+  debug: true
+```
+
+**Task** is the unit of isolation. Image, command, CPU and memory limits, env, one Gateway, one or more Workspaces. Deliberately small: AX does not try to model plans, retries or fan-out. One sandbox, one command, you compose the rest.
+
+**Workspace** is the thing I do by hand. Git repos cloned at a revision, MCP servers and registries, a skills directory materialised before the command starts. Declare once, bind from any number of tasks. It also takes a `goal`, a plain-English description of the environment, which the runner hands to an agent on first boot to finish setup. Yes, an agent sets up the environment for the agent. That is the most Google line in the repo and I kind of want it.
+
+**Gateway** is the thing I do not do at all. Listeners the task exposes, and an egress allowlist of hosts and ports it may reach. The example ships with `*` on 443 and a comment saying tighten this in production, which is honest. Still, "this agent can talk to the model API and the git host and nothing else" is a sentence I cannot currently say about anything on my box.
+
+**Model** is not a model. It is a named config: provider, model id, temperature, and a reference to the Kubernetes secret holding the key. One place to rotate a key or pin a version instead of every agent's environment. I audited my VPS last week and found API keys in three env files. This is the fix, described as YAML.
+
+## What the sandbox gives the agent
+
+Inside each task, `ax-task-runner` is PID 1. It clones the workspaces, starts a metadata server on port 80, then runs your command with `AX_METADATA_URL` set. `curl $AX_METADATA_URL/metadata/v1alpha1/ax/task` returns the full spec and status, no SDK. `/readyz` stays 503 until clones, MCP config and skills are all in place, so a `Ready` condition means "the agent can actually start working", not "the container is up".
+
+The part I am most jealous of is `ax suspend` and `ax resume`. The sandbox layer is [Agent Substrate](https://github.com/agent-substrate/substrate), gVisor-based, which checkpoints RAM and filesystem and multiplexes idle actors onto a small worker pool. Their demo juggles 250 stateful agents on 8 pods. My equivalent is a tmux pane I forgot about that comes back cold an hour later.
+
+<aside class="banner banner-info">
+State lives in Redis, not Kubernetes CRDs. The design doc says it plainly: millions of short-lived tasks in etcd is a bad time. Kubernetes still provisions the workers, it just does not store the tasks.
+</aside>
+
+## What I did not do
+
+I did not run a task. AX needs a cluster, `ko`, a registry, and a reachable Agent Substrate control API. I installed the CLI with `go install github.com/google/ax/cmd/ax@latest` (22 seconds, 20MB binary), read the help, read the docs, and deleted it. "Billions of agent workloads" is not my problem. One box with a [60ms microVM](/blog/microvm-sandboxes-untrusted-code/) per task would be plenty.
+
+But the checklist stands. Every agent I start should have a declared workspace, a declared network boundary, a model config it does not own, and a way to pause. I have one and a half of those. If a [terminal multiplexer for agents](/blog/herdr-6m-seed-why-agent-runtimes-get-funded/) can raise a seed round, the manifests above are the spec for the next one.
+
+Four kinds. I am going to steal at least two.
