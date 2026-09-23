@@ -1,0 +1,81 @@
+---
+title: "Opus 5.5, Day One: Four Models, Two Boring Tasks, Sixteen Runs"
+date: 2026-09-23
+path: /blog/claude-opus-5-5-day-one/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, llm, cost, benchmarks]
+description: Claude Opus 5.5 landed and Claude Code silently made it the default. I ran it against Opus 5, Fable 5.1 and Sonnet 5 on the two small tasks I always use, twice each, and counted seconds, dollars, lines and tautological tests. The 40% cheaper claim came out at 55% on my box.
+---
+
+Claude Opus 5.5 shipped yesterday. Fable 5.1 level on most work, 40% cheaper to run than Opus 5, bigger five-hour limits, a banked reset you can spend when you like. Sonnet 5.5 and Haiku 5.5 to follow. Every model lab dropped something this week, so I am not going to add to the benchmark screenshots.
+
+What I did instead: updated Claude Code, noticed that `--model opus` now resolves to `claude-opus-5-5` with no announcement, and ran my two boring test tasks on four models. Twice each. Sixteen runs, all `claude -p`, project settings only so none of my CLAUDE.md or plugins leak in.
+
+## The two tasks
+
+Same tiny repo as my [do-not-overengineer](/blog/do-not-overengineer/) experiment: a `constants.ts` with four exports and a six-line `fetchUser`. Task one: "Add retry with exponential backoff to fetchUser. Keep it minimal." Task two: "Add unit tests for constants.ts using bun test." I measure wall time, cost from the JSON output, output tokens, lines added, and for the tests task, how many assertions are nothing but the constant restated (`expect(MAX_RETRIES).toBe(3)`).
+
+One accident made it better. I ran with `--permission-mode acceptEdits`, which allows file writes but not Bash, so no model could actually run `bun test`. Every one of them shipped unverified tests. Every one of them also said so, unprompted. Opus 5.5 opened with "I haven't run it." Good.
+
+## Retry task, averaged over two runs
+
+| Model | Time | Cost | Output tokens | Lines added |
+|---|---|---|---|---|
+| Opus 5 | 29s | $0.19 | 2129 | 17.5 |
+| Opus 5.5 | 13s | $0.09 | 904 | 12 |
+| Fable 5.1 | 21s | $0.26 | 1211 | 10 |
+| Sonnet 5 | 10s | $0.05 | 610 | 8.5 |
+
+Opus 5.5 is the 12-line version. It retries on network errors, 429 and 5xx, throws straight away on other 4xx, reuses the `MAX_RETRIES` constant it found in the file next door, and does it in four turns. Opus 5 wrote the same logic plus a `sleep` helper, a comment explaining 4xx, and twice the output tokens. Fable was tighter than both and cost the most. Sonnet was smallest and fastest, and skipped the 429 case.
+
+```ts
+for (let attempt = 0; ; attempt++) {
+  let res: Response | undefined;
+  try {
+    res = await fetch(`${API_BASE}/users/${id}`);
+  } catch (err) {
+    if (attempt >= MAX_RETRIES) throw err;
+  }
+  if (res) {
+    if (res.ok) return res.json();
+    const retryable = res.status === 429 || res.status >= 500;
+    if (!retryable || attempt >= MAX_RETRIES) throw new Error(`fetchUser ${id}: ${res.status}`);
+  }
+  await new Promise((r) => setTimeout(r, 2 ** attempt * 100));
+}
+```
+
+That is Opus 5.5's whole diff. I would merge it.
+
+## Tests task, averaged over two runs
+
+| Model | Time | Cost | Tests written | Tautological |
+|---|---|---|---|---|
+| Opus 5 | 49s | $0.24 | 11 | 3.5 |
+| Opus 5.5 | 17s | $0.11 | 9 | 3.5 |
+| Fable 5.1 | 27s | $0.28 | 10.5 | 4 |
+| Sonnet 5 | 29s | $0.07 | 7.5 | 4 |
+
+Two things. First, Opus 5.5 is again a third of Opus 5's time and less than half its cost, with fewer, tighter tests. Second, every model, including Fable, wrote three or four tests that restate the source. `API_BASE` equals the URL. `DEFAULT_TIMEOUT_MS` is 30000. This is not a model quality problem, it is a prompt problem. I ran Opus 5.5 once more with three words added, "No tautological tests", and got eight tests and zero restatements, plus a sentence explaining that asserting the literal would just copy the source. Three words. Put them in your CLAUDE.md.
+
+## Totals
+
+| Model | 4 runs | Wall time | Output tokens |
+|---|---|---|---|
+| Opus 5 | $0.86 | 154s | 10743 |
+| Opus 5.5 | $0.39 | 60s | 4870 |
+| Fable 5.1 | $1.08 | 95s | 6459 |
+| Sonnet 5 | $0.24 | 79s | 4023 |
+
+The list price moved from $5/$25 to $4/$20 per million tokens, which is 20% not 40%. The rest of the [claim](https://www.anthropic.com/news/claude-opus-5-5) is token efficiency, and on these two tasks it was real. Half the output tokens of Opus 5 for a diff I preferred. Total came out 55% cheaper and 2.5x faster.
+
+<aside class="banner banner-info">
+Two tasks, two runs each, one tiny repo. This is a shape, not a benchmark. The shape is that Opus 5.5 behaves like the Sonnet of the Opus family: short, fast, does not narrate, and Fable is now the only thing that beats it on the diff itself.
+</aside>
+
+## What changes for me
+
+Not much, which is the point. `opus` already means 5.5 in Claude Code, so my [routing setup](/blog/orchestrating-ai-models-like-a-tech-lead/) got cheaper without an edit. Fable stays for the hard, long jobs where it earned the extra 20 seconds here. Sonnet stays for one-liners. And I am now watching the five-hour meter with a banked reset in my pocket, which feels a lot like having a free pass on a bad afternoon.
+
+Same tasks, same repo, same prompts. Just cheaper.
