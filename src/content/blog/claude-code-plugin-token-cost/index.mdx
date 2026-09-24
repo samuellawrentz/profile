@@ -1,0 +1,76 @@
+---
+title: "My Claude Code Plugins Cost 17k Tokens Before I Type a Word"
+date: 2026-09-24
+path: /blog/claude-code-plugin-token-cost/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, plugins, cost, context]
+description: I measured what my Claude Code plugins, hooks, MCP servers and skills add to every request. Half the prompt was my own setup, one plugin I would have cut on vibes cost zero tokens, and the real waste was stuff that was simply broken.
+---
+
+I have been hoarding Claude Code plugins like browser tabs. A memory plugin, a "be lazy" plugin, a skill pack, a sandbox for tool output, four LSP plugins, a mermaid thing I used once. Every one of them looked cheap on its own. Then I read a harness-tuning checklist that said something I could not unsee: *read the rendered requests, not just the templates.* So I did that to my own setup.
+
+## How much context does Claude Code send on turn one?
+
+The trick is boring. Run the same one-word prompt with a config change each time, and read the usage block Claude Code prints with `--output-format json`:
+
+```bash
+run() {
+  claude -p "Reply with just: ok" --model opus --max-turns 1 \
+    --output-format json "$@" < /dev/null |
+  jq '.usage | .input_tokens + .cache_creation_input_tokens + .cache_read_input_tokens'
+}
+run                                   # my full setup
+run --setting-sources project         # no user settings at all
+run --settings '{"enabledPlugins":{"ponytail@ponytail":false}}'
+```
+
+Twenty runs on Opus 5.5, under $3 total. Here's what came back:
+
+| Setup | Tokens before my message |
+|---|---|
+| Everything on | 34,928 |
+| Project settings only | 18,073 |
+
+So 17k tokens, nearly half the prompt, is me. Turning off one layer at a time:
+
+| Layer removed | Tokens saved |
+|---|---|
+| Skill listing (`--disable-slash-commands`) | 5,207 |
+| MCP servers (`--strict-mcp-config`) | 4,593 |
+| All hooks (`disableAllHooks`) | 4,572 |
+
+And per plugin, the ones that inject a SessionStart message win by a mile: context-mode 2,288, ponytail 2,009, pstack 969, basic-memory 494. The three LSP plugins for Python, Rust and TypeScript? **Zero.** Same prefix, full cache hit. I was about to delete them first.
+
+<aside class="banner banner-info">
+Inside a session, <code>/context</code> shows the same breakdown live. The <code>-p</code> loop is for comparing configs, since each run starts clean.
+</aside>
+
+## Then I checked what I actually use
+
+I parsed 30 days of transcripts in `~/.claude/projects`: 207 sessions, 2,328 requests. The model called the Skill tool for 11 distinct skills in that month (not counting the ones I typed as slash commands). The listing it reads on every request has more than a hundred. A whole pack of video-editing skills has never fired once. For MCP, the context-mode sandbox showed up in 27 sessions, memory and Linear in 15 each, context7 in one.
+
+In money this is less dramatic than it sounds. At Opus 5.5 list prices a cached read is $0.20 per million, so 14k extra tokens on 2,328 requests is about $6.60 a month. The expensive part is the first request of a cold session, where the prefix gets written at $8 per million. Worst case, if every one of those 207 sessions started cold, that's another $23. Per session, not per request, is where the cost lives (I wrote about [cold cache starts](/blog/claude-code-cache-cold-starts/) already, same story).
+
+## The real waste was broken stuff
+
+Reading the rendered prompt instead of the config files found things no token count would:
+
+1. A SessionStart hook pointing at `/Users/<me>/...`, a Mac path. My dotfiles sync to a Linux box, so it fails quietly on every single session there.
+2. My global `CLAUDE.md` imports `@~/.claude/pstack-models.md`. That file does not exist.
+3. An MCP server that gets `ECONNREFUSED` every session, and Claude gets told about it every session.
+4. Three plugins each tell the model how to behave on *every* task. One says to invoke a skill before any engineering work, one says to answer with code first and three lines max, one says to route shell output through its sandbox. One wraps it in `EXTREMELY_IMPORTANT` tags. When those disagree, the model picks, and I never find out which one it picked.
+
+That last one bugs me more than the tokens. The checklist's best line was that capable models need definitions, not commands. A plugin that describes what its tool does is fine. A plugin that shouts rules at every turn is fighting the other plugins that shout rules at every turn.
+
+## My cut list
+
+- Fix the dead hook and the dead import. Free, and they were never doing anything.
+- Drop the MCP server that can't connect.
+- Move skill packs I haven't used in a month out of `~/.claude/skills`. I can put them back in ten seconds.
+- Keep the LSP plugins. They cost nothing until I open a file in that language.
+- Keep context-mode and memory, they're the two I actually use. Look hard at the "always do X" plugins.
+
+The general rule I'm taking away: measure before you prune. My instinct was to cut the plugins with the most boring names, and they were the free ones. If you have your own sprawl, the [token habits post](/blog/claude-code-token-optimization/) covers the in-session side. This one is the stuff you pay for before you've said anything.
+
+*Run the loop on your own setup, the number will annoy you too.*
