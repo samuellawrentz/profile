@@ -1,0 +1,50 @@
+---
+title: "Would You Share the Prompt? A Review Rule for AI-Written PRs"
+date: 2026-09-25
+path: /blog/share-the-prompt-test/
+published: true
+heroImage: ./header.png
+tags: [ai, code-review, leadership, claude-code, teams]
+description: "My one rule for AI-written pull requests, messages and docs: only send it if you'd be happy for the reviewer to read the prompt too. It catches lazy output faster than any checklist."
+---
+
+Every team has a Bob now. You ask Bob a question in Slack, Bob pastes it into an agent, Bob pastes the answer back. Nobody's hurt, technically. But you asked Bob, not the agent, and you could have done that yourself.
+
+I review a lot of pull requests that Claude wrote. Some are great. Some are four hundred lines of confident code where the author clearly never read past the diff summary. For a while I tried to write a checklist for telling the two apart. Then I landed on one question, and it has worked better than every checklist I tried:
+
+**Would you be happy if I read your prompt?**
+
+## Why the prompt is the real PR
+
+When a human writes code, the diff is the work. When an agent writes it, the diff is the output and the prompt is the work. The prompt is where you decided what to build, what to leave out, what "done" means and which edge cases matter. If that part is lazy, the diff will be lazy too, it'll just look tidier.
+
+So the test sorts people fast:
+
+1. **"Fix the bug in checkout"** - you'd be a bit embarrassed to share this one. You didn't say which bug, you didn't say how you'd know it's fixed, and the reviewer ends up doing the thinking you skipped.
+2. **"Refunds over the cap return 500, the cap check runs after the charge. Move it before, add a test for exactly-at-cap, don't touch the retry path"** - you'd share this happily. It already says what the PR does, and half my review is done before I open the diff.
+
+The second author still used AI for everything. That's fine, it was never about whether you used AI. The question is whether you did your part of the job before handing the rest to the agent.
+
+## It works for messages too
+
+Same rule for Slack replies, design docs, incident summaries. If the prompt was "summarise this thread", don't post the result as your opinion. If the prompt was "here's what I think happened and why, tighten it up", go ahead, that's your take in cleaner words.
+
+Bob fails this test every time, because Bob's prompt is the question you asked him, pasted as-is.
+
+<aside class="banner banner-info">
+My commits carry a <code>Claude-Session</code> link back to the session that wrote them. Nobody asked for it. It's just easier to hold myself to this rule when the prompt is one click away.
+</aside>
+
+## What I actually ask in review
+
+I don't make anyone attach their prompts. That becomes a ritual fast, and people start writing prompts for the reviewer instead of for the agent. Instead, when a PR feels hollow, I ask one of these:
+
+- "What did you tell it to leave alone?"
+- "How did you check this works, apart from the tests it wrote?"
+- "Which part did you change after it was done?"
+
+If there's an answer, great, we move on. If there's a pause, we both know what happened, and it's a much nicer conversation than "this looks AI-generated".
+
+I've [written before](/blog/the-part-of-the-job-ai-cant-grade/) about the part of the job AI can't grade. This is the same idea from the reviewer's side. The agent can write the code. It can't decide what you meant.
+
+*Write the prompt you'd be happy to show me, and I'll probably approve the PR.*
