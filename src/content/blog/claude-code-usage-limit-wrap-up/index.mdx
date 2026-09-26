@@ -1,0 +1,60 @@
+---
+title: "What Claude Code Tells the Model When You Hit the 5-Hour Limit"
+date: 2026-09-26
+path: /blog/claude-code-usage-limit-wrap-up/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, usage-limits, agents]
+description: Claude Code 2.1.283 stops at a clean point when your 5-hour usage limit hits mid-task, instead of dying mid-edit. I dug the actual wrap-up messages out of the binary. Here's what the model sees, when it sees it, and how to set up your work so the wrap-up is useful.
+---
+
+The worst way to hit a usage limit is halfway through a refactor. Three files edited, two not, tests red, and Claude just... stops. You come back five hours later to a codebase that doesn't compile and a session that has to rediscover what it was doing.
+
+Claude Code 2.1.283 fixes that. When you hit the 5-hour limit mid-task, it gets a small fixed allowance taken from your weekly limit and uses it to reach a clean stopping point. The announcement was one paragraph. I wanted to know what the model actually gets told, so I updated and went looking through the binary.
+
+## How does it know you're at the limit?
+
+Every API response carries rate-limit headers. 2.1.283 reads two new ones:
+
+```
+anthropic-ratelimit-unified-grace-5h-utilization
+anthropic-ratelimit-unified-grace-7d-utilization
+```
+
+If either is above zero, you're in the grace window. Claude Code works out which window you hit (5-hour or weekly) and when it resets. It also checks whether paid extra usage is covering you. If it is, there's nothing to wrap up and no note gets sent.
+
+## The actual wrap-up messages
+
+These are the strings in the 2.1.283 binary. The model gets one of them as a hidden note in the conversation:
+
+```
+[Usage limit reached - grace window active. Checkpoint now: finish the
+current step, then list up to 3 short bullets of the most impactful
+remaining work. Don't start subagents or long-running work.]
+```
+
+There's a shorter variant ("Wrap up: finish or checkpoint; don't start subagents or long work."), and which one you get is picked by a server-side flag. There's also an earlier warning when you're *approaching* the limit. You see "Approaching your 5-hour usage limit - Claude will wrap up the current step." and the model gets the same "checkpoint now" note, just with "approaching" instead of "reached".
+
+I like that it's short. It doesn't beg the model to save tokens (which tends to make models timid), it just says finish the step, write down what's left, don't start anything big. Subagents can get a version of it too (behind another flag), so a parallel fan-out doesn't keep spawning workers into a wall. Most of this is gated by server-side flags, so what you see depends on what Anthropic has turned on for your account.
+
+## The detail that matters: mid-task only
+
+Here's the bit I didn't expect. The note is only injected **in the middle of a turn**, while Claude is looping through tool calls. If you send a fresh message after the limit hits, the pending wrap-up is dropped instead of being slapped onto your new request. That makes sense. The whole point is to rescue work in flight, not to nag you on your next prompt.
+
+On the approaching warning, Claude Code also saves a checkpoint of the current todo list. So the "3 bullets of remaining work" isn't the only thing that survives.
+
+<aside class="banner banner-info">
+Pair this with "Continue automatically at usage limit" in <code>/config</code>. The model wraps up cleanly, then the session picks up by itself when the window resets.
+</aside>
+
+## Set your work up so the wrap-up is useful
+
+The wrap-up can only stop at a clean point if your task *has* clean points. A few habits that help:
+
+1. **Ask for a todo list on anything big.** It's what gets checkpointed, and it turns "finish the current step" into an actual step.
+2. **Commit per step, not per task.** A clean stop on top of four small commits is great. A clean stop on one giant uncommitted diff is only slightly better than the old way.
+3. **Don't start the huge fan-out at 90%.** Check `/usage` first. The wrap-up tells Claude not to start subagents, but workers that are already running still burn the allowance.
+
+I run a few Claude Code jobs unattended on a Linux box, and the mid-edit cutoff was the failure I hated most, because nobody was watching when it happened. If you've been bitten by the [cold cache after a break](/blog/claude-code-cache-cold-starts/) too, this is the other half of the same problem: long agent runs need to stop well, not just start fast.
+
+*Now the limit is still annoying, but at least it stops at a clean point.*
