@@ -1,0 +1,61 @@
+---
+title: "Opus 5.5 Effort Levels: Max Cost 5x More and Did No Better"
+date: 2026-09-27
+path: /blog/opus-5-5-effort-levels/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, opus, effort, benchmarks]
+description: I ran Opus 5.5 in Claude Code at low, medium, high, max and default effort on three everyday coding tasks with hidden tests. Low passed everything for the least money. Max took eight times longer, cost five times more, and did no better.
+---
+
+My timeline this week is people saying Opus 5.5 on medium effort "just works", and other people saying they run everything on max because why wouldn't you. I had a weekend morning and a box that runs Claude Code, so I stopped guessing and measured it.
+
+## The setup
+
+Three small tasks, the kind I actually hand to an agent on a Tuesday:
+
+1. **Bug fix** - "mergeIntervals sometimes returns wrong or overlapping ranges. Fix it." The code doesn't sort its input and loses the end of a contained interval.
+2. **Feature** - implement `parseDuration("1h30m")` with d/h/m/s/ms, decimals, spaces, and throw on garbage.
+3. **Another bug fix** - a `retry` helper that does one attempt too few, throws the first error instead of the last, and has no backoff.
+
+Every run starts in a fresh git repo with `claude -p --model opus --effort <level>`, project settings only, and permission to run `bun test`. After it finishes, I drop in a hidden test file it never saw and count passes. Two runs per level per task, 30 runs, about $7 total.
+
+```bash
+claude -p "$PROMPT" --model opus --effort "$LEVEL" \
+  --setting-sources project --output-format json \
+  --allowedTools Read Edit Write Glob Grep "Bash(bun test:*)"
+```
+
+## The numbers
+
+Totals for six runs per level (three tasks, twice each):
+
+| Effort | Cost | Wall time | Output tokens | All hidden tests pass |
+|---|---|---|---|---|
+| low | $0.58 | 88s | 5.8k | 6 of 6 |
+| medium | $0.76 | 133s | 10.9k | 6 of 6 |
+| high | $0.75 | 130s | 10.8k | 5 of 6 |
+| max | $3.74 | 1096s | 114k | 4 of 6 |
+| default (no flag) | $0.75 | 129s | 10.5k | 6 of 6 |
+
+Low was the cheapest, the fastest, and passed everything. Medium, high and default are basically the same run with different labels. Max is in a different world. It spent 30-38k output tokens and five to six minutes *per run* on `parseDuration`, a function the other levels wrote in twenty seconds. Same tests passing at the end.
+
+## About those "failures"
+
+Before anyone quotes the last column, I should be fair to max. All three misses were the same test: should `[1,3]` and `[3,5]` merge into `[1,5]`? My hidden test says yes. The original code said no (`start < last[1]`), and my bug report never said which I wanted. Max (both runs) and one high run kept the existing behaviour and fixed the real bugs. That's a reasonable call, arguably the careful one. Low and medium changed it to `<=` and happened to match what I had in my head.
+
+So the honest reading is: every level fixed every real bug. Quality was flat. Cost and time were not.
+
+<aside class="banner banner-info">
+If your prompt is ambiguous, more thinking doesn't settle it. It just settles it more slowly. Say "touching intervals should merge" and every level gets it right.
+</aside>
+
+## So what do I set?
+
+For this kind of work, which is most of my day, I'm leaving the default alone and dropping to low for quick fixes. The difference between medium and high didn't show up at all on these tasks, and max was pure overhead.
+
+To be clear about what this doesn't show: these are small, well-scoped tasks. Max effort is meant for the hard stuff, the gnarly concurrency bug or the refactor across twenty files, and I didn't test that here. My guess is that's where it pays off. But if you've set max as your default "just in case", you're paying roughly 5x for your everyday tickets and waiting 8x as long for them.
+
+I [compared four models on day one](/blog/claude-opus-5-5-day-one/) and the lesson was similar: the boring tasks don't separate much. Save the expensive knob for the problems that actually need it.
+
+*Turn it up when the problem is hard, not just when you're nervous about it.*
