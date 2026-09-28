@@ -1,0 +1,82 @@
+---
+title: "Openship: Self-Hosted Deploys Where the Control Plane Can Be Your Laptop"
+date: 2026-09-28
+path: /blog/openship-self-hosted-deploys/
+published: true
+heroImage: ./header.png
+tags: [self-hosting, devops, deployment, docker, open-source]
+description: Openship is an open-source, self-hosted deployment platform, a Vercel you run yourself. I ran its control plane on my Linux box to see what it actually installs, how heavy it is, and where it fits next to Coolify and Kamal.
+---
+
+Every self-hosted "Vercel alternative" I've tried had the same catch. The dashboard, the database and the build queue all live on the server you're deploying to. So your little $6 VPS is now running your app *and* a whole platform to babysit your app.
+
+[Openship](https://github.com/oblien/openship) (Apache-2.0, about 13k stars, v0.8.0 shipped this week) splits that differently, and that's the part that got my attention.
+
+## Where does the control plane live?
+
+This is the question that separates these tools more than any feature list:
+
+| Tool | Control plane runs on | Dashboard |
+|---|---|---|
+| Coolify / Dokploy | a server you host (usually the same one) | yes |
+| Kamal | your terminal, only while deploying | no |
+| Openship | your laptop (desktop app), an always-on box, or their cloud | yes |
+
+With Openship's desktop app, the control plane runs on your machine only while the app is open. It builds the Docker image locally, streams it to your server over SSH, and starts it behind OpenResty with Let's Encrypt. You get the Kamal model (nothing heavy on prod) with a dashboard on top. When you want push-to-deploy or a team, you move the control plane to an always-on box with `openship up`.
+
+## Running it on my box
+
+My Linux box can't talk to Docker from the shell I was using, and there's no SSH target handy, so I couldn't do a real deploy. What I could do is run the control plane and poke at it.
+
+The first thing I ran was the dry run, and I wish every installer had one:
+
+```bash
+openship up --dry-run --bare --port 4107 --dashboard-port 3107
+```
+
+It printed exactly what a real `up` would do: write a systemd user service, run `loginctl enable-linger` so it survives logout, download the dashboard bundle into `~/.openship`, and create an embedded Postgres. Nothing changed on the machine. That's how I knew to use `--foreground` instead, because I didn't want a boot service for a weekend experiment.
+
+```bash
+openship up --foreground --bare --data-dir ./data --port 4107 --dashboard-port 3107
+```
+
+It was up in **16 seconds**. `openship doctor` then reported:
+
+```
+✓ Database   pglite ok (1ms), 151 migrations
+✓ API        reachable on :4107
+✓ Dashboard  serving on :3107
+! Edge       docker unavailable - can't check
+```
+
+The numbers, sitting idle with nothing deployed:
+
+- **RAM:** 221 MB for the API, 512 MB for the dashboard process
+- **Disk:** 104 MB for the CLI, 125 MB of dashboard cache, 32 MB of database
+
+So around 730 MB of RAM for the control plane. That's exactly the kind of weight you *don't* want on a small VPS, and exactly why running it on your laptop is the good default.
+
+<aside class="banner banner-info">
+<code>openship status</code> looked at the default context on port 4000 and said "not reachable" while <code>doctor</code> found it fine on 4107. If you pick custom ports, add a context with <code>openship context add</code> first.
+</aside>
+
+## The config is refreshingly small
+
+`openship config init` on a copy of this blog wrote a two-line file:
+
+```json
+{
+  "$schema": "https://openship.io/openship.schema.json",
+  "buildCommand": "npm run build"
+}
+```
+
+That's on purpose. Auto-detection runs at deploy time, and `openship.json` only overrides what it gets wrong. The schema has over 40 framework slugs, from Astro and Next to Rails, Laravel, Phoenix and plain Docker Compose, plus `releaseCommands` for migrations that roll back the deploy if they fail. There's also an MCP server, so an agent can trigger deploys and read logs.
+
+## Would I use it?
+
+For my side projects, probably. I like Kamal's "nothing runs on prod except your app" idea, but I miss having a dashboard to check logs from my phone. Openship lets me keep the first and get the second when I want it. What I haven't tested is the actual deploy path, and that's the part that matters. It's pre-1.0 and moving fast (three releases this month).
+
+If you're already running a [homelab](/blog/building-homelab-automation-with-hermes-agent/), it's worth an afternoon. Start with `--dry-run`, it tells you everything.
+
+*Self-hosting is great right up until the platform needs more babysitting than the app.*
