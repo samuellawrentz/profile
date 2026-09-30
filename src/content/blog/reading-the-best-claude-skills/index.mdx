@@ -1,0 +1,55 @@
+---
+title: "I Read 73 Claude Skills by Three of the Best Skill Writers. None of Them Shout."
+date: 2026-09-30
+path: /blog/reading-the-best-claude-skills/
+published: true
+heroImage: ./header.png
+tags: [ai, claude-code, skills, agents, prompting]
+description: I went through every SKILL.md in pstack, HumanLayer's skills and Emil Kowalski's skills, counted what they have in common, and read how they're built. Three very different shapes, one shared habit, and a few things I'm stealing for my own skills.
+---
+
+I write a lot of Claude Code skills. Most of them are for work: a bug-fix loop, a log-debugging workflow, a "write down what we learned" skill. Some are good. Some are a wall of steps I wrote at 11pm and never reread.
+
+So when three names kept coming up as the people to learn from, I did the obvious thing and read all their skills. That's [pstack](https://github.com/cursor/plugins/tree/main/pstack) (I run [the Claude Code port](https://github.com/michael-denyer/pstack-claude) every day, and that's the copy I read), [HumanLayer's skills](https://github.com/humanlayer/skills), and [Emil Kowalski's skills](https://github.com/emilkowalski/skills). 73 `SKILL.md` files in total. I read the long ones properly and counted the rest with a small Bun script.
+
+## The numbers
+
+| | Skills | Median length | Median description | "MUST / NEVER / IMPORTANT" per 1k words |
+|---|---|---|---|---|
+| pstack | 54 | 341 words | 30 words | 0.1 |
+| HumanLayer | 6 | 1,472 words | 17 words | 0.3 |
+| Emil Kowalski | 13 | 1,779 words | 66 words | 0.0 |
+
+Look at the last column. Across roughly 68,000 words of instructions, the three of them use shouty all-caps rules almost never. Emil's 13 skills have exactly one between them.
+
+I [measured my own setup](/blog/claude-code-plugin-token-cost/) last week and found plugins wrapping rules in `EXTREMELY_IMPORTANT` tags. The people whose skills everyone copies don't do that. They explain.
+
+## Three very different shapes
+
+This is the bit I didn't expect. They agree on tone and disagree on almost everything else.
+
+1. **pstack is a library of small pieces.** 54 skills, most of them short. 23 are "principles" like `subtract-before-you-add`, each one a rule, a **Why:** line and a short pattern list. They're marked `user-invocable: false`, so they never clutter your slash menu. The model pulls them in when they fit. One big router skill (`poteto-mode`, 3,000 words) decides which of the rest to use.
+2. **HumanLayer writes a few long workflows.** Six skills, each one a whole process with phases. `design-control-loop` interviews you, designs a loop *with* you, then builds it, and it keeps the heavy material in `references/` files it reads only at the step that needs them. The descriptions are short (17 words) because you mostly call these yourself.
+3. **Emil writes taste.** Long, dense skills about how motion *should* feel, backed by extra files like `STANDARDS.md` and `RECIPES.md`. His descriptions are the longest by far (66 words, and 9 of 13 say when to use them), because they're written for the model to pick up on its own.
+
+<aside class="banner banner-info">
+The description is the only part the model sees before it decides to load a skill. If you want it to trigger by itself, write the description like a search query. If only you call it, keep it short.
+</aside>
+
+## Things I'm stealing
+
+**Give the skill a posture, not a rulebook.** Emil's animation reviewer opens with "Default to flagging; approval is earned" and "a senior design engineer with a brutal eye for craft". That one line does more than a list of don'ts.
+
+**Say what it won't do.** The same reviewer says it does one thing, reviews motion code, and declines anything else. My skills never say that, and they drift.
+
+**Load the details only when needed.** "See STANDARDS.md, load it whenever a finding needs a precise value." The main file stays readable and the exact numbers show up only when they matter.
+
+**Put the "why" next to the rule.** Every pstack principle has one. When the model hits a case the rule didn't cover, the reason is what it reasons from.
+
+**Read the repo before asking questions.** HumanLayer's interview skill says "come to the interview with proposals, not a blank form". I've lost count of how many of my skills open with five questions the model could have answered by grepping.
+
+## What I'm changing
+
+I ran the same script on my own `~/.claude/skills`. Good news first: 0.2 shouty words per 1k, so I'm not the one yelling. But my median skill is 1,000 words, HumanLayer-long without HumanLayer's `references/` split, and 20 of my 61 descriptions say what the skill is but not when to use it. So: a real "use when" line on the ones I want to trigger by themselves, a "this skill does not" paragraph on the reviewers, and reference files split out of the three longest.
+
+*The best skills read like a good onboarding doc, not a list of rules.*
